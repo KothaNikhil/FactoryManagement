@@ -1,0 +1,79 @@
+using FactoryManagement.Models;
+using FactoryManagement.Data.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace FactoryManagement.Services
+{
+    public interface IItemService
+    {
+        Task<IEnumerable<Item>> GetAllItemsAsync();
+        Task<Item?> GetItemByIdAsync(int id);
+        Task<Item> AddItemAsync(Item item);
+        Task UpdateItemAsync(Item item);
+        Task DeleteItemAsync(int id);
+        Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType);
+    }
+
+    public class ItemService : IItemService
+    {
+        private readonly IRepository<Item> _itemRepository;
+
+        public ItemService(IRepository<Item> itemRepository)
+        {
+            _itemRepository = itemRepository;
+        }
+
+        public async Task<IEnumerable<Item>> GetAllItemsAsync()
+        {
+            return await _itemRepository.GetAllAsync();
+        }
+
+        public async Task<Item?> GetItemByIdAsync(int id)
+        {
+            return await _itemRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Item> AddItemAsync(Item item)
+        {
+            item.CreatedDate = DateTime.Now;
+            return await _itemRepository.AddAsync(item);
+        }
+
+        public async Task UpdateItemAsync(Item item)
+        {
+            item.ModifiedDate = DateTime.Now;
+            await _itemRepository.UpdateAsync(item);
+        }
+
+        public async Task DeleteItemAsync(int id)
+        {
+            var item = await _itemRepository.GetByIdAsync(id);
+            if (item != null)
+            {
+                await _itemRepository.DeleteAsync(item);
+            }
+        }
+
+        public async Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType)
+        {
+            var item = await _itemRepository.GetByIdAsync(itemId);
+            if (item != null)
+            {
+                switch (transactionType)
+                {
+                    case TransactionType.Buy:
+                        item.CurrentStock += quantityChange;
+                        break;
+                    case TransactionType.Sell:
+                    case TransactionType.Wastage:
+                        item.CurrentStock -= quantityChange;
+                        break;
+                }
+                item.ModifiedDate = DateTime.Now;
+                await _itemRepository.UpdateAsync(item);
+            }
+        }
+    }
+}
