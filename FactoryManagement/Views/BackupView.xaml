@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!-- Action Buttons -->
-        <materialDesign:Card Grid.Row="0" Margin="0,0,0,20" Padding="24" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,20" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -25,11 +25,12 @@
                             Height="44"
                             Padding="20,0"
                             FontWeight="SemiBold"
-                            Background="{StaticResource InfoGradient}"
+                            Background="#0275d8"
                             BorderThickness="0"
                             Foreground="White"
                             Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}">
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            ToolTip="Create a new backup of the database. Backup files are timestamped and saved to the Backups folder">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="BackupRestore" Width="20" Height="20" VerticalAlignment="Center"/>
                             <TextBlock Text="Create Backup" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -41,11 +42,12 @@
                             Height="44"
                             Padding="20,0"
                             FontWeight="SemiBold"
-                            Background="{StaticResource SuccessGradient}"
+                            Background="#1e7e34"
                             BorderThickness="0"
                             Foreground="White"
                             Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}">
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            ToolTip="Restore the database from the selected backup file. WARNING: This will replace all current data with the backup data">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="DatabaseImport" Width="20" Height="20" VerticalAlignment="Center"/>
                             <TextBlock Text="Restore Selected" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -57,11 +59,12 @@
                             Height="44"
                             Padding="20,0"
                             FontWeight="SemiBold"
-                            Background="{StaticResource DangerGradient}"
+                            Background="#c9302c"
                             BorderThickness="0"
                             Foreground="White"
                             Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}">
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            ToolTip="Permanently delete the selected backup file. This action cannot be undone">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Delete" Width="20" Height="20" VerticalAlignment="Center"/>
                             <TextBlock Text="Delete Selected" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -75,7 +78,8 @@
                             Margin="0,0,12,0"
                             Height="44"
                             Padding="20,0"
-                            Foreground="White">
+                            Foreground="White"
+                            ToolTip="Refresh the list of available backup files">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" VerticalAlignment="Center"/>
                             <TextBlock Text="Refresh" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -86,7 +90,8 @@
                             Command="{Binding OpenBackupFolderCommand}"
                             Height="44"
                             Padding="20,0"
-                            Foreground="White">
+                            Foreground="White"
+                            ToolTip="Open the Backups folder in Windows Explorer to view or manually manage backup files">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="FolderOpen" Width="20" Height="20" VerticalAlignment="Center"/>
                             <TextBlock Text="Open Folder" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -97,7 +102,7 @@
         </materialDesign:Card>
 
         <!-- Backup List -->
-        <materialDesign:Card Grid.Row="1" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Row="1" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

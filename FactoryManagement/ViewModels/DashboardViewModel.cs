@@ -13,6 +13,7 @@ namespace FactoryManagement.ViewModels
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
+        private readonly FinancialTransactionService? _financialTransactionService;
 
         [ObservableProperty]
         private decimal _totalPurchases;
@@ -27,15 +28,25 @@ namespace FactoryManagement.ViewModels
         private int _transactionCount;
 
         [ObservableProperty]
+        private decimal _totalLoansGiven;
+
+        [ObservableProperty]
+        private decimal _totalLoansTaken;
+
+        [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
 
         [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
 
-        public DashboardViewModel(ITransactionService transactionService, IItemService itemService)
+        public DashboardViewModel(
+            ITransactionService transactionService, 
+            IItemService itemService,
+            FinancialTransactionService? financialTransactionService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
+            _financialTransactionService = financialTransactionService;
         }
 
         [RelayCommand]
@@ -73,6 +84,13 @@ namespace FactoryManagement.ViewModels
                 LowStockItems.Clear();
                 foreach (var item in lowStockList)
                     LowStockItems.Add(item);
+
+                // Load financial data if service is available
+                if (_financialTransactionService != null)
+                {
+                    TotalLoansGiven = await _financialTransactionService.GetTotalLoansGivenOutstandingAsync();
+                    TotalLoansTaken = await _financialTransactionService.GetTotalLoansTakenOutstandingAsync();
+                }
             }
             catch (Exception ex)
             {

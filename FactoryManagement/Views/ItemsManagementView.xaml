@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Items List -->
-        <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" Padding="24" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,20">
                     <Border Background="{StaticResource SuccessGradient}" 
@@ -180,11 +180,11 @@
         </materialDesign:Card>
 
         <!-- Item Form -->
-        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
-                        <Border Background="{StaticResource PrimaryGradient}" 
+                        <Border Background="#1e7e34" 
                                 Width="40" Height="40" CornerRadius="10" 
                                 Margin="0,0,12,0">
                             <materialDesign:PackIcon Kind="Package" Width="24" Height="24" 
@@ -203,7 +203,8 @@
                                   HorizontalAlignment="Left"
                                   Padding="0"
                                   Margin="0,4,0,0"
-                                  FontSize="12"/>
+                                  FontSize="12"
+                                  ToolTip="Clear the form to add a new item"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -223,7 +224,8 @@
                     <TextBox Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
                            materialDesign:HintAssist.Hint="Enter stock quantity"
                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                           Margin="0,0,0,20"/>
+                           Margin="0,0,0,20"
+                           GotFocus="NumericTextBox_GotFocus"/>
 
                     <!-- Unit -->
                     <TextBlock Text="Unit *" 
@@ -256,11 +258,12 @@
                           Height="44"
                           FontSize="14"
                           FontWeight="SemiBold"
-                          Background="{StaticResource SuccessGradient}"
+                          Background="#1e7e34"
                           BorderThickness="0"
                           Foreground="White"
                           Cursor="Hand"
-                          Style="{StaticResource MaterialDesignRaisedButton}"/>
+                          Style="{StaticResource MaterialDesignRaisedButton}"
+                          ToolTip="Save this item to the inventory database. All fields marked with * are required"/>
                 </StackPanel>
             </ScrollViewer>
         </materialDesign:Card>

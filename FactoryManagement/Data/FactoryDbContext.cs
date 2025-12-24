@@ -12,6 +12,10 @@ namespace FactoryManagement.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<AppSettings> AppSettings { get; set; }
+        public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
+        public DbSet<LoanAccount> LoanAccounts { get; set; }
+        public DbSet<Worker> Workers { get; set; }
+        public DbSet<WageTransaction> WageTransactions { get; set; }
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
@@ -59,6 +63,56 @@ namespace FactoryManagement.Data
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.TotalAmount)
                 .HasPrecision(18, 2);
+
+            // Configure Financial Transaction indexes
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasIndex(ft => ft.TransactionDate);
+
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasIndex(ft => ft.TransactionType);
+
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasIndex(ft => ft.PartyId);
+
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasIndex(ft => ft.LinkedLoanAccountId);
+
+            // Configure Loan Account indexes
+            modelBuilder.Entity<LoanAccount>()
+                .HasIndex(la => la.PartyId);
+
+            modelBuilder.Entity<LoanAccount>()
+                .HasIndex(la => la.LoanType);
+
+            modelBuilder.Entity<LoanAccount>()
+                .HasIndex(la => la.Status);
+
+            modelBuilder.Entity<LoanAccount>()
+                .HasIndex(la => la.DueDate);
+
+            // Configure Worker indexes
+            modelBuilder.Entity<Worker>()
+                .HasIndex(w => w.Name);
+
+            modelBuilder.Entity<Worker>()
+                .HasIndex(w => w.Status);
+
+            // Configure WageTransaction indexes
+            modelBuilder.Entity<WageTransaction>()
+                .HasIndex(wt => wt.WorkerId);
+
+            modelBuilder.Entity<WageTransaction>()
+                .HasIndex(wt => wt.TransactionDate);
+
+            modelBuilder.Entity<WageTransaction>()
+                .HasIndex(wt => wt.TransactionType);
+
+            // Configure relationships
+            modelBuilder.Entity<WageTransaction>()
+                .HasOne(wt => wt.Worker)
+                .WithMany(w => w.WageTransactions)
+                .HasForeignKey(wt => wt.WorkerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Seed initial data
             SeedData(modelBuilder);

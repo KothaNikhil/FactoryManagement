@@ -100,6 +100,12 @@ namespace FactoryManagement.Views
                     case "Parties":
                         await ViewModel.NavigateToPartiesCommand.ExecuteAsync(null);
                         break;
+                    case "FinancialTransactions":
+                        await ViewModel.NavigateToFinancialTransactionsCommand.ExecuteAsync(null);
+                        break;
+                    case "Wages":
+                        await ViewModel.NavigateToWagesCommand.ExecuteAsync(null);
+                        break;
                     case "Backup":
                         ViewModel.NavigateToBackupCommand.Execute(null);
                         break;

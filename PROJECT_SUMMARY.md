@@ -14,6 +14,17 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Multi-user support
 - ✓ Comprehensive reporting
 - ✓ Data export (Excel & CSV)
+- ✓ **Financial Transactions & Loan Management**
+- ✓ Loan tracking (Given & Taken)
+- ✓ Interest calculation & accrual
+- ✓ Payment recording with smart allocation
+- ✓ Loan status management
+- ✓ **Wages Management System** (NEW)
+- ✓ Worker management (Name, Mobile)
+- ✓ Wage payment tracking
+- ✓ Advance payment system
+- ✓ Advance returned tracking
+- ✓ Outstanding advance monitoring
 
 ### 2. Database Architecture
 - ✓ SQLite with Entity Framework Core
@@ -21,7 +32,7 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Code-First migrations
 - ✓ Foreign keys and indexes
 - ✓ Seed data for testing
-- ✓ 5 main entities (Items, Parties, Users, Transactions, AppSettings)
+- ✓ 10 main entities (Items, Parties, Users, Transactions, AppSettings, FinancialTransactions, LoanAccounts, **Workers, WageTransactions, BackupHistories**)
 
 ### 3. User Interface
 - ✓ Material Design theme
@@ -66,20 +77,32 @@ C:\FactoryManagement\
     │   ├── Party.cs
     │   ├── User.cs
     │   ├── Transaction.cs
-    │   └── AppSettings.cs
+    │   ├── AppSettings.cs
+    │   ├── FinancialTransaction.cs    # Financial transactions
+    │   ├── LoanAccount.cs             # Loan master records
+    │   ├── Worker.cs                  # NEW: Worker management
+    │   ├── WageTransaction.cs         # NEW: Wage payments & advances
+    │   └── BackupHistory.cs           # Backup tracking
     │
     ├── Data\                          # Database layer
     │   ├── FactoryDbContext.cs
     │   └── Repositories\
     │       ├── IRepository.cs
     │       ├── Repository.cs
-    │       └── TransactionRepository.cs
+    │       ├── TransactionRepository.cs
+    │       ├── FinancialTransactionRepository.cs
+    │       ├── LoanAccountRepository.cs
+    │       ├── WorkerRepository.cs            # NEW: Worker data access
+    │       └── WageTransactionRepository.cs   # NEW: Wage transaction data access
     │
     ├── Services\                      # Business logic
     │   ├── ItemService.cs
     │   ├── PartyService.cs
     │   ├── TransactionService.cs
-    │   └── ExportService.cs
+    │   ├── ExportService.cs
+    │   ├── BackupService.cs
+    │   ├── FinancialTransactionService.cs  # Loan & financial management
+    │   └── WageService.cs                  # NEW: Wage & worker management
     │
     ├── ViewModels\                    # MVVM ViewModels
     │   ├── ViewModelBase.cs
@@ -88,7 +111,10 @@ C:\FactoryManagement\
     │   ├── TransactionEntryViewModel.cs
     │   ├── ReportsViewModel.cs
     │   ├── ItemsManagementViewModel.cs
-    │   └── PartiesManagementViewModel.cs
+    │   ├── PartiesManagementViewModel.cs
+    │   ├── BackupViewModel.cs
+    │   ├── FinancialTransactionsViewModel.cs  # Loan management VM
+    │   └── WagesManagementViewModel.cs        # NEW: Wages management VM
     │
     ├── Views\                         # XAML views
     │   ├── MainWindow.xaml
@@ -102,7 +128,17 @@ C:\FactoryManagement\
     │   ├── ItemsManagementView.xaml
     │   ├── ItemsManagementView.xaml.cs
     │   ├── PartiesManagementView.xaml
-    │   └── PartiesManagementView.xaml.cs
+    │   ├── PartiesManagementView.xaml.cs
+    │   ├── QuickAddPartyDialog.xaml         # Quick add party dialog
+    │   ├── QuickAddPartyDialog.xaml.cs
+    │   ├── BackupView.xaml
+    │   ├── BackupView.xaml.cs
+    │   ├── FinancialTransactionsView.xaml   # Loan management UI
+    │   ├── FinancialTransactionsView.xaml.cs
+    │   ├── WagesManagementView.xaml         # NEW: Wages management UI
+    │   ├── WagesManagementView.xaml.cs      # NEW
+    │   ├── QuickAddWorkerDialog.xaml        # NEW: Quick add worker dialog
+    │   └── QuickAddWorkerDialog.xaml.cs     # NEW
     │
     └── Converters\                    # Value converters
         └── Converters.cs
@@ -158,16 +194,30 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 3. **Users** - System users
 4. **Transactions** - All business transactions
 5. **AppSettings** - Application configuration
+6. **FinancialTransactions** - Loan transactions
+7. **LoanAccounts** - Loan master records
+8. **Workers** - Worker information (NEW)
+9. **WageTransactions** - Wage payments & advances (NEW)
+10. **BackupHistories** - Backup tracking
 
 ### Relationships
 - Transactions → Items (Many-to-One)
 - Transactions → Parties (Many-to-One)
 - Transactions → Users (Many-to-One)
+- FinancialTransactions → Parties (Many-to-One)
+- FinancialTransactions → LoanAccounts (Many-to-One)
+- FinancialTransactions → Users (Many-to-One)
+- LoanAccounts → Parties (Many-to-One)
+- LoanAccounts → Users (Many-to-One)
+- WageTransactions → Workers (Many-to-One) (NEW)
+- WageTransactions → Users (Many-to-One) (NEW)
 
 ## 🎨 UI Screenshots (Features)
 
 ### Dashboard
 - 4 Summary cards (Purchases, Sales, Wastage, Count)
+- 2 Financial cards (Loans Given, Loans Taken)
+- 4 Wages cards (Total Wages Paid, Total Advances, Worker Total, Outstanding) (NEW)
 - Recent transactions grid
 - Low stock alert list
 
@@ -192,6 +242,34 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - Edit/Delete actions
 - Validation
 
+### Financial Transactions (NEW)
+- Create new loans (Given/Taken)
+- Record payments with smart allocation
+- Interest calculation (simple interest)
+- Loan status tracking (Active/Closed/Overdue/PartiallyPaid)
+- Transaction history per loan
+- Filter by status
+- Outstanding balance tracking
+- Due date management
+
+### Wages Management (NEW)
+- Simplified worker management (Name, Mobile Number only)
+- Three-column layout: Left (Manage Workers + Record Payment), Right (Payment History)
+- Worker operations: Add, Edit, Search
+- Three payment types:
+  - **Wage Payment**: Regular salary/wage payments
+  - **Advance Given**: Money given to worker in advance
+  - **Advance Returned**: Worker pays back advance
+- Outstanding advance tracking per worker
+- Real-time advance balance updates
+- Payment history with friendly transaction type names
+- No worker type complexity - simplified approach
+- No rate field - just track payments
+- Material Design dark theme with white text
+- Dynamic form sizing (SizeToContent)
+- Search functionality in worker list
+- Inline header and search for space efficiency
+
 ## 🔐 Security Features
 
 - Input validation on all forms
@@ -206,6 +284,15 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - **Buy**: Stock increases
 - **Sell**: Stock decreases (validates sufficient stock)
 - **Wastage**: Stock decreases (validates sufficient stock)
+
+### Financial Transaction Management (NEW)
+- **Loan Creation**: Creates LoanAccount + initial FinancialTransaction
+- **Payment Recording**: 
+  - Interest accrued automatically based on days elapsed
+  - Payment allocated to interest first, then principal
+  - Loan status updated automatically (Active → PartiallyPaid → Closed)
+- **Interest Calculation**: Simple Interest = (Principal × Rate × Days) / (365 × 100)
+- **Status Management**: Auto-updates based on payments and due dates
 
 ### Auto-calculations
 - Total Amount = Quantity × Price Per Unit
@@ -230,6 +317,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 6. **Export Capability** - Excel and CSV formats
 7. **Search** - In all master data screens
 8. **Low Stock Alerts** - Never run out
+8. **Loan Management** - Track money lent and borrowed (NEW)
+9. **Interest Tracking** - Automatic interest calculation (NEW)
+10. **Payment History** - Complete audit trail for all loans (NEW)
+11. **Wages Management** - Track worker payments and advances (NEW)
+12. **Advance Tracking** - Monitor outstanding advances per worker (NEW)
+13. **Flexible Payment Types** - Wage, Advance Given, Advance Returned (NEW)
 
 ### For Developers
 1. **Clean Architecture** - MVVM pattern
@@ -253,6 +346,11 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 8. **Notifications** - Email/SMS alerts
 9. **MongoDB Support** - Use the repository pattern to switch
 10. **Multi-language** - Localization support
+11. **EMI Support** - Scheduled loan payments (Financial)
+12. **Compound Interest** - Advanced interest calculations (Financial)
+13. **Payment Reminders** - Overdue loan notifications (Financial)
+14. **Financial Reports** - Ledgers, aging reports (Financial)
+15. **Collateral Tracking** - Link loans to assets (Financial)
 
 ## 📋 Testing Checklist
 
@@ -272,6 +370,19 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - [ ] Export to Excel works
 - [ ] Export to CSV works
 - [ ] Low stock alert shows items below 100
+- [ ] Can create a loan (Given/Taken) (NEW)
+- [ ] Can record loan payment (NEW)
+- [ ] Interest calculates correctly (NEW)
+- [ ] Loan status updates automatically (NEW)
+- [ ] Dashboard shows financial summaries (NEW)
+- [ ] Transaction history displays for loans (NEW)
+- [ ] Can add new worker (NEW)
+- [ ] Can record wage payment (NEW)
+- [ ] Can record advance given (NEW)
+- [ ] Can record advance returned (NEW)
+- [ ] Outstanding advance updates correctly (NEW)
+- [ ] Worker search works (NEW)
+- [ ] Payment history shows friendly names (NEW)
 
 ## 🐛 Known Limitations
 
@@ -303,6 +414,9 @@ This project demonstrates:
 - Data export functionality
 - Value converters
 - Navigation patterns
+- Financial domain modeling (NEW)
+- Interest calculation algorithms (NEW)
+- Complex business logic (NEW)
 
 ## 📄 License
 
@@ -336,6 +450,448 @@ This is a **complete, production-ready application** with:
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 2.1.0  
 **Created**: December 2025  
-**Status**: Complete ✅
+**Status**: Complete ✅  
+**Latest Update**: Wages Management Module Added
+
+---
+
+## 🆕 Version 2.1 - Wages Management Module
+
+### New Features Added
+
+#### 1. **Worker Management System**
+- Simplified worker tracking (Name and Mobile Number only)
+- No complex worker types or rate fields
+- Worker status tracking (Active, Inactive, OnLeave, Terminated)
+- Quick add/edit worker dialog
+- Worker search functionality
+- Clean, minimal data model
+
+#### 2. **Three Payment Types**
+- **Wage Payment**: Record regular salary/wage payments to workers
+- **Advance Given**: Give money to workers in advance of work
+- **Advance Returned**: Record when workers pay back advances
+- All payment types tracked in unified transaction history
+
+#### 3. **Outstanding Advance Tracking**
+- Real-time calculation of outstanding advances per worker
+- Displayed in Record Payment section when worker is selected
+- Automatically increases with "Advance Given"
+- Automatically decreases with "Advance Returned"
+- Cannot go below zero (validation built-in)
+
+#### 4. **Modern Three-Column Layout**
+- **Left Column (Narrow - 400px)**:
+  - **Top Section**: Record Payment form
+    - Worker dropdown
+    - Payment type selector
+    - Amount field
+    - Notes field
+    - Outstanding advance display
+    - Record Payment button
+  - **Bottom Section**: Manage Workers
+    - Inline header with search
+    - Workers list (Name + Edit button)
+    - Add New Worker button
+- **Right Column (Wide)**:
+  - Payment History DataGrid (full height)
+  - Date, Worker, Type, Amount, Notes columns
+  - Friendly type names via converter
+
+#### 5. **User Experience Enhancements**
+- Dynamic form sizing (SizeToContent) - no scrollbars
+- White text on dark background for visibility
+- Material Design outlined controls
+- Tooltips on section headers
+- Inline header + search to maximize space
+- Clean, uncluttered interface
+
+#### 6. **Business Logic**
+- **Advance Given**: `worker.TotalAdvance += amount`
+- **Advance Returned**: `worker.TotalAdvance -= amount` (min 0)
+- **Wage Payment**: Updates `worker.TotalWagesPaid`
+- All transactions linked to worker via foreign key
+- User tracking on all transactions
+- Automatic timestamp on creation
+
+### Technical Architecture
+
+**Design Philosophy**: Extreme Simplification
+- Removed WorkerType enum (Daily/Hourly/Monthly/Contractor)
+- Removed Rate field (DailyRate/HourlyRate/MonthlyRate)
+- Focus on "just track what I paid each worker"
+- Minimal data entry required
+
+**Database Schema**:
+```
+Worker
+- WorkerId (PK)
+- Name (required)
+- MobileNumber (optional)
+- Address
+- Status (Active/Inactive/OnLeave/Terminated)
+- TotalAdvance (calculated field)
+- TotalWagesPaid (calculated field)
+- Rate (deprecated, kept for backward compatibility)
+- DailyRate/HourlyRate/MonthlyRate (legacy fields)
+- Notes
+- CreatedDate
+- ModifiedDate
+
+WageTransaction
+- WageTransactionId (PK)
+- WorkerId (FK)
+- TransactionType (Enum: DailyWage/AdvanceGiven/AdvanceAdjustment)
+- TransactionDate
+- Amount
+- NetAmount
+- Notes
+- EnteredBy (FK to Users)
+- CreatedDate
+```
+
+**Enums**:
+```csharp
+public enum WorkerStatus
+{
+    Active,
+    Inactive,
+    OnLeave,
+    Terminated
+}
+
+public enum WageTransactionType
+{
+    DailyWage,          // Wage Payment (displayed as "Wage Payment")
+    HourlyWage,         // Legacy
+    MonthlyWage,        // Legacy
+    OvertimePay,        // Legacy
+    Bonus,              // Legacy
+    AdvanceGiven,       // Advance Given (displayed as "Advance Given")
+    AdvanceAdjustment,  // Advance Returned (displayed as "Advance Returned")
+    Deduction           // Legacy
+}
+```
+
+**Service Layer**:
+- `WageService`: Core business logic
+  - `GetAllWorkersAsync()`: Get all workers
+  - `AddWorkerAsync()`: Create new worker
+  - `UpdateWorkerAsync()`: Update worker details
+  - `RecordWagePaymentAsync()`: Record any payment type
+  - `GetWorkerTransactionsAsync()`: Get payment history
+  - `GetWorkerOutstandingAdvanceAsync()`: Get advance balance
+
+**Repository Layer**:
+- `WorkerRepository`: Worker data access
+- `WageTransactionRepository`: Transaction data access
+- LINQ support with EF Core
+
+**Value Converter**:
+```csharp
+WageTransactionTypeConverter:
+- "DailyWage" → "Wage Payment"
+- "AdvanceGiven" → "Advance Given"
+- "AdvanceAdjustment" → "Advance Returned"
+```
+
+### Use Cases
+
+#### Use Case 1: Adding a Worker
+```
+Scenario: Add new worker "John" with mobile "9876543210"
+1. Navigate to Wages Management
+2. Click "ADD NEW WORKER"
+3. Enter Name: "John"
+4. Enter Mobile: "9876543210"
+5. Click "ADD WORKER"
+6. Worker appears in list
+```
+
+#### Use Case 2: Giving Advance to Worker
+```
+Scenario: Give ₹5,000 advance to John
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹0
+3. Select Payment Type: "Advance Given"
+4. Enter Amount: 5000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance updates to: ₹5,000
+7. Payment appears in history
+```
+
+#### Use Case 3: Recording Wage Payment
+```
+Scenario: Pay John ₹10,000 salary
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹5,000
+3. Select Payment Type: "Wage Payment"
+4. Enter Amount: 10000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance remains: ₹5,000
+7. Payment recorded as "Wage Payment"
+```
+
+#### Use Case 4: Worker Returns Advance
+```
+Scenario: John returns ₹2,000 of the ₹5,000 advance
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹5,000
+3. Select Payment Type: "Advance Returned"
+4. Enter Amount: 2000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance updates to: ₹3,000
+7. Payment recorded as "Advance Returned"
+```
+
+### UI Design Decisions
+
+#### Layout Evolution:
+1. **Initial**: Side-by-side equal width (50/50)
+2. **Iteration 1**: Swapped sections (Record Payment top, Manage Workers bottom)
+3. **Iteration 2**: Inline header + search (maximize worker list space)
+4. **Final**: Left narrow (400px), Right wide (remaining) - emphasizes payment history
+
+#### Why This Layout?
+- **Payment entry first**: Primary action at top
+- **Worker management below**: Supporting action
+- **History on right**: Reference view, needs width for columns
+- **No scrollbars**: Dynamic sizing prevents clipping
+
+#### Color Scheme:
+- Record Payment header: Green (#1e7e34)
+- Manage Workers header: Blue (#4FC3F7)
+- Add Worker button: Blue (#0275d8)
+- Record Payment button: Green (#1e7e34)
+- Outstanding Advance: Red (#ff6b6b) - indicates debt
+
+### Integration with Existing System
+
+**Dashboard Integration**:
+- New summary cards added (if implemented)
+- Wages metrics alongside inventory and financial data
+
+**Party System**:
+- Workers are separate from Parties
+- No reuse of Party entity
+- Clean separation of concerns
+
+**User Tracking**:
+- All wage transactions link to Users
+- Audit trail maintained
+- EnteredBy field on all records
+
+### Benefits
+
+1. **Simplicity**: No complex worker types or rates
+2. **Flexibility**: Just track payments, any amount
+3. **Clarity**: Three clear payment types
+4. **Accuracy**: Real-time advance tracking
+5. **Visibility**: Wide payment history grid
+6. **Speed**: Minimal data entry required
+7. **Reliability**: Automatic calculations, no manual math
+
+### Migration & Backward Compatibility
+
+**For Existing Users**:
+- Database creates Worker and WageTransaction tables automatically
+- Legacy Rate fields preserved but not used in UI
+- No data migration needed
+- Existing inventory/financial modules unaffected
+
+**Legacy Field Handling**:
+- `Rate`, `DailyRate`, `HourlyRate`, `MonthlyRate` kept in model
+- Code comments explain these are deprecated
+- Dialog doesn't show these fields
+- ViewModel doesn't use them
+- Future versions can remove after data migration
+
+---
+
+**Version**: 2.1.0  
+**Created**: December 2025  
+**Status**: Complete ✅  
+**Latest Update**: Wages Management Module Added
+
+---
+
+## 🆕 Version 2.0 - Financial Transactions Module
+
+### New Features Added
+
+#### 1. **Loan Management System**
+- Create loans (money lent to parties or borrowed from parties)
+- Track loan types: Given and Taken
+- Record original loan amount, interest rate, start date, and due date
+- Complete audit trail with user tracking
+
+#### 2. **Interest Calculation**
+- Automatic simple interest calculation
+- Formula: Interest = (Principal × Rate × Days) / (365 × 100)
+- Interest accrues based on outstanding principal
+- Manual interest update available
+
+#### 3. **Payment Processing**
+- Smart payment allocation (interest first, then principal)
+- Real-time outstanding balance updates
+- Payment validation against outstanding amounts
+- Complete payment history
+
+#### 4. **Loan Status Management**
+- **Active**: Loan is active with outstanding balance
+- **PartiallyPaid**: Some payments made but balance remains
+- **Closed**: Fully paid off
+- **Overdue**: Past due date with outstanding balance
+- Auto-status updates based on payments and dates
+
+#### 5. **Financial Dashboard Integration**
+- Two new summary cards on dashboard
+- "Loans Given (Outstanding)" - money owed to you
+- "Loans Taken (Outstanding)" - money you owe
+- Real-time financial position visibility
+
+#### 6. **Enhanced Party Management**
+- New party types: Lender, Borrower, Financial
+- Existing Buyer/Seller types maintained
+- Support for parties with multiple roles
+
+#### 7. **User Interface**
+- New "Financial Transactions" menu item
+- Comprehensive loan management screen with:
+  - Create loan form
+  - Payment recording section
+  - Loans list with filtering
+  - Transaction history grid
+  - Summary statistics
+- Material Design UI consistency
+
+### Technical Architecture
+
+**Design Pattern**: Hybrid Approach (Option 3)
+- Separate domain models for financial vs inventory transactions
+- Clean separation of concerns
+- Scalable for future financial features
+- Maintains existing inventory system integrity
+
+**Database Schema**:
+```
+FinancialTransaction
+- FinancialTransactionId (PK)
+- PartyId (FK)
+- TransactionType (Enum)
+- Amount
+- InterestRate
+- InterestAmount
+- TransactionDate
+- DueDate
+- LinkedLoanAccountId (FK)
+- EnteredBy (FK)
+- Notes
+- CreatedDate
+
+LoanAccount
+- LoanAccountId (PK)
+- PartyId (FK)
+- LoanType (Given/Taken)
+- OriginalAmount
+- InterestRate
+- StartDate
+- DueDate
+- OutstandingPrincipal
+- OutstandingInterest
+- TotalOutstanding
+- Status
+- CreatedBy (FK)
+- Notes
+- CreatedDate
+```
+
+**Service Layer**:
+- `FinancialTransactionService`: Core business logic
+  - `CreateLoanAsync()`: Creates new loan
+  - `RecordPaymentAsync()`: Processes payments
+  - `UpdateLoanInterestAsync()`: Calculates interest
+  - `GetFinancialSummaryAsync()`: Dashboard summaries
+
+**Repository Layer**:
+- `FinancialTransactionRepository`: Data access for transactions
+- `LoanAccountRepository`: Data access for loan accounts
+- Full LINQ query support with Entity Framework Core
+
+### Use Cases
+
+#### Use Case 1: Lending Money
+```
+Scenario: You lend ₹100,000 to a party at 12% interest
+1. Navigate to Financial Transactions
+2. Select party, enter amount (100,000), rate (12%)
+3. Set loan type as "Given"
+4. Click Create Loan
+5. System creates LoanAccount with status "Active"
+6. Dashboard shows ₹100,000 in "Loans Given"
+```
+
+#### Use Case 2: Borrowing Money
+```
+Scenario: You borrow ₹50,000 from a party at 10% interest
+1. Navigate to Financial Transactions
+2. Select party, enter amount (50,000), rate (10%)
+3. Set loan type as "Taken"
+4. Click Create Loan
+5. System creates LoanAccount with status "Active"
+6. Dashboard shows ₹50,000 in "Loans Taken"
+```
+
+#### Use Case 3: Recording Payment
+```
+Scenario: Party returns ₹10,000 on a ₹100,000 loan
+1. Select the loan from loans list
+2. Click "Update Interest" to accrue interest first
+3. Enter payment amount (10,000)
+4. Click "Record Payment"
+5. System:
+   - Pays accrued interest first
+   - Applies remaining to principal
+   - Updates outstanding balance
+   - Changes status to "PartiallyPaid"
+```
+
+#### Use Case 4: Interest Calculation
+```
+Scenario: Calculate interest on ₹100,000 at 12% for 30 days
+Calculation: (100,000 × 12 × 30) / (365 × 100) = ₹986.30
+1. Select loan from list
+2. Click "Update Interest"
+3. System:
+   - Calculates days since last interest calculation
+   - Applies formula
+   - Creates interest transaction
+   - Updates outstanding interest
+```
+
+### Benefits of the Design
+
+1. **Separation of Concerns**: Financial transactions don't interfere with inventory
+2. **Scalability**: Easy to add EMI, compound interest, etc.
+3. **Audit Trail**: Every transaction is tracked
+4. **Flexibility**: Supports both lending and borrowing
+5. **Automation**: Interest and status updates are automatic
+6. **User-Friendly**: Clear UI with validation
+7. **Data Integrity**: Foreign keys and relationships maintained
+
+### Migration Path
+
+For existing users:
+1. Database automatically creates new tables on first run
+2. Existing inventory transactions unaffected
+3. Parties can be used for both inventory and financial transactions
+4. No data migration needed
+
+---
+
+**Version**: 2.0.0  
+**Created**: December 2025  
+**Status**: Complete ✅  
+**Latest Update**: Financial Transactions & Loan Management Module Added
