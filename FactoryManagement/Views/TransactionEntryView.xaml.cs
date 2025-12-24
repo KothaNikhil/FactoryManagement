@@ -68,5 +68,16 @@ namespace FactoryManagement.Views
                 }
             }
         }
+
+        private void RecentTransactions_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem != null)
+            {
+                if (DataContext is TransactionEntryViewModel viewModel)
+                {
+                    viewModel.EditTransactionCommand.Execute(dataGrid.SelectedItem);
+                }
+            }
+        }
     }
 }

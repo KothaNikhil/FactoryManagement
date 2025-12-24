@@ -212,4 +212,178 @@ namespace FactoryManagement.Converters
             throw new NotImplementedException();
         }
     }
+
+    // Transaction Bar Height Converters
+    public class TransactionBarHeightConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 3)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal value2 = values[1] is decimal d2 ? d2 : 0;
+                decimal value3 = values[2] is decimal d3 ? d3 : 0;
+                
+                decimal maxValue = Math.Max(Math.Max(currentValue, value2), value3);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20); // Max height 280, min 20
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TransactionBarHeightConverter2 : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 3)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal value2 = values[1] is decimal d2 ? d2 : 0;
+                decimal value3 = values[2] is decimal d3 ? d3 : 0;
+                
+                decimal maxValue = Math.Max(Math.Max(currentValue, value2), value3);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TransactionBarHeightConverter3 : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 3)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal value2 = values[1] is decimal d2 ? d2 : 0;
+                decimal value3 = values[2] is decimal d3 ? d3 : 0;
+                
+                decimal maxValue = Math.Max(Math.Max(currentValue, value2), value3);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // Loan Bar Height Converters
+    public class LoanBarHeightConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal otherValue = values[1] is decimal d2 ? d2 : 0;
+                
+                decimal maxValue = Math.Max(currentValue, otherValue);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class LoanBarHeightConverter2 : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal otherValue = values[1] is decimal d2 ? d2 : 0;
+                
+                decimal maxValue = Math.Max(currentValue, otherValue);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // Wage Bar Height Converters
+    public class WageBarHeightConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal otherValue = values[1] is decimal d2 ? d2 : 0;
+                
+                decimal maxValue = Math.Max(currentValue, otherValue);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class WageBarHeightConverter2 : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2)
+            {
+                decimal currentValue = values[0] is decimal d1 ? d1 : 0;
+                decimal otherValue = values[1] is decimal d2 ? d2 : 0;
+                
+                decimal maxValue = Math.Max(currentValue, otherValue);
+                if (maxValue == 0) return 20.0;
+                
+                double percentage = (double)(currentValue / maxValue);
+                return Math.Max(percentage * 280, 20);
+            }
+            return 20.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

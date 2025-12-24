@@ -14,6 +14,7 @@ namespace FactoryManagement.ViewModels
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
         private readonly FinancialTransactionService? _financialTransactionService;
+        private readonly IWageService? _wageService;
 
         [ObservableProperty]
         private decimal _totalPurchases;
@@ -34,7 +35,16 @@ namespace FactoryManagement.ViewModels
         private decimal _totalLoansTaken;
 
         [ObservableProperty]
+        private decimal _totalWagesPaid;
+
+        [ObservableProperty]
+        private decimal _totalAdvancesGiven;
+
+        [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
+
+        [ObservableProperty]
+        private ObservableCollection<RecentActivity> _recentActivities = new();
 
         [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
@@ -45,11 +55,13 @@ namespace FactoryManagement.ViewModels
         public DashboardViewModel(
             ITransactionService transactionService, 
             IItemService itemService,
-            FinancialTransactionService? financialTransactionService = null)
+            FinancialTransactionService? financialTransactionService = null,
+            IWageService? wageService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _financialTransactionService = financialTransactionService;
+            _wageService = wageService;
         }
 
         [RelayCommand]
@@ -82,6 +94,64 @@ namespace FactoryManagement.ViewModels
                 foreach (var item in recentList)
                     RecentTransactions.Add(item);
 
+                // Build unified recent activities list
+                var activities = new System.Collections.Generic.List<RecentActivity>();
+
+                // Add transaction entries
+                foreach (var t in transactions.OrderByDescending(x => x.TransactionDate).Take(20))
+                {
+                    activities.Add(new RecentActivity
+                    {
+                        Date = t.TransactionDate,
+                        Category = "Transaction",
+                        Type = t.TransactionType.ToString(),
+                        Description = t.Item?.ItemName ?? "Unknown Item",
+                        Party = t.Party?.Name,
+                        Amount = t.TotalAmount
+                    });
+                }
+
+                // Add financial transactions if available
+                if (_financialTransactionService != null)
+                {
+                    var financialTrans = await _financialTransactionService.GetAllFinancialTransactionsAsync();
+                    foreach (var ft in financialTrans.OrderByDescending(x => x.TransactionDate).Take(20))
+                    {
+                        activities.Add(new RecentActivity
+                        {
+                            Date = ft.TransactionDate,
+                            Category = "Financial",
+                            Type = ft.TransactionType.ToString(),
+                            Description = ft.TransactionType.ToString(),
+                            Party = ft.Party?.Name,
+                            Amount = ft.Amount
+                        });
+                    }
+                }
+
+                // Add wage transactions if available
+                if (_wageService != null)
+                {
+                    var wageTrans = await _wageService.GetAllWageTransactionsAsync();
+                    foreach (var wt in wageTrans.OrderByDescending(x => x.TransactionDate).Take(20))
+                    {
+                        activities.Add(new RecentActivity
+                        {
+                            Date = wt.TransactionDate,
+                            Category = "Wage",
+                            Type = wt.TransactionType.ToString(),
+                            Description = wt.TransactionType.ToString(),
+                            Party = wt.Worker?.Name,
+                            Amount = wt.Amount
+                        });
+                    }
+                }
+
+                // Sort all activities by date and take top 15
+                RecentActivities.Clear();
+                foreach (var activity in activities.OrderByDescending(a => a.Date).Take(15))
+                    RecentActivities.Add(activity);
+
                 var allItems = await _itemService.GetAllItemsAsync();
                 var lowStockList = allItems.Where(i => i.CurrentStock < 100).OrderBy(i => i.CurrentStock).ToList();
                 LowStockItems.Clear();
@@ -99,6 +169,13 @@ namespace FactoryManagement.ViewModels
                 {
                     TotalLoansGiven = await _financialTransactionService.GetTotalLoansGivenOutstandingAsync();
                     TotalLoansTaken = await _financialTransactionService.GetTotalLoansTakenOutstandingAsync();
+                }
+
+                // Load wage data if service is available
+                if (_wageService != null)
+                {
+                    TotalWagesPaid = await _wageService.GetTotalWagesPaidAsync();
+                    TotalAdvancesGiven = await _wageService.GetTotalAdvancesGivenAsync();
                 }
             }
             catch (Exception ex)

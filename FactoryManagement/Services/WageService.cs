@@ -22,6 +22,7 @@ namespace FactoryManagement.Services
         Task<WageTransaction> RecordAdvanceAsync(int workerId, decimal amount, string notes);
         Task<IEnumerable<WageTransaction>> GetWorkerTransactionsAsync(int workerId);
         Task<IEnumerable<WageTransaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync();
         
         // Summary Operations
         Task<decimal> GetTotalWagesPaidAsync();
@@ -173,6 +174,11 @@ namespace FactoryManagement.Services
         public async Task<IEnumerable<WageTransaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _wageTransactionRepository.GetByDateRangeAsync(startDate, endDate);
+        }
+
+        public async Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync()
+        {
+            return await _wageTransactionRepository.GetAllAsync();
         }
 
         // Summary Operations

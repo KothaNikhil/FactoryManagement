@@ -254,132 +254,126 @@
                                                Foreground="{StaticResource AccentCyan}"
                                                VerticalAlignment="Center"
                                                Margin="0,0,8,0"/>
-                        <TextBlock Text="Recent Entries" 
+                        <TextBlock Text="Recent Transactions" 
                                  FontSize="20" 
                                  FontWeight="SemiBold"
                                  Foreground="White"
                                  VerticalAlignment="Center"/>
                     </StackPanel>
-                    <TextBlock Text="Click to edit any transaction" 
+                    <TextBlock Text="Latest activity in your factory - Click to edit" 
                              FontSize="12" 
                              Foreground="{StaticResource TextSecondary}"/>
                 </StackPanel>
                 
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding RecentTransactions}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="#1a1a2e" 
-                                        BorderBrush="#2d3748"
-                                        BorderThickness="1"
-                                        CornerRadius="8"
-                                        Padding="16,12"
-                                        Margin="0,0,0,12"
-                                        Cursor="Hand">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#242438"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Border.InputBindings>
-                                        <MouseBinding MouseAction="LeftClick" 
-                                                    Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                                    CommandParameter="{Binding}"/>
-                                    </Border.InputBindings>
-                                    
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Row 1: Item Name and Amount -->
-                                        <Grid Grid.Row="0" Margin="0,0,0,6">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <TextBlock Grid.Column="0"
-                                                     Text="{Binding Item.ItemName}" 
-                                                     FontWeight="SemiBold"
-                                                     FontSize="15"
-                                                     Foreground="White"
-                                                     TextTrimming="CharacterEllipsis"
-                                                     VerticalAlignment="Center"/>
-                                            
-                                            <TextBlock Grid.Column="1"
-                                                     Text="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" 
-                                                     FontSize="16"
-                                                     FontWeight="Bold"
-                                                     Foreground="#4a90c8"
-                                                     VerticalAlignment="Center"
-                                                     Margin="12,0,0,0"/>
-                                        </Grid>
-                                        
-                                        <!-- Row 2: Transaction Details -->
-                                        <Grid Grid.Row="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <!-- Transaction Type with Icon -->
-                                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding TransactionType}" 
-                                                         FontSize="12"
-                                                         FontWeight="Medium"
-                                                         Foreground="#4a90c8"
-                                                         VerticalAlignment="Center"/>
-                                                <TextBlock Text="•" 
-                                                         FontSize="12"
-                                                         Foreground="{StaticResource TextSecondary}"
-                                                         Margin="8,0"
-                                                         VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                            
-                                            <!-- Quantity and Party -->
-                                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Quantity, StringFormat='{}{0:N2}'}" 
-                                                         FontSize="12"
-                                                         Foreground="{StaticResource TextSecondary}"
-                                                         VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding Item.Unit}" 
-                                                         FontSize="12"
-                                                         Foreground="{StaticResource TextSecondary}"
-                                                         Margin="4,0,0,0"
-                                                         VerticalAlignment="Center"/>
-                                                <TextBlock Text="•" 
-                                                         FontSize="12"
-                                                         Foreground="{StaticResource TextSecondary}"
-                                                         Margin="8,0"
-                                                         VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding Party.Name, FallbackValue='No Party'}" 
-                                                         FontSize="12"
-                                                         Foreground="{StaticResource TextSecondary}"
-                                                         VerticalAlignment="Center"
-                                                         TextTrimming="CharacterEllipsis"/>
-                                            </StackPanel>
-                                            
-                                            <!-- Edit Icon -->
-                                            <materialDesign:PackIcon Grid.Column="2"
-                                                                   Kind="ChevronRight" 
-                                                                   Width="14" Height="14"
-                                                                   Foreground="{StaticResource TextSecondary}"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="8,0,0,0"/>
-                                        </Grid>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                <DataGrid ItemsSource="{Binding RecentTransactions}"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        IsReadOnly="True"
+                        VirtualizingPanel.IsVirtualizing="True"
+                        VirtualizingPanel.VirtualizationMode="Recycling"
+                        EnableRowVirtualization="True"
+                        EnableColumnVirtualization="True"
+                        Background="Transparent"
+                        RowBackground="#1a1a2e"
+                        AlternatingRowBackground="#16213e"
+                        BorderThickness="0"
+                        GridLinesVisibility="None"
+                        HeadersVisibility="Column"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"
+                        MouseDoubleClick="RecentTransactions_MouseDoubleClick">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Padding" Value="12,8"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter Property="BorderBrush" Value="#302b63"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Height" Value="52"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" Opacity="0.3">
+                                                <GradientStop Color="#667eea" Offset="0"/>
+                                                <GradientStop Color="#764ba2" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1f2b4d"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="12,0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border Background="{TemplateBinding Background}" 
+                                                BorderThickness="0" 
+                                                Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            ToolTip="Edit Transaction"
+                                            Width="32" Height="32"
+                                            Foreground="{StaticResource AccentCyan}"
+                                            Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}">
+                                        <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="90">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Medium"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="{StaticResource AccentCyan}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
         </materialDesign:Card>
     </Grid>

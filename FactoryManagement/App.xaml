@@ -124,6 +124,13 @@
             <converters:StockBarWidthConverter x:Key="StockBarWidthConverter"/>
             <converters:StockLevelColorConverter x:Key="StockLevelColorConverter"/>
             <converters:StockToRectConverter x:Key="StockToRectConverter"/>
+            <converters:TransactionBarHeightConverter x:Key="TransactionBarHeightConverter"/>
+            <converters:TransactionBarHeightConverter2 x:Key="TransactionBarHeightConverter2"/>
+            <converters:TransactionBarHeightConverter3 x:Key="TransactionBarHeightConverter3"/>
+            <converters:LoanBarHeightConverter x:Key="LoanBarHeightConverter"/>
+            <converters:LoanBarHeightConverter2 x:Key="LoanBarHeightConverter2"/>
+            <converters:WageBarHeightConverter x:Key="WageBarHeightConverter"/>
+            <converters:WageBarHeightConverter2 x:Key="WageBarHeightConverter2"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

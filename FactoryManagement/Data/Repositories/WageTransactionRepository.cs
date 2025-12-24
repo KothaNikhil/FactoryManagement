@@ -25,6 +25,14 @@ namespace FactoryManagement.Data.Repositories
         {
         }
 
+        public override async Task<IEnumerable<WageTransaction>> GetAllAsync()
+        {
+            return await _context.WageTransactions
+                .Include(wt => wt.Worker)
+                .OrderByDescending(wt => wt.TransactionDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<WageTransaction>> GetByWorkerIdAsync(int workerId)
         {
             return await _context.WageTransactions

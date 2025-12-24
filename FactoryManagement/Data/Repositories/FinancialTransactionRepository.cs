@@ -23,6 +23,16 @@ namespace FactoryManagement.Data.Repositories
         {
         }
 
+        public override async Task<IEnumerable<FinancialTransaction>> GetAllAsync()
+        {
+            return await _context.FinancialTransactions
+                .Include(ft => ft.Party)
+                .Include(ft => ft.User)
+                .Include(ft => ft.LinkedLoanAccount)
+                .OrderByDescending(ft => ft.TransactionDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<FinancialTransaction>> GetByPartyIdAsync(int partyId)
         {
             return await _context.FinancialTransactions
