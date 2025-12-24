@@ -270,22 +270,17 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#1a1a2e" 
-                                        CornerRadius="6" 
-                                        Padding="12"
-                                        Margin="0,0,0,8"
+                                        BorderBrush="#2d3748"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Padding="16,12"
+                                        Margin="0,0,0,12"
                                         Cursor="Hand">
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background">
-                                                        <Setter.Value>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" Opacity="0.3">
-                                                                <GradientStop Color="#667eea" Offset="0"/>
-                                                                <GradientStop Color="#764ba2" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Setter.Value>
-                                                    </Setter>
+                                                    <Setter Property="Background" Value="#242438"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -297,62 +292,88 @@
                                     </Border.InputBindings>
                                     
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
                                         
-                                        <!-- Left Side: Item & Details -->
-                                        <StackPanel Grid.Column="0">
-                                            <TextBlock Text="{Binding Item.ItemName}" 
+                                        <!-- Row 1: Item Name and Amount -->
+                                        <Grid Grid.Row="0" Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.Column="0"
+                                                     Text="{Binding Item.ItemName}" 
                                                      FontWeight="SemiBold"
-                                                     FontSize="14"
+                                                     FontSize="15"
                                                      Foreground="White"
                                                      TextTrimming="CharacterEllipsis"
-                                                     Margin="0,0,0,4"/>
+                                                     VerticalAlignment="Center"/>
                                             
-                                            <StackPanel Orientation="Horizontal">
-                                                <Border Background="#4a90c8" 
-                                                        CornerRadius="4" 
-                                                        Padding="6,2"
-                                                        Margin="0,0,8,0">
-                                                    <TextBlock Text="{Binding TransactionType}" 
-                                                             FontSize="10"
-                                                             FontWeight="SemiBold"
-                                                             Foreground="White"/>
-                                                </Border>
-                                                
-                                                <TextBlock Text="{Binding Quantity, StringFormat='Qty: {0:N2}'}" 
-                                                         FontSize="11"
+                                            <TextBlock Grid.Column="1"
+                                                     Text="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" 
+                                                     FontSize="16"
+                                                     FontWeight="Bold"
+                                                     Foreground="#4a90c8"
+                                                     VerticalAlignment="Center"
+                                                     Margin="12,0,0,0"/>
+                                        </Grid>
+                                        
+                                        <!-- Row 2: Transaction Details -->
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- Transaction Type with Icon -->
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding TransactionType}" 
+                                                         FontSize="12"
+                                                         FontWeight="Medium"
+                                                         Foreground="#4a90c8"
+                                                         VerticalAlignment="Center"/>
+                                                <TextBlock Text="•" 
+                                                         FontSize="12"
                                                          Foreground="{StaticResource TextSecondary}"
-                                                         VerticalAlignment="Center"
-                                                         Margin="0,0,8,0"/>
-                                                
-                                                <TextBlock Text="{Binding Party.Name, FallbackValue='N/A'}" 
-                                                         FontSize="11"
+                                                         Margin="8,0"
+                                                         VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            
+                                            <!-- Quantity and Party -->
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Quantity, StringFormat='{}{0:N2}'}" 
+                                                         FontSize="12"
+                                                         Foreground="{StaticResource TextSecondary}"
+                                                         VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Item.Unit}" 
+                                                         FontSize="12"
+                                                         Foreground="{StaticResource TextSecondary}"
+                                                         Margin="4,0,0,0"
+                                                         VerticalAlignment="Center"/>
+                                                <TextBlock Text="•" 
+                                                         FontSize="12"
+                                                         Foreground="{StaticResource TextSecondary}"
+                                                         Margin="8,0"
+                                                         VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Party.Name, FallbackValue='No Party'}" 
+                                                         FontSize="12"
                                                          Foreground="{StaticResource TextSecondary}"
                                                          VerticalAlignment="Center"
                                                          TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
-                                        </StackPanel>
-                                        
-                                        <!-- Right Side: Amount & Icon -->
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <Border Background="#d9a05b"
-                                                    CornerRadius="4"
-                                                    Padding="8,4"
-                                                    Margin="0,0,8,0">
-                                                <TextBlock Text="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" 
-                                                         FontSize="13"
-                                                         FontWeight="Bold"
-                                                         Foreground="White"/>
-                                            </Border>
                                             
-                                            <materialDesign:PackIcon Kind="ChevronRight" 
-                                                                   Width="16" Height="16"
+                                            <!-- Edit Icon -->
+                                            <materialDesign:PackIcon Grid.Column="2"
+                                                                   Kind="ChevronRight" 
+                                                                   Width="14" Height="14"
                                                                    Foreground="{StaticResource TextSecondary}"
-                                                                   VerticalAlignment="Center"/>
-                                        </StackPanel>
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0,0,0"/>
+                                        </Grid>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

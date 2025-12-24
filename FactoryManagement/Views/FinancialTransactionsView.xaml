@@ -160,20 +160,22 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Party" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Party" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <ComboBox ItemsSource="{Binding Parties}" 
                                           SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
-                                          Height="38" FontSize="13"
-                                          Background="#1a1a1a" Foreground="White" BorderBrush="#555"/>
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
-                                <TextBlock Text="Loan Type" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Loan Type" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <ComboBox ItemsSource="{Binding LoanTypes}" 
                                           SelectedItem="{Binding SelectedLoanType, Mode=TwoWay}"
-                                          Height="38" FontSize="13"
-                                          Background="#1a1a1a" Foreground="White" BorderBrush="#555"/>
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
                             </StackPanel>
                         </Grid>
 
@@ -186,19 +188,21 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Loan Amount (₹)" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Loan Amount (₹)" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <TextBox Text="{Binding LoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         Height="38" FontSize="13" VerticalContentAlignment="Center"
                                          GotFocus="NumericTextBox_GotFocus"
-                                         Background="#1a1a1a" Foreground="White" BorderBrush="#555" Padding="10,0"/>
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
-                                <TextBlock Text="Interest Rate (% p.a.)" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Interest Rate (% p.a.)" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <TextBox Text="{Binding InterestRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         Height="38" FontSize="13" VerticalContentAlignment="Center"
                                          GotFocus="NumericTextBox_GotFocus"
-                                         Background="#1a1a1a" Foreground="White" BorderBrush="#555" Padding="10,0"/>
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
                             </StackPanel>
                         </Grid>
 
@@ -213,17 +217,19 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Start Date" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Start Date" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <DatePicker SelectedDate="{Binding StartDate}" 
-                                            Height="38" FontSize="13"
-                                            Background="#1a1a1a" Foreground="White" BorderBrush="#555"/>
+                                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
-                                <TextBlock Text="Due Date (Optional)" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Due Date (Optional)" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
                                 <DatePicker SelectedDate="{Binding DueDate}" 
-                                            Height="38" FontSize="13"
-                                            Background="#1a1a1a" Foreground="White" BorderBrush="#555"/>
+                                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
                             </StackPanel>
 
                             <Button Grid.Column="4" Content="Create Loan" 
@@ -306,11 +312,12 @@
 
                         <!-- Payment Amount -->
                         <StackPanel Grid.Row="2" Margin="0,0,0,16">
-                            <TextBlock Text="Payment Amount (₹)" Foreground="#AAA" FontSize="11" Margin="0,0,0,6"/>
+                            <TextBlock Text="Payment Amount (₹)" 
+                                     Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                     Margin="0,0,0,8"/>
                             <TextBox Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}" 
-                                     Height="38" FontSize="13" VerticalContentAlignment="Center"
                                      GotFocus="NumericTextBox_GotFocus"
-                                     Background="#1a1a1a" Foreground="White" BorderBrush="#555" Padding="10,0"/>
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
                         </StackPanel>
 
                         <!-- Action Button -->
