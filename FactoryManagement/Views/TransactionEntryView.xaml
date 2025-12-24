@@ -38,7 +38,7 @@
                          Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding TransactionTypes}"
                         SelectedItem="{Binding SelectedTransactionTypeString}"
-                        materialDesign:HintAssist.Hint="Select Transaction Type"
+                        
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         Margin="0,0,0,20"/>
 
@@ -48,7 +48,7 @@
                          Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Items}"
                         SelectedItem="{Binding SelectedItem}"
-                        materialDesign:HintAssist.Hint="Select Item"
+                        
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         Margin="0,0,0,20">
                     <ComboBox.ItemTemplate>
@@ -78,7 +78,7 @@
                     <ComboBox Grid.Column="0"
                             ItemsSource="{Binding Parties}"
                             SelectedItem="{Binding SelectedParty}"
-                            materialDesign:HintAssist.Hint="Select Party (Optional for Wastage)"
+                            
                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
                             Margin="0,0,8,0">
                         <ComboBox.ItemTemplate>
@@ -115,7 +115,7 @@
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
-                               materialDesign:HintAssist.Hint="Enter Quantity"
+                               
                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
@@ -125,7 +125,7 @@
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
-                               materialDesign:HintAssist.Hint="Enter Price"
+                               
                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
@@ -175,7 +175,7 @@
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
                         <DatePicker SelectedDate="{Binding TransactionDate}"
-                                  materialDesign:HintAssist.Hint="Select Date"
+                                  
                                   Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
                     </StackPanel>
 
@@ -186,7 +186,7 @@
                         <ComboBox ItemsSource="{Binding Users}"
                                 SelectedItem="{Binding SelectedUser}"
                                 DisplayMemberPath="Username"
-                                materialDesign:HintAssist.Hint="Select User"
+                                
                                 Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
                     </StackPanel>
                 </Grid>
@@ -196,7 +196,7 @@
                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                          Margin="0,0,0,8"/>
                 <TextBox Text="{Binding Notes}"
-                       materialDesign:HintAssist.Hint="Additional notes (optional)"
+                       
                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
                        AcceptsReturn="True"
                        TextWrapping="Wrap"
