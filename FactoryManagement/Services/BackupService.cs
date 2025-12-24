@@ -14,7 +14,12 @@ namespace FactoryManagement.Services
     {
         public List<Item> Items { get; set; } = new();
         public List<Party> Parties { get; set; } = new();
+        public List<Worker> Workers { get; set; } = new();
+        public List<User> Users { get; set; } = new();
+        public List<LoanAccount> LoanAccounts { get; set; } = new();
         public List<Transaction> Transactions { get; set; } = new();
+        public List<FinancialTransaction> FinancialTransactions { get; set; } = new();
+        public List<WageTransaction> WageTransactions { get; set; } = new();
         public DateTime BackupDate { get; set; }
         public string Version { get; set; } = "1.0";
     }
@@ -45,12 +50,14 @@ namespace FactoryManagement.Services
             {
                 var backupData = new BackupData
                 {
-                    Items = await _context.Items.ToListAsync(),
-                    Parties = await _context.Parties.ToListAsync(),
-                    Transactions = await _context.Transactions
-                        .Include(t => t.Item)
-                        .Include(t => t.Party)
-                        .ToListAsync(),
+                    Items = await _context.Items.AsNoTracking().ToListAsync(),
+                    Parties = await _context.Parties.AsNoTracking().ToListAsync(),
+                    Workers = await _context.Workers.AsNoTracking().ToListAsync(),
+                    Users = await _context.Users.AsNoTracking().ToListAsync(),
+                    LoanAccounts = await _context.LoanAccounts.AsNoTracking().ToListAsync(),
+                    Transactions = await _context.Transactions.AsNoTracking().ToListAsync(),
+                    FinancialTransactions = await _context.FinancialTransactions.AsNoTracking().ToListAsync(),
+                    WageTransactions = await _context.WageTransactions.AsNoTracking().ToListAsync(),
                     BackupDate = DateTime.Now
                 };
 
@@ -60,7 +67,8 @@ namespace FactoryManagement.Services
                 var options = new JsonSerializerOptions
                 {
                     WriteIndented = true,
-                    PropertyNameCaseInsensitive = true
+                    PropertyNameCaseInsensitive = true,
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
                 };
 
                 var json = JsonSerializer.Serialize(backupData, options);
@@ -86,7 +94,8 @@ namespace FactoryManagement.Services
                 var json = await File.ReadAllTextAsync(filePath);
                 var options = new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true
+                    PropertyNameCaseInsensitive = true,
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
                 };
 
                 var backupData = JsonSerializer.Deserialize<BackupData>(json, options);
@@ -102,9 +111,14 @@ namespace FactoryManagement.Services
                 try
                 {
                     // Clear existing data
+                    _context.WageTransactions.RemoveRange(_context.WageTransactions);
+                    _context.FinancialTransactions.RemoveRange(_context.FinancialTransactions);
                     _context.Transactions.RemoveRange(_context.Transactions);
+                    _context.LoanAccounts.RemoveRange(_context.LoanAccounts);
                     _context.Items.RemoveRange(_context.Items);
+                    _context.Workers.RemoveRange(_context.Workers);
                     _context.Parties.RemoveRange(_context.Parties);
+                    _context.Users.RemoveRange(_context.Users);
                     await _context.SaveChangesAsync();
 
                     // Clear the change tracker to avoid tracking issues
@@ -113,16 +127,7 @@ namespace FactoryManagement.Services
                     // Restore items
                     foreach (var item in backupData.Items)
                     {
-                        var newItem = new Item
-                        {
-                            ItemId = item.ItemId,
-                            ItemName = item.ItemName,
-                            Unit = item.Unit,
-                            CurrentStock = item.CurrentStock,
-                            CreatedDate = item.CreatedDate,
-                            ModifiedDate = item.ModifiedDate
-                        };
-                        _context.Items.Add(newItem);
+                        _context.Items.Add(item);
                     }
                     await _context.SaveChangesAsync();
 
@@ -132,19 +137,48 @@ namespace FactoryManagement.Services
                     // Restore parties
                     foreach (var party in backupData.Parties)
                     {
-                        var newParty = new Party
-                        {
-                            PartyId = party.PartyId,
-                            Name = party.Name,
-                            MobileNumber = party.MobileNumber,
-                            Place = party.Place,
-                            PartyType = party.PartyType,
-                            CreatedDate = party.CreatedDate,
-                            ModifiedDate = party.ModifiedDate
-                        };
-                        _context.Parties.Add(newParty);
+                        _context.Parties.Add(party);
                     }
                     await _context.SaveChangesAsync();
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore users
+                    if (backupData.Users != null && backupData.Users.Any())
+                    {
+                        foreach (var user in backupData.Users)
+                        {
+                            _context.Users.Add(user);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore workers
+                    if (backupData.Workers != null && backupData.Workers.Any())
+                    {
+                        foreach (var worker in backupData.Workers)
+                        {
+                            _context.Workers.Add(worker);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore loan accounts
+                    if (backupData.LoanAccounts != null && backupData.LoanAccounts.Any())
+                    {
+                        foreach (var loanAccount in backupData.LoanAccounts)
+                        {
+                            _context.LoanAccounts.Add(loanAccount);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
 
                     // Clear the change tracker again
                     _context.ChangeTracker.Clear();
@@ -152,22 +186,35 @@ namespace FactoryManagement.Services
                     // Restore transactions
                     foreach (var trans in backupData.Transactions)
                     {
-                        var newTransaction = new Transaction
-                        {
-                            TransactionId = trans.TransactionId,
-                            TransactionType = trans.TransactionType,
-                            ItemId = trans.ItemId,
-                            PartyId = trans.PartyId,
-                            Quantity = trans.Quantity,
-                            PricePerUnit = trans.PricePerUnit,
-                            TotalAmount = trans.TotalAmount,
-                            TransactionDate = trans.TransactionDate,
-                            EnteredBy = trans.EnteredBy,
-                            CreatedDate = trans.CreatedDate
-                        };
-                        _context.Transactions.Add(newTransaction);
+                        _context.Transactions.Add(trans);
                     }
                     await _context.SaveChangesAsync();
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore financial transactions
+                    if (backupData.FinancialTransactions != null && backupData.FinancialTransactions.Any())
+                    {
+                        foreach (var ft in backupData.FinancialTransactions)
+                        {
+                            _context.FinancialTransactions.Add(ft);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore wage transactions
+                    if (backupData.WageTransactions != null && backupData.WageTransactions.Any())
+                    {
+                        foreach (var wt in backupData.WageTransactions)
+                        {
+                            _context.WageTransactions.Add(wt);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
 
                     await transaction.CommitAsync();
                 }
@@ -179,7 +226,8 @@ namespace FactoryManagement.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to restore backup: {ex.Message}", ex);
+                var innerMessage = ex.InnerException != null ? $" Inner: {ex.InnerException.Message}" : "";
+                throw new Exception($"Failed to restore backup: {ex.Message}{innerMessage}", ex);
             }
         }
 
@@ -213,7 +261,8 @@ namespace FactoryManagement.Services
                 var json = await File.ReadAllTextAsync(filePath);
                 var options = new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true
+                    PropertyNameCaseInsensitive = true,
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
                 };
 
                 return JsonSerializer.Deserialize<BackupData>(json, options);
