@@ -335,6 +335,5 @@
             </Border>
         </Grid>
 
-        <!-- Remove old payment history row -->
     </Grid>
 </UserControl>

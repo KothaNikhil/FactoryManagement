@@ -33,9 +33,16 @@ namespace FactoryManagement.Models
         public WorkerStatus Status { get; set; } = WorkerStatus.Active;
 
         [Column(TypeName = "decimal(18,2)")]
+        // Primary rate field used by new code. For existing logic, the effective rate is typically
+        // resolved using fallback logic in the ViewModel, e.g.: Rate > 0 ? Rate : DailyRate.
+        // When creating or updating workers, prefer setting Rate and avoid writing to the
+        // legacy fields below unless explicitly dealing with migrated/legacy data.
         public decimal Rate { get; set; }
 
-        // Legacy fields for backward compatibility (deprecated)
+        // Legacy fields for backward compatibility (deprecated). These were used before the
+        // unified Rate property was introduced and are kept only to support existing data and
+        // older parts of the application. New code should read/write the Rate property and
+        // treat DailyRate/HourlyRate/MonthlyRate as read-only legacy values.
         [Column(TypeName = "decimal(18,2)")]
         public decimal DailyRate { get; set; }
 

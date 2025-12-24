@@ -14,11 +14,17 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Multi-user support
 - ✓ Comprehensive reporting
 - ✓ Data export (Excel & CSV)
-- ✓ **Financial Transactions & Loan Management** (NEW)
+- ✓ **Financial Transactions & Loan Management**
 - ✓ Loan tracking (Given & Taken)
 - ✓ Interest calculation & accrual
 - ✓ Payment recording with smart allocation
 - ✓ Loan status management
+- ✓ **Wages Management System** (NEW)
+- ✓ Worker management (Name, Mobile)
+- ✓ Wage payment tracking
+- ✓ Advance payment system
+- ✓ Advance returned tracking
+- ✓ Outstanding advance monitoring
 
 ### 2. Database Architecture
 - ✓ SQLite with Entity Framework Core
@@ -26,7 +32,7 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Code-First migrations
 - ✓ Foreign keys and indexes
 - ✓ Seed data for testing
-- ✓ 7 main entities (Items, Parties, Users, Transactions, AppSettings, **FinancialTransactions, LoanAccounts**)
+- ✓ 10 main entities (Items, Parties, Users, Transactions, AppSettings, FinancialTransactions, LoanAccounts, **Workers, WageTransactions, BackupHistories**)
 
 ### 3. User Interface
 - ✓ Material Design theme
@@ -72,8 +78,11 @@ C:\FactoryManagement\
     │   ├── User.cs
     │   ├── Transaction.cs
     │   ├── AppSettings.cs
-    │   ├── FinancialTransaction.cs    # NEW: Financial transactions
-    │   └── LoanAccount.cs             # NEW: Loan master records
+    │   ├── FinancialTransaction.cs    # Financial transactions
+    │   ├── LoanAccount.cs             # Loan master records
+    │   ├── Worker.cs                  # NEW: Worker management
+    │   ├── WageTransaction.cs         # NEW: Wage payments & advances
+    │   └── BackupHistory.cs           # Backup tracking
     │
     ├── Data\                          # Database layer
     │   ├── FactoryDbContext.cs
@@ -81,8 +90,10 @@ C:\FactoryManagement\
     │       ├── IRepository.cs
     │       ├── Repository.cs
     │       ├── TransactionRepository.cs
-    │       ├── FinancialTransactionRepository.cs  # NEW
-    │       └── LoanAccountRepository.cs           # NEW
+    │       ├── FinancialTransactionRepository.cs
+    │       ├── LoanAccountRepository.cs
+    │       ├── WorkerRepository.cs            # NEW: Worker data access
+    │       └── WageTransactionRepository.cs   # NEW: Wage transaction data access
     │
     ├── Services\                      # Business logic
     │   ├── ItemService.cs
@@ -90,7 +101,8 @@ C:\FactoryManagement\
     │   ├── TransactionService.cs
     │   ├── ExportService.cs
     │   ├── BackupService.cs
-    │   └── FinancialTransactionService.cs  # NEW: Loan & financial mgmt
+    │   ├── FinancialTransactionService.cs  # Loan & financial management
+    │   └── WageService.cs                  # NEW: Wage & worker management
     │
     ├── ViewModels\                    # MVVM ViewModels
     │   ├── ViewModelBase.cs
@@ -101,7 +113,8 @@ C:\FactoryManagement\
     │   ├── ItemsManagementViewModel.cs
     │   ├── PartiesManagementViewModel.cs
     │   ├── BackupViewModel.cs
-    │   └── FinancialTransactionsViewModel.cs  # NEW: Loan management VM
+    │   ├── FinancialTransactionsViewModel.cs  # Loan management VM
+    │   └── WagesManagementViewModel.cs        # NEW: Wages management VM
     │
     ├── Views\                         # XAML views
     │   ├── MainWindow.xaml
@@ -116,10 +129,16 @@ C:\FactoryManagement\
     │   ├── ItemsManagementView.xaml.cs
     │   ├── PartiesManagementView.xaml
     │   ├── PartiesManagementView.xaml.cs
+    │   ├── QuickAddPartyDialog.xaml         # Quick add party dialog
+    │   ├── QuickAddPartyDialog.xaml.cs
     │   ├── BackupView.xaml
     │   ├── BackupView.xaml.cs
-    │   ├── FinancialTransactionsView.xaml      # NEW: Loan management UI
-    │   └── FinancialTransactionsView.xaml.cs   # NEW
+    │   ├── FinancialTransactionsView.xaml   # Loan management UI
+    │   ├── FinancialTransactionsView.xaml.cs
+    │   ├── WagesManagementView.xaml         # NEW: Wages management UI
+    │   ├── WagesManagementView.xaml.cs      # NEW
+    │   ├── QuickAddWorkerDialog.xaml        # NEW: Quick add worker dialog
+    │   └── QuickAddWorkerDialog.xaml.cs     # NEW
     │
     └── Converters\                    # Value converters
         └── Converters.cs
@@ -175,24 +194,30 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 3. **Users** - System users
 4. **Transactions** - All business transactions
 5. **AppSettings** - Application configuration
-6. **FinancialTransactions** - Loan transactions (NEW)
-7. **LoanAccounts** - Loan master records (NEW)
+6. **FinancialTransactions** - Loan transactions
+7. **LoanAccounts** - Loan master records
+8. **Workers** - Worker information (NEW)
+9. **WageTransactions** - Wage payments & advances (NEW)
+10. **BackupHistories** - Backup tracking
 
 ### Relationships
 - Transactions → Items (Many-to-One)
 - Transactions → Parties (Many-to-One)
 - Transactions → Users (Many-to-One)
-- FinancialTransactions → Parties (Many-to-One) (NEW)
-- FinancialTransactions → LoanAccounts (Many-to-One) (NEW)
-- FinancialTransactions → Users (Many-to-One) (NEW)
-- LoanAccounts → Parties (Many-to-One) (NEW)
-- LoanAccounts → Users (Many-to-One) (NEW)
+- FinancialTransactions → Parties (Many-to-One)
+- FinancialTransactions → LoanAccounts (Many-to-One)
+- FinancialTransactions → Users (Many-to-One)
+- LoanAccounts → Parties (Many-to-One)
+- LoanAccounts → Users (Many-to-One)
+- WageTransactions → Workers (Many-to-One) (NEW)
+- WageTransactions → Users (Many-to-One) (NEW)
 
 ## 🎨 UI Screenshots (Features)
 
 ### Dashboard
 - 4 Summary cards (Purchases, Sales, Wastage, Count)
-- 2 Financial cards (Loans Given, Loans Taken) (NEW)
+- 2 Financial cards (Loans Given, Loans Taken)
+- 4 Wages cards (Total Wages Paid, Total Advances, Worker Total, Outstanding) (NEW)
 - Recent transactions grid
 - Low stock alert list
 
@@ -226,6 +251,24 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - Filter by status
 - Outstanding balance tracking
 - Due date management
+
+### Wages Management (NEW)
+- Simplified worker management (Name, Mobile Number only)
+- Three-column layout: Left (Manage Workers + Record Payment), Right (Payment History)
+- Worker operations: Add, Edit, Search
+- Three payment types:
+  - **Wage Payment**: Regular salary/wage payments
+  - **Advance Given**: Money given to worker in advance
+  - **Advance Returned**: Worker pays back advance
+- Outstanding advance tracking per worker
+- Real-time advance balance updates
+- Payment history with friendly transaction type names
+- No worker type complexity - simplified approach
+- No rate field - just track payments
+- Material Design dark theme with white text
+- Dynamic form sizing (SizeToContent)
+- Search functionality in worker list
+- Inline header and search for space efficiency
 
 ## 🔐 Security Features
 
@@ -274,9 +317,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 6. **Export Capability** - Excel and CSV formats
 7. **Search** - In all master data screens
 8. **Low Stock Alerts** - Never run out
-9. **Loan Management** - Track money lent and borrowed (NEW)
-10. **Interest Tracking** - Automatic interest calculation (NEW)
-11. **Payment History** - Complete audit trail for all loans (NEW)
+8. **Loan Management** - Track money lent and borrowed (NEW)
+9. **Interest Tracking** - Automatic interest calculation (NEW)
+10. **Payment History** - Complete audit trail for all loans (NEW)
+11. **Wages Management** - Track worker payments and advances (NEW)
+12. **Advance Tracking** - Monitor outstanding advances per worker (NEW)
+13. **Flexible Payment Types** - Wage, Advance Given, Advance Returned (NEW)
 
 ### For Developers
 1. **Clean Architecture** - MVVM pattern
@@ -330,6 +376,13 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - [ ] Loan status updates automatically (NEW)
 - [ ] Dashboard shows financial summaries (NEW)
 - [ ] Transaction history displays for loans (NEW)
+- [ ] Can add new worker (NEW)
+- [ ] Can record wage payment (NEW)
+- [ ] Can record advance given (NEW)
+- [ ] Can record advance returned (NEW)
+- [ ] Outstanding advance updates correctly (NEW)
+- [ ] Worker search works (NEW)
+- [ ] Payment history shows friendly names (NEW)
 
 ## 🐛 Known Limitations
 
@@ -397,10 +450,270 @@ This is a **complete, production-ready application** with:
 
 ---
 
-**Version**: 2.0.0  
+**Version**: 2.1.0  
 **Created**: December 2025  
 **Status**: Complete ✅  
-**Latest Update**: Financial Transactions & Loan Management Module Added
+**Latest Update**: Wages Management Module Added
+
+---
+
+## 🆕 Version 2.1 - Wages Management Module
+
+### New Features Added
+
+#### 1. **Worker Management System**
+- Simplified worker tracking (Name and Mobile Number only)
+- No complex worker types or rate fields
+- Worker status tracking (Active, Inactive, OnLeave, Terminated)
+- Quick add/edit worker dialog
+- Worker search functionality
+- Clean, minimal data model
+
+#### 2. **Three Payment Types**
+- **Wage Payment**: Record regular salary/wage payments to workers
+- **Advance Given**: Give money to workers in advance of work
+- **Advance Returned**: Record when workers pay back advances
+- All payment types tracked in unified transaction history
+
+#### 3. **Outstanding Advance Tracking**
+- Real-time calculation of outstanding advances per worker
+- Displayed in Record Payment section when worker is selected
+- Automatically increases with "Advance Given"
+- Automatically decreases with "Advance Returned"
+- Cannot go below zero (validation built-in)
+
+#### 4. **Modern Three-Column Layout**
+- **Left Column (Narrow - 400px)**:
+  - **Top Section**: Record Payment form
+    - Worker dropdown
+    - Payment type selector
+    - Amount field
+    - Notes field
+    - Outstanding advance display
+    - Record Payment button
+  - **Bottom Section**: Manage Workers
+    - Inline header with search
+    - Workers list (Name + Edit button)
+    - Add New Worker button
+- **Right Column (Wide)**:
+  - Payment History DataGrid (full height)
+  - Date, Worker, Type, Amount, Notes columns
+  - Friendly type names via converter
+
+#### 5. **User Experience Enhancements**
+- Dynamic form sizing (SizeToContent) - no scrollbars
+- White text on dark background for visibility
+- Material Design outlined controls
+- Tooltips on section headers
+- Inline header + search to maximize space
+- Clean, uncluttered interface
+
+#### 6. **Business Logic**
+- **Advance Given**: `worker.TotalAdvance += amount`
+- **Advance Returned**: `worker.TotalAdvance -= amount` (min 0)
+- **Wage Payment**: Updates `worker.TotalWagesPaid`
+- All transactions linked to worker via foreign key
+- User tracking on all transactions
+- Automatic timestamp on creation
+
+### Technical Architecture
+
+**Design Philosophy**: Extreme Simplification
+- Removed WorkerType enum (Daily/Hourly/Monthly/Contractor)
+- Removed Rate field (DailyRate/HourlyRate/MonthlyRate)
+- Focus on "just track what I paid each worker"
+- Minimal data entry required
+
+**Database Schema**:
+```
+Worker
+- WorkerId (PK)
+- Name (required)
+- MobileNumber (optional)
+- Address
+- Status (Active/Inactive/OnLeave/Terminated)
+- TotalAdvance (calculated field)
+- TotalWagesPaid (calculated field)
+- Rate (deprecated, kept for backward compatibility)
+- DailyRate/HourlyRate/MonthlyRate (legacy fields)
+- Notes
+- CreatedDate
+- ModifiedDate
+
+WageTransaction
+- WageTransactionId (PK)
+- WorkerId (FK)
+- TransactionType (Enum: DailyWage/AdvanceGiven/AdvanceAdjustment)
+- TransactionDate
+- Amount
+- NetAmount
+- Notes
+- EnteredBy (FK to Users)
+- CreatedDate
+```
+
+**Enums**:
+```csharp
+public enum WorkerStatus
+{
+    Active,
+    Inactive,
+    OnLeave,
+    Terminated
+}
+
+public enum WageTransactionType
+{
+    DailyWage,          // Wage Payment (displayed as "Wage Payment")
+    HourlyWage,         // Legacy
+    MonthlyWage,        // Legacy
+    OvertimePay,        // Legacy
+    Bonus,              // Legacy
+    AdvanceGiven,       // Advance Given (displayed as "Advance Given")
+    AdvanceAdjustment,  // Advance Returned (displayed as "Advance Returned")
+    Deduction           // Legacy
+}
+```
+
+**Service Layer**:
+- `WageService`: Core business logic
+  - `GetAllWorkersAsync()`: Get all workers
+  - `AddWorkerAsync()`: Create new worker
+  - `UpdateWorkerAsync()`: Update worker details
+  - `RecordWagePaymentAsync()`: Record any payment type
+  - `GetWorkerTransactionsAsync()`: Get payment history
+  - `GetWorkerOutstandingAdvanceAsync()`: Get advance balance
+
+**Repository Layer**:
+- `WorkerRepository`: Worker data access
+- `WageTransactionRepository`: Transaction data access
+- LINQ support with EF Core
+
+**Value Converter**:
+```csharp
+WageTransactionTypeConverter:
+- "DailyWage" → "Wage Payment"
+- "AdvanceGiven" → "Advance Given"
+- "AdvanceAdjustment" → "Advance Returned"
+```
+
+### Use Cases
+
+#### Use Case 1: Adding a Worker
+```
+Scenario: Add new worker "John" with mobile "9876543210"
+1. Navigate to Wages Management
+2. Click "ADD NEW WORKER"
+3. Enter Name: "John"
+4. Enter Mobile: "9876543210"
+5. Click "ADD WORKER"
+6. Worker appears in list
+```
+
+#### Use Case 2: Giving Advance to Worker
+```
+Scenario: Give ₹5,000 advance to John
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹0
+3. Select Payment Type: "Advance Given"
+4. Enter Amount: 5000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance updates to: ₹5,000
+7. Payment appears in history
+```
+
+#### Use Case 3: Recording Wage Payment
+```
+Scenario: Pay John ₹10,000 salary
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹5,000
+3. Select Payment Type: "Wage Payment"
+4. Enter Amount: 10000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance remains: ₹5,000
+7. Payment recorded as "Wage Payment"
+```
+
+#### Use Case 4: Worker Returns Advance
+```
+Scenario: John returns ₹2,000 of the ₹5,000 advance
+1. Select John from worker dropdown
+2. Outstanding Advance shows: ₹5,000
+3. Select Payment Type: "Advance Returned"
+4. Enter Amount: 2000
+5. Click "RECORD PAYMENT"
+6. Outstanding Advance updates to: ₹3,000
+7. Payment recorded as "Advance Returned"
+```
+
+### UI Design Decisions
+
+#### Layout Evolution:
+1. **Initial**: Side-by-side equal width (50/50)
+2. **Iteration 1**: Swapped sections (Record Payment top, Manage Workers bottom)
+3. **Iteration 2**: Inline header + search (maximize worker list space)
+4. **Final**: Left narrow (400px), Right wide (remaining) - emphasizes payment history
+
+#### Why This Layout?
+- **Payment entry first**: Primary action at top
+- **Worker management below**: Supporting action
+- **History on right**: Reference view, needs width for columns
+- **No scrollbars**: Dynamic sizing prevents clipping
+
+#### Color Scheme:
+- Record Payment header: Green (#1e7e34)
+- Manage Workers header: Blue (#4FC3F7)
+- Add Worker button: Blue (#0275d8)
+- Record Payment button: Green (#1e7e34)
+- Outstanding Advance: Red (#ff6b6b) - indicates debt
+
+### Integration with Existing System
+
+**Dashboard Integration**:
+- New summary cards added (if implemented)
+- Wages metrics alongside inventory and financial data
+
+**Party System**:
+- Workers are separate from Parties
+- No reuse of Party entity
+- Clean separation of concerns
+
+**User Tracking**:
+- All wage transactions link to Users
+- Audit trail maintained
+- EnteredBy field on all records
+
+### Benefits
+
+1. **Simplicity**: No complex worker types or rates
+2. **Flexibility**: Just track payments, any amount
+3. **Clarity**: Three clear payment types
+4. **Accuracy**: Real-time advance tracking
+5. **Visibility**: Wide payment history grid
+6. **Speed**: Minimal data entry required
+7. **Reliability**: Automatic calculations, no manual math
+
+### Migration & Backward Compatibility
+
+**For Existing Users**:
+- Database creates Worker and WageTransaction tables automatically
+- Legacy Rate fields preserved but not used in UI
+- No data migration needed
+- Existing inventory/financial modules unaffected
+
+**Legacy Field Handling**:
+- `Rate`, `DailyRate`, `HourlyRate`, `MonthlyRate` kept in model
+- Code comments explain these are deprecated
+- Dialog doesn't show these fields
+- ViewModel doesn't use them
+- Future versions can remove after data migration
+
+---
+
+**Version**: 2.1.0  
+**Created**: December 2025  
+**Status**: Complete ✅  
+**Latest Update**: Wages Management Module Added
 
 ---
 

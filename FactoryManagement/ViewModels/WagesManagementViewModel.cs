@@ -313,7 +313,14 @@ namespace FactoryManagement.ViewModels
                 // Use the new simplified Rate field
                 if (SelectedWorker != null)
                 {
-                    Rate = SelectedWorker.Rate > 0 ? SelectedWorker.Rate : SelectedWorker.DailyRate;
+                    // Normalize legacy DailyRate into Rate if Rate is not set or zero
+                    if (SelectedWorker.Rate <= 0 && SelectedWorker.DailyRate > 0)
+                    {
+                        SelectedWorker.Rate = SelectedWorker.DailyRate;
+                    }
+
+                    // Always use Rate as the authoritative field
+                    Rate = SelectedWorker.Rate;
                 }
             }
             catch (Exception ex)
