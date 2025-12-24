@@ -23,8 +23,8 @@ Use the **hamburger menu** (☰) on the top-left to access different sections:
 - **Dashboard**: Overview and quick stats
 - **Transaction Entry**: Record new transactions
 - **Reports**: View and export transaction data
-- **Items Master**: Manage inventory items
-- **Parties Master**: Manage buyers and sellers
+- **Items Managemet**: Manage inventory items
+- **Parties Managemet**: Manage buyers and sellers
 
 ---
 
@@ -157,10 +157,10 @@ Click **"Show All"** to return to viewing all transactions
 
 ## Master Data Management
 
-### Items Master
+### Items Managemet
 
 #### Adding a New Item
-1. Go to **Items Master**
+1. Go to **Items Managemet**
 2. Click **"NEW"** button (top-right of form)
 3. Enter **Item Name** (e.g., "Basmati Rice")
 4. Enter **Current Stock** (e.g., 1500)
@@ -187,10 +187,10 @@ Click **"Show All"** to return to viewing all transactions
 - Search by name or unit
 - Results update instantly as you type
 
-### Parties Master
+### Parties Managemet
 
 #### Adding a New Party
-1. Go to **Parties Master**
+1. Go to **Parties Managemet**
 2. Click **"NEW"** button
 3. Enter **Party Name** (required)
 4. Enter **Mobile Number** (optional)
@@ -293,11 +293,11 @@ Click **"Show All"** to return to viewing all transactions
 - Solution: Check current stock and adjust quantity
 
 ### "Item name is required"
-- Missing item name in Items Master
+- Missing item name in Items Managemet
 - Solution: Enter a name before saving
 
 ### "Party name is required"
-- Missing party name in Parties Master
+- Missing party name in Parties Managemet
 - Solution: Enter a name before saving
 
 ---

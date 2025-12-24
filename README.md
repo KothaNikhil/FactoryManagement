@@ -99,12 +99,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 
 ### Master Data Management
 
-#### Items Master
+#### Items Managemet
 - Add, edit, and delete inventory items
 - Search functionality
 - Track current stock levels
 
-#### Parties Master
+#### Parties Managemet
 - Manage buyers, sellers, and suppliers
 - Store contact information and location
 - Categorize as Buyer, Seller, or Both

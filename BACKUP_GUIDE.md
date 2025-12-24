@@ -112,4 +112,4 @@ C:\Users\[YourUsername]\Documents\FactoryManagement\Backups\
 Access the Backup & Restore feature from the main menu:
 - Menu Item: "Backup & Restore"
 - Icon: Backup/Restore symbol
-- Located below "Parties Master" in the menu
+- Located below "Parties Managemet" in the menu

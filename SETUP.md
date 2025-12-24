@@ -86,7 +86,7 @@ To verify everything works:
    - View recent transactions (should be empty initially)
 
 2. **Add an Item**
-   - Click "Items Master" from menu
+   - Click "Items Managemet" from menu
    - Click "NEW"
    - Enter: Name="Test Rice", Stock=100, Unit="Kg"
    - Click "SAVE ITEM"
@@ -184,8 +184,8 @@ After setup, you should be able to:
 - [x] Start the application
 - [x] See the Dashboard
 - [x] Navigate using the menu
-- [x] Add items in Items Master
-- [x] Add parties in Parties Master
+- [x] Add items in Items Managemet
+- [x] Add parties in Parties Managemet
 - [x] Record transactions
 - [x] View reports
 - [x] Export to Excel/CSV

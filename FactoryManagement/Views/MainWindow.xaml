@@ -373,7 +373,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="Package" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
-                            <TextBlock Grid.Column="1" Text="Items Master" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
+                            <TextBlock Grid.Column="1" Text="Items Managemet" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
@@ -396,7 +396,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="AccountGroup" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
-                            <TextBlock Grid.Column="1" Text="Parties Master" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
+                            <TextBlock Grid.Column="1" Text="Parties Managemet" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
