@@ -14,6 +14,11 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Multi-user support
 - ✓ Comprehensive reporting
 - ✓ Data export (Excel & CSV)
+- ✓ **Financial Transactions & Loan Management** (NEW)
+- ✓ Loan tracking (Given & Taken)
+- ✓ Interest calculation & accrual
+- ✓ Payment recording with smart allocation
+- ✓ Loan status management
 
 ### 2. Database Architecture
 - ✓ SQLite with Entity Framework Core
@@ -21,7 +26,7 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Code-First migrations
 - ✓ Foreign keys and indexes
 - ✓ Seed data for testing
-- ✓ 5 main entities (Items, Parties, Users, Transactions, AppSettings)
+- ✓ 7 main entities (Items, Parties, Users, Transactions, AppSettings, **FinancialTransactions, LoanAccounts**)
 
 ### 3. User Interface
 - ✓ Material Design theme
@@ -66,20 +71,26 @@ C:\FactoryManagement\
     │   ├── Party.cs
     │   ├── User.cs
     │   ├── Transaction.cs
-    │   └── AppSettings.cs
+    │   ├── AppSettings.cs
+    │   ├── FinancialTransaction.cs    # NEW: Financial transactions
+    │   └── LoanAccount.cs             # NEW: Loan master records
     │
     ├── Data\                          # Database layer
     │   ├── FactoryDbContext.cs
     │   └── Repositories\
     │       ├── IRepository.cs
     │       ├── Repository.cs
-    │       └── TransactionRepository.cs
+    │       ├── TransactionRepository.cs
+    │       ├── FinancialTransactionRepository.cs  # NEW
+    │       └── LoanAccountRepository.cs           # NEW
     │
     ├── Services\                      # Business logic
     │   ├── ItemService.cs
     │   ├── PartyService.cs
     │   ├── TransactionService.cs
-    │   └── ExportService.cs
+    │   ├── ExportService.cs
+    │   ├── BackupService.cs
+    │   └── FinancialTransactionService.cs  # NEW: Loan & financial mgmt
     │
     ├── ViewModels\                    # MVVM ViewModels
     │   ├── ViewModelBase.cs
@@ -88,7 +99,9 @@ C:\FactoryManagement\
     │   ├── TransactionEntryViewModel.cs
     │   ├── ReportsViewModel.cs
     │   ├── ItemsManagementViewModel.cs
-    │   └── PartiesManagementViewModel.cs
+    │   ├── PartiesManagementViewModel.cs
+    │   ├── BackupViewModel.cs
+    │   └── FinancialTransactionsViewModel.cs  # NEW: Loan management VM
     │
     ├── Views\                         # XAML views
     │   ├── MainWindow.xaml
@@ -102,7 +115,11 @@ C:\FactoryManagement\
     │   ├── ItemsManagementView.xaml
     │   ├── ItemsManagementView.xaml.cs
     │   ├── PartiesManagementView.xaml
-    │   └── PartiesManagementView.xaml.cs
+    │   ├── PartiesManagementView.xaml.cs
+    │   ├── BackupView.xaml
+    │   ├── BackupView.xaml.cs
+    │   ├── FinancialTransactionsView.xaml      # NEW: Loan management UI
+    │   └── FinancialTransactionsView.xaml.cs   # NEW
     │
     └── Converters\                    # Value converters
         └── Converters.cs
@@ -158,16 +175,24 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 3. **Users** - System users
 4. **Transactions** - All business transactions
 5. **AppSettings** - Application configuration
+6. **FinancialTransactions** - Loan transactions (NEW)
+7. **LoanAccounts** - Loan master records (NEW)
 
 ### Relationships
 - Transactions → Items (Many-to-One)
 - Transactions → Parties (Many-to-One)
 - Transactions → Users (Many-to-One)
+- FinancialTransactions → Parties (Many-to-One) (NEW)
+- FinancialTransactions → LoanAccounts (Many-to-One) (NEW)
+- FinancialTransactions → Users (Many-to-One) (NEW)
+- LoanAccounts → Parties (Many-to-One) (NEW)
+- LoanAccounts → Users (Many-to-One) (NEW)
 
 ## 🎨 UI Screenshots (Features)
 
 ### Dashboard
 - 4 Summary cards (Purchases, Sales, Wastage, Count)
+- 2 Financial cards (Loans Given, Loans Taken) (NEW)
 - Recent transactions grid
 - Low stock alert list
 
@@ -192,6 +217,16 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - Edit/Delete actions
 - Validation
 
+### Financial Transactions (NEW)
+- Create new loans (Given/Taken)
+- Record payments with smart allocation
+- Interest calculation (simple interest)
+- Loan status tracking (Active/Closed/Overdue/PartiallyPaid)
+- Transaction history per loan
+- Filter by status
+- Outstanding balance tracking
+- Due date management
+
 ## 🔐 Security Features
 
 - Input validation on all forms
@@ -206,6 +241,15 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - **Buy**: Stock increases
 - **Sell**: Stock decreases (validates sufficient stock)
 - **Wastage**: Stock decreases (validates sufficient stock)
+
+### Financial Transaction Management (NEW)
+- **Loan Creation**: Creates LoanAccount + initial FinancialTransaction
+- **Payment Recording**: 
+  - Interest accrued automatically based on days elapsed
+  - Payment allocated to interest first, then principal
+  - Loan status updated automatically (Active → PartiallyPaid → Closed)
+- **Interest Calculation**: Simple Interest = (Principal × Rate × Days) / (365 × 100)
+- **Status Management**: Auto-updates based on payments and due dates
 
 ### Auto-calculations
 - Total Amount = Quantity × Price Per Unit
@@ -230,6 +274,9 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 6. **Export Capability** - Excel and CSV formats
 7. **Search** - In all master data screens
 8. **Low Stock Alerts** - Never run out
+9. **Loan Management** - Track money lent and borrowed (NEW)
+10. **Interest Tracking** - Automatic interest calculation (NEW)
+11. **Payment History** - Complete audit trail for all loans (NEW)
 
 ### For Developers
 1. **Clean Architecture** - MVVM pattern
@@ -253,6 +300,11 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 8. **Notifications** - Email/SMS alerts
 9. **MongoDB Support** - Use the repository pattern to switch
 10. **Multi-language** - Localization support
+11. **EMI Support** - Scheduled loan payments (Financial)
+12. **Compound Interest** - Advanced interest calculations (Financial)
+13. **Payment Reminders** - Overdue loan notifications (Financial)
+14. **Financial Reports** - Ledgers, aging reports (Financial)
+15. **Collateral Tracking** - Link loans to assets (Financial)
 
 ## 📋 Testing Checklist
 
@@ -272,6 +324,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - [ ] Export to Excel works
 - [ ] Export to CSV works
 - [ ] Low stock alert shows items below 100
+- [ ] Can create a loan (Given/Taken) (NEW)
+- [ ] Can record loan payment (NEW)
+- [ ] Interest calculates correctly (NEW)
+- [ ] Loan status updates automatically (NEW)
+- [ ] Dashboard shows financial summaries (NEW)
+- [ ] Transaction history displays for loans (NEW)
 
 ## 🐛 Known Limitations
 
@@ -303,6 +361,9 @@ This project demonstrates:
 - Data export functionality
 - Value converters
 - Navigation patterns
+- Financial domain modeling (NEW)
+- Interest calculation algorithms (NEW)
+- Complex business logic (NEW)
 
 ## 📄 License
 
@@ -336,6 +397,188 @@ This is a **complete, production-ready application** with:
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 2.0.0  
 **Created**: December 2025  
-**Status**: Complete ✅
+**Status**: Complete ✅  
+**Latest Update**: Financial Transactions & Loan Management Module Added
+
+---
+
+## 🆕 Version 2.0 - Financial Transactions Module
+
+### New Features Added
+
+#### 1. **Loan Management System**
+- Create loans (money lent to parties or borrowed from parties)
+- Track loan types: Given and Taken
+- Record original loan amount, interest rate, start date, and due date
+- Complete audit trail with user tracking
+
+#### 2. **Interest Calculation**
+- Automatic simple interest calculation
+- Formula: Interest = (Principal × Rate × Days) / (365 × 100)
+- Interest accrues based on outstanding principal
+- Manual interest update available
+
+#### 3. **Payment Processing**
+- Smart payment allocation (interest first, then principal)
+- Real-time outstanding balance updates
+- Payment validation against outstanding amounts
+- Complete payment history
+
+#### 4. **Loan Status Management**
+- **Active**: Loan is active with outstanding balance
+- **PartiallyPaid**: Some payments made but balance remains
+- **Closed**: Fully paid off
+- **Overdue**: Past due date with outstanding balance
+- Auto-status updates based on payments and dates
+
+#### 5. **Financial Dashboard Integration**
+- Two new summary cards on dashboard
+- "Loans Given (Outstanding)" - money owed to you
+- "Loans Taken (Outstanding)" - money you owe
+- Real-time financial position visibility
+
+#### 6. **Enhanced Party Management**
+- New party types: Lender, Borrower, Financial
+- Existing Buyer/Seller types maintained
+- Support for parties with multiple roles
+
+#### 7. **User Interface**
+- New "Financial Transactions" menu item
+- Comprehensive loan management screen with:
+  - Create loan form
+  - Payment recording section
+  - Loans list with filtering
+  - Transaction history grid
+  - Summary statistics
+- Material Design UI consistency
+
+### Technical Architecture
+
+**Design Pattern**: Hybrid Approach (Option 3)
+- Separate domain models for financial vs inventory transactions
+- Clean separation of concerns
+- Scalable for future financial features
+- Maintains existing inventory system integrity
+
+**Database Schema**:
+```
+FinancialTransaction
+- FinancialTransactionId (PK)
+- PartyId (FK)
+- TransactionType (Enum)
+- Amount
+- InterestRate
+- InterestAmount
+- TransactionDate
+- DueDate
+- LinkedLoanAccountId (FK)
+- EnteredBy (FK)
+- Notes
+- CreatedDate
+
+LoanAccount
+- LoanAccountId (PK)
+- PartyId (FK)
+- LoanType (Given/Taken)
+- OriginalAmount
+- InterestRate
+- StartDate
+- DueDate
+- OutstandingPrincipal
+- OutstandingInterest
+- TotalOutstanding
+- Status
+- CreatedBy (FK)
+- Notes
+- CreatedDate
+```
+
+**Service Layer**:
+- `FinancialTransactionService`: Core business logic
+  - `CreateLoanAsync()`: Creates new loan
+  - `RecordPaymentAsync()`: Processes payments
+  - `UpdateLoanInterestAsync()`: Calculates interest
+  - `GetFinancialSummaryAsync()`: Dashboard summaries
+
+**Repository Layer**:
+- `FinancialTransactionRepository`: Data access for transactions
+- `LoanAccountRepository`: Data access for loan accounts
+- Full LINQ query support with Entity Framework Core
+
+### Use Cases
+
+#### Use Case 1: Lending Money
+```
+Scenario: You lend ₹100,000 to a party at 12% interest
+1. Navigate to Financial Transactions
+2. Select party, enter amount (100,000), rate (12%)
+3. Set loan type as "Given"
+4. Click Create Loan
+5. System creates LoanAccount with status "Active"
+6. Dashboard shows ₹100,000 in "Loans Given"
+```
+
+#### Use Case 2: Borrowing Money
+```
+Scenario: You borrow ₹50,000 from a party at 10% interest
+1. Navigate to Financial Transactions
+2. Select party, enter amount (50,000), rate (10%)
+3. Set loan type as "Taken"
+4. Click Create Loan
+5. System creates LoanAccount with status "Active"
+6. Dashboard shows ₹50,000 in "Loans Taken"
+```
+
+#### Use Case 3: Recording Payment
+```
+Scenario: Party returns ₹10,000 on a ₹100,000 loan
+1. Select the loan from loans list
+2. Click "Update Interest" to accrue interest first
+3. Enter payment amount (10,000)
+4. Click "Record Payment"
+5. System:
+   - Pays accrued interest first
+   - Applies remaining to principal
+   - Updates outstanding balance
+   - Changes status to "PartiallyPaid"
+```
+
+#### Use Case 4: Interest Calculation
+```
+Scenario: Calculate interest on ₹100,000 at 12% for 30 days
+Calculation: (100,000 × 12 × 30) / (365 × 100) = ₹986.30
+1. Select loan from list
+2. Click "Update Interest"
+3. System:
+   - Calculates days since last interest calculation
+   - Applies formula
+   - Creates interest transaction
+   - Updates outstanding interest
+```
+
+### Benefits of the Design
+
+1. **Separation of Concerns**: Financial transactions don't interfere with inventory
+2. **Scalability**: Easy to add EMI, compound interest, etc.
+3. **Audit Trail**: Every transaction is tracked
+4. **Flexibility**: Supports both lending and borrowing
+5. **Automation**: Interest and status updates are automatic
+6. **User-Friendly**: Clear UI with validation
+7. **Data Integrity**: Foreign keys and relationships maintained
+
+### Migration Path
+
+For existing users:
+1. Database automatically creates new tables on first run
+2. Existing inventory transactions unaffected
+3. Parties can be used for both inventory and financial transactions
+4. No data migration needed
+
+---
+
+**Version**: 2.0.0  
+**Created**: December 2025  
+**Status**: Complete ✅  
+**Latest Update**: Financial Transactions & Loan Management Module Added

@@ -8,7 +8,10 @@ namespace FactoryManagement.Models
     {
         Buyer,
         Seller,
-        Both
+        Both,
+        Lender,         // Party who lends money to you
+        Borrower,       // Party who borrows money from you
+        Financial       // Party involved in both lending and borrowing
     }
 
     public class Party

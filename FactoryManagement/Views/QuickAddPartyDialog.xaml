@@ -3,91 +3,120 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Quick Add Party" 
-        Height="450" Width="500"
-        WindowStartupLocation="CenterScreen"
+        SizeToContent="Height" Width="520"
+        WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="#1e1e1e"
         FontFamily="{materialDesign:MaterialDesignFont}">
-    <Grid Margin="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    
+    <Border BorderBrush="#444" BorderThickness="1" Padding="30">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0" 
-                   Text="Add New Party" 
-                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                   Margin="0,0,0,24"/>
-
-        <!-- Form -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <!-- Party Name -->
-                <TextBlock Text="Party Name *" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <TextBox x:Name="PartyNameTextBox"
-                       materialDesign:HintAssist.Hint="Enter party name"
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                       Margin="0,0,0,20"/>
-
-                <!-- Mobile Number -->
-                <TextBlock Text="Mobile Number" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <TextBox x:Name="MobileNumberTextBox"
-                       materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                       Margin="0,0,0,20"/>
-
-                <!-- Place -->
-                <TextBlock Text="Place" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <TextBox x:Name="PlaceTextBox"
-                       materialDesign:HintAssist.Hint="Enter place/location (optional)"
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                       Margin="0,0,0,20"/>
-
-                <!-- Party Type -->
-                <TextBlock Text="Party Type *" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <ComboBox x:Name="PartyTypeComboBox"
-                        materialDesign:HintAssist.Hint="Select party type"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        Margin="0,0,0,20"
-                        SelectedIndex="0">
-                    <ComboBoxItem Content="Buyer"/>
-                    <ComboBoxItem Content="Seller"/>
-                    <ComboBoxItem Content="Both"/>
-                </ComboBox>
-
-                <!-- Error Message -->
-                <TextBlock x:Name="ErrorTextBlock"
-                         Foreground="#EF5350"
-                         TextWrapping="Wrap"
-                         Margin="0,0,0,16"
-                         Visibility="Collapsed"/>
+            <!-- Title -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,25">
+                <TextBlock Text="🤝 Add New Party" 
+                           FontSize="24" 
+                           FontWeight="Bold" 
+                           Foreground="White"/>
+                <Border Height="3" Background="#0275d8" CornerRadius="2" Margin="0,10,0,0" HorizontalAlignment="Left" Width="100"/>
             </StackPanel>
-        </ScrollViewer>
 
-        <!-- Action Buttons -->
-        <StackPanel Grid.Row="2" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,24,0,0">
-            <Button Content="CANCEL"
-                  Style="{StaticResource MaterialDesignOutlinedButton}"
-                  Click="CancelButton_Click"
-                  Margin="0,0,16,0"
-                  Padding="24,8"/>
-            <Button Content="ADD PARTY"
-                  Style="{StaticResource MaterialDesignRaisedButton}"
-                  Click="AddPartyButton_Click"
-                  Padding="24,8"/>
-        </StackPanel>
-    </Grid>
+            <!-- Form -->
+            <StackPanel Grid.Row="1">
+                    <!-- Party Name -->
+                    <TextBlock Text="Party Name *" 
+                             Foreground="#AAA" 
+                             FontSize="13"
+                             Margin="0,0,0,8"/>
+                    <TextBox x:Name="PartyNameTextBox"
+                           materialDesign:HintAssist.Hint="Enter party name"
+                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           FontSize="14"
+                           Foreground="White"
+                           Margin="0,0,0,18"/>
+
+                    <!-- Mobile Number -->
+                    <TextBlock Text="Mobile Number" 
+                             Foreground="#AAA" 
+                             FontSize="13"
+                             Margin="0,0,0,8"/>
+                    <TextBox x:Name="MobileNumberTextBox"
+                           materialDesign:HintAssist.Hint="Enter mobile number (optional)"
+                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           FontSize="14"
+                           Foreground="White"
+                           Margin="0,0,0,18"/>
+
+                    <!-- Place -->
+                    <TextBlock Text="Place" 
+                             Foreground="#AAA" 
+                             FontSize="13"
+                             Margin="0,0,0,8"/>
+                    <TextBox x:Name="PlaceTextBox"
+                           materialDesign:HintAssist.Hint="Enter place/location (optional)"
+                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           FontSize="14"
+                           Foreground="White"
+                           Margin="0,0,0,18"/>
+
+                    <!-- Party Type -->
+                    <TextBlock Text="Party Type *" 
+                             Foreground="#AAA" 
+                             FontSize="13"
+                             Margin="0,0,0,8"/>
+                    <ComboBox x:Name="PartyTypeComboBox"
+                            materialDesign:HintAssist.Hint="Select party type"
+                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                            FontSize="14"
+                            Foreground="White"
+                            Margin="0,0,0,18"
+                            SelectedIndex="0">
+                        <ComboBoxItem Content="Buyer"/>
+                        <ComboBoxItem Content="Seller"/>
+                        <ComboBoxItem Content="Both"/>
+                    </ComboBox>
+
+                    <!-- Error Message -->
+                    <TextBlock x:Name="ErrorTextBlock"
+                             Foreground="#ff6b6b"
+                             TextWrapping="Wrap"
+                             Margin="0,0,0,10"
+                             Visibility="Collapsed"/>
+            </StackPanel>
+
+            <!-- Action Buttons -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Content="CANCEL"
+                        Click="CancelButton_Click"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Foreground="White"
+                        BorderBrush="#666"
+                        Height="44"
+                        FontSize="14"
+                        FontWeight="SemiBold"/>
+                
+                <Button Grid.Column="2"
+                        Content="ADD PARTY"
+                        Click="AddPartyButton_Click"
+                        Background="#0275d8"
+                        Foreground="White"
+                        Height="44"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Style="{StaticResource MaterialDesignRaisedButton}"/>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

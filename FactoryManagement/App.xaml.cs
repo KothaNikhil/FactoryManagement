@@ -68,6 +68,10 @@ namespace FactoryManagement
             // Repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
+            services.AddScoped<ILoanAccountRepository, LoanAccountRepository>();
+            services.AddScoped<IWorkerRepository, WorkerRepository>();
+            services.AddScoped<IWageTransactionRepository, WageTransactionRepository>();
 
             // Services
             services.AddScoped<IItemService, ItemService>();
@@ -75,6 +79,8 @@ namespace FactoryManagement
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IExportService, ExportService>();
             services.AddScoped<BackupService>();
+            services.AddScoped<FinancialTransactionService>();
+            services.AddScoped<IWageService, WageService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();
@@ -84,6 +90,8 @@ namespace FactoryManagement
             services.AddTransient<ItemsManagementViewModel>();
             services.AddTransient<PartiesManagementViewModel>();
             services.AddTransient<BackupViewModel>();
+            services.AddTransient<FinancialTransactionsViewModel>();
+            services.AddTransient<WagesManagementViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();

@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         
         <!-- Transaction Form -->
-        <materialDesign:Card Grid.Column="0" Padding="32" Margin="0,0,12,0" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="0" Padding="32" Margin="0,0,12,0" Style="{StaticResource ModernCard}" Background="#2a2a2a">
         <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel MaxWidth="600">
@@ -96,7 +96,7 @@
                     </ComboBox>
                     <Button Grid.Column="1"
                           Style="{StaticResource MaterialDesignOutlinedButton}"
-                          ToolTip="Add New Party"
+                          ToolTip="Quickly add a new party without leaving the transaction entry page"
                           Click="QuickAddPartyButton_Click"
                           Padding="8">
                         <materialDesign:PackIcon Kind="Plus" Width="20" Height="20"/>
@@ -116,7 +116,8 @@
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Enter Quantity"
-                               Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                               Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                               GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="8,0,0,0">
@@ -125,7 +126,8 @@
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Enter Price"
-                               Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                               Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                               GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
                 </Grid>
 
@@ -216,17 +218,19 @@
                           Margin="0,0,16,0"
                           Height="44"
                           Padding="32,0"
-                          FontWeight="SemiBold"/>
+                          FontWeight="SemiBold"
+                          ToolTip="Clear all fields and start a new transaction entry"/>
                     <Button Content="{Binding SaveButtonText}"
                           Command="{Binding SaveTransactionCommand}"
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
-                          Background="{StaticResource SuccessGradient}"
+                          Background="#1e7e34"
                           BorderThickness="0"
                           Foreground="White"
                           Cursor="Hand"
-                          Style="{StaticResource MaterialDesignRaisedButton}"/>
+                          Style="{StaticResource MaterialDesignRaisedButton}"
+                          ToolTip="Save this transaction. The total amount will be calculated automatically from quantity and price per unit"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
@@ -242,7 +246,7 @@
         </materialDesign:Card>
         
         <!-- Recent Transactions -->
-        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
@@ -308,7 +312,7 @@
                                                      Margin="0,0,0,4"/>
                                             
                                             <StackPanel Orientation="Horizontal">
-                                                <Border Background="{StaticResource InfoGradient}" 
+                                                <Border Background="#0275d8" 
                                                         CornerRadius="4" 
                                                         Padding="6,2"
                                                         Margin="0,0,8,0">
@@ -334,7 +338,7 @@
                                         
                                         <!-- Right Side: Amount & Icon -->
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <Border Background="{StaticResource PrimaryGradient}"
+                                            <Border Background="#f0ad4e"
                                                     CornerRadius="4"
                                                     Padding="8,4"
                                                     Margin="0,0,8,0">

@@ -118,6 +118,9 @@
             <converters:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
             <converters:EditModeToTextConverter x:Key="EditModeToTextConverter"/>
             <converters:TransactionTypeConverter x:Key="TransactionTypeConverter"/>
+            <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
+            <converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
+            <converters:WageTransactionTypeConverter x:Key="WageTransactionTypeConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

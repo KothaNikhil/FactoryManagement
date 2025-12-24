@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Parties List -->
-        <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" Padding="24" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,20">
                     <Border Background="{StaticResource InfoGradient}" 
@@ -176,7 +176,7 @@
         </materialDesign:Card>
 
         <!-- Party Form -->
-        <materialDesign:Card Grid.Column="1" Padding="32" Style="{StaticResource ModernCard}">
+        <materialDesign:Card Grid.Column="1" Padding="32" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel MaxWidth="450">
                     <Grid Margin="0,0,0,24">
@@ -186,7 +186,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <Border Background="{StaticResource InfoGradient}" 
+                            <Border Background="#0275d8" 
                                     Width="40" Height="40" CornerRadius="10" 
                                     Margin="0,0,12,0">
                                 <materialDesign:PackIcon Kind="AccountEdit" Width="24" Height="24" 
@@ -206,7 +206,8 @@
                               Style="{StaticResource MaterialDesignOutlinedButton}"
                               Height="36"
                               Padding="20,0"
-                              FontWeight="SemiBold"/>
+                              FontWeight="SemiBold"
+                              ToolTip="Clear the form to add a new party"/>
                     </Grid>
 
                     <!-- Party Name -->
@@ -262,11 +263,12 @@
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
-                          Background="{StaticResource InfoGradient}"
+                          Background="#0275d8"
                           BorderThickness="0"
                           Foreground="White"
                           Cursor="Hand"
-                          Style="{StaticResource MaterialDesignRaisedButton}"/>
+                          Style="{StaticResource MaterialDesignRaisedButton}"
+                          ToolTip="Save this party to the database. Name and Party Type are required fields"/>
                 </StackPanel>
             </ScrollViewer>
         </materialDesign:Card>

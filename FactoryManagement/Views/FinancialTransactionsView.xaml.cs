@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace FactoryManagement.Views
 {
-    public partial class ItemsManagementView : UserControl
+    public partial class FinancialTransactionsView : UserControl
     {
-        public ItemsManagementView()
+        public FinancialTransactionsView()
         {
             InitializeComponent();
         }

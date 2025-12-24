@@ -42,6 +42,12 @@ namespace FactoryManagement.Data.Repositories
 
         public virtual async Task UpdateAsync(T entity)
         {
+            // Detach all tracked entities of this type to avoid conflicts
+            foreach (var entry in _context.ChangeTracker.Entries<T>().ToList())
+            {
+                entry.State = EntityState.Detached;
+            }
+            
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }

@@ -18,6 +18,8 @@ namespace FactoryManagement.ViewModels
         private readonly ItemsManagementViewModel _itemsManagementViewModel;
         private readonly PartiesManagementViewModel _partiesManagementViewModel;
         private readonly BackupViewModel _backupViewModel;
+        private readonly FinancialTransactionsViewModel _financialTransactionsViewModel;
+        private readonly WagesManagementViewModel _wagesManagementViewModel;
 
         public MainWindowViewModel(
             DashboardViewModel dashboardViewModel,
@@ -25,7 +27,9 @@ namespace FactoryManagement.ViewModels
             ReportsViewModel reportsViewModel,
             ItemsManagementViewModel itemsManagementViewModel,
             PartiesManagementViewModel partiesManagementViewModel,
-            BackupViewModel backupViewModel)
+            BackupViewModel backupViewModel,
+            FinancialTransactionsViewModel financialTransactionsViewModel,
+            WagesManagementViewModel wagesManagementViewModel)
         {
             _dashboardViewModel = dashboardViewModel;
             _transactionEntryViewModel = transactionEntryViewModel;
@@ -33,6 +37,8 @@ namespace FactoryManagement.ViewModels
             _itemsManagementViewModel = itemsManagementViewModel;
             _partiesManagementViewModel = partiesManagementViewModel;
             _backupViewModel = backupViewModel;
+            _financialTransactionsViewModel = financialTransactionsViewModel;
+            _wagesManagementViewModel = wagesManagementViewModel;
 
             // Set default view
             CurrentView = _dashboardViewModel;
@@ -76,6 +82,23 @@ namespace FactoryManagement.ViewModels
             CurrentView = _partiesManagementViewModel;
             CurrentViewTitle = "Parties Management";
             await _partiesManagementViewModel.InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToFinancialTransactionsAsync()
+        {
+            CurrentView = _financialTransactionsViewModel;
+            CurrentViewTitle = "Financial Transactions";
+            // Load data is called in constructor, but we can optionally refresh here
+            await System.Threading.Tasks.Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToWagesAsync()
+        {
+            CurrentView = _wagesManagementViewModel;
+            CurrentViewTitle = "Wages Management";
+            await _wagesManagementViewModel.InitializeAsync();
         }
 
         [RelayCommand]
