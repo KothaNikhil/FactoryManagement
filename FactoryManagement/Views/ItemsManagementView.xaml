@@ -50,14 +50,8 @@
                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Search items by name..."
                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                               BorderThickness="0"
-                               Padding="0"
-                               VerticalAlignment="Center"
-                               FontSize="14">
-                            <TextBox.InputBindings>
-                                <KeyBinding Key="Escape" Command="{Binding NewItemCommand}"/>
-                            </TextBox.InputBindings>
-                        </TextBox>
+                               Margin="0,0,0,0"
+                               FontSize="14"/>
                     </Grid>
                 </Border>
 

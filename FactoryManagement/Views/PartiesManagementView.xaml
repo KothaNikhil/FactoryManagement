@@ -45,13 +45,11 @@
                                                Foreground="{StaticResource TextSecondary}"
                                                VerticalAlignment="Center"
                                                Margin="0,0,8,0"/>
-                        <TextBox Grid.Column="1"
+                           <TextBox Grid.Column="1"
                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Search parties by name, mobile, or place..."
                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                               BorderThickness="0"
-                               Padding="0"
-                               VerticalAlignment="Center"
+                               Margin="0,0,0,0"
                                FontSize="14"/>
                     </Grid>
                 </Border>
