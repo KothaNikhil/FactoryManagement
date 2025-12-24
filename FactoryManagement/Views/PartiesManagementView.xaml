@@ -186,7 +186,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <Border Background="#0275d8" 
+                            <Border Background="#4a90c8" 
                                     Width="40" Height="40" CornerRadius="10" 
                                     Margin="0,0,12,0">
                                 <materialDesign:PackIcon Kind="AccountEdit" Width="24" Height="24" 
@@ -263,7 +263,7 @@
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
-                          Background="#0275d8"
+                          Background="#4a90c8"
                           BorderThickness="0"
                           Foreground="White"
                           Cursor="Hand"

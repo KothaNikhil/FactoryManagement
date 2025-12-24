@@ -185,7 +185,7 @@
                             </Grid.ColumnDefinitions>
                             
                             <Border Grid.Column="0"
-                                    Background="#0275d8"
+                                    Background="#4a90c8"
                                     Width="40" Height="40" CornerRadius="8"
                                     Margin="0,0,12,0">
                                 <materialDesign:PackIcon Kind="CurrencyInr" 
@@ -221,7 +221,7 @@
                             </Grid.ColumnDefinitions>
                             
                             <Border Grid.Column="0"
-                                    Background="#1e7e34"
+                                    Background="#3d8b5f"
                                     Width="40" Height="40" CornerRadius="8"
                                     Margin="0,0,12,0">
                                 <materialDesign:PackIcon Kind="Receipt" 

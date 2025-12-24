@@ -38,7 +38,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Loans Given Card -->
-                <Border Grid.Column="0" Background="#1e7e34" CornerRadius="8" Padding="16">
+                <Border Grid.Column="0" Background="#3d8b5f" CornerRadius="8" Padding="16">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -59,7 +59,7 @@
                 </Border>
 
                 <!-- Loans Taken Card -->
-                <Border Grid.Column="2" Background="#c9302c" CornerRadius="8" Padding="16">
+                <Border Grid.Column="2" Background="#b85450" CornerRadius="8" Padding="16">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -80,7 +80,7 @@
                 </Border>
 
                 <!-- Interest Receivable Card -->
-                <Border Grid.Column="4" Background="#0275d8" CornerRadius="8" Padding="16">
+                <Border Grid.Column="4" Background="#4a90c8" CornerRadius="8" Padding="16">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -101,7 +101,7 @@
                 </Border>
 
                 <!-- Interest Payable Card -->
-                <Border Grid.Column="6" Background="#f0ad4e" CornerRadius="8" Padding="16">
+                <Border Grid.Column="6" Background="#d9a05b" CornerRadius="8" Padding="16">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -142,7 +142,7 @@
 
                         <!-- Header -->
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-                            <Border Background="#0275d8" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
+                            <Border Background="#4a90c8" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
                                 <TextBlock Text="➕" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
@@ -228,7 +228,7 @@
 
                             <Button Grid.Column="4" Content="Create Loan" 
                                     Command="{Binding CreateLoanCommand}"
-                                    Background="#0275d8" 
+                                    Background="#4a90c8" 
                                     Foreground="White" 
                                     Height="38" 
                                     Padding="32,0"
@@ -277,7 +277,7 @@
 
                         <!-- Header -->
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-                            <Border Background="#1e7e34" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
+                            <Border Background="#3d8b5f" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
                                 <TextBlock Text="💳" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
@@ -316,7 +316,7 @@
                         <!-- Action Button -->
                         <Button Grid.Row="4" Content="Record Payment" 
                                 Command="{Binding RecordPaymentCommand}"
-                                Background="#1e7e34" 
+                                Background="#3d8b5f" 
                                 Foreground="White" 
                                 Height="38"
                                 FontSize="13"
@@ -396,7 +396,7 @@
 
                                 <Button Grid.Column="4" Content="📊 Update Interest" 
                                         Command="{Binding UpdateInterestCommand}"
-                                        Background="#f0ad4e" 
+                                        Background="#d9a05b" 
                                         Foreground="White" 
                                         Padding="15,5"
                                         BorderThickness="0"
@@ -405,7 +405,7 @@
 
                                 <Button Grid.Column="6" Content="🔄 Refresh" 
                                         Command="{Binding RefreshCommand}"
-                                        Background="#0275d8" 
+                                        Background="#4a90c8" 
                                         Foreground="White" 
                                         Padding="15,5"
                                         BorderThickness="0"

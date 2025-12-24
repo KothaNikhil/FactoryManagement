@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Wages Paid Card -->
-            <Border Grid.Column="0" Background="#1e7e34" CornerRadius="8" Padding="16">
+            <Border Grid.Column="0" Background="#3d8b5f" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -47,7 +47,7 @@
             </Border>
 
             <!-- Total Advances Card -->
-            <Border Grid.Column="2" Background="#f0ad4e" CornerRadius="8" Padding="16">
+            <Border Grid.Column="2" Background="#d9a05b" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -68,7 +68,7 @@
             </Border>
 
             <!-- Selected Worker Wages Card -->
-            <Border Grid.Column="4" Background="#0275d8" CornerRadius="8" Padding="16">
+            <Border Grid.Column="4" Background="#4a90c8" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -89,7 +89,7 @@
             </Border>
 
             <!-- Outstanding Advance Card -->
-            <Border Grid.Column="6" Background="#c9302c" CornerRadius="8" Padding="16">
+            <Border Grid.Column="6" Background="#b85450" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -199,7 +199,7 @@
                         <Button Grid.Row="1"
                                 Content="💾 RECORD PAYMENT"
                                 Command="{Binding SaveWagePaymentCommand}"
-                                Background="#1e7e34"
+                                Background="#3d8b5f"
                                 Foreground="White"
                                 Height="44"
                                 FontSize="14"
@@ -281,7 +281,7 @@
                         <!-- Add Worker Button -->
                         <Button Grid.Row="2" Content="➕ ADD NEW WORKER" 
                                 Command="{Binding NewWorkerCommand}"
-                                Background="#0275d8"
+                                Background="#4a90c8"
                                 Foreground="White"
                                 FontWeight="Bold"
                                 Style="{StaticResource MaterialDesignRaisedButton}"

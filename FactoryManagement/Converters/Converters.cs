@@ -133,4 +133,83 @@ namespace FactoryManagement.Converters
         {
             throw new NotImplementedException();
         }
-    }}
+    }
+
+    public class StockBarWidthConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2 && values[0] != null && values[1] is double containerWidth)
+            {
+                // Handle both decimal and double types for stock value
+                double stock = 0;
+                if (values[0] is decimal decimalValue)
+                    stock = (double)decimalValue;
+                else if (values[0] is double doubleValue)
+                    stock = doubleValue;
+                else if (values[0] is int intValue)
+                    stock = intValue;
+                
+                // Maximum stock value for reference (adjust based on your needs)
+                double maxStock = 200;
+                double percentage = Math.Min(stock / maxStock, 1.0);
+                return containerWidth * percentage;
+            }
+            return 0.0;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StockLevelColorConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 1 && values[0] != null)
+            {
+                // Handle both decimal and double types
+                decimal stock = 0;
+                if (values[0] is decimal decimalValue)
+                    stock = decimalValue;
+                else if (values[0] is double doubleValue)
+                    stock = (decimal)doubleValue;
+                else if (values[0] is int intValue)
+                    stock = intValue;
+                
+                // Color coding: Red (< 50), Orange (50-100), Blue (> 100)
+                if (stock < 50)
+                    return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(184, 84, 80)); // Red
+                else if (stock < 100)
+                    return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(217, 160, 91)); // Orange
+                else
+                    return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(74, 144, 200)); // Blue
+            }
+            return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(74, 144, 200));
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StockToRectConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length >= 2 && values[0] is double width && values[1] is double height)
+            {
+                return new Rect(0, 0, width, height);
+            }
+            return new Rect(0, 0, 0, 0);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

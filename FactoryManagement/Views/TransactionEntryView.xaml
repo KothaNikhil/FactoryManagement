@@ -225,7 +225,7 @@
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
-                          Background="#1e7e34"
+                          Background="#3d8b5f"
                           BorderThickness="0"
                           Foreground="White"
                           Cursor="Hand"
@@ -312,7 +312,7 @@
                                                      Margin="0,0,0,4"/>
                                             
                                             <StackPanel Orientation="Horizontal">
-                                                <Border Background="#0275d8" 
+                                                <Border Background="#4a90c8" 
                                                         CornerRadius="4" 
                                                         Padding="6,2"
                                                         Margin="0,0,8,0">
@@ -338,7 +338,7 @@
                                         
                                         <!-- Right Side: Amount & Icon -->
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
-                                            <Border Background="#f0ad4e"
+                                            <Border Background="#d9a05b"
                                                     CornerRadius="4"
                                                     Padding="8,4"
                                                     Margin="0,0,8,0">

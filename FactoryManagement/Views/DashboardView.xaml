@@ -23,7 +23,7 @@
             <!-- Item Transaction Cards -->
             <UniformGrid Grid.Row="0" Rows="1" Columns="4" Margin="0,0,0,12">
                 <!-- Total Purchases Card -->
-                <Border Background="#0275d8" CornerRadius="8" Padding="16" Margin="0,0,12,0">
+                <Border Background="#4a90c8" CornerRadius="8" Padding="16" Margin="0,0,12,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -44,7 +44,7 @@
                 </Border>
 
                 <!-- Total Sales Card -->
-                <Border Background="#1e7e34" CornerRadius="8" Padding="16" Margin="0,0,12,0">
+                <Border Background="#3d8b5f" CornerRadius="8" Padding="16" Margin="0,0,12,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -65,7 +65,7 @@
                 </Border>
 
                 <!-- Total Wastage Card -->
-                <Border Background="#c9302c" CornerRadius="8" Padding="16" Margin="0,0,12,0">
+                <Border Background="#b85450" CornerRadius="8" Padding="16" Margin="0,0,12,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -86,7 +86,7 @@
                 </Border>
 
                 <!-- Transaction Count Card -->
-                <Border Background="#f0ad4e" CornerRadius="8" Padding="16" Margin="0">
+                <Border Background="#d9a05b" CornerRadius="8" Padding="16" Margin="0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -110,7 +110,7 @@
             <!-- Financial Cards -->
             <UniformGrid Grid.Row="1" Rows="1" Columns="2">
                 <!-- Loans Given Card -->
-                <Border Background="#1e7e34" CornerRadius="8" Padding="16" Margin="0,0,12,0">
+                <Border Background="#3d8b5f" CornerRadius="8" Padding="16" Margin="0,0,12,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -131,7 +131,7 @@
                 </Border>
 
                 <!-- Loans Taken Card -->
-                <Border Background="#c9302c" CornerRadius="8" Padding="16" Margin="0">
+                <Border Background="#b85450" CornerRadius="8" Padding="16" Margin="0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                     </Border.Effect>
@@ -270,59 +270,100 @@
                 </DockPanel>
             </materialDesign:Card>
 
-            <!-- Low Stock Items -->
+            <!-- Stock Levels Chart (Native WPF Version) -->
             <materialDesign:Card Grid.Column="1" Margin="0" Style="{StaticResource ModernCard}" Background="#2a2a2a">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top" Margin="20,20,20,16" Orientation="Horizontal">
-                        <Border Background="{StaticResource DangerGradient}" 
+                        <Border Background="#4a90c8" 
                                 Width="32" Height="32" CornerRadius="8" 
                                 Margin="0,0,12,0">
-                            <materialDesign:PackIcon Kind="AlertCircle" Width="20" Height="20" 
+                            <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" 
                                                    Foreground="White" 
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Low Stock Alert" 
+                            <TextBlock Text="Stock Levels" 
                                      FontSize="18" 
                                      FontWeight="SemiBold"
                                      Foreground="White"/>
-                            <TextBlock Text="Items requiring attention" 
+                            <TextBlock Text="Current inventory status" 
                                      FontSize="12" 
                                      Foreground="{StaticResource TextSecondary}"
                                      Margin="0,2,0,0"/>
                         </StackPanel>
                     </StackPanel>
                     
-                    <ListView ItemsSource="{Binding LowStockItems}" Margin="20,0,20,20"
-                            VirtualizingPanel.IsVirtualizing="True"
-                            VirtualizingPanel.VirtualizationMode="Recycling"
-                            ScrollViewer.IsDeferredScrollingEnabled="True">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="8">
-                                    <DockPanel>
-                                        <TextBlock DockPanel.Dock="Left"
-                                                 Text="{Binding ItemName}" 
-                                                 FontWeight="Bold"
-                                                 Foreground="White"
-                                                 VerticalAlignment="Center"
-                                                 TextTrimming="CharacterEllipsis"
-                                                 Margin="0,0,16,0"/>
-                                        <StackPanel DockPanel.Dock="Right"
-                                                  Orientation="Horizontal" 
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Right">
-                                            <TextBlock Text="Stock: " Foreground="{StaticResource TextSecondary}"/>
-                                            <TextBlock Text="{Binding CurrentStock, StringFormat=N2}" 
-                                                     Foreground="{StaticResource DangerColor}" FontWeight="SemiBold"/>
-                                            <TextBlock Text=" " />
-                                            <TextBlock Text="{Binding Unit}" Foreground="{StaticResource TextSecondary}"/>
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <!-- Native WPF Chart using ItemsControl + ProgressBar -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="20,0,20,20">
+                        <ItemsControl ItemsSource="{Binding AllItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="0,8" BorderBrush="#3a3a3a" BorderThickness="0,0,0,1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- Item Name and Stock Value -->
+                                            <DockPanel Grid.Row="0" Margin="0,0,0,6">
+                                                <TextBlock DockPanel.Dock="Left"
+                                                         Text="{Binding ItemName}" 
+                                                         FontWeight="SemiBold"
+                                                         FontSize="13"
+                                                         Foreground="White"
+                                                         VerticalAlignment="Center"/>
+                                                <TextBlock DockPanel.Dock="Right"
+                                                         HorizontalAlignment="Right"
+                                                         VerticalAlignment="Center">
+                                                    <Run Text="{Binding CurrentStock, StringFormat=N0, Mode=OneWay}" 
+                                                         FontWeight="Bold"
+                                                         FontSize="13"
+                                                         Foreground="#4a90c8"/>
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding Unit, Mode=OneWay}" 
+                                                         Foreground="{StaticResource TextSecondary}"
+                                                         FontSize="11"/>
+                                                </TextBlock>
+                                            </DockPanel>
+                                            
+                                            <!-- Visual Stock Bar -->
+                                            <Border Grid.Row="1" 
+                                                   Background="#1a1a1a" 
+                                                   CornerRadius="4"
+                                                   Height="8">
+                                                <Border.Clip>
+                                                    <RectangleGeometry RadiusX="4" RadiusY="4">
+                                                        <RectangleGeometry.Rect>
+                                                            <MultiBinding Converter="{StaticResource StockToRectConverter}">
+                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                                <Binding Path="ActualHeight" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                            </MultiBinding>
+                                                        </RectangleGeometry.Rect>
+                                                    </RectangleGeometry>
+                                                </Border.Clip>
+                                                <Grid>
+                                                    <Border HorizontalAlignment="Left" CornerRadius="4">
+                                                        <Border.Width>
+                                                            <MultiBinding Converter="{StaticResource StockBarWidthConverter}">
+                                                                <Binding Path="CurrentStock"/>
+                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border, AncestorLevel=2}"/>
+                                                            </MultiBinding>
+                                                        </Border.Width>
+                                                        <Border.Background>
+                                                            <MultiBinding Converter="{StaticResource StockLevelColorConverter}">
+                                                                <Binding Path="CurrentStock"/>
+                                                            </MultiBinding>
+                                                        </Border.Background>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </DockPanel>
             </materialDesign:Card>
         </Grid>

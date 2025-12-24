@@ -39,6 +39,9 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
 
+        [ObservableProperty]
+        private ObservableCollection<Item> _allItems = new();
+
         public DashboardViewModel(
             ITransactionService transactionService, 
             IItemService itemService,
@@ -84,6 +87,12 @@ namespace FactoryManagement.ViewModels
                 LowStockItems.Clear();
                 foreach (var item in lowStockList)
                     LowStockItems.Add(item);
+
+                // Load all items for stock chart (top 10 by lowest stock)
+                var chartItems = allItems.OrderBy(i => i.CurrentStock).Take(10).ToList();
+                AllItems.Clear();
+                foreach (var item in chartItems)
+                    AllItems.Add(item);
 
                 // Load financial data if service is available
                 if (_financialTransactionService != null)

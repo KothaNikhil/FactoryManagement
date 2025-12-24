@@ -121,6 +121,9 @@
             <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
             <converters:EnumVisibilityConverter x:Key="EnumVisibilityConverter"/>
             <converters:WageTransactionTypeConverter x:Key="WageTransactionTypeConverter"/>
+            <converters:StockBarWidthConverter x:Key="StockBarWidthConverter"/>
+            <converters:StockLevelColorConverter x:Key="StockLevelColorConverter"/>
+            <converters:StockToRectConverter x:Key="StockToRectConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

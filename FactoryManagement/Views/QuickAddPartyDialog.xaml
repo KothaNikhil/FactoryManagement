@@ -23,7 +23,7 @@
                            FontSize="24" 
                            FontWeight="Bold" 
                            Foreground="White"/>
-                <Border Height="3" Background="#0275d8" CornerRadius="2" Margin="0,10,0,0" HorizontalAlignment="Left" Width="100"/>
+                <Border Height="3" Background="#4a90c8" CornerRadius="2" Margin="0,10,0,0" HorizontalAlignment="Left" Width="100"/>
             </StackPanel>
 
             <!-- Form -->
@@ -110,7 +110,7 @@
                 <Button Grid.Column="2"
                         Content="ADD PARTY"
                         Click="AddPartyButton_Click"
-                        Background="#0275d8"
+                        Background="#4a90c8"
                         Foreground="White"
                         Height="44"
                         FontSize="14"
