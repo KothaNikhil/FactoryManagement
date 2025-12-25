@@ -1,7 +1,7 @@
 # Test Coverage Checklist - Factory Management Application
 
 **Last Updated:** December 25, 2025  
-**Total Tests:** 139  
+**Total Tests:** 185  
 **Test Pass Rate:** 100%
 
 ---
@@ -297,14 +297,15 @@
 | Workflow | Status | Test File | Coverage |
 |----------|--------|-----------|----------|
 | **User Login → Dashboard** | ❌ | N/A | Not implemented |
-| **Complete Transaction Flow** | ❌ | N/A | Not implemented |
-| **Inventory Management Flow** | ❌ | N/A | Not implemented |
-| **Loan Management Flow** | ❌ | N/A | Not implemented |
-| **Wage Payment Flow** | ❌ | N/A | Not implemented |
+| **Complete Transaction Flow** | ✅ | E2E/TransactionWorkflowTests.cs | Covered: buy/sell/wastage, stock updates, filters |
+| **Inventory Management Flow** | ✅ | E2E/InventoryManagementWorkflowTests.cs | Covered: CRUD, search, stock adjustments, viewmodel |
+| **Party Management Flow** | ✅ | E2E/PartyManagementWorkflowTests.cs | Covered: CRUD, type filters, search, viewmodel |
+| **Loan Management Flow** | ✅ | E2E/FinancialManagementWorkflowTests.cs | Covered: create, payments, interest, status, history |
+| **Wage Payment Flow** | ✅ | E2E/WageManagementWorkflowTests.cs | Covered: daily/monthly, bonuses, advances, filters |
 | **Report Generation Flow** | ❌ | N/A | Not implemented |
-| **Backup/Restore Flow** | ⚠️ | Partial | Partially covered in service tests |
+| **Backup/Restore Flow** | ✅ | E2E/BackupRestoreWorkflowTests.cs | Covered: create/list/delete, integrity, scheduling |
 
-**E2E Tests Status:** 0% Coverage ❌
+**E2E Tests Status:** 75% Coverage ✅
 
 #### ❌ Missing E2E Test Scenarios:
 

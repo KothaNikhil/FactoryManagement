@@ -75,8 +75,9 @@ namespace FactoryManagement.Tests.Integration
             var updated = await _itemRepository.GetByIdAsync(item.ItemId);
 
             // Assert
-            Assert.Equal("Updated Name", updated.ItemName);
-            Assert.Equal(75, updated.CurrentStock);
+            Assert.NotNull(updated);
+            Assert.Equal("Updated Name", updated!.ItemName);
+            Assert.Equal(75, updated!.CurrentStock);
         }
 
         [Fact]
@@ -168,7 +169,8 @@ namespace FactoryManagement.Tests.Integration
             var final = await _itemRepository.GetByIdAsync(item.ItemId);
 
             // Assert
-            Assert.Equal(200, final.CurrentStock);
+            Assert.NotNull(final);
+            Assert.Equal(200, final!.CurrentStock);
         }
 
         [Fact]

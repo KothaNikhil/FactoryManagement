@@ -1,3 +1,12 @@
+## Backup Tests & OneDrive Note
+
+When running backup-related tests, file sync tools like OneDrive can momentarily lock new backup files under Documents, causing intermittent IO exceptions. The test suite uses a temp-directory backed `TestBackupService` to avoid this, but if you run backups manually:
+
+- Preferred: use a non-synced local folder for backups during testing.
+- If using Documents/OneDrive, add a short delay/retry after creation before accessing or deleting.
+- See FactoryManagement.Tests/BackupServiceTests.cs for the test-specific implementation that writes backups to `%TEMP%/FactoryManagementTests/<GUID>`.
+
+This keeps tests reliable and prevents flakiness due to external file locks.
 # Factory Management System
 
 A comprehensive WPF application for managing factory inventory and transactions for agricultural products.

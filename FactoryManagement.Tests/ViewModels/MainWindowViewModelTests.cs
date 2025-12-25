@@ -18,9 +18,9 @@ namespace FactoryManagement.Tests.ViewModels
 
         public MainWindowViewModelTests()
         {
-            _mockDashboardVM = new Mock<DashboardViewModel>(null!, null!, null, null);
+            _mockDashboardVM = new Mock<DashboardViewModel>(null!, null!, null!, null!);
             _mockTransactionEntryVM = new Mock<TransactionEntryViewModel>(null!, null!, null!, null!);
-            _mockReportsVM = new Mock<ReportsViewModel>(null!, null!, null!, null!, null, null);
+            _mockReportsVM = new Mock<ReportsViewModel>(null!, null!, null!, null!, null!, null!);
             _mockItemsVM = new Mock<ItemsManagementViewModel>(null!);
             _mockPartiesVM = new Mock<PartiesManagementViewModel>(null!);
             _mockBackupVM = new Mock<BackupViewModel>(null!);
