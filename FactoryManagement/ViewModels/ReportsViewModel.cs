@@ -19,6 +19,19 @@ namespace FactoryManagement.ViewModels
 
     public partial class ReportsViewModel : ViewModelBase
     {
+            public System.Collections.IEnumerable CurrentTransactions
+            {
+                get
+                {
+                    return SelectedReportType switch
+                    {
+                        ReportType.Inventory => Transactions,
+                        ReportType.Financial => FinancialTransactions,
+                        ReportType.Wages => WageTransactions,
+                        _ => Transactions
+                    };
+                }
+            }
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
@@ -106,6 +119,7 @@ namespace FactoryManagement.ViewModels
         partial void OnSelectedReportTypeChanged(ReportType value)
         {
             _ = LoadReportDataAsync();
+            OnPropertyChanged(nameof(CurrentTransactions));
         }
 
         [RelayCommand]

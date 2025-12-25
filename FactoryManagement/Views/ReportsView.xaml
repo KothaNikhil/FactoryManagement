@@ -56,7 +56,7 @@
                         
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Total Transactions" Foreground="{StaticResource Card.Info.Label}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding FilteredTransactions.Count, FallbackValue=0}" 
+                            <TextBlock Text="{Binding CurrentTransactions.Count, FallbackValue=0}" 
                                        Foreground="White" FontSize="20" FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
@@ -280,7 +280,7 @@
                     </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredTransactions}" Style="{StaticResource DataGrid.Standard}">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentTransactions}" Style="{StaticResource DataGrid.Standard}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
