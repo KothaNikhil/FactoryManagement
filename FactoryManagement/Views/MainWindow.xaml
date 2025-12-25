@@ -92,10 +92,10 @@
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
-                    <Border Background="{StaticResource PrimaryGradient}" 
-                            Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
-                        <materialDesign:PackIcon Kind="Factory" Width="24" Height="24" 
-                                               Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Border Background="Transparent"
+                            Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Source="pack://application:,,,/Images/factory-icon.ico"/>
                     </Border>
                     <TextBlock Text="Factory Management System" 
                                VerticalAlignment="Center" 
