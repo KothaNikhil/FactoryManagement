@@ -19,6 +19,14 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private Party? _selectedParty;
 
+        public int TotalParties => Parties.Count;
+        
+        public int ActiveParties => Parties.Count;
+        
+        public decimal OutstandingBalance => 0m; // Placeholder - implement when financial tracking is added
+        
+        public int RecentActivityCount => 0; // Placeholder - implement when activity tracking is added
+
         [ObservableProperty]
         private string _name = string.Empty;
 
@@ -68,6 +76,7 @@ namespace FactoryManagement.ViewModels
                     _allParties.Add(party);
                     Parties.Add(party);
                 }
+                UpdateSummaryProperties();
             }
             catch (Exception ex)
             {
@@ -202,6 +211,15 @@ namespace FactoryManagement.ViewModels
                 foreach (var party in filtered)
                     Parties.Add(party);
             }
+            UpdateSummaryProperties();
+        }
+
+        private void UpdateSummaryProperties()
+        {
+            OnPropertyChanged(nameof(TotalParties));
+            OnPropertyChanged(nameof(ActiveParties));
+            OnPropertyChanged(nameof(OutstandingBalance));
+            OnPropertyChanged(nameof(RecentActivityCount));
         }
 
         public async Task InitializeAsync()

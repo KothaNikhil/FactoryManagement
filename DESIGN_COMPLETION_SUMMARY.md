@@ -19,7 +19,7 @@ All screens have been updated with the new standardized dark theme design, extra
 - **Form Elements**: Text.Label for labels, Button.Primary for actions
 
 ### 3. Items Management View ✅
-- **Summary Cards**: 4 cards (Total Items, Total Value, Low Stock, Categories)
+- **Summary Cards**: 4 cards (Total Items, Total Stock, Low Stock, Categories)
 - **Colors**: Green, Blue, Orange, Red (following standard palette)
 - **Items Table**: DataGrid.Standard with search box
 - **Add Item Form**: FormCard with icon badge, Button.Success for save

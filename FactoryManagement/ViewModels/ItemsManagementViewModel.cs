@@ -19,6 +19,14 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private Item? _selectedItem;
 
+        public int TotalItems => Items.Count;
+        
+        public decimal TotalStockValue => Items.Sum(i => i.CurrentStock);
+        
+        public int LowStockCount => Items.Count(i => i.CurrentStock < 10);
+        
+        public int CategoryCount => Items.Select(i => i.Unit).Distinct().Count();
+
         [ObservableProperty]
         private string _itemName = string.Empty;
 
@@ -60,6 +68,7 @@ namespace FactoryManagement.ViewModels
                     _allItems.Add(item);
                     Items.Add(item);
                 }
+                UpdateSummaryProperties();
             }
             catch (Exception ex)
             {
@@ -201,6 +210,15 @@ namespace FactoryManagement.ViewModels
                 foreach (var item in filtered)
                     Items.Add(item);
             }
+            UpdateSummaryProperties();
+        }
+
+        private void UpdateSummaryProperties()
+        {
+            OnPropertyChanged(nameof(TotalItems));
+            OnPropertyChanged(nameof(TotalStockValue));
+            OnPropertyChanged(nameof(LowStockCount));
+            OnPropertyChanged(nameof(CategoryCount));
         }
 
         public async Task InitializeAsync()
