@@ -10,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Cyan" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="Themes/DarkTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Enable Smooth Animations -->
@@ -48,14 +49,19 @@
             <SolidColorBrush x:Key="PrimaryPurpleLight" Color="#9f7aea"/>
             <SolidColorBrush x:Key="PrimaryPurpleDark" Color="#553c9a"/>
             <SolidColorBrush x:Key="AccentCyan" Color="#00f2fe"/>
-            <SolidColorBrush x:Key="BackgroundDark" Color="#1a1a2e"/>
-            <SolidColorBrush x:Key="SurfaceDark" Color="#16213e"/>
-            <SolidColorBrush x:Key="SurfaceLight" Color="#0f3460"/>
-            <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFF"/>
-            <SolidColorBrush x:Key="TextSecondary" Color="#B0B0B0"/>
-            <SolidColorBrush x:Key="SuccessColor" Color="#38ef7d"/>
-            <SolidColorBrush x:Key="DangerColor" Color="#f45c43"/>
-            <SolidColorBrush x:Key="InfoColor" Color="#4facfe"/>
+            <SolidColorBrush x:Key="BackgroundDark" Color="#0f172a"/> <!-- default row background -->
+            <SolidColorBrush x:Key="SurfaceDark" Color="#1e293b"/> <!-- alternate row background -->
+            <SolidColorBrush x:Key="SurfaceLight" Color="#334155"/> <!-- hover background -->
+            <SolidColorBrush x:Key="HeaderBackground" Color="#374151"/>
+            <SolidColorBrush x:Key="HeaderText" Color="#f3f4f6"/>
+            <SolidColorBrush x:Key="RowText" Color="#cbd5e1"/>
+            <SolidColorBrush x:Key="MutedText" Color="#94a3b8"/>
+            <SolidColorBrush x:Key="TextSecondary" Color="#94a3b8"/> <!-- alias for MutedText -->
+            <SolidColorBrush x:Key="LinkText" Color="#60a5fa"/>
+            <SolidColorBrush x:Key="SuccessColor" Color="#10b981"/> <!-- emerald -->
+            <SolidColorBrush x:Key="DangerColor" Color="#ef4444"/> <!-- red -->
+            <SolidColorBrush x:Key="WarningColor" Color="#f59e0b"/> <!-- amber -->
+            <SolidColorBrush x:Key="InfoColor" Color="#60a5fa"/> <!-- soft blue -->
             
             <!-- Modern Card Style with Glass Morphism -->
             <Style x:Key="ModernCard" TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">
@@ -132,11 +138,11 @@
             <converters:WageBarHeightConverter x:Key="WageBarHeightConverter"/>
             <converters:WageBarHeightConverter2 x:Key="WageBarHeightConverter2"/>
             
-            <!-- Enhanced DataGrid Styles -->
+            <!-- Enhanced DataGrid Styles aligned with dark theme suggestions -->
             <Style x:Key="EnhancedDataGrid" TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="RowBackground" Value="#242b3e"/>
-                <Setter Property="AlternatingRowBackground" Value="#2a3550"/>
+                <Setter Property="RowBackground" Value="{StaticResource BackgroundDark}"/>
+                <Setter Property="AlternatingRowBackground" Value="{StaticResource SurfaceDark}"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="GridLinesVisibility" Value="None"/>
                 <Setter Property="HeadersVisibility" Value="Column"/>
@@ -146,24 +152,24 @@
             </Style>
             
             <Style x:Key="EnhancedDataGridColumnHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                <Setter Property="Background" Value="#1e2535"/>
-                <Setter Property="Foreground" Value="#E0E0E0"/>
-                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Background" Value="{StaticResource HeaderBackground}"/>
+                <Setter Property="Foreground" Value="{StaticResource HeaderText}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="FontSize" Value="13"/>
                 <Setter Property="Padding" Value="10,8"/>
-                <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                <Setter Property="BorderBrush" Value="#667eea"/>
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SurfaceLight}"/>
             </Style>
             
             <Style x:Key="EnhancedDataGridRow" TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                <Setter Property="Foreground" Value="#F0F0F0"/>
+                <Setter Property="Foreground" Value="{StaticResource RowText}"/>
                 <Setter Property="Height" Value="42"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#353e57"/>
+                        <Setter Property="Background" Value="{StaticResource SurfaceLight}"/>
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="#4a5568"/>
+                        <Setter Property="Background" Value="#2d3548"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -171,6 +177,7 @@
             <Style x:Key="EnhancedDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Padding" Value="10,0"/>
+                <Setter Property="Foreground" Value="{StaticResource RowText}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="DataGridCell">
@@ -183,6 +190,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!-- Converters for theme-aware bindings -->
+            <converters:AmountToBrushConverter x:Key="AmountToBrushConverter"/>
+            <converters:StockLevelPercentConverter x:Key="StockLevelPercentConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

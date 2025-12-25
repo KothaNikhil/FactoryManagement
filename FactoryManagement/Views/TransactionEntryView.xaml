@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         
         <!-- Transaction Form -->
-        <materialDesign:Card Grid.Column="0" Padding="32" Margin="0,0,12,0" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+        <materialDesign:Card Grid.Column="0" Padding="32" Margin="0,0,12,0" Style="{StaticResource Card.Glass}">
         <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel MaxWidth="600">
@@ -28,7 +28,7 @@
                     <TextBlock Text="{Binding FormTitle}" 
                              FontSize="22" 
                              FontWeight="SemiBold"
-                             Foreground="White"
+                             Foreground="{StaticResource Text.Primary}"
                              VerticalAlignment="Center"/>
                 </StackPanel>
 
@@ -38,8 +38,7 @@
                          Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding TransactionTypes}"
                         SelectedItem="{Binding SelectedTransactionTypeString}"
-                        
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    Style="{StaticResource ComboBox.Dark}"
                         Margin="0,0,0,20"/>
 
                 <!-- Item Selection -->
@@ -48,14 +47,13 @@
                          Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Items}"
                         SelectedItem="{Binding SelectedItem}"
-                        
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    Style="{StaticResource ComboBox.Dark}"
                         Margin="0,0,0,20">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
-                                <TextBlock Foreground="Gray">
+                                <TextBlock Foreground="{StaticResource Text.Secondary}">
                                     <Run Text="Stock: "/>
                                     <Run Text="{Binding CurrentStock, StringFormat=N2}"/>
                                     <Run Text=" "/>
@@ -75,11 +73,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox Grid.Column="0"
+                        <ComboBox Grid.Column="0"
                             ItemsSource="{Binding Parties}"
                             SelectedItem="{Binding SelectedParty}"
-                            
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                            Style="{StaticResource ComboBox.Dark}"
                             Margin="0,0,8,0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -94,8 +91,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Column="1"
-                          Style="{StaticResource MaterialDesignOutlinedButton}"
+                      <Button Grid.Column="1"
+                          Style="{StaticResource Button.Secondary}"
                           ToolTip="Quickly add a new party without leaving the transaction entry page"
                           Click="QuickAddPartyButton_Click"
                           Padding="8">
@@ -114,9 +111,8 @@
                         <TextBlock Text="Quantity *" 
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
-                        <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
-                               
-                               Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource TextBox.Dark}"
                                GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
 
@@ -124,9 +120,8 @@
                         <TextBlock Text="Price Per Unit *" 
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
-                        <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
-                               
-                               Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource TextBox.Dark}"
                                GotFocus="NumericTextBox_GotFocus"/>
                     </StackPanel>
                 </Grid>
@@ -135,8 +130,8 @@
                 <TextBlock Text="Total Amount" 
                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                          Margin="0,0,0,8"/>
-                <Border Background="#16213e" 
-                        BorderBrush="#2d3748"
+                <Border Background="{StaticResource Bg.Card}" 
+                    BorderBrush="{StaticResource Border.Default}"
                         BorderThickness="0,0,0,2"
                         CornerRadius="4"
                         Padding="16,12"
@@ -175,8 +170,7 @@
                                  Style="{StaticResource MaterialDesignBody2TextBlock}"
                                  Margin="0,0,0,8"/>
                         <DatePicker SelectedDate="{Binding TransactionDate}"
-                                  
-                                  Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                  Style="{StaticResource DatePicker.Dark}"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="8,0,0,0">
@@ -186,8 +180,7 @@
                         <ComboBox ItemsSource="{Binding Users}"
                                 SelectedItem="{Binding SelectedUser}"
                                 DisplayMemberPath="Username"
-                                
-                                Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                            Style="{StaticResource ComboBox.Dark}"/>
                     </StackPanel>
                 </Grid>
 
@@ -195,9 +188,8 @@
                 <TextBlock Text="Notes" 
                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                          Margin="0,0,0,8"/>
-                <TextBox Text="{Binding Notes}"
-                       
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                  <TextBox Text="{Binding Notes}"
+                      Style="{StaticResource TextBox.Dark}"
                        AcceptsReturn="True"
                        TextWrapping="Wrap"
                        MinLines="3"
@@ -212,24 +204,20 @@
 
                 <!-- Action Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-                    <Button Content="CLEAR"
-                          Style="{StaticResource MaterialDesignOutlinedButton}"
+                      <Button Content="CLEAR"
+                          Style="{StaticResource Button.Secondary}"
                           Command="{Binding ClearFormCommand}"
                           Margin="0,0,16,0"
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
                           ToolTip="Clear all fields and start a new transaction entry"/>
-                    <Button Content="{Binding SaveButtonText}"
+                      <Button Content="{Binding SaveButtonText}"
                           Command="{Binding SaveTransactionCommand}"
                           Height="44"
                           Padding="32,0"
                           FontWeight="SemiBold"
-                          Background="#3d8b5f"
-                          BorderThickness="0"
-                          Foreground="White"
-                          Cursor="Hand"
-                          Style="{StaticResource MaterialDesignRaisedButton}"
+                          Style="{StaticResource Button.Primary}"
                           ToolTip="Save this transaction. The total amount will be calculated automatically from quantity and price per unit"/>
                 </StackPanel>
             </StackPanel>
@@ -246,7 +234,7 @@
         </materialDesign:Card>
         
         <!-- Recent Transactions -->
-        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource Card.Glass}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20">
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
@@ -266,50 +254,30 @@
                 </StackPanel>
                 
                 <DataGrid ItemsSource="{Binding RecentTransactions}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
+                    Style="{StaticResource DataGrid.Dark}"
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingPanel.VirtualizationMode="Recycling"
                         EnableRowVirtualization="True"
                         EnableColumnVirtualization="True"
-                        Background="Transparent"
-                        RowBackground="#1e2538"
-                        AlternatingRowBackground="#1a2030"
-                        BorderThickness="0"
-                        GridLinesVisibility="None"
-                        HeadersVisibility="Column"
                         SelectionMode="Single"
                         SelectionUnit="FullRow"
                         MouseDoubleClick="RecentTransactions_MouseDoubleClick">
                     <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter Property="Background" Value="#16213e"/>
-                            <Setter Property="Foreground" Value="#C0C0C0"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="FontSize" Value="13"/>
-                            <Setter Property="Padding" Value="12,8"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                            <Setter Property="BorderBrush" Value="#4a5568"/>
-                        </Style>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Dark.Header}"/>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                            <Setter Property="Foreground" Value="#E8E8E8"/>
+                        <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGrid.Dark.Row}">
                             <Setter Property="Height" Value="52"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="#2d3548"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#252d45"/>
+                                    <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </DataGrid.RowStyle>
                     <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource DataGrid.Dark.Cell}">
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="Padding" Value="12,0"/>
                             <Setter Property="Template">
@@ -329,10 +297,10 @@
                         <DataGridTemplateColumn Header="" Width="70">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                    <Button Style="{StaticResource Button.Icon}"
                                             ToolTip="Edit Transaction"
                                             Width="32" Height="32"
-                                            Foreground="{StaticResource AccentCyan}"
+                                            Foreground="{StaticResource Accent.Primary}"
                                             Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
@@ -361,7 +329,7 @@
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Foreground" Value="{StaticResource AccentCyan}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource Accent.Primary}"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>

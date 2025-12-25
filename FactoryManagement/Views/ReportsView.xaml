@@ -6,408 +6,311 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!-- Filter Panel -->
-        <materialDesign:Card Grid.Row="0" Padding="20" Margin="0,0,0,20" Style="{StaticResource ModernCard}" Background="#2a2a2a">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                
-                <!-- All Filters in One Row -->
-                <Grid Grid.Row="0" Margin="0,0,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="150"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <!-- Report Type -->
-                    <ComboBox Grid.Column="0"
-                            ItemsSource="{Binding ReportTypes}"
-                            SelectedItem="{Binding SelectedReportType}"
-                            materialDesign:HintAssist.Hint="Report Type"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="13"/>
-                    
-                    <!-- Item Filter (Inventory only) -->
-                    <ComboBox Grid.Column="2"
-                            ItemsSource="{Binding Items}"
-                            SelectedItem="{Binding SelectedItem}"
-                            DisplayMemberPath="ItemName"
-                            materialDesign:HintAssist.Hint="Filter by Item"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="13"
-                            Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Inventory}"/>
+            <!-- Summary Cards -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- Party Filter (Financial) -->
-                    <ComboBox Grid.Column="2"
-                            ItemsSource="{Binding Parties}"
-                            SelectedItem="{Binding SelectedParty}"
-                            DisplayMemberPath="Name"
-                            materialDesign:HintAssist.Hint="Filter by Party"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="13"
-                            Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Financial}"/>
-                    
-                    <!-- Worker Filter (Wages only) -->
-                    <ComboBox Grid.Column="2"
-                            ItemsSource="{Binding Workers}"
-                            SelectedItem="{Binding SelectedWorker}"
-                            DisplayMemberPath="Name"
-                            materialDesign:HintAssist.Hint="Filter by Worker"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="13"
-                            Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Wages}"/>
-
-                    <!-- Party Filter for Inventory -->
-                    <ComboBox Grid.Column="4"
-                            ItemsSource="{Binding Parties}"
-                            SelectedItem="{Binding SelectedParty}"
-                            DisplayMemberPath="Name"
-                            materialDesign:HintAssist.Hint="Filter by Party"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="13"
-                            Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Inventory}"/>
-
-                    <!-- Start Date -->
-                    <DatePicker Grid.Column="6"
-                              SelectedDate="{Binding StartDate}"
-                              materialDesign:HintAssist.Hint="Start Date"
-                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                              FontSize="13"/>
-
-                    <!-- End Date -->
-                    <DatePicker Grid.Column="8"
-                              SelectedDate="{Binding EndDate}"
-                              materialDesign:HintAssist.Hint="End Date"
-                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                              FontSize="13"/>
-                </Grid>
-                
-                <!-- Action Buttons -->
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Button Content="APPLY FILTERS" 
-                              Command="{Binding FilterByItemCommand}"
-                              Height="40"
-                              Padding="20,0"
-                              FontSize="13"
-                              FontWeight="SemiBold"
-                              Background="#0275d8"
-                              BorderThickness="0"
-                              Foreground="White"
-                              Style="{StaticResource MaterialDesignRaisedButton}"
-                              Margin="0,0,12,0"/>
-                              
-                        <Button Content="SHOW ALL" 
-                              Command="{Binding LoadAllTransactionsCommand}"
-                              Height="40"
-                              Padding="20,0"
-                              FontSize="13"
-                              FontWeight="SemiBold"
-                              Style="{StaticResource MaterialDesignOutlinedButton}"
-                              Foreground="White"/>
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Command="{Binding ExportToExcelCommand}"
-                              Height="40"
-                              Padding="16,0"
-                              FontSize="13"
-                              FontWeight="Medium"
-                              Style="{StaticResource MaterialDesignOutlinedButton}"
-                              Foreground="White"
-                              Margin="0,0,12,0">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FileExcel" Width="18" Height="18" Margin="0,0,6,0"/>
-                                <TextBlock Text="Excel"/>
-                            </StackPanel>
-                        </Button>
+                <!-- Total Amount Card -->
+                <Border Grid.Column="0" Background="{StaticResource Card.Success}" Style="{StaticResource SummaryCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         
-                        <Button Command="{Binding ExportToCsvCommand}"
-                              Height="40"
-                              Padding="16,0"
-                              FontSize="13"
-                              FontWeight="Medium"
-                              Style="{StaticResource MaterialDesignOutlinedButton}"
-                              Foreground="White">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FileDelimited" Width="18" Height="18" Margin="0,0,6,0"/>
-                                <TextBlock Text="CSV"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Grid>
+                        <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Total Amount" Foreground="{StaticResource Card.Success.Label}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalAmount, StringFormat='₹{0:N2}'}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Total Transactions Card -->
+                <Border Grid.Column="2" Background="{StaticResource Card.Info}" Style="{StaticResource SummaryCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="📊" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Total Transactions" Foreground="{StaticResource Card.Info.Label}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding FilteredTransactions.Count, FallbackValue=0}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Average Transaction Card -->
+                <Border Grid.Column="4" Background="{StaticResource Card.Warning}" Style="{StaticResource SummaryCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="📈" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Avg Transaction" Foreground="{StaticResource Card.Warning.Label}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding AverageAmount, StringFormat='₹{0:N2}'}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Date Range Card -->
+                <Border Grid.Column="6" Background="{StaticResource Card.Danger}" Style="{StaticResource SummaryCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="📅" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Date Range" Foreground="{StaticResource Card.Danger.Label}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding DateRangeText, FallbackValue='All Time'}" 
+                                       Foreground="White" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Grid>
-        </materialDesign:Card>
 
-        <!-- Transactions DataGrid -->
-        <materialDesign:Card Grid.Row="1" Padding="20" Style="{StaticResource ModernCard}" Background="#2a2a2a">
-            <DockPanel>
-                <!-- Summary Header -->
-                <Grid DockPanel.Dock="Top" Margin="0,0,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <!-- Total Amount Card -->
-                    <Border Grid.Column="0"
-                            Background="#1a1a2e"
-                            BorderBrush="{StaticResource AccentCyan}"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="16,12">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Border Grid.Column="0"
-                                    Background="#4a90c8"
-                                    Width="40" Height="40" CornerRadius="8"
-                                    Margin="0,0,12,0">
-                                <materialDesign:PackIcon Kind="CurrencyInr" 
-                                                       Width="24" Height="24" 
-                                                       Foreground="White" 
-                                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Border>
-                            
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Total Amount" 
-                                         FontSize="12"
-                                         Foreground="{StaticResource TextSecondary}"
-                                         Margin="0,0,0,4"/>
-                                <TextBlock Text="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" 
-                                         FontSize="20"
-                                         FontWeight="Bold"
-                                         Foreground="White"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                    
-                    <!-- Total Transactions Card -->
-                    <Border Grid.Column="2"
-                            Background="#1a1a2e"
-                            BorderBrush="{StaticResource AccentCyan}"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="16,12">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Border Grid.Column="0"
-                                    Background="#3d8b5f"
-                                    Width="40" Height="40" CornerRadius="8"
-                                    Margin="0,0,12,0">
-                                <materialDesign:PackIcon Kind="Receipt" 
-                                                       Width="24" Height="24" 
-                                                       Foreground="White" 
-                                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Border>
-                            
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Total Transactions" 
-                                         FontSize="12"
-                                         Foreground="{StaticResource TextSecondary}"
-                                         Margin="0,0,0,4"/>
-                                <TextBlock Text="{Binding TransactionCount}" 
-                                         FontSize="20"
-                                         FontWeight="Bold"
-                                         Foreground="White"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+            <!-- Filter Panel -->
+            <Border Grid.Row="1" Style="{StaticResource FormCard}" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <StackPanel Style="{StaticResource SectionHeader}">
+                        <Border Background="{StaticResource Button.Info}" Style="{StaticResource IconBadge}">
+                            <TextBlock Text="🔍" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Filter Reports" FontSize="16" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
+                            <TextBlock Text="Select criteria to generate custom reports" FontSize="11" Foreground="{StaticResource Text.Secondary}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Filters -->
+                    <Grid Grid.Row="1" Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Report Type -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Report Type" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding ReportTypes}"
+                                    SelectedItem="{Binding SelectedReportType}"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </StackPanel>
+
+                        <!-- Item/Party/Worker Filter (dynamic based on report type) -->
+                        <StackPanel Grid.Column="2" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Inventory}">
+                            <TextBlock Text="Filter by Item" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding Items}"
+                                    SelectedItem="{Binding SelectedItem}"
+                                    DisplayMemberPath="ItemName"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Financial}">
+                            <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding Parties}"
+                                    SelectedItem="{Binding SelectedParty}"
+                                    DisplayMemberPath="Name"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Wages}">
+                            <TextBlock Text="Filter by Worker" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding Workers}"
+                                    SelectedItem="{Binding SelectedWorker}"
+                                    DisplayMemberPath="Name"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </StackPanel>
+
+                        <!-- Party Filter for Inventory -->
+                        <StackPanel Grid.Column="4" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Inventory}">
+                            <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding Parties}"
+                                    SelectedItem="{Binding SelectedParty}"
+                                    DisplayMemberPath="Name"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </StackPanel>
+
+                        <!-- Start Date -->
+                        <StackPanel Grid.Column="6">
+                            <TextBlock Text="Start Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <DatePicker SelectedDate="{Binding StartDate}"
+                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                        </StackPanel>
+
+                        <!-- End Date -->
+                        <StackPanel Grid.Column="8">
+                            <TextBlock Text="End Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <DatePicker SelectedDate="{Binding EndDate}"
+                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Action Buttons -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Button Content="APPLY FILTERS" 
+                                  Command="{Binding FilterByItemCommand}"
+                                  Style="{StaticResource Button.Primary}"
+                                  Margin="0,0,12,0"/>
+
+                            <Button Content="SHOW ALL" 
+                                  Command="{Binding LoadAllTransactionsCommand}"
+                                  Background="{StaticResource Card.Border}"
+                                  Foreground="{StaticResource Text.Primary}"
+                                  Height="38"
+                                  FontSize="13"
+                                  FontWeight="SemiBold"
+                                  BorderThickness="0"
+                                  Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="{StaticResource Card.Border}"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="0">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#555"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button Command="{Binding ExportToExcelCommand}"
+                                  Height="38"
+                                  Padding="16,0"
+                                  FontSize="13"
+                                  FontWeight="Medium"
+                                  Style="{StaticResource MaterialDesignOutlinedButton}"
+                                  Foreground="{StaticResource Text.Primary}"
+                                  Margin="0,0,12,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FileExcel" Width="18" Height="18" Margin="0,0,6,0"/>
+                                    <TextBlock Text="Excel"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Command="{Binding ExportToCsvCommand}"
+                                  Height="38"
+                                  Padding="16,0"
+                                  FontSize="13"
+                                  FontWeight="Medium"
+                                  Style="{StaticResource MaterialDesignOutlinedButton}"
+                                  Foreground="{StaticResource Text.Primary}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FileDelimited" Width="18" Height="18" Margin="0,0,6,0"/>
+                                    <TextBlock Text="CSV"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
+            </Border>
 
-                <!-- Inventory Transactions DataGrid -->
-                <DataGrid ItemsSource="{Binding Transactions}"
-                        Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Inventory}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingPanel.VirtualizationMode="Recycling"
-                        EnableRowVirtualization="True"
-                        Background="Transparent"
-                        RowBackground="#1a1a2e"
-                        AlternatingRowBackground="#16213e"
-                        BorderThickness="0"
-                        GridLinesVisibility="None"
-                        HeadersVisibility="Column"
-                        SelectionMode="Single">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="FontSize" Value="13"/>
-                            <Setter Property="Padding" Value="12,8"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                            <Setter Property="BorderBrush" Value="#302b63"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Height" Value="56"/>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding TransactionId}" Width="70"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="110"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="90"/>
-                        <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
-                        <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
-                        <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹ {0:N2}'}" Width="110"/>
-                        <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
-                        <DataGridTextColumn Header="User" Binding="{Binding User.Username}" Width="100"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+            <!-- Results Table -->
+            <Border Grid.Row="2" Style="{StaticResource FormCard}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Financial Transactions DataGrid -->
-                <DataGrid ItemsSource="{Binding FinancialTransactions}"
-                        Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Financial}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingPanel.VirtualizationMode="Recycling"
-                        Background="Transparent"
-                        RowBackground="#1a1a2e"
-                        AlternatingRowBackground="#16213e"
-                        BorderThickness="0"
-                        GridLinesVisibility="None"
-                        HeadersVisibility="Column"
-                        SelectionMode="Single">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="FontSize" Value="13"/>
-                            <Setter Property="Padding" Value="12,8"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                            <Setter Property="BorderBrush" Value="#302b63"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Height" Value="56"/>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding FinancialTransactionId}" Width="70"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="110"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="140"/>
-                        <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹ {0:N2}'}" Width="120"/>
-                        <DataGridTextColumn Header="Interest %" Binding="{Binding InterestRate, StringFormat=N2}" Width="100"/>
-                        <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹ {0:N2}'}" Width="120"/>
-                        <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat=dd/MM/yyyy}" Width="110"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <!-- Header -->
+                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
+                        <TextBlock Text="📋 Report Results" FontSize="18" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
+                    </Border>
 
-                <!-- Wage Transactions DataGrid -->
-                <DataGrid ItemsSource="{Binding WageTransactions}"
-                        Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Wages}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingPanel.VirtualizationMode="Recycling"
-                        Background="Transparent"
-                        RowBackground="#1a1a2e"
-                        AlternatingRowBackground="#16213e"
-                        BorderThickness="0"
-                        GridLinesVisibility="None"
-                        HeadersVisibility="Column"
-                        SelectionMode="Single">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="FontSize" Value="13"/>
-                            <Setter Property="Padding" Value="12,8"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                            <Setter Property="BorderBrush" Value="#302b63"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Height" Value="56"/>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding WageTransactionId}" Width="70"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="110"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="140"/>
-                        <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
-                        <DataGridTextColumn Header="Days" Binding="{Binding DaysWorked, StringFormat=N1}" Width="70"/>
-                        <DataGridTextColumn Header="Hours" Binding="{Binding HoursWorked, StringFormat=N1}" Width="70"/>
-                        <DataGridTextColumn Header="Rate" Binding="{Binding Rate, StringFormat='₹ {0:N2}'}" Width="100"/>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹ {0:N2}'}" Width="110"/>
-                        <DataGridTextColumn Header="Overtime" Binding="{Binding OvertimeAmount, StringFormat='₹ {0:N2}'}" Width="100"/>
-                        <DataGridTextColumn Header="Adv. Adj" Binding="{Binding AdvanceAdjusted, StringFormat='₹ {0:N2}'}" Width="100"/>
-                        <DataGridTextColumn Header="Deductions" Binding="{Binding Deductions, StringFormat='₹ {0:N2}'}" Width="110"/>
-                        <DataGridTextColumn Header="Net Amount" Binding="{Binding NetAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </materialDesign:Card>
+                    <!-- DataGrid -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredTransactions}" Style="{StaticResource DataGrid.Standard}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="100"/>
+                            <DataGridTextColumn Header="Item/Category" Binding="{Binding Item.ItemName}" Width="*"/>
+                            <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
+                            <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
+                            <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹{0:N2}'}" Width="130">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
 
-        <!-- Status Bar -->
-        <Border Grid.Row="2" 
-              Background="{StaticResource SurfaceDark}"
-              CornerRadius="8"
-              Padding="20,12"
-              Margin="0,20,0,0">
-            <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon Kind="Information" Width="18" Height="18" 
-                                       Foreground="{StaticResource TextSecondary}"
-                                       VerticalAlignment="Center"
-                                       Margin="0,0,8,0"/>
-                <TextBlock Text="{Binding ErrorMessage}"
-                         Foreground="{StaticResource TextSecondary}"
-                         VerticalAlignment="Center"
-                         TextWrapping="Wrap"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Loading Overlay -->
-        <Grid Grid.RowSpan="3" Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                       Value="0"
-                       IsIndeterminate="True"
-                       Width="50" Height="50"/>
+            <!-- Loading Overlay -->
+            <Border Grid.RowSpan="3" Background="#CC000000" 
+                    Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="250" Height="6" Foreground="{StaticResource Card.Info}"/>
+                    <TextBlock Text="Loading..." Foreground="White" FontSize="18" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

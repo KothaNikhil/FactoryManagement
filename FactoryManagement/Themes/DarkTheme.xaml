@@ -1,0 +1,244 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+  
+  <!-- EXTRACTED FROM FINANCIAL TRANSACTIONS & WAGES MANAGEMENT SCREENS -->
+  
+  <!-- Summary Card Colors (Top Row Cards) -->
+  <SolidColorBrush x:Key="Card.Success" Color="#3d8b5f"/> <!-- Green - Positive/Income/Wages Paid -->
+  <SolidColorBrush x:Key="Card.Danger" Color="#b85450"/> <!-- Red - Negative/Outstanding/Issues -->
+  <SolidColorBrush x:Key="Card.Info" Color="#4a90c8"/> <!-- Blue - Neutral/Info -->
+  <SolidColorBrush x:Key="Card.Warning" Color="#d9a05b"/> <!-- Orange - Warnings/Advances -->
+  
+  <!-- Card Label Colors (lighter tints for summary card labels) -->
+  <SolidColorBrush x:Key="Card.Success.Label" Color="#90EE90"/>
+  <SolidColorBrush x:Key="Card.Danger.Label" Color="#FFB6C1"/>
+  <SolidColorBrush x:Key="Card.Info.Label" Color="#ADD8E6"/>
+  <SolidColorBrush x:Key="Card.Warning.Label" Color="#FFEAA7"/>
+  
+  <!-- Main Card/Panel Backgrounds -->
+  <SolidColorBrush x:Key="Card.Background" Color="#2a2a2a"/> <!-- Main card background -->
+  <SolidColorBrush x:Key="Card.Header" Color="#1a1a1a"/> <!-- Card header/section background -->
+  <SolidColorBrush x:Key="Card.Border" Color="#444"/> <!-- Card borders -->
+  <SolidColorBrush x:Key="Bg.Card" Color="#1a1a1a"/> <!-- Alias for Card.Header -->
+  <SolidColorBrush x:Key="Border.Default" Color="#444"/> <!-- Alias for Card.Border -->
+  
+  <!-- DataGrid Colors -->
+  <SolidColorBrush x:Key="Grid.Row.Default" Color="#2a2a2a"/> <!-- Default row background -->
+  <SolidColorBrush x:Key="Grid.Row.Alternate" Color="#333"/> <!-- Alternate row background -->
+  <SolidColorBrush x:Key="Grid.Header" Color="#1a1a1a"/> <!-- Header background -->
+  <SolidColorBrush x:Key="Grid.HeaderText" Color="#BBB"/> <!-- Header text -->
+  <SolidColorBrush x:Key="Grid.Border" Color="#444"/> <!-- Grid borders -->
+  
+  <!-- Text Colors -->
+  <SolidColorBrush x:Key="Text.Primary" Color="White"/> <!-- Primary text -->
+  <SolidColorBrush x:Key="Text.Secondary" Color="#888"/> <!-- Secondary/muted text -->
+  <SolidColorBrush x:Key="Text.Label" Color="#AAA"/> <!-- Form labels -->
+  <SolidColorBrush x:Key="Text.Amount.Positive" Color="#3d8b5f"/> <!-- Positive amounts/success -->
+  <SolidColorBrush x:Key="Text.Amount.Negative" Color="#FF6B6B"/> <!-- Negative amounts/danger -->
+  
+  <!-- Selection Colors -->
+  <SolidColorBrush x:Key="Selection.Background" Color="#4a90c8"/> <!-- Selection background -->
+  <SolidColorBrush x:Key="Selection.Foreground" Color="White"/> <!-- Selection text -->
+  
+  <!-- Accent Colors -->
+  <SolidColorBrush x:Key="Accent.Primary" Color="#00f2fe"/> <!-- Primary accent color -->
+  
+  <!-- Button Colors -->
+  <SolidColorBrush x:Key="Button.Create" Color="#0275d8"/> <!-- Create/Primary actions -->
+  <SolidColorBrush x:Key="Button.Create.Hover" Color="#025aa5"/>
+  <SolidColorBrush x:Key="Button.Save" Color="#1e7e34"/> <!-- Save/Success actions -->
+  <SolidColorBrush x:Key="Button.Save.Hover" Color="#176428"/>
+  <SolidColorBrush x:Key="Button.Info" Color="#4a90c8"/> <!-- Info buttons -->
+  <SolidColorBrush x:Key="Button.Warning" Color="#d9a05b"/> <!-- Warning buttons -->
+  
+  <!-- Input/Form Colors -->
+  <SolidColorBrush x:Key="Input.Background" Color="Transparent"/>
+  <SolidColorBrush x:Key="Input.Border" Color="#444"/>
+  <SolidColorBrush x:Key="Input.InfoBox" Color="#1a1a1a"/> <!-- Info boxes inside forms -->
+  
+  <!-- Icon Colors -->
+  <SolidColorBrush x:Key="Icon.Primary" Color="#4FC3F7"/> <!-- Primary icon color -->
+  <SolidColorBrush x:Key="Icon.Success" Color="#1e7e34"/> <!-- Success icon -->
+  
+  <!-- SUMMARY CARD STYLE (Top Row Cards) -->
+  <Style x:Key="SummaryCard" TargetType="Border">
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Padding" Value="16"/>
+    <Setter Property="Effect">
+      <Setter.Value>
+        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  
+  <!-- FORM CARD STYLE (Create/Record Forms) -->
+  <Style x:Key="FormCard" TargetType="Border">
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Background" Value="{StaticResource Card.Background}"/>
+    <Setter Property="Padding" Value="24"/>
+  </Style>
+  
+  <!-- CARD.GLASS STYLE (MaterialDesign Card with glass effect) -->
+  <Style x:Key="Card.Glass" TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+    <Setter Property="UniformCornerRadius" Value="12"/>
+    <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
+    <Setter Property="Background" Value="{StaticResource Card.Background}"/>
+  </Style>
+  
+  <!-- SECTION HEADER STYLE -->
+  <Style x:Key="SectionHeader" TargetType="StackPanel">
+    <Setter Property="Orientation" Value="Horizontal"/>
+    <Setter Property="Margin" Value="0,0,0,20"/>
+  </Style>
+  
+  <!-- SECTION HEADER BORDER STYLE -->
+  <Style x:Key="SectionHeader.Border" TargetType="Border">
+    <Setter Property="Margin" Value="0,0,0,20"/>
+  </Style>
+  
+  <!-- ICON BADGE STYLE (Colored circle with icon) -->
+  <Style x:Key="IconBadge" TargetType="Border">
+    <Setter Property="Width" Value="36"/>
+    <Setter Property="Height" Value="36"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Margin" Value="0,0,12,0"/>
+  </Style>
+  
+  <!-- BUTTONS -->
+  <Style x:Key="Button.Primary" TargetType="Button">
+    <Setter Property="Background" Value="{StaticResource Button.Create}"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="Height" Value="38"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border Background="{TemplateBinding Background}" 
+                  CornerRadius="6" 
+                  BorderThickness="0">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{StaticResource Button.Create.Hover}"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  
+  <Style x:Key="Button.Success" TargetType="Button">
+    <Setter Property="Background" Value="{StaticResource Button.Save}"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="Height" Value="38"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border Background="{TemplateBinding Background}" 
+                  CornerRadius="6" 
+                  BorderThickness="0">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{StaticResource Button.Save.Hover}"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  
+  <Style x:Key="Button.Secondary" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+    <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="Height" Value="38"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  
+  <!-- COMBOBOX STYLES -->
+  <Style x:Key="ComboBox.Dark" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+  </Style>
+  
+  <!-- TEXTBOX STYLES -->
+  <Style x:Key="TextBox.Dark" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+  </Style>
+  
+  <!-- DATEPICKER STYLES -->
+  <Style x:Key="DatePicker.Dark" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+  </Style>
+  
+  <!-- DATAGRID STYLES -->
+  <Style x:Key="DataGrid.Standard" TargetType="DataGrid">
+    <Setter Property="AutoGenerateColumns" Value="False"/>
+    <Setter Property="IsReadOnly" Value="True"/>
+    <Setter Property="SelectionMode" Value="Single"/>
+    <Setter Property="CanUserAddRows" Value="False"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="RowBackground" Value="{StaticResource Grid.Row.Default}"/>
+    <Setter Property="AlternatingRowBackground" Value="{StaticResource Grid.Row.Alternate}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="GridLinesVisibility" Value="None"/>
+    <Setter Property="HeadersVisibility" Value="Column"/>
+    <Setter Property="FontSize" Value="13"/>
+  </Style>
+  
+  <Style x:Key="DataGrid.Dark" TargetType="DataGrid" BasedOn="{StaticResource DataGrid.Standard}"/>
+  
+  <Style x:Key="DataGrid.Header.Standard" TargetType="DataGridColumnHeader">
+    <Setter Property="Background" Value="{StaticResource Grid.Header}"/>
+    <Setter Property="Foreground" Value="{StaticResource Grid.HeaderText}"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="Padding" Value="10"/>
+    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Grid.Border}"/>
+  </Style>
+  
+  <Style x:Key="DataGrid.Dark.Header" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+  
+  <Style x:Key="DataGrid.Dark.Row" TargetType="DataGridRow">
+    <Setter Property="Background" Value="{StaticResource Grid.Row.Default}"/>
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+  </Style>
+  
+  <Style x:Key="DataGrid.Dark.Cell" TargetType="DataGridCell">
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+  </Style>
+  
+  <!-- BUTTON ICON STYLE -->
+  <Style x:Key="Button.Icon" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+  
+  <!-- INFO BOX STYLE (Inside forms) -->
+  <Style x:Key="InfoBox" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Input.InfoBox}"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Padding" Value="14"/>
+  </Style>
+
+</ResourceDictionary>
