@@ -239,39 +239,10 @@
                         <!-- Row 3: Create Loan Button -->
                         <Button Grid.Row="3" Content="Create Loan" 
                                 Command="{Binding CreateLoanCommand}"
-                                Background="#4a90c8" 
-                                Foreground="White" 
-                                Height="38" 
+                                Style="{StaticResource Button.Primary}"
                                 MinWidth="120"
-                                Padding="0,0,0,0"
-                                FontSize="13"
-                                FontWeight="SemiBold"
-                                BorderThickness="0"
                                 HorizontalAlignment="Right"
-                                Cursor="Hand"
-                                ToolTip="Create a new loan with the specified party, amount, and interest rate">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="#0275d8"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                                        CornerRadius="6" 
-                                                        BorderThickness="0">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#025aa5"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                ToolTip="Create a new loan with the specified party, amount, and interest rate"/>
                     </Grid>
                 </Border>
 

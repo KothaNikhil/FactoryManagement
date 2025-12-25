@@ -24,12 +24,7 @@
                             Margin="0,0,12,0"
                             Height="44"
                             Padding="20,0"
-                            FontWeight="SemiBold"
-                            Background="#4a90c8"
-                            BorderThickness="0"
-                            Foreground="White"
-                            Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource Button.Primary}"
                             ToolTip="Create a new backup of the database. Backup files are timestamped and saved to the Backups folder">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="BackupRestore" Width="20" Height="20" VerticalAlignment="Center"/>
@@ -41,12 +36,7 @@
                             Margin="0,0,12,0"
                             Height="44"
                             Padding="20,0"
-                            FontWeight="SemiBold"
-                            Background="#3d8b5f"
-                            BorderThickness="0"
-                            Foreground="White"
-                            Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource Button.Success}"
                             ToolTip="Restore the database from the selected backup file. WARNING: This will replace all current data with the backup data">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="DatabaseImport" Width="20" Height="20" VerticalAlignment="Center"/>
@@ -58,12 +48,7 @@
                             Margin="0,0,12,0"
                             Height="44"
                             Padding="20,0"
-                            FontWeight="SemiBold"
-                            Background="#b85450"
-                            BorderThickness="0"
-                            Foreground="White"
-                            Cursor="Hand"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource Button.Danger}"
                             ToolTip="Permanently delete the selected backup file. This action cannot be undone">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Delete" Width="20" Height="20" VerticalAlignment="Center"/>

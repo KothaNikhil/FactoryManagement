@@ -115,13 +115,15 @@
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="16,0"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
           <Border Background="{TemplateBinding Background}" 
                   CornerRadius="6" 
-                  BorderThickness="0">
+                  BorderThickness="0"
+                  Padding="{TemplateBinding Padding}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
         </ControlTemplate>
@@ -141,13 +143,15 @@
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="16,0"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
           <Border Background="{TemplateBinding Background}" 
                   CornerRadius="6" 
-                  BorderThickness="0">
+                  BorderThickness="0"
+                  Padding="{TemplateBinding Padding}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
         </ControlTemplate>
@@ -166,6 +170,34 @@
     <Setter Property="Height" Value="38"/>
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  
+  <Style x:Key="Button.Danger" TargetType="Button">
+    <Setter Property="Background" Value="{StaticResource Card.Danger}"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="Height" Value="38"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="16,0"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border Background="{TemplateBinding Background}" 
+                  CornerRadius="6" 
+                  BorderThickness="0"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="#9a3a37"/>
+      </Trigger>
+    </Style.Triggers>
   </Style>
   
   <!-- COMBOBOX STYLES -->

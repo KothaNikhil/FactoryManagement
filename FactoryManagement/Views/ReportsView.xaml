@@ -205,43 +205,13 @@
 
                             <Button Content="SHOW ALL" 
                                   Command="{Binding LoadAllTransactionsCommand}"
-                                  Background="{StaticResource Card.Border}"
-                                  Foreground="{StaticResource Text.Primary}"
-                                  Height="38"
-                                  FontSize="13"
-                                  FontWeight="SemiBold"
-                                  BorderThickness="0"
-                                  Cursor="Hand">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="{StaticResource Card.Border}"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="0">
-                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#555"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+                                  Style="{StaticResource Button.Secondary}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <Button Command="{Binding ExportToExcelCommand}"
-                                  Height="38"
+                                  Style="{StaticResource Button.Secondary}"
                                   Padding="16,0"
-                                  FontSize="13"
-                                  FontWeight="Medium"
-                                  Style="{StaticResource MaterialDesignOutlinedButton}"
-                                  Foreground="{StaticResource Text.Primary}"
                                   Margin="0,0,12,0">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileExcel" Width="18" Height="18" Margin="0,0,6,0"/>
@@ -250,12 +220,8 @@
                             </Button>
 
                             <Button Command="{Binding ExportToCsvCommand}"
-                                  Height="38"
-                                  Padding="16,0"
-                                  FontSize="13"
-                                  FontWeight="Medium"
-                                  Style="{StaticResource MaterialDesignOutlinedButton}"
-                                  Foreground="{StaticResource Text.Primary}">
+                                  Style="{StaticResource Button.Secondary}"
+                                  Padding="16,0">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileDelimited" Width="18" Height="18" Margin="0,0,6,0"/>
                                     <TextBlock Text="CSV"/>

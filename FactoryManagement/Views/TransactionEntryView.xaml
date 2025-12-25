@@ -205,19 +205,17 @@
                 <!-- Action Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
                       <Button Content="CLEAR"
-                          Style="{StaticResource Button.Secondary}"
                           Command="{Binding ClearFormCommand}"
+                          Style="{StaticResource Button.Secondary}"
                           Margin="0,0,16,0"
                           Height="44"
                           Padding="32,0"
-                          FontWeight="SemiBold"
                           ToolTip="Clear all fields and start a new transaction entry"/>
                       <Button Content="{Binding SaveButtonText}"
                           Command="{Binding SaveTransactionCommand}"
+                          Style="{StaticResource Button.Primary}"
                           Height="44"
                           Padding="32,0"
-                          FontWeight="SemiBold"
-                          Style="{StaticResource Button.Primary}"
                           ToolTip="Save this transaction. The total amount will be calculated automatically from quantity and price per unit"/>
                 </StackPanel>
             </StackPanel>
