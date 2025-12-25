@@ -3,7 +3,7 @@
 
 param(
     [string]$Configuration = "Release",
-    [string]$Version = "1.0.0.0",
+    [string]$Version = $null,
     [switch]$Clean,
     [switch]$Sign,
     [string]$CertificatePath = "",
@@ -11,6 +11,29 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+# Version auto-increment logic
+$VersionFile = Join-Path $PSScriptRoot 'Version.txt'
+if (-not $Version) {
+    if (Test-Path $VersionFile) {
+        $CurrentVersion = (Get-Content $VersionFile -Raw).Trim() | Select-Object -First 1
+        if ($CurrentVersion -match '^(\d+)\.(\d+)\.(\d+)\.(\d+)$') {
+            $Major = [int]$Matches[1]
+            $Minor = [int]$Matches[2]
+            $Build = [int]$Matches[3]
+            $Revision = [int]$Matches[4]
+            $Revision++
+            $Version = "$Major.$Minor.$Build.$Revision"
+        } else {
+            Write-Host "Invalid version format in Version.txt. Using 1.0.0.0" -ForegroundColor Yellow
+            $Version = "1.0.0.0"
+        }
+    } else {
+        $Version = "1.0.0.0"
+    }
+    # Persist the incremented version
+    Set-Content -Path $VersionFile -Value $Version
+}
 
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host "  Factory Management Installer Builder" -ForegroundColor Cyan
