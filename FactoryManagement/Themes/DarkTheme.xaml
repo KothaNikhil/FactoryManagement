@@ -202,6 +202,21 @@
     <Setter Property="GridLinesVisibility" Value="None"/>
     <Setter Property="HeadersVisibility" Value="Column"/>
     <Setter Property="FontSize" Value="13"/>
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="CellStyle">
+      <Setter.Value>
+        <Style TargetType="DataGridCell">
+          <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+        </Style>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="RowStyle">
+      <Setter.Value>
+        <Style TargetType="DataGridRow">
+          <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+        </Style>
+      </Setter.Value>
+    </Setter>
   </Style>
   
   <Style x:Key="DataGrid.Dark" TargetType="DataGrid" BasedOn="{StaticResource DataGrid.Standard}"/>
@@ -222,7 +237,6 @@
     <Setter Property="Background" Value="{StaticResource Grid.Row.Default}"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
   </Style>
-  
   <Style x:Key="DataGrid.Dark.Cell" TargetType="DataGridCell">
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
