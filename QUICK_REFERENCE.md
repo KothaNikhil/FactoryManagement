@@ -44,10 +44,10 @@ Reports → Filter by Item → Select Item → Apply
 Reports → Set Date Range → Filter by Date → Export to Excel
 
 ### Add New Item
-Items Managemet → NEW → Enter Details → Save
+Items Management → NEW → Enter Details → Save
 
 ### Add New Party
-Parties Managemet → NEW → Enter Details → Save
+Parties Management → NEW → Enter Details → Save
 
 ## ⚡ Quick Tips
 
@@ -86,8 +86,8 @@ Parties Managemet → NEW → Enter Details → Save
 | 📊 | Dashboard |
 | 🛒 | Transaction Entry |
 | 📈 | Reports |
-| 📦 | Items Managemet |
-| 👥 | Parties Managemet |
+| 📦 | Items Management |
+| 👥 | Parties Management |
 
 ## ⌨️ Keyboard Shortcuts
 

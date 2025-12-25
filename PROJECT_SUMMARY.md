@@ -362,8 +362,8 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - [ ] Can record Sell transaction (stock decreases)
 - [ ] Can record Wastage
 - [ ] Validation prevents invalid data
-- [ ] Search works in Items Managemet
-- [ ] Search works in Parties Managemet
+- [ ] Search works in Items Management
+- [ ] Search works in Parties Management
 - [ ] Reports filter by item
 - [ ] Reports filter by party
 - [ ] Reports filter by date range
