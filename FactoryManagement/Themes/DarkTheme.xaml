@@ -88,15 +88,44 @@
     <Setter Property="Background" Value="{StaticResource Card.Background}"/>
   </Style>
   
-  <!-- SECTION HEADER STYLE -->
+  <!-- SECTION HEADER STYLES -->
+  <!-- Full section header with icon and text (horizontal layout) -->
   <Style x:Key="SectionHeader" TargetType="StackPanel">
     <Setter Property="Orientation" Value="Horizontal"/>
     <Setter Property="Margin" Value="0,0,0,20"/>
   </Style>
   
-  <!-- SECTION HEADER BORDER STYLE -->
+  <!-- Section header border wrapper -->
   <Style x:Key="SectionHeader.Border" TargetType="Border">
     <Setter Property="Margin" Value="0,0,0,20"/>
+  </Style>
+  
+  <!-- ENHANCED SECTION HEADER WITH BACKGROUND -->
+  <!-- Use this for prominent section headers with colored background -->
+  <Style x:Key="SectionHeader.Prominent" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Card.Header}"/>
+    <Setter Property="Padding" Value="15"/>
+    <Setter Property="CornerRadius" Value="8,8,0,0"/>
+    <Setter Property="Margin" Value="-24,-24,-24,20"/>
+  </Style>
+  
+  <!-- SECTION HEADER CONTENT (Title + Subtitle) -->
+  <Style x:Key="SectionHeader.Content" TargetType="StackPanel">
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  
+  <!-- SECTION HEADER TITLE -->
+  <Style x:Key="SectionHeader.Title" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="18"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+  </Style>
+  
+  <!-- SECTION HEADER SUBTITLE -->
+  <Style x:Key="SectionHeader.Subtitle" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
+    <Setter Property="Margin" Value="0,2,0,0"/>
   </Style>
   
   <!-- ICON BADGE STYLE (Colored circle with icon) -->
@@ -105,6 +134,14 @@
     <Setter Property="Height" Value="36"/>
     <Setter Property="CornerRadius" Value="8"/>
     <Setter Property="Margin" Value="0,0,12,0"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  
+  <!-- SECTION CONTENT CONTAINER -->
+  <!-- Use this as the main container for section content below headers -->
+  <Style x:Key="SectionContent" TargetType="Border">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Padding" Value="0"/>
   </Style>
   
   <!-- BUTTONS -->

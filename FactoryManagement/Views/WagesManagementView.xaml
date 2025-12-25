@@ -138,8 +138,16 @@
                         <!-- Form Content -->
                         <StackPanel Grid.Row="0">
                             <!-- Section Header -->
-                            <TextBlock Text="💸 Record Payment" 
-                                       FontSize="16" FontWeight="Bold" Foreground="#1e7e34" Margin="0,0,0,12"/>
+                            <Border Style="{StaticResource SectionHeader.Prominent}">
+                                <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="💸" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="Record Payment" Style="{StaticResource SectionHeader.Title}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            </Border>
 
                             <!-- Worker Selection -->
                             <TextBlock Text="Select Worker *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
@@ -216,21 +224,28 @@
                         </Grid.RowDefinitions>
 
                         <!-- Section Header and Search Box in same row -->
-                        <Grid Grid.Row="0" Margin="0,0,0,15">
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                            <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             
-                            <TextBlock Grid.Column="0" Text="👷 Manage Workers" 
-                                       FontSize="18" FontWeight="Bold" Foreground="#4FC3F7" 
-                                       VerticalAlignment="Center" Margin="0,0,15,0"/>
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0,0,15,0">
+                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="👷" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="Manage Workers" Style="{StaticResource SectionHeader.Title}"/>
+                                </StackPanel>
+                            </StackPanel>
                             
                             <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="🔍 Search workers..."
                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                      VerticalAlignment="Center"/>
-                        </Grid>
+                            </Grid>
+                        </Border>
 
                         <!-- Workers List -->
                         <DataGrid Grid.Row="1" 
@@ -292,8 +307,16 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="📊 Recent Payment History" 
-                               FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-20,-20,-20,15" CornerRadius="8,8,0,0">
+                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                            <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
+                                <TextBlock Text="📊" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="Recent Payment History" Style="{StaticResource SectionHeader.Title}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
 
                     <DataGrid Grid.Row="1"
                               ItemsSource="{Binding Transactions}"

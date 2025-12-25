@@ -108,18 +108,16 @@
             <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
                 <DockPanel>
                     <!-- Header -->
-                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Border}">
-                        <StackPanel Orientation="Horizontal">
+                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">
+                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                             <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
                                 <materialDesign:PackIcon Kind="PackageVariant" Width="20" Height="20" 
                                                        Foreground="White" 
                                                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="All Items" 
-                                     FontSize="18" 
-                                     FontWeight="SemiBold"
-                                     Foreground="{StaticResource Text.Primary}"
-                                     VerticalAlignment="Center"/>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="All Items" Style="{StaticResource SectionHeader.Title}"/>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
 
@@ -186,43 +184,47 @@
 
             <!-- Item Form -->
             <Border Grid.Column="1" Style="{StaticResource FormCard}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <!-- Header -->
-                        <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Border}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
-                                        <materialDesign:PackIcon Kind="Package" Width="20" Height="20" 
-                                                               Foreground="White" 
-                                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Header -->
+                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
+                                    <materialDesign:PackIcon Kind="Package" Width="20" Height="20" 
+                                                           Foreground="White" 
+                                                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="{Binding IsEditMode, Converter={StaticResource EditModeToTextConverter}}" 
-                                             FontSize="18" 
-                                             FontWeight="SemiBold"
-                                             Foreground="{StaticResource Text.Primary}"
-                                             VerticalAlignment="Center"/>
+                                             Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
-                                
-                                <Button Grid.Column="1"
-                                      Content="+ New"
-                                      Command="{Binding NewItemCommand}"
-                                      Style="{StaticResource MaterialDesignFlatButton}"
-                                      Foreground="{StaticResource AccentCyan}"
-                                      Height="28"
-                                      Padding="12,0"
-                                      FontSize="12"
-                                      FontWeight="SemiBold"
-                                      ToolTip="Clear the form to add a new item"/>
-                            </Grid>
-                        </Border>
-
-                        <StackPanel Margin="0,20,0,0">
+                            </StackPanel>
+                            
+                            <Button Grid.Column="1"
+                                  Content="+ New"
+                                  Command="{Binding NewItemCommand}"
+                                  Style="{StaticResource MaterialDesignFlatButton}"
+                                  Foreground="{StaticResource AccentCyan}"
+                                  Height="28"
+                                  Padding="12,0"
+                                  FontSize="12"
+                                  FontWeight="SemiBold"
+                                  ToolTip="Clear the form to add a new item"/>
+                        </Grid>
+                    </Border>
+                    
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
                             <!-- Item Name -->
                             <TextBlock Text="Item Name *" 
                                      Foreground="{StaticResource Text.Label}"
@@ -282,9 +284,9 @@
                                   FontSize="13"
                                   FontWeight="SemiBold"
                                   ToolTip="Save this item to the inventory database. All fields marked with * are required"/>
-                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
+                </Grid>
             </Border>
 
             <!-- Loading Overlay -->

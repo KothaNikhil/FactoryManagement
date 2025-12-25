@@ -116,14 +116,14 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
                             <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
                                     <TextBlock Text="📊" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="Recent Entries" FontSize="18" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
-                                    <TextBlock Text="Latest transactions across all categories" FontSize="11" Foreground="{StaticResource Text.Secondary}" Margin="0,2,0,0"/>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="Recent Entries" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Latest transactions across all categories" Style="{StaticResource SectionHeader.Subtitle}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -160,15 +160,17 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <StackPanel Style="{StaticResource SectionHeader}">
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                             <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
                                 <TextBlock Text="📦" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Stock Levels" FontSize="16" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
-                                <TextBlock Text="Current Inventory Status" FontSize="11" Foreground="{StaticResource Text.Secondary}" Margin="0,2,0,0"/>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="Stock Levels" Style="{StaticResource SectionHeader.Title}"/>
+                                <TextBlock Text="Current Inventory Status" Style="{StaticResource SectionHeader.Subtitle}"/>
                             </StackPanel>
                         </StackPanel>
+                        </Border>
 
                         <!-- Stock List -->
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">

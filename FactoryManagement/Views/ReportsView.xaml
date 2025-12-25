@@ -109,15 +109,17 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <StackPanel Style="{StaticResource SectionHeader}">
+                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                         <Border Background="{StaticResource Button.Info}" Style="{StaticResource IconBadge}">
                             <TextBlock Text="🔍" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Filter Reports" FontSize="16" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
-                            <TextBlock Text="Select criteria to generate custom reports" FontSize="11" Foreground="{StaticResource Text.Secondary}" Margin="0,2,0,0"/>
+                        <StackPanel Style="{StaticResource SectionHeader.Content}">
+                            <TextBlock Text="Filter Reports" Style="{StaticResource SectionHeader.Title}"/>
+                            <TextBlock Text="Select criteria to generate custom reports" Style="{StaticResource SectionHeader.Subtitle}"/>
                         </StackPanel>
                     </StackPanel>
+                    </Border>
 
                     <!-- Filters -->
                     <Grid Grid.Row="1" Margin="0,0,0,16">
@@ -241,8 +243,15 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
-                        <TextBlock Text="📋 Report Results" FontSize="18" FontWeight="Bold" Foreground="{StaticResource Text.Primary}"/>
+                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                            <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="Report Results" Style="{StaticResource SectionHeader.Title}"/>
+                            </StackPanel>
+                        </StackPanel>
                     </Border>
 
                     <!-- DataGrid -->

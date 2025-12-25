@@ -141,15 +141,17 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-                            <Border Background="#4a90c8" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
-                                <TextBlock Text="➕" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Create New Loan" FontSize="16" FontWeight="Bold" Foreground="White"/>
-                                <TextBlock Text="Record a new loan transaction" FontSize="11" Foreground="#888" Margin="0,2,0,0"/>
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="➕" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="Create New Loan" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Record a new loan transaction" Style="{StaticResource SectionHeader.Subtitle}"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Border>
 
                         <!-- Row 1: Party, Type, Amount, Rate -->
                         <Grid Grid.Row="1" Margin="0,0,0,16">
@@ -258,15 +260,17 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-                            <Border Background="#3d8b5f" Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
-                                <TextBlock Text="💳" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Record Payment" FontSize="16" FontWeight="Bold" Foreground="White"/>
-                                <TextBlock Text="Apply payment to selected loan" FontSize="11" Foreground="#888" Margin="0,2,0,0"/>
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="💳" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="Record Payment" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Apply payment to selected loan" Style="{StaticResource SectionHeader.Subtitle}"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Border>
 
                         <!-- Selected Loan Info -->
                         <Border Grid.Row="1" Background="#1a1a1a" CornerRadius="6" Padding="14" Margin="0,0,0,16">
@@ -369,8 +373,14 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="📋 All Loans" 
-                                           FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                    <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
+                                        <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                        <TextBlock Text="All Loans" Style="{StaticResource SectionHeader.Title}"/>
+                                    </StackPanel>
+                                </StackPanel>
 
                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                                     <TextBlock Text="Status:" VerticalAlignment="Center" Foreground="#BBB" Margin="0,0,10,0"/>
