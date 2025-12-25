@@ -253,86 +253,29 @@
                              Foreground="{StaticResource TextSecondary}"/>
                 </StackPanel>
                 
-                <DataGrid ItemsSource="{Binding RecentTransactions}"
-                    Style="{StaticResource DataGrid.Dark}"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingPanel.VirtualizationMode="Recycling"
-                        EnableRowVirtualization="True"
-                        EnableColumnVirtualization="True"
-                        SelectionMode="Single"
-                        SelectionUnit="FullRow"
-                        MouseDoubleClick="RecentTransactions_MouseDoubleClick">
+                <DataGrid ItemsSource="{Binding RecentTransactions}" Style="{StaticResource DataGrid.Dark}">
                     <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Dark.Header}"/>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGrid.Dark.Row}">
-                            <Setter Property="Height" Value="52"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource DataGrid.Dark.Cell}">
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="12,0"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="DataGridCell">
-                                        <Border Background="{TemplateBinding Background}" 
-                                                BorderThickness="0" 
-                                                Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.CellStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="" Width="70">
+                        <DataGridTemplateColumn Header="Edit" Width="70">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Style="{StaticResource Button.Icon}"
+                                    <Button Style="{StaticResource DataGrid.EditButton}"
                                             ToolTip="Edit Transaction"
-                                            Width="32" Height="32"
-                                            Foreground="{StaticResource Accent.Primary}"
                                             Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}">
-                                        <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                        <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="100"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="90">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Medium"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="90"/>
+                        <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                         <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Foreground" Value="{StaticResource Accent.Primary}"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
