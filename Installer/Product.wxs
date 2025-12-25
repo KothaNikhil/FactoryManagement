@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!-- 
+    Product definition for Factory Management Application Installer
+    Update the Version number for each release
+  -->
+  <Package 
+    Name="Factory Management" 
+    Manufacturer="Your Company Name"
+    Version="$(var.Version)" 
+    UpgradeCode="12345678-1234-1234-1234-123456789012"
+    Language="1033"
+    Compressed="yes"
+    InstallerVersion="500">
+
+    <SummaryInformation 
+      Description="Factory Management Application Installer" 
+      Manufacturer="Your Company Name"
+      Keywords="Factory, Management, Inventory" />
+
+    <!-- Ensure only one version is installed at a time -->
+    <MajorUpgrade 
+      DowngradeErrorMessage="A newer version of Factory Management is already installed."
+      Schedule="afterInstallInitialize" />
+
+    <!-- Embed the cab file inside the MSI -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Define the installation directory structure -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Factory Management">
+        <Directory Id="LogsFolder" Name="logs" />
+        <Directory Id="RuntimesFolder" Name="runtimes">
+          <Directory Id="Win64RuntimeFolder" Name="win-x64">
+            <Directory Id="Win64NativeFolder" Name="native" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+
+    <!-- Desktop shortcut location -->
+    <StandardDirectory Id="DesktopFolder" />
+    
+    <!-- Start Menu shortcut location -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="Factory Management" />
+    </StandardDirectory>
+
+    <!-- Main application component -->
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- Main executable with shortcuts -->
+      <Component Id="MainExecutable" Guid="87654321-4321-4321-4321-210987654321">
+        <File Id="FactoryManagement.exe" 
+              Source="$(var.PublishDir)FactoryManagement.exe" 
+              KeyPath="yes">
+          <!-- Desktop shortcut -->
+          <Shortcut Id="DesktopShortcut"
+                    Directory="DesktopFolder"
+                    Name="Factory Management"
+                    Description="Factory Management Application"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Icon="AppIcon.exe"
+                    IconIndex="0"
+                    Advertise="yes" />
+          
+          <!-- Start Menu shortcut -->
+          <Shortcut Id="StartMenuShortcut"
+                    Directory="ApplicationProgramsFolder"
+                    Name="Factory Management"
+                    Description="Factory Management Application"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Icon="AppIcon.exe"
+                    IconIndex="0"
+                    Advertise="yes" />
+        </File>
+
+        <!-- Main application assembly required by apphost exe -->
+        <File Source="$(var.PublishDir)FactoryManagement.dll" />
+
+        <!-- Application configuration files -->
+        <File Source="$(var.PublishDir)FactoryManagement.deps.json" />
+        <File Source="$(var.PublishDir)FactoryManagement.runtimeconfig.json" />
+
+        <!-- Remove the Start Menu folder on uninstall -->
+        <RemoveFolder Id="CleanupStartMenuFolder" 
+                     Directory="ApplicationProgramsFolder" 
+                     On="uninstall" />
+      </Component>
+
+      <!-- Create logs directory -->
+      <Component Id="LogsDirectory" Directory="LogsFolder" Guid="22222222-3333-4444-5555-666666666666">
+        <CreateFolder />
+        <RemoveFolder Id="RemoveLogsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" 
+                      Key="Software\YourCompany\FactoryManagement" 
+                      Name="logs" 
+                      Type="integer" 
+                      Value="1" 
+                      KeyPath="yes" />
+      </Component>
+
+      <!-- Runtime dependencies -->
+      <Component Id="RuntimeDependencies" Guid="33333333-4444-5555-6666-777777777777">
+        <!-- Core application dependencies -->
+          <File Source="$(var.PublishDir)CommunityToolkit.Mvvm.dll" />
+          <File Source="$(var.PublishDir)CsvHelper.dll" />
+          <File Source="$(var.PublishDir)EPPlus.dll" />
+          <File Source="$(var.PublishDir)EPPlus.Interfaces.dll" />
+          <File Source="$(var.PublishDir)EPPlus.System.Drawing.dll" />
+          <File Source="$(var.PublishDir)MaterialDesignColors.dll" />
+          <File Source="$(var.PublishDir)MaterialDesignThemes.Wpf.dll" />
+          <File Source="$(var.PublishDir)Microsoft.Data.Sqlite.dll" />
+          <File Source="$(var.PublishDir)Microsoft.EntityFrameworkCore.dll" />
+          <File Source="$(var.PublishDir)Microsoft.EntityFrameworkCore.Abstractions.dll" />
+          <File Source="$(var.PublishDir)Microsoft.EntityFrameworkCore.Relational.dll" />
+          <File Source="$(var.PublishDir)Microsoft.EntityFrameworkCore.Sqlite.dll" />
+          <File Source="$(var.PublishDir)SQLitePCLRaw.core.dll" />
+          <File Source="$(var.PublishDir)SQLitePCLRaw.provider.e_sqlite3.dll" />
+          <File Source="$(var.PublishDir)SQLitePCLRaw.batteries_v2.dll" />
+        <!-- Roslyn code analysis dependencies removed (not in publish output) -->
+        <!-- Microsoft.Extensions libraries used at runtime -->
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Configuration.Abstractions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Configuration.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Configuration.FileExtensions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Configuration.Json.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.DependencyInjection.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.DependencyModel.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.FileProviders.Abstractions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.FileProviders.Physical.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.FileSystemGlobbing.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Caching.Abstractions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Caching.Memory.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Logging.Abstractions.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Logging.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Options.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Extensions.Primitives.dll" />
+        <!-- Additional runtime libraries -->
+        <File Source="$(var.PublishDir)Microsoft.IO.RecyclableMemoryStream.dll" />
+        <File Source="$(var.PublishDir)Microsoft.Xaml.Behaviors.dll" />
+        <File Source="$(var.PublishDir)Serilog.dll" />
+        <File Source="$(var.PublishDir)Serilog.Sinks.File.dll" />
+        <!-- Removed composition and pipelines libraries not in publish output -->
+      </Component>
+
+      <!-- SQLite native DLL for Windows x64 (publish root) -->
+      <Component Id="SqliteNative" Directory="INSTALLFOLDER" Guid="44444444-5555-6666-7777-888888888888">
+        <File Source="$(var.PublishDir)e_sqlite3.dll" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Define the icon for shortcuts -->
+    <Icon Id="AppIcon.exe" SourceFile="$(var.FactoryManagement.TargetPath)" />
+
+    <!-- Add/Remove Programs icon -->
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.exe" />
+    
+    <!-- Add/Remove Programs support URL -->
+    <Property Id="ARPHELPLINK" Value="https://yourcompany.com/support" />
+
+    <!-- Features to install -->
+    <Feature Id="ProductFeature" 
+             Title="Factory Management" 
+             Description="Main application and components"
+             Level="1"
+             ConfigurableDirectory="INSTALLFOLDER">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+
+    <!-- Default MSI UI (progress-only) -->
+  </Package>
+</Wix>

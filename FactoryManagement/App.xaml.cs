@@ -35,7 +35,10 @@ namespace FactoryManagement
 
         private void ConfigureLogging()
         {
-            var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app.log");
+            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Factory Management");
+            var logsDir = Path.Combine(appDataDir, "logs");
+            Directory.CreateDirectory(logsDir);
+            var logPath = Path.Combine(logsDir, "app.log");
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
@@ -60,8 +63,10 @@ namespace FactoryManagement
 
         private void ConfigureServices(IServiceCollection services)
         {
-            // Database
-            var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "factory.db");
+            // Database: use per-user writable location under LocalAppData
+            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Factory Management");
+            Directory.CreateDirectory(appDataDir);
+            var dbPath = Path.Combine(appDataDir, "factory.db");
             services.AddDbContext<FactoryDbContext>(options =>
                 options.UseSqlite($"Data Source={dbPath}"));
 
