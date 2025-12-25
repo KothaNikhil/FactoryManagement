@@ -368,27 +368,35 @@
                                 CanUserAddRows="False"
                                 IsReadOnly="True"
                                 Background="Transparent"
-                                RowBackground="#1a1a2e"
-                                AlternatingRowBackground="#16213e"
+                                RowBackground="#1e2538"
+                                AlternatingRowBackground="#1a2030"
                                 BorderThickness="0"
                                 GridLinesVisibility="None"
                                 HeadersVisibility="Column"
                                 SelectionMode="Single">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                                    <Setter Property="Background" Value="#16213e"/>
+                                    <Setter Property="Foreground" Value="#C0C0C0"/>
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                     <Setter Property="FontSize" Value="12"/>
                                     <Setter Property="Padding" Value="8,6"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                                    <Setter Property="BorderBrush" Value="#302b63"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#4a5568"/>
                                 </Style>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Foreground" Value="#E8E8E8"/>
                                     <Setter Property="Height" Value="40"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#252d45"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#2d3548"/>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
                             <DataGrid.CellStyle>

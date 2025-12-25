@@ -131,6 +131,58 @@
             <converters:LoanBarHeightConverter2 x:Key="LoanBarHeightConverter2"/>
             <converters:WageBarHeightConverter x:Key="WageBarHeightConverter"/>
             <converters:WageBarHeightConverter2 x:Key="WageBarHeightConverter2"/>
+            
+            <!-- Enhanced DataGrid Styles -->
+            <Style x:Key="EnhancedDataGrid" TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="RowBackground" Value="#242b3e"/>
+                <Setter Property="AlternatingRowBackground" Value="#2a3550"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="GridLinesVisibility" Value="None"/>
+                <Setter Property="HeadersVisibility" Value="Column"/>
+                <Setter Property="CanUserAddRows" Value="False"/>
+                <Setter Property="AutoGenerateColumns" Value="False"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
+            
+            <Style x:Key="EnhancedDataGridColumnHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                <Setter Property="Background" Value="#1e2535"/>
+                <Setter Property="Foreground" Value="#E0E0E0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Padding" Value="10,8"/>
+                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                <Setter Property="BorderBrush" Value="#667eea"/>
+            </Style>
+            
+            <Style x:Key="EnhancedDataGridRow" TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                <Setter Property="Foreground" Value="#F0F0F0"/>
+                <Setter Property="Height" Value="42"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#353e57"/>
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#4a5568"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            <Style x:Key="EnhancedDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="10,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridCell">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderThickness="0" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

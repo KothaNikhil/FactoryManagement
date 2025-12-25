@@ -274,8 +274,8 @@
                         EnableRowVirtualization="True"
                         EnableColumnVirtualization="True"
                         Background="Transparent"
-                        RowBackground="#1a1a2e"
-                        AlternatingRowBackground="#16213e"
+                        RowBackground="#1e2538"
+                        AlternatingRowBackground="#1a2030"
                         BorderThickness="0"
                         GridLinesVisibility="None"
                         HeadersVisibility="Column"
@@ -284,33 +284,26 @@
                         MouseDoubleClick="RecentTransactions_MouseDoubleClick">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                            <Setter Property="Background" Value="#16213e"/>
+                            <Setter Property="Foreground" Value="#C0C0C0"/>
                             <Setter Property="FontWeight" Value="SemiBold"/>
                             <Setter Property="FontSize" Value="13"/>
                             <Setter Property="Padding" Value="12,8"/>
-                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                            <Setter Property="BorderBrush" Value="#302b63"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="#4a5568"/>
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.RowStyle>
                         <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Foreground" Value="#E8E8E8"/>
                             <Setter Property="Height" Value="52"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" Opacity="0.3">
-                                                <GradientStop Color="#667eea" Offset="0"/>
-                                                <GradientStop Color="#764ba2" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter Property="Background" Value="#2d3548"/>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#1f2b4d"/>
+                                    <Setter Property="Background" Value="#252d45"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>

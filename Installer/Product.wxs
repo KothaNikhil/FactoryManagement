@@ -20,6 +20,8 @@
 
     <!-- Ensure only one version is installed at a time -->
     <MajorUpgrade 
+      AllowDowngrades="no"
+      AllowSameVersionUpgrades="yes"
       DowngradeErrorMessage="A newer version of Factory Management is already installed."
       Schedule="afterInstallInitialize" />
 
@@ -150,7 +152,7 @@
     </ComponentGroup>
 
     <!-- Define the icon for shortcuts -->
-    <Icon Id="AppIcon.exe" SourceFile="$(var.FactoryManagement.TargetPath)" />
+    <Icon Id="AppIcon.exe" SourceFile="..\FactoryManagement\Images\factory-icon.ico" />
 
     <!-- Add/Remove Programs icon -->
     <Property Id="ARPPRODUCTICON" Value="AppIcon.exe" />

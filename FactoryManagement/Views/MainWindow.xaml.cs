@@ -15,6 +15,26 @@ namespace FactoryManagement.Views
             InitializeComponent();
             DataContext = viewModel;
             Loaded += async (s, e) => await viewModel.InitializeAsync();
+            StateChanged += MainWindow_StateChanged;
+            // Set initial icon state
+            UpdateMaximizeRestoreIcon();
+        }
+
+        private void MainWindow_StateChanged(object? sender, System.EventArgs e)
+        {
+            UpdateMaximizeRestoreIcon();
+        }
+
+        private void UpdateMaximizeRestoreIcon()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                MaximizeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowRestore;
+            }
+            else
+            {
+                MaximizeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowMaximize;
+            }
         }
 
         private void NavigationBorder_MouseEnter(object sender, MouseEventArgs e)
@@ -47,7 +67,7 @@ namespace FactoryManagement.Views
             {
                 MaximizeButton_Click(sender, e);
             }
-            else
+            else if (WindowState != WindowState.Maximized)
             {
                 this.DragMove();
             }
@@ -60,16 +80,7 @@ namespace FactoryManagement.Views
 
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.WindowState = WindowState.Normal;
-                MaximizeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowMaximize;
-            }
-            else
-            {
-                this.WindowState = WindowState.Maximized;
-                MaximizeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowRestore;
-            }
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

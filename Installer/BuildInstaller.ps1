@@ -7,7 +7,7 @@ param(
     [switch]$Clean,
     [switch]$Sign,
     [string]$CertificatePath = "",
-    [string]$CertificatePassword = ""
+    [SecureString]$CertificatePassword = (New-Object System.Security.SecureString)
 )
 
 $ErrorActionPreference = "Stop"
@@ -104,7 +104,7 @@ if ($Sign) {
     $SignArgs = @(
         "sign",
         "/f", $CertificatePath,
-        "/p", $CertificatePassword,
+        "/p", ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($CertificatePassword))),
         "/t", "http://timestamp.digicert.com",
         "/fd", "SHA256",
         "/v",

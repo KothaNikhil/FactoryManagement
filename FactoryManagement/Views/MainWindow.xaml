@@ -7,7 +7,8 @@
         xmlns:views="clr-namespace:FactoryManagement.Views"
         xmlns:viewmodels="clr-namespace:FactoryManagement.ViewModels"
         mc:Ignorable="d"
-        Title="" 
+        Title="Factory Management System" 
+        Icon="pack://application:,,,/Images/factory-icon.ico"
         Height="800" Width="1400"
         WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -17,6 +18,7 @@
         WindowStyle="None"
         AllowsTransparency="False"
         ResizeMode="CanResize"
+        MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
         RenderOptions.BitmapScalingMode="HighQuality"
         RenderOptions.EdgeMode="Aliased"
         TextOptions.TextFormattingMode="Display"
@@ -65,9 +67,6 @@
                     <GradientStop Color="#16213e" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.5" ShadowDepth="2" BlurRadius="8"/>
-            </Border.Effect>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <Button Width="50" Height="50" Style="{StaticResource MaterialDesignFlatButton}" 
@@ -124,9 +123,6 @@
                     <GradientStop Color="#0f3460" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="4" BlurRadius="12"/>
-            </Border.Effect>
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Width" Value="280"/>
