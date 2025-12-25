@@ -136,76 +136,32 @@
                     </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding Items}"
-                            SelectedItem="{Binding SelectedItem}"
-                            Style="{StaticResource DataGrid.Standard}"
-                            AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource DataGrid.Dark}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                        </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ItemId}" Width="70">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Setter Property="Foreground" Value="{StaticResource AccentCyan}"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="Medium"/>
-                                        <Setter Property="FontSize" Value="13"/>
-                                        <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="130">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ItemId}" Width="70"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="130"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90"></DataGridTextColumn>
                             <DataGridTemplateColumn Header="Actions" Width="120">
-                                <DataGridTemplateColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                                </DataGridTemplateColumn.HeaderStyle>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
                                                   Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   CommandParameter="{Binding}"
-                                                  ToolTip="Edit"
-                                                  Width="32" Height="32">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="18" Height="18" Foreground="{StaticResource AccentCyan}"/>
+                                                  ToolTip="Edit">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
                                             </Button>
-                                            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
                                                   Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   CommandParameter="{Binding}"
                                                   ToolTip="Delete"
-                                                  Width="32" Height="32"
-                                                  Margin="4,0,0,0">
-                                                <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="#EF5350"/>
+                                                  Margin="4,0,0,0"
+                                                  Foreground="#EF5350">
+                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
