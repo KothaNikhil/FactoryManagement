@@ -17,25 +17,27 @@ namespace FactoryManagement.Tests.Models
             Assert.Equal(string.Empty, worker.Name);
             Assert.Equal(string.Empty, worker.MobileNumber);
             Assert.Equal(string.Empty, worker.Address);
-            Assert.Equal(WorkerType.Daily, worker.WorkerType);
             Assert.Equal(WorkerStatus.Active, worker.Status);
+            Assert.Equal(0, worker.Rate);
             Assert.Equal(0, worker.DailyRate);
             Assert.Equal(0, worker.HourlyRate);
             Assert.Equal(0, worker.MonthlyRate);
+            Assert.Equal(0, worker.TotalAdvance);
+            Assert.Equal(0, worker.TotalWagesPaid);
         }
 
-        [Theory]
-        [InlineData(WorkerType.Daily)]
-        [InlineData(WorkerType.Hourly)]
-        [InlineData(WorkerType.Monthly)]
-        [InlineData(WorkerType.Contractor)]
-        public void Worker_AllWorkerTypes_ShouldBeValid(WorkerType workerType)
+        [Fact]
+        public void Worker_SetRate_ShouldStoreCorrectly()
         {
-            // Arrange & Act
-            var worker = new Worker { WorkerType = workerType };
+            // Arrange
+            var worker = new Worker();
+            decimal expectedRate = 500.50m;
+
+            // Act
+            worker.Rate = expectedRate;
 
             // Assert
-            Assert.Equal(workerType, worker.WorkerType);
+            Assert.Equal(expectedRate, worker.Rate);
         }
 
         [Theory]
@@ -61,7 +63,7 @@ namespace FactoryManagement.Tests.Models
                 Name = "John Doe",
                 MobileNumber = "9876543210",
                 Address = "123 Main St",
-                WorkerType = WorkerType.Daily,
+                Rate = 500m,
                 DailyRate = 500m
             };
 
@@ -69,7 +71,7 @@ namespace FactoryManagement.Tests.Models
             Assert.Equal("John Doe", worker.Name);
             Assert.Equal("9876543210", worker.MobileNumber);
             Assert.Equal("123 Main St", worker.Address);
-            Assert.Equal(WorkerType.Daily, worker.WorkerType);
+            Assert.Equal(500m, worker.Rate);
             Assert.Equal(500m, worker.DailyRate);
         }
     }

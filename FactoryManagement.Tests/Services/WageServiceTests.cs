@@ -21,8 +21,8 @@ namespace FactoryManagement.Tests.Services
             
             var workers = new List<Worker>
             {
-                new Worker { WorkerId = 1, Name = "Worker1", WorkerType = WorkerType.Daily, DailyRate = 500 },
-                new Worker { WorkerId = 2, Name = "Worker2", WorkerType = WorkerType.Monthly, MonthlyRate = 15000 }
+                new Worker { WorkerId = 1, Name = "Worker1", Rate = 500, DailyRate = 500 },
+                new Worker { WorkerId = 2, Name = "Worker2", Rate = 15000, MonthlyRate = 15000 }
             };
             
             mockWorkerRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(workers);
@@ -43,7 +43,7 @@ namespace FactoryManagement.Tests.Services
             var mockWorkerRepo = new Mock<IWorkerRepository>();
             var mockTransactionRepo = new Mock<IWageTransactionRepository>();
             
-            var worker = new Worker { Name = "New Worker", WorkerType = WorkerType.Daily, DailyRate = 500 };
+            var worker = new Worker { Name = "New Worker", Rate = 500, DailyRate = 500 };
             mockWorkerRepo.Setup(r => r.AddAsync(It.IsAny<Worker>())).ReturnsAsync(worker);
             
             var service = new WageService(mockWorkerRepo.Object, mockTransactionRepo.Object);

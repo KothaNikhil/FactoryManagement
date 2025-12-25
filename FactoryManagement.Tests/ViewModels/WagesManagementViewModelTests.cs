@@ -27,8 +27,8 @@ namespace FactoryManagement.Tests.ViewModels
             // Arrange
             var workers = new List<Worker>
             {
-                new Worker { WorkerId = 1, Name = "John Doe", WorkerType = WorkerType.Daily, DailyRate = 500 },
-                new Worker { WorkerId = 2, Name = "Jane Smith", WorkerType = WorkerType.Hourly, HourlyRate = 100 }
+                new Worker { WorkerId = 1, Name = "John Doe", Rate = 500, DailyRate = 500 },
+                new Worker { WorkerId = 2, Name = "Jane Smith", Rate = 100, HourlyRate = 100 }
             };
             _mockWageService.Setup(s => s.GetAllWorkersAsync()).ReturnsAsync(workers);
             _mockWageService.Setup(s => s.GetTotalWagesPaidAsync()).ReturnsAsync(10000);
