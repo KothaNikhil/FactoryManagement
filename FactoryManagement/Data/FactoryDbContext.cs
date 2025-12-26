@@ -2,6 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using FactoryManagement.Models;
 using System;
 using System.Linq;
+using System.IO;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using FactoryManagement.Services;
 
 namespace FactoryManagement.Data
 {
@@ -19,6 +24,20 @@ namespace FactoryManagement.Data
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            var result = base.SaveChanges(acceptAllChangesOnSuccess);
+            try { TryUpdateDefaultBackup(); } catch { /* swallow to not block app flow */ }
+            return result;
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            try { await TryUpdateDefaultBackupAsync(); } catch { /* swallow to not block app flow */ }
+            return result;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -148,6 +167,73 @@ namespace FactoryManagement.Data
             modelBuilder.Entity<AppSettings>().HasData(
                 new AppSettings { SettingId = 1, CompanyName = "Factory Management System", CurrencySymbol = "₹", Address = "123 Industrial Area" }
             );
+        }
+
+        private string GetBackupsDirectory()
+        {
+            var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FactoryManagement", "Backups");
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            return dir;
+        }
+
+        private string GetDefaultBackupPath() => Path.Combine(GetBackupsDirectory(), "DefaultBackup.json");
+
+        private void TryUpdateDefaultBackup()
+        {
+            // Sync wrapper for async method
+            TryUpdateDefaultBackupAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task TryUpdateDefaultBackupAsync()
+        {
+            // Create a snapshot of all entities after successful save
+            var snapshot = new BackupData
+            {
+                Items = await Items.AsNoTracking().ToListAsync(),
+                Parties = await Parties.AsNoTracking().ToListAsync(),
+                Workers = await Workers.AsNoTracking().ToListAsync(),
+                Users = await Users.AsNoTracking().ToListAsync(),
+                LoanAccounts = await LoanAccounts.AsNoTracking().ToListAsync(),
+                Transactions = await Transactions.AsNoTracking().ToListAsync(),
+                FinancialTransactions = await FinancialTransactions.AsNoTracking().ToListAsync(),
+                WageTransactions = await WageTransactions.AsNoTracking().ToListAsync(),
+                BackupDate = DateTime.Now
+            };
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                PropertyNameCaseInsensitive = true,
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+            };
+
+            var json = JsonSerializer.Serialize(snapshot, options);
+            var defaultPath = GetDefaultBackupPath();
+
+            // Ensure file is writable before overwriting
+            if (File.Exists(defaultPath))
+            {
+                try
+                {
+                    var current = File.GetAttributes(defaultPath);
+                    if ((current & FileAttributes.ReadOnly) != 0)
+                    {
+                        File.SetAttributes(defaultPath, current & ~FileAttributes.ReadOnly);
+                    }
+                }
+                catch { /* ignore */ }
+            }
+
+            await File.WriteAllTextAsync(defaultPath, json);
+
+            // Mark as hidden/read-only to discourage manual edits
+            try
+            {
+                var attrs = File.GetAttributes(defaultPath);
+                attrs |= FileAttributes.ReadOnly | FileAttributes.Hidden;
+                File.SetAttributes(defaultPath, attrs);
+            }
+            catch { /* ignore attribute errors */ }
         }
     }
 }

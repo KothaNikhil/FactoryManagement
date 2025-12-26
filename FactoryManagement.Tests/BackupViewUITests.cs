@@ -48,5 +48,22 @@ namespace FactoryManagement.Tests
             Assert.True(vm.DeleteBackupCommand.CanExecute(null));
             Assert.NotNull(vm.SelectedBackup);
         }
+
+        [Fact]
+        public void DeleteBackup_UI_Disabled_For_Default()
+        {
+            // Arrange
+            var mockService = new Mock<BackupService>(null!);
+            mockService.Setup(s => s.GetAvailableBackups()).Returns(new List<BackupFileInfo>());
+            var vm = new BackupViewModel(mockService.Object);
+
+            // Act - Add default backup and select it
+            var defaultBackup = new BackupFileInfo { FileName = "DefaultBackup.json", FilePath = "DefaultBackup.json", CreatedDate = DateTime.Now, FileSize = 100, IsDefault = true };
+            vm.Backups.Add(defaultBackup);
+            vm.SelectedBackup = defaultBackup;
+
+            // Assert - Delete disabled for default backup
+            Assert.False(vm.DeleteBackupCommand.CanExecute(null));
+        }
     }
 }

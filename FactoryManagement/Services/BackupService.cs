@@ -28,6 +28,7 @@ namespace FactoryManagement.Services
     {
         private readonly FactoryDbContext _context;
         private readonly string _backupDirectory;
+        private const string DefaultBackupFileName = "DefaultBackup.json";
 
         public BackupService(FactoryDbContext context)
         {
@@ -41,6 +42,73 @@ namespace FactoryManagement.Services
             if (!Directory.Exists(_backupDirectory))
             {
                 Directory.CreateDirectory(_backupDirectory);
+            }
+        }
+
+        public string GetDefaultBackupPath()
+        {
+            return Path.Combine(_backupDirectory, DefaultBackupFileName);
+        }
+
+        public virtual async Task<string> UpdateDefaultBackupAsync()
+        {
+            try
+            {
+                var backupData = new BackupData
+                {
+                    Items = await _context.Items.AsNoTracking().ToListAsync(),
+                    Parties = await _context.Parties.AsNoTracking().ToListAsync(),
+                    Workers = await _context.Workers.AsNoTracking().ToListAsync(),
+                    Users = await _context.Users.AsNoTracking().ToListAsync(),
+                    LoanAccounts = await _context.LoanAccounts.AsNoTracking().ToListAsync(),
+                    Transactions = await _context.Transactions.AsNoTracking().ToListAsync(),
+                    FinancialTransactions = await _context.FinancialTransactions.AsNoTracking().ToListAsync(),
+                    WageTransactions = await _context.WageTransactions.AsNoTracking().ToListAsync(),
+                    BackupDate = DateTime.Now
+                };
+
+                var defaultPath = GetDefaultBackupPath();
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNameCaseInsensitive = true,
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+                };
+
+                var json = JsonSerializer.Serialize(backupData, options);
+                Directory.CreateDirectory(_backupDirectory);
+
+                // Ensure file is writable before overwriting
+                if (File.Exists(defaultPath))
+                {
+                    try
+                    {
+                        var current = File.GetAttributes(defaultPath);
+                        if ((current & FileAttributes.ReadOnly) != 0)
+                        {
+                            File.SetAttributes(defaultPath, current & ~FileAttributes.ReadOnly);
+                        }
+                    }
+                    catch { /* ignore */ }
+                }
+
+                await File.WriteAllTextAsync(defaultPath, json);
+
+                // Mark as hidden/read-only to discourage manual edits
+                try
+                {
+                    var attrs = File.GetAttributes(defaultPath);
+                    attrs |= FileAttributes.ReadOnly | FileAttributes.Hidden;
+                    File.SetAttributes(defaultPath, attrs);
+                }
+                catch { /* best-effort; ignore attribute errors */ }
+
+                return defaultPath;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to update default backup: {ex.Message}", ex);
             }
         }
 
@@ -235,18 +303,39 @@ namespace FactoryManagement.Services
         {
             try
             {
-                var backupFiles = Directory.GetFiles(_backupDirectory, "Backup_*.json")
+                var results = new List<BackupFileInfo>();
+
+                // Include default backup if present
+                var defaultPath = GetDefaultBackupPath();
+                if (File.Exists(defaultPath))
+                {
+                    var info = new FileInfo(defaultPath);
+                    results.Add(new BackupFileInfo
+                    {
+                        FileName = Path.GetFileName(defaultPath),
+                        FilePath = defaultPath,
+                        CreatedDate = info.Exists ? info.CreationTime : DateTime.MinValue,
+                        FileSize = info.Exists ? info.Length : 0,
+                        IsDefault = true
+                    });
+                }
+
+                // Add timestamped backups
+                var others = Directory.GetFiles(_backupDirectory, "Backup_*.json")
                     .Select(f => new BackupFileInfo
                     {
                         FileName = Path.GetFileName(f),
                         FilePath = f,
                         CreatedDate = File.GetCreationTime(f),
-                        FileSize = new FileInfo(f).Length
+                        FileSize = new FileInfo(f).Length,
+                        IsDefault = false
                     })
                     .OrderByDescending(b => b.CreatedDate)
                     .ToList();
 
-                return backupFiles;
+                results.AddRange(others);
+
+                return results;
             }
             catch
             {
@@ -277,6 +366,13 @@ namespace FactoryManagement.Services
         {
             try
             {
+                // Prevent deletion of the default rolling backup from the application
+                var defaultPath = GetDefaultBackupPath();
+                if (string.Equals(Path.GetFullPath(filePath), Path.GetFullPath(defaultPath), StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new InvalidOperationException("The default backup cannot be deleted from the application.");
+                }
+
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
@@ -300,9 +396,11 @@ namespace FactoryManagement.Services
         public required string FilePath { get; set; }
         public DateTime CreatedDate { get; set; }
         public long FileSize { get; set; }
+        public bool IsDefault { get; set; }
 
         public string FormattedSize => FormatFileSize(FileSize);
         public string FormattedDate => CreatedDate.ToString("yyyy-MM-dd HH:mm:ss");
+        public string DisplayName => IsDefault ? $"{FileName} (Default, auto-updating)" : FileName;
 
         private string FormatFileSize(long bytes)
         {

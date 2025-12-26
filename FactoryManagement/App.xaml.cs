@@ -56,6 +56,15 @@ namespace FactoryManagement
             // Initialize database
             InitializeDatabase();
 
+            // Ensure default rolling backup exists at startup
+            try
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var backupService = scope.ServiceProvider.GetRequiredService<BackupService>();
+                backupService.UpdateDefaultBackupAsync().GetAwaiter().GetResult();
+            }
+            catch { /* non-fatal */ }
+
             // Show main window
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();

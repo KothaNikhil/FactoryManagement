@@ -113,6 +113,8 @@ Daily: Export transaction reports
 Weekly: Copy `factory.db` file
 Monthly: Full database backup
 
+Note: The app auto-maintains `DefaultBackup.json` (read-only) in Documents\FactoryManagement\Backups and shows it in Backup & Restore, but it cannot be deleted from the app.
+
 ---
 
 **Quick Help**: Press F1 in any screen (planned feature)

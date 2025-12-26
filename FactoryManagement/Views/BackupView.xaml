@@ -173,7 +173,7 @@
                     </DataGrid.CellStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="File Name" 
-                                          Binding="{Binding FileName}" 
+                                          Binding="{Binding DisplayName}" 
                                           Width="*"
                                           FontSize="14">
                             <DataGridTextColumn.ElementStyle>

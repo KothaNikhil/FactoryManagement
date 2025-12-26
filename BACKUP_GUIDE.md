@@ -27,6 +27,13 @@ A comprehensive backup and restore system has been added to the Factory Manageme
 - Refresh backup list
 - Open backup folder in Windows Explorer
 
+### 3.1 Default Auto Backup
+- The app maintains a rolling default backup file: `DefaultBackup.json`
+- Location: `Documents\FactoryManagement\Backups\`
+- Automatically updated after each successful save and on app startup
+- Shown in the Backup list with a "Default, auto-updating" label
+- Protected: cannot be deleted from the application UI (you may manage it from File Explorer if needed)
+
 ### 4. Data Included in Backup
 Each backup contains:
 - **All Items**: Item names, units, current stock levels
@@ -72,8 +79,8 @@ C:\Users\[YourUsername]\Documents\FactoryManagement\Backups\
 
 ### Backup File Format
 - **Format**: JSON (human-readable and portable)
-- **Naming**: `Backup_yyyyMMdd_HHmmss.json`
-- **Example**: `Backup_20231214_143052.json`
+- **Naming**: `Backup_yyyyMMdd_HHmmss.json` (manual backups) and `DefaultBackup.json` (rolling auto-backup)
+- **Example**: `Backup_20231214_143052.json`, `DefaultBackup.json`
 
 ### What Happens During Restore
 1. System validates the backup file

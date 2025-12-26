@@ -25,7 +25,7 @@ namespace FactoryManagement.ViewModels
 
             CreateBackupCommand = new RelayCommand(async () => await CreateBackupAsync(), () => !IsProcessing);
             RestoreBackupCommand = new RelayCommand(async () => await RestoreBackupAsync(), () => SelectedBackup != null && !IsProcessing);
-            DeleteBackupCommand = new RelayCommand(DeleteBackup, () => SelectedBackup != null && !IsProcessing);
+            DeleteBackupCommand = new RelayCommand(DeleteBackup, () => SelectedBackup != null && !IsProcessing && (SelectedBackup?.IsDefault != true));
             RefreshBackupsCommand = new RelayCommand(LoadBackups);
             OpenBackupFolderCommand = new RelayCommand(OpenBackupFolder);
 
@@ -99,6 +99,11 @@ namespace FactoryManagement.ViewModels
         private async Task RestoreBackupAsync()
         {
             if (SelectedBackup == null) return;
+            if (SelectedBackup.IsDefault)
+            {
+                MessageBox.Show("The default backup cannot be deleted.", "Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             try
             {

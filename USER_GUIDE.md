@@ -260,7 +260,7 @@ Click **"Show All"** to return to viewing all transactions
 
 ### System Maintenance
 - Keep application updated
-- Backup database regularly (copy `factory.db` file)
+- Backup database regularly (copy `factory.db` file). In addition, the app maintains a rolling `DefaultBackup.json` under Documents/FactoryManagement/Backups that is automatically updated after each save. This default backup is listed in Backup & Restore but cannot be deleted from the app.
 - Clean up test/duplicate data periodically
 - Log out of the application properly
 

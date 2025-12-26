@@ -7,6 +7,10 @@ When running backup-related tests, file sync tools like OneDrive can momentarily
 - See FactoryManagement.Tests/BackupServiceTests.cs for the test-specific implementation that writes backups to `%TEMP%/FactoryManagementTests/<GUID>`.
 
 This keeps tests reliable and prevents flakiness due to external file locks.
+
+## Default Auto Backup
+
+The application maintains a rolling default backup file named `DefaultBackup.json` in Documents\FactoryManagement\Backups. It is automatically updated after each successful data save and on startup. This default backup is write-protected and cannot be deleted from within the application UI. Use timestamped backups (`Backup_yyyyMMdd_HHmmss.json`) for manual archive/restore operations.
 # Factory Management System
 
 A comprehensive WPF application for managing factory inventory and transactions for agricultural products.
