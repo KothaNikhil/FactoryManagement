@@ -177,7 +177,6 @@
                             <!-- Amount -->
                             <TextBlock Text="Amount *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
-                                     materialDesign:HintAssist.Hint="Enter amount in ₹"
                                      Style="{StaticResource TextBox.Standard}"
                                      FontSize="16"
                                      FontWeight="Bold"

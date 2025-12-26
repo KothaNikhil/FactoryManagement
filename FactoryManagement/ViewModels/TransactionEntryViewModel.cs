@@ -330,11 +330,28 @@ namespace FactoryManagement.ViewModels
             }
 
             // Check stock for sell/wastage
-            if ((SelectedTransactionType == TransactionType.Sell || SelectedTransactionType == TransactionType.Wastage)
-                && SelectedItem.CurrentStock < Quantity)
+            if (SelectedTransactionType == TransactionType.Sell || SelectedTransactionType == TransactionType.Wastage)
             {
-                ErrorMessage = "Insufficient stock available";
-                return false;
+                decimal requiredStock;
+                if (IsEditMode)
+                {
+                    // For edit mode, calculate the additional stock needed
+                    // If decreasing quantity, no stock check needed
+                    // If increasing quantity, check if we have enough additional stock
+                    decimal quantityDifference = Quantity - OriginalQuantity;
+                    requiredStock = quantityDifference;
+                }
+                else
+                {
+                    // For new transactions, check the full quantity
+                    requiredStock = Quantity;
+                }
+
+                if (requiredStock > 0 && SelectedItem.CurrentStock < requiredStock)
+                {
+                    ErrorMessage = "Insufficient stock available";
+                    return false;
+                }
             }
 
             return true;

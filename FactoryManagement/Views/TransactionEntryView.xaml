@@ -5,23 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1200">
+             d:DesignHeight="900" d:DesignWidth="1000">
     <Grid Margin="20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1.3*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         
         <!-- Transaction Form -->
-        <materialDesign:Card Grid.Column="0" Padding="32" Margin="0,0,12,0" Style="{StaticResource Card.Glass}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <materialDesign:Card Grid.Row="0" Padding="24" Margin="0,0,0,16" Style="{StaticResource Card.Glass}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
             
             <!-- Header -->
-            <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-32,-32,-32,20" CornerRadius="12,12,0,0">
+            <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="12" Margin="-24,-24,-24,16" CornerRadius="12,12,0,0">
                 <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                     <Border Background="{StaticResource SuccessGradient}" 
                             Style="{StaticResource IconBadge}">
@@ -36,210 +36,208 @@
                 </StackPanel>
             </Border>
             
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel MaxWidth="600">
+            <!-- Content Grid -->
+            <Grid Grid.Row="1" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
+                <!-- Row 1: Transaction Type, Item, Party, Quantity (4 columns) -->
                 <!-- Transaction Type -->
-                <TextBlock Text="Transaction Type *" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <ComboBox ItemsSource="{Binding TransactionTypes}"
-                        SelectedItem="{Binding SelectedTransactionTypeString}"
-                    Style="{StaticResource ComboBox.Dark}"
-                        Margin="0,0,0,20"/>
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,16">
+                    <TextBlock Text="Transaction Type *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding TransactionTypes}"
+                            SelectedItem="{Binding SelectedTransactionTypeString}"
+                        Style="{StaticResource ComboBox.Dark}"/>
+                </StackPanel>
 
                 <!-- Item Selection -->
-                <TextBlock Text="Item *" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <ComboBox ItemsSource="{Binding Items}"
-                        SelectedItem="{Binding SelectedItem}"
-                    Style="{StaticResource ComboBox.Dark}"
-                        Margin="0,0,0,20">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
+                <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,16">
+                    <TextBlock Text="Item *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding Items}"
+                            SelectedItem="{Binding SelectedItem}"
+                        Style="{StaticResource ComboBox.Dark}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
-                                <TextBlock Foreground="{StaticResource Text.Secondary}">
-                                    <Run Text="Stock: "/>
-                                    <Run Text="{Binding CurrentStock, StringFormat=N2}"/>
-                                    <Run Text=" "/>
-                                    <Run Text="{Binding Unit}"/>
-                                </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
 
-                <!-- Party Selection -->
-                <TextBlock Text="Party" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <Grid Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Party Selection with Add Button -->
+                <StackPanel Grid.Row="0" Grid.Column="4" Margin="0,0,0,16">
+                    <TextBlock Text="Party" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <ComboBox Grid.Column="0"
                             ItemsSource="{Binding Parties}"
                             SelectedItem="{Binding SelectedParty}"
                             Style="{StaticResource ComboBox.Dark}"
-                            Margin="0,0,8,0">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Place}" Foreground="Gray" Margin="0,0,8,0"/>
-                                        <TextBlock Text="-" Foreground="Gray" Margin="0,0,8,0"/>
-                                        <TextBlock Text="{Binding MobileNumber}" Foreground="Gray"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                      <Button Grid.Column="1"
-                          Style="{StaticResource Button.Secondary}"
-                          ToolTip="Quickly add a new party without leaving the transaction entry page"
-                          Click="QuickAddPartyButton_Click"
-                          Padding="8">
-                        <materialDesign:PackIcon Kind="Plus" Width="20" Height="20"/>
-                    </Button>
-                </Grid>
+                            Margin="0,0,4,0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Grid.Column="1"
+                            Style="{StaticResource Button.Secondary}"
+                            ToolTip="Quickly add a new party"
+                            Click="QuickAddPartyButton_Click"
+                            Padding="8"
+                            Height="40">
+                            <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>
 
-                <!-- Quantity and Price -->
-                <Grid Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Transaction Date -->
+                <StackPanel Grid.Row="0" Grid.Column="6" Margin="0,0,0,16">
+                    <TextBlock Text="Transaction Date *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <DatePicker SelectedDate="{Binding TransactionDate}"
+                              Style="{StaticResource DatePicker.Dark}"/>
+                </StackPanel>
 
-                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
-                        <TextBlock Text="Quantity *" 
-                                 Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                 Margin="0,0,0,8"/>
-                           <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
-                               Style="{StaticResource TextBox.Dark}"
-                               GotFocus="NumericTextBox_GotFocus"/>
-                    </StackPanel>
+                <!-- Row 2: Price Per Unit, Total Amount, Quantity, Entered By (4 columns) -->
+                <!-- Quantity -->
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,16">
+                    <TextBlock Text="Quantity *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource TextBox.Dark}"
+                           GotFocus="NumericTextBox_GotFocus"/>
+                </StackPanel>
 
-                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                        <TextBlock Text="Price Per Unit *" 
-                                 Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                 Margin="0,0,0,8"/>
-                           <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
-                               Style="{StaticResource TextBox.Dark}"
-                               GotFocus="NumericTextBox_GotFocus"/>
-                    </StackPanel>
-                </Grid>
+                <!-- Price Per Unit -->
+                <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,16">
+                    <TextBlock Text="Price Per Unit *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource TextBox.Dark}"
+                           GotFocus="NumericTextBox_GotFocus"/>
+                </StackPanel>
 
                 <!-- Total Amount (Read-only) -->
-                <TextBlock Text="Total Amount" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                <Border Background="{StaticResource Bg.Card}" 
-                    BorderBrush="{StaticResource Border.Default}"
-                        BorderThickness="0,0,0,2"
-                        CornerRadius="4"
-                        Padding="16,12"
-                        Margin="0,0,0,20">
-                    <Border.Effect>
-                        <DropShadowEffect Color="#00f2fe" Opacity="0.15" ShadowDepth="0" BlurRadius="8"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="0" Kind="CurrencyInr" 
-                                               Width="22" Height="22"
-                                               Foreground="{StaticResource AccentCyan}"
-                                               VerticalAlignment="Center"
-                                               Margin="0,0,12,0"/>
-                        <TextBlock Grid.Column="1"
-                                 Text="{Binding TotalAmount, StringFormat={}{0:N2}}"
-                                 FontSize="20"
-                                 FontWeight="Bold"
-                                 Foreground="{StaticResource AccentCyan}"
-                                 VerticalAlignment="Center"/>
-                    </Grid>
-                </Border>
-
-                <!-- Date and User -->
-                <Grid Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
-                        <TextBlock Text="Transaction Date *" 
-                                 Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                 Margin="0,0,0,8"/>
-                        <DatePicker SelectedDate="{Binding TransactionDate}"
-                                  Style="{StaticResource DatePicker.Dark}"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                        <TextBlock Text="Entered By *" 
-                                 Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                 Margin="0,0,0,8"/>
-                        <ComboBox ItemsSource="{Binding Users}"
-                                SelectedItem="{Binding SelectedUser}"
-                                DisplayMemberPath="Username"
-                            Style="{StaticResource ComboBox.Dark}"/>
-                    </StackPanel>
-                </Grid>
-
-                <!-- Notes -->
-                <TextBlock Text="Notes" 
-                         Style="{StaticResource MaterialDesignBody2TextBlock}"
-                         Margin="0,0,0,8"/>
-                  <TextBox Text="{Binding Notes}"
-                      Style="{StaticResource TextBox.Dark}"
-                       AcceptsReturn="True"
-                       TextWrapping="Wrap"
-                       MinLines="3"
-                       Margin="0,0,0,20"/>
-
-                <!-- Error/Success Message -->
-                <TextBlock Text="{Binding ErrorMessage}"
-                         Foreground="#EF5350"
-                         TextWrapping="Wrap"
-                         Margin="0,0,0,16"
-                         Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
-
-                <!-- Action Buttons -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-                      <Button Content="CLEAR"
-                          Command="{Binding ClearFormCommand}"
-                          Style="{StaticResource Button.Secondary}"
-                          Margin="0,0,16,0"
-                          Height="44"
-                          Padding="32,0"
-                          ToolTip="Clear all fields and start a new transaction entry"/>
-                      <Button Content="{Binding SaveButtonText}"
-                          Command="{Binding SaveTransactionCommand}"
-                          Style="{StaticResource Button.Primary}"
-                          Height="44"
-                          Padding="32,0"
-                          ToolTip="Save this transaction. The total amount will be calculated automatically from quantity and price per unit"/>
+                <StackPanel Grid.Row="1" Grid.Column="4" Margin="0,0,0,16">
+                    <TextBlock Text="Total Amount" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <Border Background="{StaticResource Bg.Card}" 
+                        BorderBrush="{StaticResource Border.Default}"
+                            BorderThickness="0,0,0,2"
+                            CornerRadius="4"
+                            Padding="16,12">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#00f2fe" Opacity="0.15" ShadowDepth="0" BlurRadius="8"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="CurrencyInr" 
+                                                   Width="18" Height="18"
+                                                   Foreground="{StaticResource AccentCyan}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0"/>
+                            <TextBlock Grid.Column="1"
+                                     Text="{Binding TotalAmount, StringFormat={}{0:N2}}"
+                                     FontSize="14"
+                                     FontWeight="Bold"
+                                     Foreground="{StaticResource AccentCyan}"
+                                     VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
                 </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
 
-        <!-- Loading Overlay -->
-        <Grid Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                       Value="0"
-                       IsIndeterminate="True"
-                       Width="50" Height="50"/>
-        </Grid>
-        </Grid>
+                <!-- Entered By -->
+                <StackPanel Grid.Row="1" Grid.Column="6" Margin="0,0,0,16">
+                    <TextBlock Text="Entered By *" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding Users}"
+                            SelectedItem="{Binding SelectedUser}"
+                            DisplayMemberPath="Username"
+                        Style="{StaticResource ComboBox.Dark}"/>
+                </StackPanel>
+
+                <!-- Row 2: Notes (columns 0-3) and Action Buttons (columns 4-6) -->
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="0,0,12,0">
+                    <TextBlock Text="Notes" 
+                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                             Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding Notes}"
+                        Style="{StaticResource TextBox.Dark}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         MinLines="1"
+                         MaxLines="2"/>
+                    <!-- Error/Success Message -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                             Foreground="#EF5350"
+                             TextWrapping="Wrap"
+                             Margin="0,12,0,0"
+                             FontSize="12"
+                             Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- Row 2: Action Buttons (columns 5-6) -->
+                <StackPanel Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="CLEAR"
+                            Command="{Binding ClearFormCommand}"
+                            Style="{StaticResource Button.Secondary}"
+                            Margin="0,0,8,0"
+                            Height="40"
+                            Padding="20,0"
+                            ToolTip="Clear all fields and start a new transaction entry"/>
+                        <Button Content="{Binding SaveButtonText}"
+                            Command="{Binding SaveTransactionCommand}"
+                            Style="{StaticResource Button.Primary}"
+                            Height="40"
+                            Padding="20,0"
+                            ToolTip="Save this transaction"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Loading Overlay -->
+            <Grid Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" ZIndex="999">
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                               Value="0"
+                               IsIndeterminate="True"
+                               Width="50" Height="50"/>
+                </Grid>
+            </Grid>
         </materialDesign:Card>
         
         <!-- Recent Transactions -->
-        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource Card.Glass}">
+        <materialDesign:Card Grid.Row="1" Padding="24" Style="{StaticResource Card.Glass}">
             <DockPanel>
                 <!-- Header -->
                 <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">

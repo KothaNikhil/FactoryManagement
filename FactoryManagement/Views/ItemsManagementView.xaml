@@ -240,7 +240,6 @@
                                      FontSize="11"
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter stock quantity"
                                    Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"
                                    GotFocus="NumericTextBox_GotFocus"/>
