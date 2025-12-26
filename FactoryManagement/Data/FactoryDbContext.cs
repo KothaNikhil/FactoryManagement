@@ -64,6 +64,18 @@ namespace FactoryManagement.Data
                 .Property(t => t.TotalAmount)
                 .HasPrecision(18, 2);
 
+            // Configure Processing-specific fields
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.InputQuantity)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.ConversionRate)
+                .HasPrecision(5, 4);
+
+            modelBuilder.Entity<Transaction>()
+                .HasIndex(t => t.InputItemId);
+
             // Configure Financial Transaction indexes
             modelBuilder.Entity<FinancialTransaction>()
                 .HasIndex(ft => ft.TransactionDate);

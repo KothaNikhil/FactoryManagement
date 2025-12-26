@@ -48,9 +48,12 @@ namespace FactoryManagement.Services
             transaction.TotalAmount = transaction.Quantity * transaction.PricePerUnit;
             
             var result = await _transactionRepository.AddAsync(transaction);
-            
-            // Update item stock
-            await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
+
+            // Stock updates: processing is service-only, no inventory changes
+            if (transaction.TransactionType != TransactionType.Processing)
+            {
+                await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
+            }
             
             return result;
         }
@@ -66,11 +69,19 @@ namespace FactoryManagement.Services
             var transaction = await _transactionRepository.GetByIdAsync(id);
             if (transaction != null)
             {
-                // Reverse stock update
-                var reverseType = transaction.TransactionType == TransactionType.Buy 
-                    ? TransactionType.Sell 
-                    : TransactionType.Buy;
-                await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, reverseType);
+                // Reverse stock update based on transaction type
+                if (transaction.TransactionType != TransactionType.Processing)
+                {
+                    // Reverse regular transaction
+                    var reverseType = transaction.TransactionType switch
+                    {
+                        TransactionType.Buy => TransactionType.Sell,
+                        TransactionType.Sell => TransactionType.Buy,
+                        TransactionType.Wastage => TransactionType.Buy, // wastage had reduced stock; reversal increases
+                        _ => TransactionType.Buy
+                    };
+                    await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, reverseType);
+                }
                 
                 await _transactionRepository.DeleteAsync(transaction);
             }

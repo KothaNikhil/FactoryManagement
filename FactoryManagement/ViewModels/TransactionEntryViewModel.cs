@@ -77,9 +77,22 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private TransactionType _originalTransactionType;
 
+        // Processing-specific properties
+        [ObservableProperty]
+        private Item? _inputItem;
+
+        [ObservableProperty]
+        private decimal _inputQuantity;
+
+        [ObservableProperty]
+        private decimal _conversionRate;
+
+        [ObservableProperty]
+        private bool _isProcessingMode;
+
         public ObservableCollection<string> TransactionTypes { get; } = new()
         {
-            "Buy", "Sell", "Wastage"
+            "Buy", "Sell", "Wastage", "Processing"
         };
 
         public string SaveButtonText => IsEditMode ? "UPDATE TRANSACTION" : "SAVE TRANSACTION";
@@ -100,6 +113,7 @@ namespace FactoryManagement.ViewModels
         partial void OnQuantityChanged(decimal value)
         {
             CalculateTotal();
+            CalculateConversionRate();
         }
 
         partial void OnPricePerUnitChanged(decimal value)
@@ -107,10 +121,29 @@ namespace FactoryManagement.ViewModels
             CalculateTotal();
         }
 
+        partial void OnInputQuantityChanged(decimal value)
+        {
+            CalculateConversionRate();
+        }
+
         partial void OnSelectedTransactionTypeStringChanged(string value)
         {
             IsPartyRequired = SelectedTransactionType != TransactionType.Wastage;
+            IsProcessingMode = SelectedTransactionType == TransactionType.Processing;
             OnPropertyChanged(nameof(SelectedTransactionType));
+            OnPropertyChanged(nameof(ItemLabelText));
+            OnPropertyChanged(nameof(QuantityLabelText));
+        }
+
+        public string ItemLabelText => IsProcessingMode ? "Output Item (Processed):" : "Item:";
+        public string QuantityLabelText => IsProcessingMode ? "Output Quantity:" : "Quantity:";
+
+        private void CalculateConversionRate()
+        {
+            if (IsProcessingMode && InputQuantity > 0 && Quantity > 0)
+            {
+                ConversionRate = (Quantity / InputQuantity) * 100;
+            }
         }
 
         private void CalculateTotal()
@@ -196,12 +229,29 @@ namespace FactoryManagement.ViewModels
                     transaction.EnteredBy = SelectedUser!.UserId;
                     transaction.Notes = Notes;
 
-                    // Reverse old stock impact
-                    var reverseOldType = oldType == TransactionType.Buy ? TransactionType.Sell : TransactionType.Buy;
-                    await _itemService.UpdateStockAsync(oldItemId, oldQuantity, reverseOldType);
+                    // Reverse old stock impact with correct semantics per type
+                    switch (oldType)
+                    {
+                        case TransactionType.Buy:
+                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Sell);
+                            break;
+                        case TransactionType.Sell:
+                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Buy);
+                            break;
+                        case TransactionType.Wastage:
+                            // Wastage reduced stock originally; reversal increases
+                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Buy);
+                            break;
+                        case TransactionType.Processing:
+                            // Processing never altered stock; nothing to reverse
+                            break;
+                    }
 
                     // Apply new stock impact
-                    await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
+                    if (transaction.TransactionType != TransactionType.Processing)
+                    {
+                        await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
+                    }
 
                     await _transactionService.UpdateTransactionAsync(transaction);
                     ErrorMessage = "✓ Transaction updated successfully!";
@@ -221,6 +271,14 @@ namespace FactoryManagement.ViewModels
                         EnteredBy = SelectedUser!.UserId,
                         Notes = Notes
                     };
+
+                    // Add processing-specific data
+                    if (SelectedTransactionType == TransactionType.Processing)
+                    {
+                        transaction.InputItemId = InputItem?.ItemId;
+                        transaction.InputQuantity = InputQuantity;
+                        transaction.ConversionRate = ConversionRate / 100; // Store as decimal (0.70 instead of 70%)
+                    }
 
                     await _transactionService.AddTransactionAsync(transaction);
                     ErrorMessage = "✓ Transaction saved successfully!";
@@ -259,6 +317,12 @@ namespace FactoryManagement.ViewModels
             IsEditMode = false;
             EditingTransactionId = 0;
             OriginalQuantity = 0;
+            
+            // Clear processing fields
+            InputItem = null;
+            InputQuantity = 0;
+            ConversionRate = 0;
+            
             OnPropertyChanged(nameof(SaveButtonText));
             OnPropertyChanged(nameof(FormTitle));
             
@@ -285,6 +349,16 @@ namespace FactoryManagement.ViewModels
                 SelectedUser = Users.FirstOrDefault(u => u.UserId == transaction.EnteredBy);
                 Notes = transaction.Notes ?? string.Empty;
 
+                // Load processing-specific data
+                if (transaction.TransactionType == TransactionType.Processing)
+                {
+                    InputItem = transaction.InputItemId.HasValue 
+                        ? Items.FirstOrDefault(i => i.ItemId == transaction.InputItemId.Value) 
+                        : null;
+                    InputQuantity = transaction.InputQuantity ?? 0;
+                    ConversionRate = (transaction.ConversionRate ?? 0) * 100; // Display as percentage
+                }
+
                 OnPropertyChanged(nameof(SaveButtonText));
                 OnPropertyChanged(nameof(FormTitle));
                 ErrorMessage = string.Empty;
@@ -299,6 +373,28 @@ namespace FactoryManagement.ViewModels
 
         private bool ValidateTransaction()
         {
+            // Processing-specific validation
+            if (SelectedTransactionType == TransactionType.Processing)
+            {
+                if (InputItem == null)
+                {
+                    ErrorMessage = "Please select input material";
+                    return false;
+                }
+
+                if (InputQuantity <= 0)
+                {
+                    ErrorMessage = "Input quantity must be greater than zero";
+                    return false;
+                }
+
+                if (SelectedItem != null && InputItem != null && InputItem.ItemId == SelectedItem.ItemId)
+                {
+                    ErrorMessage = "Input and output items must be different";
+                    return false;
+                }
+            }
+
             if (SelectedItem == null)
             {
                 ErrorMessage = "Please select an item";
@@ -329,7 +425,7 @@ namespace FactoryManagement.ViewModels
                 return false;
             }
 
-            // Check stock for sell/wastage
+            // Check stock for sell/wastage (not for processing output)
             if (SelectedTransactionType == TransactionType.Sell || SelectedTransactionType == TransactionType.Wastage)
             {
                 decimal requiredStock;

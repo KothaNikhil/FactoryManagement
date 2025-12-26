@@ -26,6 +26,12 @@ namespace FactoryManagement.ViewModels
         private decimal _totalWastage;
 
         [ObservableProperty]
+        private decimal _totalProcessingFees;
+
+        [ObservableProperty]
+        private int _processingTransactionCount;
+
+        [ObservableProperty]
         private int _transactionCount;
 
         [ObservableProperty]
@@ -86,6 +92,13 @@ namespace FactoryManagement.ViewModels
                 TotalWastage = transactions
                     .Where(t => t.TransactionType == TransactionType.Wastage)
                     .Sum(t => t.TotalAmount);
+
+                TotalProcessingFees = transactions
+                    .Where(t => t.TransactionType == TransactionType.Processing)
+                    .Sum(t => t.TotalAmount);
+
+                ProcessingTransactionCount = transactions
+                    .Count(t => t.TransactionType == TransactionType.Processing);
 
                 TransactionCount = transactions.Count;
 

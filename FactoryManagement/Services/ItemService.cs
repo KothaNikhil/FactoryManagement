@@ -14,6 +14,7 @@ namespace FactoryManagement.Services
         Task UpdateItemAsync(Item item);
         Task DeleteItemAsync(int id);
         Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType);
+        Task UpdateStockForProcessingAsync(int inputItemId, decimal inputQuantity, int outputItemId, decimal outputQuantity);
     }
 
     public class ItemService : IItemService
@@ -58,6 +59,13 @@ namespace FactoryManagement.Services
 
         public async Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType)
         {
+            // Processing does not affect inventory; skip entirely
+            if (transactionType == TransactionType.Processing)
+            {
+                await Task.CompletedTask;
+                return;
+            }
+
             var item = await _itemRepository.GetByIdAsync(itemId);
             if (item != null)
             {
@@ -74,6 +82,12 @@ namespace FactoryManagement.Services
                 item.ModifiedDate = DateTime.Now;
                 await _itemRepository.UpdateAsync(item);
             }
+        }
+
+        public async Task UpdateStockForProcessingAsync(int inputItemId, decimal inputQuantity, int outputItemId, decimal outputQuantity)
+        {
+            // No-op: Processing does not alter inventory in service-only model
+            await Task.CompletedTask;
         }
     }
 }

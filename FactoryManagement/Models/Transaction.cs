@@ -8,7 +8,8 @@ namespace FactoryManagement.Models
     {
         Buy,
         Sell,
-        Wastage
+        Wastage,
+        Processing
     }
 
     public class Transaction
@@ -53,5 +54,15 @@ namespace FactoryManagement.Models
         public string Notes { get; set; } = string.Empty;
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        // Processing-specific fields
+        public int? InputItemId { get; set; }
+
+        [ForeignKey(nameof(InputItemId))]
+        public virtual Item? InputItem { get; set; }
+
+        public decimal? InputQuantity { get; set; }
+
+        public decimal? ConversionRate { get; set; }
     }
 }

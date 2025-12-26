@@ -111,6 +111,8 @@ namespace FactoryManagement
             {
                 // Use EnsureCreated instead of Migrate for simple database creation
                 context.Database.EnsureCreated();
+                // Apply lightweight schema upgrades for newly added columns
+                ApplySchemaUpgrades(context);
                 Log.Information("Database initialized successfully");
                 
                 // Seed initial data if needed
@@ -121,6 +123,47 @@ namespace FactoryManagement
                 Log.Error(ex, "Error initializing database");
                 MessageBox.Show($"Error initializing database: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Minimal, forward-only schema upgrade helpers for SQLite when model evolves
+        private void ApplySchemaUpgrades(FactoryDbContext context)
+        {
+            try
+            {
+                // Add missing columns on Transactions table if they don't exist yet
+                // SQLite doesn't support IF NOT EXISTS for columns, so try/catch duplicate errors
+                TryAddColumn(context, "Transactions", "InputItemId", "INTEGER NULL");
+                TryAddColumn(context, "Transactions", "InputQuantity", "NUMERIC NULL");
+                TryAddColumn(context, "Transactions", "ConversionRate", "REAL NULL");
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Schema upgrade attempt encountered an issue");
+            }
+        }
+
+        private void TryAddColumn(FactoryDbContext context, string table, string column, string sqliteType)
+        {
+            try
+            {
+#pragma warning disable EF1002
+                context.Database.ExecuteSqlRaw($"ALTER TABLE {table} ADD COLUMN {column} {sqliteType}");
+#pragma warning restore EF1002
+                Log.Information("Added missing column {Column} to {Table}", column, table);
+            }
+            catch (Microsoft.Data.Sqlite.SqliteException sex)
+            {
+                // 1: SQL error; 19: constraint; 2610 duplicate column is reported as error with specific message
+                if (sex.Message.Contains("duplicate column name", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Column already exists; safe to ignore
+                    Log.Debug("Column {Column} already exists on {Table}", column, table);
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
         
