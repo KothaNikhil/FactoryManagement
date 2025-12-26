@@ -121,6 +121,7 @@
             
             <!-- Converters -->
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
             <converters:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
             <converters:EditModeToTextConverter x:Key="EditModeToTextConverter"/>
             <converters:TransactionTypeConverter x:Key="TransactionTypeConverter"/>

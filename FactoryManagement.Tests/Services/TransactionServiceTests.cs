@@ -179,6 +179,58 @@ namespace FactoryManagement.Tests.Services
         }
 
         [Fact]
+        public async Task AddTransactionAsync_Processing_ShouldNotChangeStock()
+        {
+            // Arrange
+            var transaction = new Transaction
+            {
+                ItemId = 2,
+                Quantity = 20,
+                TransactionType = TransactionType.Processing,
+                PricePerUnit = 5,
+                InputItemId = 1,
+                InputQuantity = 30
+            };
+
+            _mockTransactionRepo.Setup(r => r.AddAsync(It.IsAny<Transaction>())).ReturnsAsync(transaction);
+
+            // Act
+            var result = await _service.AddTransactionAsync(transaction);
+
+            // Assert
+            Assert.Equal(100, result.TotalAmount); // 20 * 5
+            _mockItemService.Verify(r => r.UpdateStockAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<TransactionType>()), Times.Never);
+            _mockItemService.Verify(r => r.UpdateStockForProcessingAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<int>(), It.IsAny<decimal>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task DeleteTransactionAsync_Processing_ShouldNotReverseStock()
+        {
+            // Arrange
+            var transaction = new Transaction
+            {
+                TransactionId = 2,
+                ItemId = 2,
+                Quantity = 20,
+                TransactionType = TransactionType.Processing,
+                PricePerUnit = 5,
+                InputItemId = 1,
+                InputQuantity = 30
+            };
+
+            _mockTransactionRepo.Setup(r => r.GetByIdAsync(2)).ReturnsAsync(transaction);
+            _mockTransactionRepo.Setup(r => r.DeleteAsync(It.IsAny<Transaction>())).Returns(Task.CompletedTask);
+
+            // Act
+            await _service.DeleteTransactionAsync(2);
+
+            // Assert
+            _mockItemService.Verify(r => r.UpdateStockAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<TransactionType>()), Times.Never);
+            _mockItemService.Verify(r => r.UpdateStockForProcessingAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<int>(), It.IsAny<decimal>()), Times.Never);
+            _mockTransactionRepo.Verify(r => r.DeleteAsync(It.IsAny<Transaction>()), Times.Once);
+        }
+
+        [Fact]
         public async Task GetRecentTransactionsAsync_ShouldReturnLimitedTransactions()
         {
             // Arrange

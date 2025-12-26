@@ -65,5 +65,23 @@ namespace FactoryManagement.Tests.Services
             Assert.Equal(70, item.CurrentStock);
             mockRepo.Verify(r => r.UpdateAsync(item), Times.Once);
         }
+
+        [Fact]
+        public async Task UpdateStockAsync_ProcessingTransaction_ShouldNotChangeStock()
+        {
+            // Arrange
+            var mockRepo = new Mock<IRepository<Item>>();
+            var item = new Item { ItemId = 1, CurrentStock = 100 };
+            mockRepo.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(item);
+            var service = new ItemService(mockRepo.Object);
+
+            // Act
+            await service.UpdateStockAsync(1, 25, TransactionType.Processing);
+
+            // Assert
+            Assert.Equal(100, item.CurrentStock);
+            // For processing, UpdateAsync might still be called if implementation touched ModifiedDate; here it shouldn't
+            mockRepo.Verify(r => r.UpdateAsync(It.IsAny<Item>()), Times.Never);
+        }
     }
 }

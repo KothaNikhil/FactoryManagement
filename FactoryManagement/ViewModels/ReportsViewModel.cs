@@ -27,6 +27,11 @@ namespace FactoryManagement.ViewModels
         public decimal Amount { get; set; }
         public string? AdditionalInfo { get; set; } // For extra details like days worked, interest, etc.
         public string? Notes { get; set; }
+        
+        // Processing-specific fields
+        public string? InputItemName { get; set; }
+        public decimal? InputQuantity { get; set; }
+        public decimal? ConversionRate { get; set; }
     }
 
     public enum ReportType
@@ -287,21 +292,32 @@ namespace FactoryManagement.ViewModels
                 // Add inventory transactions
                 foreach (var t in inventoryTransactions)
                 {
+                    var description = t.TransactionType == TransactionType.Processing
+                        ? $"{t.InputItem?.ItemName ?? "N/A"} → {t.Item?.ItemName ?? "N/A"} ({t.Party?.Name ?? "N/A"})"
+                        : $"{t.Item?.ItemName ?? "N/A"} - {t.Party?.Name ?? "N/A"}";
+                    
+                    var additionalInfo = t.TransactionType == TransactionType.Processing
+                        ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2} (Conv: {(t.ConversionRate ?? 0) * 100:N1}%)"
+                        : (t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null);
+
                     AllTransactions.Add(new UnifiedTransactionViewModel
                     {
                         Category = "Inventory",
                         TransactionId = t.TransactionId.ToString(),
                         TransactionDate = t.TransactionDate,
                         TransactionType = t.TransactionType.ToString(),
-                        Description = $"{t.Item?.ItemName ?? "N/A"} - {t.Party?.Name ?? "N/A"}",
+                        Description = description,
                         ItemName = t.Item?.ItemName,
                         PartyName = t.Party?.Name,
                         WorkerName = null,
                         Quantity = t.Quantity,
                         Rate = t.PricePerUnit,
                         Amount = t.TotalAmount,
-                        AdditionalInfo = t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null,
-                        Notes = t.Notes
+                        AdditionalInfo = additionalInfo,
+                        Notes = t.Notes,
+                        InputItemName = t.InputItem?.ItemName,
+                        InputQuantity = t.InputQuantity,
+                        ConversionRate = t.ConversionRate
                     });
                 }
                 

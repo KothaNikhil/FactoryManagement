@@ -11,7 +11,8 @@ namespace FactoryManagement.Models
         Both,
         Lender,         // Party who lends money to you
         Borrower,       // Party who borrows money from you
-        Financial       // Party involved in both lending and borrowing
+        Financial,      // Party involved in both lending and borrowing
+        Processor       // Customer who brings material for processing (job work)
     }
 
     public class Party

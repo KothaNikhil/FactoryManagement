@@ -159,6 +159,19 @@ namespace FactoryManagement.Tests.TestHelpers
             return this;
         }
 
+        public TransactionBuilder WithInputItem(int inputItemId, decimal inputQuantity)
+        {
+            _transaction.InputItemId = inputItemId;
+            _transaction.InputQuantity = inputQuantity;
+            return this;
+        }
+
+        public TransactionBuilder WithConversionRate(decimal conversionRate)
+        {
+            _transaction.ConversionRate = conversionRate;
+            return this;
+        }
+
         public Transaction Build() => _transaction;
     }
 
