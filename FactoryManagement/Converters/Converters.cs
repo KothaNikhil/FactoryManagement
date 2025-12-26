@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 
@@ -103,6 +104,27 @@ namespace FactoryManagement.Converters
             return enumValue?.Equals(targetValue, StringComparison.OrdinalIgnoreCase) == true
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EnumToFriendlyStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return string.Empty;
+
+            var enumString = value.ToString();
+            if (string.IsNullOrEmpty(enumString))
+                return string.Empty;
+
+            // Insert spaces before capital letters (except the first one)
+            return Regex.Replace(enumString, "(\\B[A-Z])", " $1");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

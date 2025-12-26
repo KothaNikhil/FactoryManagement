@@ -275,7 +275,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="100"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" Width="90"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="100"/>
                         <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                         <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
