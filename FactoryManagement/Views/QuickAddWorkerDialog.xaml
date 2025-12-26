@@ -37,8 +37,7 @@
                          Margin="0,0,0,8"/>
                 <TextBox x:Name="WorkerNameTextBox"
                        materialDesign:HintAssist.Hint="Enter worker name"
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                       FontSize="14"
+                       Style="{StaticResource TextBox.Standard}"
                        Foreground="White"
                        Margin="0,0,0,18"/>
 
@@ -49,8 +48,7 @@
                          Margin="0,0,0,8"/>
                 <TextBox x:Name="MobileNumberTextBox"
                        materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                       FontSize="14"
+                       Style="{StaticResource TextBox.Standard}"
                        Foreground="White"
                        Margin="0,0,0,18"/>
 

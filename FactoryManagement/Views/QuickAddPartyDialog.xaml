@@ -35,8 +35,7 @@
                              Margin="0,0,0,8"/>
                     <TextBox x:Name="PartyNameTextBox"
                            materialDesign:HintAssist.Hint="Enter party name"
-                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                           FontSize="14"
+                           Style="{StaticResource TextBox.Standard}"
                            Foreground="White"
                            Margin="0,0,0,18"/>
 
@@ -47,8 +46,7 @@
                              Margin="0,0,0,8"/>
                     <TextBox x:Name="MobileNumberTextBox"
                            materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                           FontSize="14"
+                           Style="{StaticResource TextBox.Standard}"
                            Foreground="White"
                            Margin="0,0,0,18"/>
 
@@ -59,8 +57,7 @@
                              Margin="0,0,0,8"/>
                     <TextBox x:Name="PlaceTextBox"
                            materialDesign:HintAssist.Hint="Enter place/location (optional)"
-                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                           FontSize="14"
+                           Style="{StaticResource TextBox.Standard}"
                            Foreground="White"
                            Margin="0,0,0,18"/>
 
@@ -71,8 +68,7 @@
                              Margin="0,0,0,8"/>
                     <ComboBox x:Name="PartyTypeComboBox"
                             materialDesign:HintAssist.Hint="Select party type"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                            FontSize="14"
+                            Style="{StaticResource ComboBox.Standard}"
                             Foreground="White"
                             Margin="0,0,0,18"
                             SelectedIndex="0">

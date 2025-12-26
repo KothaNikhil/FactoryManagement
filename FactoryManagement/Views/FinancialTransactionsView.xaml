@@ -172,7 +172,7 @@
                                 <ComboBox ItemsSource="{Binding Parties}" 
                                           SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
-                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                          Style="{StaticResource ComboBox.Standard}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -181,7 +181,7 @@
                                          Margin="0,0,0,8"/>
                                 <ComboBox ItemsSource="{Binding LoanTypes}" 
                                           SelectedItem="{Binding SelectedLoanType, Mode=TwoWay}"
-                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                          Style="{StaticResource ComboBox.Standard}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="4">
@@ -190,7 +190,7 @@
                                          Margin="0,0,0,8"/>
                                 <TextBox Text="{Binding LoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          GotFocus="NumericTextBox_GotFocus"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                                         Style="{StaticResource TextBox.Standard}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="6">
@@ -199,7 +199,7 @@
                                          Margin="0,0,0,8"/>
                                 <TextBox Text="{Binding InterestRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          GotFocus="NumericTextBox_GotFocus"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                                         Style="{StaticResource TextBox.Standard}"/>
                             </StackPanel>
                         </Grid>
 
@@ -218,7 +218,7 @@
                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                                          Margin="0,0,0,8"/>
                                 <DatePicker SelectedDate="{Binding StartDate}" 
-                                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                            Style="{StaticResource DatePicker.Standard}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -226,7 +226,7 @@
                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                                          Margin="0,0,0,8"/>
                                 <DatePicker SelectedDate="{Binding DueDate}" 
-                                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                            Style="{StaticResource DatePicker.Standard}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="4">
@@ -234,7 +234,7 @@
                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                                          Margin="0,0,0,8"/>
                                 <TextBox Text="{Binding LoanNotes, Mode=TwoWay}" 
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                                         Style="{StaticResource TextBox.Standard}"/>
                             </StackPanel>
                         </Grid>
 
@@ -303,7 +303,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}" 
                                      GotFocus="NumericTextBox_GotFocus"
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                                     Style="{StaticResource TextBox.Standard}"/>
                         </StackPanel>
 
                         <!-- Action Button -->

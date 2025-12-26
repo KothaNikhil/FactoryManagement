@@ -139,9 +139,8 @@
                             <TextBox Grid.Column="1"
                                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Search items by name..."
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                   Margin="0,0,0,0"
-                                   FontSize="14"/>
+                                   Style="{StaticResource TextBox.Standard}"
+                                   Margin="0,0,0,0"/>
                         </Grid>
                     </Border>
 
@@ -232,7 +231,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter item name"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"/>
 
                             <!-- Current Stock -->
@@ -242,7 +241,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter stock quantity"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"
                                    GotFocus="NumericTextBox_GotFocus"/>
 
@@ -254,7 +253,7 @@
                             <ComboBox Text="{Binding Unit}"
                                     IsEditable="True"
                                     materialDesign:HintAssist.Hint="Select or enter unit"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                    Style="{StaticResource ComboBox.Standard}"
                                     Margin="0,0,0,20">
                                 <ComboBoxItem Content="Kg"/>
                                 <ComboBoxItem Content="Quintal"/>

@@ -139,9 +139,8 @@
                             <TextBox Grid.Column="1"
                                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Search parties by name, mobile, or place..."
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                   Margin="0,0,0,0"
-                                   FontSize="14"/>
+                                   Style="{StaticResource TextBox.Standard}"
+                                   Margin="0,0,0,0"/>
                         </Grid>
                     </Border>
 
@@ -233,7 +232,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter party name"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"/>
 
                             <!-- Mobile Number -->
@@ -243,7 +242,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter mobile number"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"/>
 
                             <!-- Place -->
@@ -253,7 +252,7 @@
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding Place, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter place/location"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"/>
 
                             <!-- Party Type -->
@@ -263,7 +262,7 @@
                                      Margin="0,0,0,8"/>
                             <ComboBox SelectedIndex="{Binding PartyType}"
                                     materialDesign:HintAssist.Hint="Select party type"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                    Style="{StaticResource ComboBox.Standard}"
                                     Margin="0,0,0,20">
                                 <ComboBoxItem Content="Buyer"/>
                                 <ComboBoxItem Content="Seller"/>

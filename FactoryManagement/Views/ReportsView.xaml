@@ -140,7 +140,7 @@
                             <TextBlock Text="Report Type" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding ReportTypes}"
                                     SelectedItem="{Binding SelectedReportType}"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
                         <!-- Item/Party/Worker Filter (dynamic based on report type) -->
@@ -149,7 +149,7 @@
                             <ComboBox ItemsSource="{Binding Items}"
                                     SelectedItem="{Binding SelectedItem}"
                                     DisplayMemberPath="ItemName"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Financial}">
@@ -157,7 +157,7 @@
                             <ComboBox ItemsSource="{Binding Parties}"
                                     SelectedItem="{Binding SelectedParty}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2" Visibility="{Binding SelectedReportType, Converter={StaticResource EnumVisibilityConverter}, ConverterParameter=Wages}">
@@ -165,7 +165,7 @@
                             <ComboBox ItemsSource="{Binding Workers}"
                                     SelectedItem="{Binding SelectedWorker}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
                         <!-- Party Filter for Inventory -->
@@ -174,21 +174,21 @@
                             <ComboBox ItemsSource="{Binding Parties}"
                                     SelectedItem="{Binding SelectedParty}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
                         <!-- Start Date -->
                         <StackPanel Grid.Column="6">
                             <TextBlock Text="Start Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <DatePicker SelectedDate="{Binding StartDate}"
-                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                      Style="{StaticResource DatePicker.Standard}"/>
                         </StackPanel>
 
                         <!-- End Date -->
                         <StackPanel Grid.Column="8">
                             <TextBlock Text="End Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <DatePicker SelectedDate="{Binding EndDate}"
-                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                      Style="{StaticResource DatePicker.Standard}"/>
                         </StackPanel>
                     </Grid>
 

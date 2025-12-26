@@ -155,7 +155,7 @@
                                       SelectedItem="{Binding SelectedWorker}"
                                       DisplayMemberPath="Name"
                                       materialDesign:HintAssist.Hint="Choose worker"
-                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Style="{StaticResource ComboBox.Standard}"
                                       Margin="0,0,0,10"/>
 
                             <!-- Outstanding Advance Info -->
@@ -171,14 +171,14 @@
                             <TextBlock Text="Payment Type *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <ComboBox ItemsSource="{Binding TransactionTypes}"
                                       SelectedItem="{Binding TransactionType}"
-                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Style="{StaticResource ComboBox.Standard}"
                                       Margin="0,0,0,10"/>
 
                             <!-- Amount -->
                             <TextBlock Text="Amount *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="Enter amount in ₹"
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     Style="{StaticResource TextBox.Standard}"
                                      FontSize="16"
                                      FontWeight="Bold"
                                      Margin="0,0,0,10"/>
@@ -187,7 +187,7 @@
                             <TextBlock Text="Notes" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <TextBox Text="{Binding Notes}"
                                      materialDesign:HintAssist.Hint="Optional..."
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     Style="{StaticResource TextBox.Standard}"
                                      TextWrapping="Wrap"
                                      MinLines="1"
                                      MaxLines="1"
@@ -242,7 +242,7 @@
                             
                             <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="🔍 Search workers..."
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     Style="{StaticResource TextBox.Standard}"
                                      VerticalAlignment="Center"/>
                             </Grid>
                         </Border>

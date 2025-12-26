@@ -238,25 +238,46 @@
   </Style>
   
   <!-- COMBOBOX STYLES -->
-  <Style x:Key="ComboBox.Dark" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+  <!-- Standard ComboBox style for consistent appearance across all screens -->
+  <Style x:Key="ComboBox.Standard" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="MinHeight" Value="40"/>
   </Style>
+  
+  <!-- Alias for backward compatibility -->
+  <Style x:Key="ComboBox.Dark" TargetType="ComboBox" BasedOn="{StaticResource ComboBox.Standard}"/>
   
   <!-- TEXTBOX STYLES -->
-  <Style x:Key="TextBox.Dark" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+  <!-- Standard TextBox style for consistent appearance across all screens -->
+  <Style x:Key="TextBox.Standard" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="MinHeight" Value="40"/>
   </Style>
   
+  <!-- Alias for backward compatibility -->
+  <Style x:Key="TextBox.Dark" TargetType="TextBox" BasedOn="{StaticResource TextBox.Standard}"/>
+  
   <!-- DATEPICKER STYLES -->
-  <Style x:Key="DatePicker.Dark" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+  <!-- Standard DatePicker style for consistent appearance across all screens -->
+  <Style x:Key="DatePicker.Standard" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="MinHeight" Value="40"/>
   </Style>
+  
+  <!-- Alias for backward compatibility -->
+  <Style x:Key="DatePicker.Dark" TargetType="DatePicker" BasedOn="{StaticResource DatePicker.Standard}"/>
   
   <!-- DATAGRID STYLES -->
   <Style x:Key="DataGrid.Standard" TargetType="DataGrid">
