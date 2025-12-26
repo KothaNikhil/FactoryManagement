@@ -128,7 +128,7 @@
 
                 <!-- RECORD PAYMENT (Top) -->
                 <Border Grid.Row="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15"
-                        ToolTip="Select worker and enter payment">
+                    ToolTip="Select worker and enter payment">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -138,7 +138,7 @@
                         <!-- Form Content -->
                         <StackPanel Grid.Row="0">
                             <!-- Section Header -->
-                            <Border Style="{StaticResource SectionHeader.Prominent}">
+                            <Border Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
                                 <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
                                     <TextBlock Text="💸" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -223,14 +223,14 @@
                         </Grid.RowDefinitions>
 
                         <!-- Section Header and Search Box in same row -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}" Margin="-20,-20,-20,20">
                             <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             
-                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0,0,15,0">
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
                                     <TextBlock Text="👷" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
@@ -241,7 +241,7 @@
                             
                             <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="🔍 Search workers..."
-                                     Style="{StaticResource TextBox.Standard}"
+                                     Style="{StaticResource TextBox.Standard}" Margin="10,0,0,0"
                                      VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
