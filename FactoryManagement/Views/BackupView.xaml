@@ -93,14 +93,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <!-- Header -->
-                <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
+                <!-- Header using global section header style, ensure proper alignment -->
+                <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}" HorizontalAlignment="Stretch" Margin="0">
                     <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
                         <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Info}">
-                            <materialDesign:PackIcon Kind="DatabaseClock" Width="20" Height="20" 
-                                                   Foreground="White" 
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="DatabaseClock" Width="20" Height="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel Style="{StaticResource SectionHeader.Content}">
                             <TextBlock Text="Available Backups" Style="{StaticResource SectionHeader.Title}"/>
@@ -109,21 +106,22 @@
                 </Border>
 
                 <!-- Backup DataGrid -->
-                <DataGrid Grid.Row="1"
-                          ItemsSource="{Binding Backups}"
-                          SelectedItem="{Binding SelectedBackup}"
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          IsReadOnly="True"
-                          SelectionMode="Single"
-                          Background="Transparent"
-                          RowBackground="#1a1a2e"
-                          AlternatingRowBackground="#16213e"
-                          BorderThickness="0"
-                          GridLinesVisibility="None"
-                          HeadersVisibility="Column"
-                          SelectionUnit="FullRow">
+                <DataGrid
+                    Grid.Row="1"
+                    ItemsSource="{Binding Backups}"
+                    SelectedItem="{Binding SelectedBackup}"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    IsReadOnly="True"
+                    SelectionMode="Single"
+                    Background="Transparent"
+                    RowBackground="#1a1a2e"
+                    AlternatingRowBackground="#16213e"
+                    BorderThickness="0"
+                    GridLinesVisibility="None"
+                    HeadersVisibility="Column"
+                    SelectionUnit="FullRow">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
                             <Setter Property="Background" Value="Transparent"/>
