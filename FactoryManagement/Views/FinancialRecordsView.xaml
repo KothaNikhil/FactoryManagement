@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:FactoryManagement.Behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <i:Interaction.Triggers>
@@ -14,6 +15,7 @@
     </i:Interaction.Triggers>
     
     <Grid>
+        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -376,6 +378,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="10"/>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
@@ -415,6 +419,14 @@
                                         BorderThickness="0"
                                         Cursor="Hand"
                                         ToolTip="Reload all loan data and refresh the summary cards"/>
+                                <Button Grid.Column="8" Content="↩ Undo Delete" 
+                                        Command="{Binding UndoDeleteLoanCommand}"
+                                        Background="#6c757d" 
+                                        Foreground="White" 
+                                        Padding="15,5"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        ToolTip="Restore the last deleted loan and its transactions"/>
                             </Grid>
                         </Border>
 
@@ -445,6 +457,17 @@
                                 </Style>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Delete" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
+                                                    ToolTip="Delete Loan"
+                                                    Command="{Binding DataContext.DeleteLoanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <TextBlock Text="🗑" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="150"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding LoanType}" Width="80"/>
                                 <DataGridTextColumn Header="Original Amount" Binding="{Binding OriginalAmount, StringFormat=₹{0:N2}}" Width="130"/>
@@ -467,12 +490,27 @@
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="0" Background="#1a1a1a" Padding="15" BorderBrush="#444" BorderThickness="0,0,0,1">
-                            <TextBlock Text="📜 Transaction History" 
-                                       FontWeight="Bold" FontSize="16" Foreground="White"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="📜 Transaction History" 
+                                           FontWeight="Bold" FontSize="16" Foreground="White"/>
+                                <Button Grid.Column="1" Content="↩ Undo Delete" 
+                                        Command="{Binding UndoDeleteFinancialTransactionCommand}"
+                                        Background="#6c757d" 
+                                        Foreground="White" 
+                                        Padding="12,4"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        ToolTip="Restore the last deleted transaction"/>
+                            </Grid>
                         </Border>
 
                         <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
                                   ItemsSource="{Binding Transactions}" 
+                                  SelectedItem="{Binding SelectedTransaction}"
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True"
                                   CanUserAddRows="False"
@@ -495,6 +533,17 @@
                                 </Style>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Delete" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
+                                                    ToolTip="Delete Entry"
+                                                    Command="{Binding DataContext.DeleteFinancialTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <TextBlock Text="🗑" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM}" Width="80"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N0}}" Width="90"/>

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
@@ -110,6 +111,10 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private string _errorMessage = string.Empty;
+
+        private Worker? _lastDeletedWorker;
+        private WageTransaction? _lastDeletedWageTransaction;
+        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
 
         private ObservableCollection<Worker> _allWorkers = new();
 
@@ -293,6 +298,129 @@ namespace FactoryManagement.ViewModels
             {
                 ErrorMessage = $"Error adding worker: {ex.Message}";
                 MessageBox.Show($"Error adding worker: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteWorkerAsync(Worker? worker)
+        {
+            if (worker == null) return;
+            try
+            {
+                IsBusy = true;
+                var confirm = MessageBox.Show($"Delete worker {worker.Name}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (confirm != MessageBoxResult.Yes) { IsBusy = false; return; }
+                _lastDeletedWorker = worker;
+                await _wageService.DeleteWorkerAsync(worker.WorkerId);
+                await LoadWorkersAsync();
+
+                SnackbarMessageQueue.Enqueue(
+                    "Worker deleted",
+                    "UNDO",
+                    () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteWorkerAsync()));
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error deleting worker: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteWageTransactionAsync(WageTransaction? transaction)
+        {
+            if (transaction == null) return;
+            try
+            {
+                IsBusy = true;
+                var confirm = MessageBox.Show($"Delete {transaction.TransactionType} on {transaction.TransactionDate:dd-MMM-yyyy}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (confirm != MessageBoxResult.Yes) { IsBusy = false; return; }
+                _lastDeletedWageTransaction = transaction;
+                await _wageService.DeleteWageTransactionAsync(transaction.WageTransactionId);
+                if (SelectedWorker != null)
+                {
+                    await LoadWorkerDetailsAsync(SelectedWorker.WorkerId);
+                }
+                await LoadWorkersAsync();
+
+                SnackbarMessageQueue.Enqueue(
+                    "Transaction deleted",
+                    "UNDO",
+                    () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteWageTransactionAsync()));
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error deleting transaction: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task UndoDeleteWorkerAsync()
+        {
+            if (_lastDeletedWorker == null) return;
+            try
+            {
+                IsBusy = true;
+                // Restore the worker record
+                var worker = new Worker
+                {
+                    Name = _lastDeletedWorker.Name,
+                    MobileNumber = _lastDeletedWorker.MobileNumber,
+                    Address = _lastDeletedWorker.Address,
+                    Status = _lastDeletedWorker.Status,
+                    Rate = _lastDeletedWorker.Rate,
+                    DailyRate = _lastDeletedWorker.DailyRate,
+                    HourlyRate = _lastDeletedWorker.HourlyRate,
+                    MonthlyRate = _lastDeletedWorker.MonthlyRate,
+                    TotalAdvance = _lastDeletedWorker.TotalAdvance,
+                    TotalWagesPaid = _lastDeletedWorker.TotalWagesPaid,
+                    JoiningDate = _lastDeletedWorker.JoiningDate,
+                    LeavingDate = _lastDeletedWorker.LeavingDate,
+                    Notes = _lastDeletedWorker.Notes
+                };
+                await _wageService.AddWorkerAsync(worker);
+                _lastDeletedWorker = null;
+                await LoadWorkersAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error undoing worker delete: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task UndoDeleteWageTransactionAsync()
+        {
+            if (_lastDeletedWageTransaction == null) return;
+            try
+            {
+                IsBusy = true;
+                await _wageService.RestoreWageTransactionAsync(_lastDeletedWageTransaction);
+                _lastDeletedWageTransaction = null;
+                if (SelectedWorker != null)
+                {
+                    await LoadWorkerDetailsAsync(SelectedWorker.WorkerId);
+                }
+                await LoadWorkersAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error undoing transaction delete: {ex.Message}";
             }
             finally
             {

@@ -402,20 +402,30 @@
             <DockPanel>
                 <!-- Header -->
                 <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">
-                    <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                    <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Info}">
-                        <materialDesign:PackIcon Kind="History" Width="20" Height="20" 
-                                               Foreground="White"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"/>
-                    </Border>
-                    <StackPanel Style="{StaticResource SectionHeader.Content}">
-                        <TextBlock Text="Recent Transactions" 
-                                 Style="{StaticResource SectionHeader.Title}"/>
-                        <TextBlock Text="Latest activity in your factory - Click to edit" 
-                                 Style="{StaticResource SectionHeader.Subtitle}"/>
-                    </StackPanel>
-                </StackPanel>
+                    <Grid Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                            <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Info}">
+                                <materialDesign:PackIcon Kind="History" Width="20" Height="20" 
+                                                       Foreground="White"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="Recent Transactions" 
+                                         Style="{StaticResource SectionHeader.Title}"/>
+                                <TextBlock Text="Latest activity in your factory - Click to edit" 
+                                         Style="{StaticResource SectionHeader.Subtitle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Column="1" Content="↩ Undo Delete" 
+                                Command="{Binding UndoDeleteTransactionCommand}"
+                                Style="{StaticResource Button.Secondary}"
+                                Padding="12,4"/>
+                    </Grid>
                 </Border>
                 
                 <DataGrid ItemsSource="{Binding RecentTransactions}" Style="{StaticResource DataGrid.Dark}">
@@ -423,6 +433,18 @@
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Delete" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource DataGrid.EditButton}"
+                                            ToolTip="Delete Transaction"
+                                            Command="{Binding DataContext.DeleteTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}">
+                                        <materialDesign:PackIcon Kind="DeleteForever" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Edit" Width="70">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -445,5 +467,6 @@
                 </DataGrid>
             </DockPanel>
         </materialDesign:Card>
+        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>
     </Grid>
 </UserControl>

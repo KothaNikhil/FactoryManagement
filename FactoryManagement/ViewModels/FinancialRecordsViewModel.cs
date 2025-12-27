@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
@@ -18,9 +19,13 @@ namespace FactoryManagement.ViewModels
 
         private ObservableCollection<LoanAccount> _loans;
         private ObservableCollection<FinancialTransaction> _transactions;
+        private FinancialTransaction? _selectedTransaction;
         private ObservableCollection<Party> _parties;
         private LoanAccount? _selectedLoan;
         private Party? _selectedParty;
+        private LoanAccount? _lastDeletedLoan;
+        private List<FinancialTransaction>? _lastDeletedLoanTransactions;
+        private FinancialTransaction? _lastDeletedFinancialTransaction;
         private LoanType _selectedLoanType;
         private decimal _loanAmount;
         private decimal _interestRate;
@@ -35,6 +40,7 @@ namespace FactoryManagement.ViewModels
         private decimal _totalInterestPayable;
         private string _filterStatus;
         private bool _isLoading;
+        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
 
         public FinancialRecordsViewModel(
             FinancialTransactionService financialTransactionService,
@@ -58,6 +64,10 @@ namespace FactoryManagement.ViewModels
             UpdateInterestCommand = new RelayCommand(() => UpdateInterestAsync().GetAwaiter().GetResult(), () => SelectedLoan != null);
             FilterLoansCommand = new RelayCommand(() => FilterLoansAsync().GetAwaiter().GetResult());
             LoadedCommand = new RelayCommand(() => OnLoadedAsync().GetAwaiter().GetResult());
+            DeleteLoanCommand = new RelayCommand(() => DeleteLoanAsync(SelectedLoan).GetAwaiter().GetResult(), () => SelectedLoan != null);
+            DeleteFinancialTransactionCommand = new RelayCommand(() => DeleteFinancialTransactionAsync(SelectedTransaction).GetAwaiter().GetResult(), () => SelectedTransaction != null);
+            UndoDeleteLoanCommand = new RelayCommand(() => UndoDeleteLoanAsync().GetAwaiter().GetResult(), () => _lastDeletedLoan != null);
+            UndoDeleteFinancialTransactionCommand = new RelayCommand(() => UndoDeleteFinancialTransactionAsync().GetAwaiter().GetResult(), () => _lastDeletedFinancialTransaction != null);
         }
 
         public ICommand LoadedCommand { get; }
@@ -85,6 +95,16 @@ namespace FactoryManagement.ViewModels
             set
             {
                 _transactions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public FinancialTransaction? SelectedTransaction
+        {
+            get => _selectedTransaction;
+            set
+            {
+                _selectedTransaction = value;
                 OnPropertyChanged();
             }
         }
@@ -279,6 +299,10 @@ namespace FactoryManagement.ViewModels
         public ICommand RefreshCommand { get; }
         public ICommand UpdateInterestCommand { get; }
         public ICommand FilterLoansCommand { get; }
+        public ICommand DeleteLoanCommand { get; }
+        public ICommand DeleteFinancialTransactionCommand { get; }
+        public ICommand UndoDeleteLoanCommand { get; }
+        public ICommand UndoDeleteFinancialTransactionCommand { get; }
 
         #endregion
 
@@ -516,6 +540,109 @@ namespace FactoryManagement.ViewModels
                 IsLoading = false;
             }
         }
+
+        private async Task DeleteLoanAsync(LoanAccount? loan)
+        {
+            if (loan == null) return;
+            try
+            {
+                IsLoading = true;
+                var confirm = MessageBox.Show($"Delete loan for {loan.Party?.Name ?? "Party"} (₹{loan.TotalOutstanding:N2})?",
+                    "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (confirm != MessageBoxResult.Yes) { IsLoading = false; return; }
+                _lastDeletedLoan = loan;
+                var txs = await _financialTransactionService.GetTransactionsByLoanAsync(loan.LoanAccountId);
+                _lastDeletedLoanTransactions = txs.ToList();
+                await _financialTransactionService.DeleteLoanAsync(loan.LoanAccountId);
+                await LoadDataAsync();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("Loan deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+                });
+
+                SnackbarMessageQueue.Enqueue(
+                    "Loan deleted",
+                    "UNDO",
+                    () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteLoanAsync()));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting loan: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task DeleteFinancialTransactionAsync(FinancialTransaction? transaction)
+        {
+            if (transaction == null) return;
+            try
+            {
+                IsLoading = true;
+                var confirm = MessageBox.Show($"Delete transaction on {transaction.TransactionDate:dd-MMM-yyyy} ({transaction.TransactionType})?",
+                    "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (confirm != MessageBoxResult.Yes) { IsLoading = false; return; }
+                _lastDeletedFinancialTransaction = transaction;
+                await _financialTransactionService.DeleteFinancialTransactionAsync(transaction.FinancialTransactionId);
+                await LoadTransactionsForSelectedLoanAsync();
+
+                SnackbarMessageQueue.Enqueue(
+                    "Transaction deleted",
+                    "UNDO",
+                    () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteFinancialTransactionAsync()));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting entry: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+            private async Task UndoDeleteLoanAsync()
+            {
+                if (_lastDeletedLoan == null || _lastDeletedLoanTransactions == null) return;
+                try
+                {
+                    IsLoading = true;
+                    var restored = await _financialTransactionService.RestoreLoanAsync(_lastDeletedLoan, _lastDeletedLoanTransactions);
+                    _lastDeletedLoan = null;
+                    _lastDeletedLoanTransactions = null;
+                    await LoadDataAsync();
+                    SelectedLoan = restored;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error undoing loan delete: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
+
+            private async Task UndoDeleteFinancialTransactionAsync()
+            {
+                if (_lastDeletedFinancialTransaction == null) return;
+                try
+                {
+                    IsLoading = true;
+                    await _financialTransactionService.RestoreFinancialTransactionAsync(_lastDeletedFinancialTransaction);
+                    _lastDeletedFinancialTransaction = null;
+                    await LoadTransactionsForSelectedLoanAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error undoing transaction delete: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            }
 
         #endregion
     }

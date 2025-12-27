@@ -253,6 +253,68 @@ namespace FactoryManagement.Services
             return await _financialTransactionRepository.GetAllAsync();
         }
 
+        // Delete Operations
+        public async Task DeleteLoanAsync(int loanAccountId)
+        {
+            var loan = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
+            if (loan == null) return;
+
+            // Delete related transactions first
+            foreach (var tx in loan.Transactions.ToList())
+            {
+                _context.FinancialTransactions.Remove(tx);
+            }
+
+            // Delete loan account
+            _context.LoanAccounts.Remove(loan);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteFinancialTransactionAsync(int transactionId)
+        {
+            var tx = await _financialTransactionRepository.GetByIdAsync(transactionId);
+            if (tx == null) return;
+
+            // Adjust linked loan totals when applicable
+            if (tx.LinkedLoanAccountId.HasValue)
+            {
+                var loan = await _loanAccountRepository.GetByIdAsync(tx.LinkedLoanAccountId.Value);
+                if (loan != null)
+                {
+                    switch (tx.TransactionType)
+                    {
+                        case FinancialTransactionType.InterestReceived:
+                        case FinancialTransactionType.InterestPaid:
+                            if (tx.InterestAmount.HasValue && tx.InterestAmount.Value > 0)
+                            {
+                                loan.OutstandingInterest = Math.Max(0, loan.OutstandingInterest - tx.InterestAmount.Value);
+                                loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+                            }
+                            break;
+                        case FinancialTransactionType.LoanRepayment:
+                        case FinancialTransactionType.LoanPayment:
+                            // Re-add payment amount back to outstanding principal (approximate reversal)
+                            loan.OutstandingPrincipal += tx.Amount;
+                            loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+
+                            // Update status based on totals
+                            loan.Status = loan.TotalOutstanding <= 0 ? LoanStatus.Closed : (loan.TotalOutstanding < loan.OriginalAmount ? LoanStatus.PartiallyPaid : LoanStatus.Active);
+                            break;
+                        case FinancialTransactionType.LoanGiven:
+                        case FinancialTransactionType.LoanTaken:
+                            // Initial loan entry is tied to the loan account lifecycle; prefer deleting via DeleteLoanAsync
+                            break;
+                    }
+
+                    loan.ModifiedDate = DateTime.Now;
+                    await _loanAccountRepository.UpdateAsync(loan);
+                }
+            }
+
+            await _financialTransactionRepository.DeleteAsync(tx);
+            await _context.SaveChangesAsync();
+        }
+
         // Summary Operations
         public async Task<decimal> GetTotalLoansGivenOutstandingAsync()
         {
@@ -286,6 +348,93 @@ namespace FactoryManagement.Services
                 .Sum(l => l.OutstandingInterest);
 
             return summary;
+        }
+
+        // Restore Operations
+        public async Task<LoanAccount> RestoreLoanAsync(LoanAccount snapshot, IEnumerable<FinancialTransaction> transactions)
+        {
+            // Recreate loan account
+            var loan = new LoanAccount
+            {
+                PartyId = snapshot.PartyId,
+                LoanType = snapshot.LoanType,
+                OriginalAmount = snapshot.OriginalAmount,
+                InterestRate = snapshot.InterestRate,
+                StartDate = snapshot.StartDate,
+                DueDate = snapshot.DueDate,
+                OutstandingPrincipal = snapshot.OutstandingPrincipal,
+                OutstandingInterest = snapshot.OutstandingInterest,
+                TotalOutstanding = snapshot.TotalOutstanding,
+                Status = snapshot.Status,
+                CreatedBy = snapshot.CreatedBy,
+                Notes = snapshot.Notes,
+                CreatedDate = DateTime.Now
+            };
+
+            await _loanAccountRepository.AddAsync(loan);
+            await _context.SaveChangesAsync();
+
+            // Restore transactions linked to new loan id and adjust totals appropriately
+            foreach (var tx in transactions.OrderBy(t => t.TransactionDate))
+            {
+                var newTx = new FinancialTransaction
+                {
+                    PartyId = tx.PartyId,
+                    TransactionType = tx.TransactionType,
+                    Amount = tx.Amount,
+                    InterestRate = tx.InterestRate,
+                    InterestAmount = tx.InterestAmount,
+                    TransactionDate = tx.TransactionDate,
+                    DueDate = tx.DueDate,
+                    LinkedLoanAccountId = loan.LoanAccountId,
+                    EnteredBy = tx.EnteredBy,
+                    Notes = tx.Notes,
+                    CreatedDate = DateTime.Now
+                };
+                await RestoreFinancialTransactionAsync(newTx);
+            }
+
+            return loan;
+        }
+
+        public async Task RestoreFinancialTransactionAsync(FinancialTransaction tx)
+        {
+            // Adjust loan totals first when applicable
+            if (tx.LinkedLoanAccountId.HasValue)
+            {
+                var loan = await _loanAccountRepository.GetByIdAsync(tx.LinkedLoanAccountId.Value);
+                if (loan != null)
+                {
+                    switch (tx.TransactionType)
+                    {
+                        case FinancialTransactionType.InterestReceived:
+                        case FinancialTransactionType.InterestPaid:
+                            if (tx.InterestAmount.HasValue && tx.InterestAmount.Value > 0)
+                            {
+                                loan.OutstandingInterest += tx.InterestAmount.Value;
+                                loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+                            }
+                            break;
+                        case FinancialTransactionType.LoanRepayment:
+                        case FinancialTransactionType.LoanPayment:
+                            // Apply payment against outstanding principal
+                            loan.OutstandingPrincipal = Math.Max(0, loan.OutstandingPrincipal - tx.Amount);
+                            loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+                            // Update status
+                            loan.Status = loan.TotalOutstanding <= 0 ? LoanStatus.Closed : (loan.TotalOutstanding < loan.OriginalAmount ? LoanStatus.PartiallyPaid : LoanStatus.Active);
+                            break;
+                        case FinancialTransactionType.LoanGiven:
+                        case FinancialTransactionType.LoanTaken:
+                            // Initial loan entries are created via CreateLoanAsync
+                            break;
+                    }
+                    loan.ModifiedDate = DateTime.Now;
+                    await _loanAccountRepository.UpdateAsync(loan);
+                }
+            }
+
+            await _financialTransactionRepository.AddAsync(tx);
+            await _context.SaveChangesAsync();
         }
     }
 }

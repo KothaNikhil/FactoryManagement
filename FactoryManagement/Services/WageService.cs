@@ -23,6 +23,8 @@ namespace FactoryManagement.Services
         Task<IEnumerable<WageTransaction>> GetWorkerTransactionsAsync(int workerId);
         Task<IEnumerable<WageTransaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync();
+        Task DeleteWageTransactionAsync(int wageTransactionId);
+        Task RestoreWageTransactionAsync(WageTransaction transaction);
         
         // Summary Operations
         Task<decimal> GetTotalWagesPaidAsync();
@@ -179,6 +181,68 @@ namespace FactoryManagement.Services
         public async Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync()
         {
             return await _wageTransactionRepository.GetAllAsync();
+        }
+
+        public async Task DeleteWageTransactionAsync(int wageTransactionId)
+        {
+            var tx = await _wageTransactionRepository.GetByIdAsync(wageTransactionId);
+            if (tx == null) return;
+
+            var worker = await _workerRepository.GetByIdAsync(tx.WorkerId);
+            if (worker != null)
+            {
+                // Reverse worker totals based on transaction type
+                switch (tx.TransactionType)
+                {
+                    case WageTransactionType.DailyWage:
+                    case WageTransactionType.HourlyWage:
+                    case WageTransactionType.MonthlyWage:
+                    case WageTransactionType.OvertimePay:
+                    case WageTransactionType.Bonus:
+                        worker.TotalWagesPaid = Math.Max(0, worker.TotalWagesPaid - tx.NetAmount);
+                        break;
+                    case WageTransactionType.AdvanceGiven:
+                        worker.TotalAdvance = Math.Max(0, worker.TotalAdvance - tx.Amount);
+                        break;
+                    case WageTransactionType.AdvanceAdjustment:
+                        // Deleting an advance adjustment re-adds the amount to outstanding advance
+                        worker.TotalAdvance += tx.Amount;
+                        break;
+                }
+                worker.ModifiedDate = DateTime.Now;
+                await _workerRepository.UpdateAsync(worker);
+            }
+
+            await _wageTransactionRepository.DeleteAsync(tx);
+        }
+
+        public async Task RestoreWageTransactionAsync(WageTransaction transaction)
+        {
+            // Update worker totals forward based on transaction type
+            var worker = await _workerRepository.GetByIdAsync(transaction.WorkerId);
+            if (worker != null)
+            {
+                switch (transaction.TransactionType)
+                {
+                    case WageTransactionType.DailyWage:
+                    case WageTransactionType.HourlyWage:
+                    case WageTransactionType.MonthlyWage:
+                    case WageTransactionType.OvertimePay:
+                    case WageTransactionType.Bonus:
+                        worker.TotalWagesPaid += transaction.NetAmount;
+                        break;
+                    case WageTransactionType.AdvanceGiven:
+                        worker.TotalAdvance += transaction.Amount;
+                        break;
+                    case WageTransactionType.AdvanceAdjustment:
+                        worker.TotalAdvance = Math.Max(0, worker.TotalAdvance - transaction.Amount);
+                        break;
+                }
+                worker.ModifiedDate = DateTime.Now;
+                await _workerRepository.UpdateAsync(worker);
+            }
+
+            await _wageTransactionRepository.AddAsync(transaction);
         }
 
         // Summary Operations

@@ -7,6 +7,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
@@ -16,6 +18,9 @@ namespace FactoryManagement.ViewModels
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
         private readonly IRepository<User> _userRepository;
+        private Transaction? _lastDeletedTransaction;
+
+        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
@@ -368,6 +373,82 @@ namespace FactoryManagement.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Error loading transaction: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteTransactionAsync(Transaction transaction)
+        {
+            try
+            {
+                // Confirm delete
+                var result = System.Windows.MessageBox.Show(
+                    $"Delete this transaction dated {transaction.TransactionDate:dd-MMM-yyyy}?",
+                    "Confirm Delete",
+                    System.Windows.MessageBoxButton.YesNo,
+                    System.Windows.MessageBoxImage.Warning);
+                if (result != System.Windows.MessageBoxResult.Yes)
+                    return;
+
+                IsBusy = true;
+                ErrorMessage = string.Empty;
+
+                // Store for potential undo
+                _lastDeletedTransaction = transaction;
+
+                await _transactionService.DeleteTransactionAsync(transaction.TransactionId);
+
+                // Refresh recent transactions and stocks
+                await LoadDataAsync();
+
+                SnackbarMessageQueue.Enqueue(
+                    "Transaction deleted",
+                    "UNDO",
+                    () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteTransactionAsync()));
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error deleting transaction: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task UndoDeleteTransactionAsync()
+        {
+            if (_lastDeletedTransaction == null) return;
+            try
+            {
+                IsBusy = true;
+                var restore = new Transaction
+                {
+                    ItemId = _lastDeletedTransaction.ItemId,
+                    PartyId = _lastDeletedTransaction.PartyId,
+                    TransactionType = _lastDeletedTransaction.TransactionType,
+                    Quantity = _lastDeletedTransaction.Quantity,
+                    PricePerUnit = _lastDeletedTransaction.PricePerUnit,
+                    TotalAmount = _lastDeletedTransaction.TotalAmount,
+                    TransactionDate = _lastDeletedTransaction.TransactionDate,
+                    EnteredBy = _lastDeletedTransaction.EnteredBy,
+                    Notes = _lastDeletedTransaction.Notes,
+                    InputItemId = _lastDeletedTransaction.InputItemId,
+                    InputQuantity = _lastDeletedTransaction.InputQuantity,
+                    ConversionRate = _lastDeletedTransaction.ConversionRate
+                };
+                await _transactionService.AddTransactionAsync(restore);
+                _lastDeletedTransaction = null;
+                await LoadDataAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error undoing delete: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
