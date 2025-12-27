@@ -27,11 +27,11 @@ namespace FactoryManagement.ViewModels
                 {
                     return SelectedReportType switch
                     {
-                        ReportType.All => AllTransactions,
-                        ReportType.Inventory => Transactions,
-                        ReportType.Financial => FinancialTransactions,
-                        ReportType.Wages => WageTransactions,
-                        _ => Transactions
+                        ReportType.All => PaginatedAllTransactions,
+                        ReportType.Inventory => PaginatedTransactions,
+                        ReportType.Financial => PaginatedFinancialTransactions,
+                        ReportType.Wages => PaginatedWageTransactions,
+                        _ => PaginatedTransactions
                     };
                 }
             }
@@ -43,17 +43,45 @@ namespace FactoryManagement.ViewModels
         private readonly IWageService _wageService;
         private readonly UnifiedTransactionService _unifiedTransactionService;
 
+        // Full collections (all data)
+        private ObservableCollection<Transaction> _allInventoryTransactions = new();
+        private ObservableCollection<FinancialTransaction> _allFinancialTransactions = new();
+        private ObservableCollection<WageTransaction> _allWageTransactions = new();
+        private ObservableCollection<Services.UnifiedTransactionViewModel> _allUnifiedTransactions = new();
+
+        // Paginated collections (displayed data)
         [ObservableProperty]
-        private ObservableCollection<Transaction> _transactions = new();
+        private ObservableCollection<Transaction> _paginatedTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<FinancialTransaction> _financialTransactions = new();
+        private ObservableCollection<FinancialTransaction> _paginatedFinancialTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<WageTransaction> _wageTransactions = new();
+        private ObservableCollection<WageTransaction> _paginatedWageTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<Services.UnifiedTransactionViewModel> _allTransactions = new();
+        private ObservableCollection<Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
+
+        // Legacy properties for backward compatibility with exports
+        public ObservableCollection<Transaction> Transactions => _allInventoryTransactions;
+        public ObservableCollection<FinancialTransaction> FinancialTransactions => _allFinancialTransactions;
+        public ObservableCollection<WageTransaction> WageTransactions => _allWageTransactions;
+        public ObservableCollection<Services.UnifiedTransactionViewModel> AllTransactions => _allUnifiedTransactions;
+
+        // Pagination properties
+        private const int PageSize = 13;
+
+        [ObservableProperty]
+        private int _currentPage = 1;
+
+        [ObservableProperty]
+        private int _totalPages = 1;
+
+        [ObservableProperty]
+        private int _totalRecords = 0;
+
+        public bool CanGoToPreviousPage => CurrentPage > 1;
+        public bool CanGoToNextPage => CurrentPage < TotalPages;
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
@@ -138,6 +166,7 @@ namespace FactoryManagement.ViewModels
             SelectedItem = null;
             SelectedParty = null;
             SelectedWorker = null;
+            CurrentPage = 1;
             
             _ = LoadReportDataAsync();
             OnPropertyChanged(nameof(CurrentTransactions));
@@ -145,6 +174,15 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(IsInventoryView));
             OnPropertyChanged(nameof(IsFinancialView));
             OnPropertyChanged(nameof(IsWagesView));
+        }
+
+        partial void OnCurrentPageChanged(int value)
+        {
+            UpdatePaginatedData();
+            OnPropertyChanged(nameof(CanGoToPreviousPage));
+            OnPropertyChanged(nameof(CanGoToNextPage));
+            GoToPreviousPageCommand.NotifyCanExecuteChanged();
+            GoToNextPageCommand.NotifyCanExecuteChanged();
         }
 
         partial void OnSelectedItemChanged(Item? value)
@@ -251,10 +289,12 @@ namespace FactoryManagement.ViewModels
                 // Use the shared service to get all unified transactions
                 var unifiedTransactions = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync();
                 
-                AllTransactions.Clear();
+                _allUnifiedTransactions.Clear();
                 foreach (var t in unifiedTransactions)
-                    AllTransactions.Add(t);
+                    _allUnifiedTransactions.Add(t);
                 
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = "All Transactions (Combined)";
             }
@@ -318,10 +358,12 @@ namespace FactoryManagement.ViewModels
             // Apply date range filter
             transactions = transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate);
 
-            Transactions.Clear();
+            _allInventoryTransactions.Clear();
             foreach (var t in transactions)
-                Transactions.Add(t);
+                _allInventoryTransactions.Add(t);
 
+            CurrentPage = 1;
+            UpdatePaginatedData();
             UpdateReportTitle();
         }
 
@@ -338,10 +380,12 @@ namespace FactoryManagement.ViewModels
             // Apply date range filter
             transactions = transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate);
 
-            FinancialTransactions.Clear();
+            _allFinancialTransactions.Clear();
             foreach (var t in transactions)
-                FinancialTransactions.Add(t);
+                _allFinancialTransactions.Add(t);
 
+            CurrentPage = 1;
+            UpdatePaginatedData();
             UpdateReportTitle();
         }
 
@@ -355,10 +399,12 @@ namespace FactoryManagement.ViewModels
                 transactions = transactions.Where(t => t.WorkerId == SelectedWorker.WorkerId);
             }
 
-            WageTransactions.Clear();
+            _allWageTransactions.Clear();
             foreach (var t in transactions)
-                WageTransactions.Add(t);
+                _allWageTransactions.Add(t);
 
+            CurrentPage = 1;
+            UpdatePaginatedData();
             UpdateReportTitle();
         }
 
@@ -401,9 +447,11 @@ namespace FactoryManagement.ViewModels
                 IsBusy = true;
                 var transactions = await _transactionService.GetAllTransactionsAsync();
                 var transList = transactions.ToList();
-                Transactions.Clear();
+                _allInventoryTransactions.Clear();
                 foreach (var t in transList)
-                    Transactions.Add(t);
+                    _allInventoryTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = "All Inventory Transactions";
             }
@@ -425,9 +473,11 @@ namespace FactoryManagement.ViewModels
                 IsBusy = true;
                 var transactions = await _financialService.GetAllFinancialTransactionsAsync();
                 var transList = transactions.ToList();
-                FinancialTransactions.Clear();
+                _allFinancialTransactions.Clear();
                 foreach (var t in transList)
-                    FinancialTransactions.Add(t);
+                    _allFinancialTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = "All Financial Transactions";
             }
@@ -451,9 +501,11 @@ namespace FactoryManagement.ViewModels
                 var endDate = DateTime.MaxValue;
                 var transactions = await _wageService.GetTransactionsByDateRangeAsync(startDate, endDate);
                 var transList = transactions.ToList();
-                WageTransactions.Clear();
+                _allWageTransactions.Clear();
                 foreach (var t in transList)
-                    WageTransactions.Add(t);
+                    _allWageTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = "All Wage Transactions";
             }
@@ -477,9 +529,11 @@ namespace FactoryManagement.ViewModels
                 IsBusy = true;
                 var transactions = await _transactionService.GetTransactionsByItemAsync(SelectedItem.ItemId);
                 var transList = transactions.ToList();
-                Transactions.Clear();
+                _allInventoryTransactions.Clear();
                 foreach (var t in transList)
-                    Transactions.Add(t);
+                    _allInventoryTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = $"Transactions for {SelectedItem.ItemName}";
             }
@@ -503,9 +557,11 @@ namespace FactoryManagement.ViewModels
                 IsBusy = true;
                 var transactions = await _transactionService.GetTransactionsByPartyAsync(SelectedParty.PartyId);
                 var transList = transactions.ToList();
-                Transactions.Clear();
+                _allInventoryTransactions.Clear();
                 foreach (var t in transList)
-                    Transactions.Add(t);
+                    _allInventoryTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = $"Transactions for {SelectedParty.Name}";
             }
@@ -527,9 +583,11 @@ namespace FactoryManagement.ViewModels
                 IsBusy = true;
                 var transactions = await _transactionService.GetTransactionsByDateRangeAsync(StartDate, EndDate);
                 var transList = transactions.ToList();
-                Transactions.Clear();
+                _allInventoryTransactions.Clear();
                 foreach (var t in transList)
-                    Transactions.Add(t);
+                    _allInventoryTransactions.Add(t);
+                CurrentPage = 1;
+                UpdatePaginatedData();
                 CalculateTotals();
                 ReportTitle = $"Transactions from {StartDate:dd/MM/yyyy} to {EndDate:dd/MM/yyyy}";
             }
@@ -811,9 +869,9 @@ namespace FactoryManagement.ViewModels
 
         private void CalculateTotals()
         {
-            TotalInventoryAmount = Transactions.Sum(t => t.TotalAmount);
-            TotalFinancialAmount = FinancialTransactions.Sum(t => t.Amount);
-            TotalWagesAmount = WageTransactions.Sum(t => t.NetAmount);
+            TotalInventoryAmount = _allInventoryTransactions.Sum(t => t.TotalAmount);
+            TotalFinancialAmount = _allFinancialTransactions.Sum(t => t.Amount);
+            TotalWagesAmount = _allWageTransactions.Sum(t => t.NetAmount);
             
             TotalAmount = SelectedReportType switch
             {
@@ -826,12 +884,106 @@ namespace FactoryManagement.ViewModels
 
             TransactionCount = SelectedReportType switch
             {
-                ReportType.All => Transactions.Count + FinancialTransactions.Count + WageTransactions.Count,
-                ReportType.Inventory => Transactions.Count,
-                ReportType.Financial => FinancialTransactions.Count,
-                ReportType.Wages => WageTransactions.Count,
+                ReportType.All => _allUnifiedTransactions.Count,
+                ReportType.Inventory => _allInventoryTransactions.Count,
+                ReportType.Financial => _allFinancialTransactions.Count,
+                ReportType.Wages => _allWageTransactions.Count,
                 _ => 0
             };
+        }
+
+        private void UpdatePaginatedData()
+        {
+            switch (SelectedReportType)
+            {
+                case ReportType.All:
+                    TotalRecords = _allUnifiedTransactions.Count;
+                    TotalPages = (int)Math.Ceiling((double)TotalRecords / PageSize);
+                    if (TotalPages == 0) TotalPages = 1;
+                    
+                    PaginatedAllTransactions.Clear();
+                    var allPageData = _allUnifiedTransactions
+                        .Skip((CurrentPage - 1) * PageSize)
+                        .Take(PageSize);
+                    foreach (var item in allPageData)
+                        PaginatedAllTransactions.Add(item);
+                    break;
+
+                case ReportType.Inventory:
+                    TotalRecords = _allInventoryTransactions.Count;
+                    TotalPages = (int)Math.Ceiling((double)TotalRecords / PageSize);
+                    if (TotalPages == 0) TotalPages = 1;
+                    
+                    PaginatedTransactions.Clear();
+                    var inventoryPageData = _allInventoryTransactions
+                        .Skip((CurrentPage - 1) * PageSize)
+                        .Take(PageSize);
+                    foreach (var item in inventoryPageData)
+                        PaginatedTransactions.Add(item);
+                    break;
+
+                case ReportType.Financial:
+                    TotalRecords = _allFinancialTransactions.Count;
+                    TotalPages = (int)Math.Ceiling((double)TotalRecords / PageSize);
+                    if (TotalPages == 0) TotalPages = 1;
+                    
+                    PaginatedFinancialTransactions.Clear();
+                    var financialPageData = _allFinancialTransactions
+                        .Skip((CurrentPage - 1) * PageSize)
+                        .Take(PageSize);
+                    foreach (var item in financialPageData)
+                        PaginatedFinancialTransactions.Add(item);
+                    break;
+
+                case ReportType.Wages:
+                    TotalRecords = _allWageTransactions.Count;
+                    TotalPages = (int)Math.Ceiling((double)TotalRecords / PageSize);
+                    if (TotalPages == 0) TotalPages = 1;
+                    
+                    PaginatedWageTransactions.Clear();
+                    var wagePageData = _allWageTransactions
+                        .Skip((CurrentPage - 1) * PageSize)
+                        .Take(PageSize);
+                    foreach (var item in wagePageData)
+                        PaginatedWageTransactions.Add(item);
+                    break;
+            }
+
+            OnPropertyChanged(nameof(CurrentTransactions));
+            OnPropertyChanged(nameof(CanGoToPreviousPage));
+            OnPropertyChanged(nameof(CanGoToNextPage));
+            GoToPreviousPageCommand.NotifyCanExecuteChanged();
+            GoToNextPageCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousPage))]
+        private void GoToPreviousPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextPage))]
+        private void GoToNextPage()
+        {
+            if (CurrentPage < TotalPages)
+            {
+            CurrentPage++;
+            }
+        }
+
+        [RelayCommand]
+        private void GoToFirstPage()
+        {
+            CurrentPage = 1;
+        }
+
+        [RelayCommand]
+        private void GoToLastPage()
+        {
+            CurrentPage = TotalPages;
         }
 
         public async Task InitializeAsync()

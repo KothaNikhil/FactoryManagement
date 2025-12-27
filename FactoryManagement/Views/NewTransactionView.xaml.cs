@@ -79,6 +79,9 @@ namespace FactoryManagement.Views
                 }
             }
         }
+
+        // Ensure InitializeComponent is defined in the partial class.
+        // partial void InitializeComponent();
     }
 }
 
