@@ -38,7 +38,6 @@ namespace FactoryManagement.ViewModels
         private decimal _totalLoansTaken;
         private decimal _totalInterestReceivable;
         private decimal _totalInterestPayable;
-        private string _filterStatus;
         private bool _isLoading;
         public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
 
@@ -54,7 +53,6 @@ namespace FactoryManagement.ViewModels
             _parties = new ObservableCollection<Party>();
             _notes = string.Empty;
             _paymentNotes = string.Empty;
-            _filterStatus = "All";
             _startDate = DateTime.Now;
 
             // Commands
@@ -263,16 +261,6 @@ namespace FactoryManagement.ViewModels
             set
             {
                 _totalInterestPayable = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string FilterStatus
-        {
-            get => _filterStatus;
-            set
-            {
-                _filterStatus = value;
                 OnPropertyChanged();
             }
         }
@@ -506,21 +494,7 @@ namespace FactoryManagement.ViewModels
             IsLoading = true;
             try
             {
-                IEnumerable<LoanAccount> filteredLoans;
-
-                if (FilterStatus == "All")
-                {
-                    filteredLoans = await _financialTransactionService.GetAllLoansAsync();
-                }
-                else if (Enum.TryParse<LoanStatus>(FilterStatus, out var status))
-                {
-                    var allLoans = await _financialTransactionService.GetAllLoansAsync();
-                    filteredLoans = allLoans.Where(l => l.Status == status);
-                }
-                else
-                {
-                    filteredLoans = await _financialTransactionService.GetAllLoansAsync();
-                }
+                var filteredLoans = await _financialTransactionService.GetAllLoansAsync();
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {

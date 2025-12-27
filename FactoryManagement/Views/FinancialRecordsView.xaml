@@ -391,17 +391,6 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                    <TextBlock Text="Status:" VerticalAlignment="Center" Foreground="#BBB" Margin="0,0,10,0"/>
-                                    <ComboBox SelectedItem="{Binding FilterStatus}" Width="120" Height="30">
-                                        <ComboBoxItem Content="All"/>
-                                        <ComboBoxItem Content="Active"/>
-                                        <ComboBoxItem Content="Closed"/>
-                                        <ComboBoxItem Content="Overdue"/>
-                                        <ComboBoxItem Content="PartiallyPaid"/>
-                                    </ComboBox>
-                                </StackPanel>
-
                                 <Button Grid.Column="4" Content="📊 Update Interest" 
                                         Command="{Binding UpdateInterestCommand}"
                                         Background="#d9a05b" 
