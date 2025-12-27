@@ -372,6 +372,8 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="10"/>
@@ -390,6 +392,19 @@
                                         <TextBlock Text="All Loans" Style="{StaticResource SectionHeader.Title}"/>
                                     </StackPanel>
                                 </StackPanel>
+
+                                <ComboBox Grid.Column="2" 
+                                          ItemsSource="{Binding PartiesForFilter}" 
+                                          SelectedItem="{Binding FilterParty, Mode=TwoWay}"
+                                          DisplayMemberPath="Name"
+                                          Style="{StaticResource ComboBox.Standard}"
+                                          materialDesign:HintAssist.Hint="Filter by Party"
+                                          VerticalAlignment="Center"
+                                          ToolTip="Filter loans by party. Select 'All' to show all loans.">
+                                    <i:Interaction.Behaviors>
+                                        <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                                    </i:Interaction.Behaviors>
+                                </ComboBox>
 
                                 <Button Grid.Column="4" Content="📊 Update Interest" 
                                         Command="{Binding UpdateInterestCommand}"

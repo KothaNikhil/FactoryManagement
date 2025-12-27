@@ -21,8 +21,10 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<FinancialTransaction> _transactions;
         private FinancialTransaction? _selectedTransaction;
         private ObservableCollection<Party> _parties;
+        private ObservableCollection<Party> _partiesForFilter;
         private LoanAccount? _selectedLoan;
         private Party? _selectedParty;
+        private Party? _filterParty;
         private LoanAccount? _lastDeletedLoan;
         private List<FinancialTransaction>? _lastDeletedLoanTransactions;
         private FinancialTransaction? _lastDeletedFinancialTransaction;
@@ -51,6 +53,7 @@ namespace FactoryManagement.ViewModels
             _loans = new ObservableCollection<LoanAccount>();
             _transactions = new ObservableCollection<FinancialTransaction>();
             _parties = new ObservableCollection<Party>();
+            _partiesForFilter = new ObservableCollection<Party>();
             _notes = string.Empty;
             _paymentNotes = string.Empty;
             _startDate = DateTime.Now;
@@ -117,6 +120,16 @@ namespace FactoryManagement.ViewModels
             }
         }
 
+        public ObservableCollection<Party> PartiesForFilter
+        {
+            get => _partiesForFilter;
+            set
+            {
+                _partiesForFilter = value;
+                OnPropertyChanged();
+            }
+        }
+
         public LoanAccount? SelectedLoan
         {
             get => _selectedLoan;
@@ -138,6 +151,17 @@ namespace FactoryManagement.ViewModels
                 System.Diagnostics.Debug.WriteLine($"SelectedParty changed to: {value?.Name ?? "null"}");
                 OnPropertyChanged();
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
+        public Party? FilterParty
+        {
+            get => _filterParty;
+            set
+            {
+                _filterParty = value;
+                OnPropertyChanged();
+                Task.Run(async () => await FilterLoansAsync());
             }
         }
 
@@ -314,9 +338,15 @@ namespace FactoryManagement.ViewModels
                     }
 
                     Parties.Clear();
+                    PartiesForFilter.Clear();
+                    
+                    // Add 'All' option for filter
+                    PartiesForFilter.Add(new Party { PartyId = 0, Name = "All" });
+                    
                     foreach (var party in parties.OrderBy(p => p.Name))
                     {
                         Parties.Add(party);
+                        PartiesForFilter.Add(party);
                     }
                     
                     System.Diagnostics.Debug.WriteLine($"Loaded {Parties.Count} parties");
@@ -494,7 +524,12 @@ namespace FactoryManagement.ViewModels
             IsLoading = true;
             try
             {
-                var filteredLoans = await _financialTransactionService.GetAllLoansAsync();
+                var allLoans = await _financialTransactionService.GetAllLoansAsync();
+                
+                // Apply party filter if selected (PartyId == 0 means 'All')
+                var filteredLoans = FilterParty != null && FilterParty.PartyId != 0
+                    ? allLoans.Where(l => l.Party?.PartyId == FilterParty.PartyId).ToList()
+                    : allLoans;
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
