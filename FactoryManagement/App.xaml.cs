@@ -45,7 +45,7 @@ namespace FactoryManagement
                 .CreateLogger();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -71,15 +71,18 @@ namespace FactoryManagement
                 var mainViewModel = _serviceProvider.GetRequiredService<MainWindowViewModel>();
                 mainWindow.DataContext = mainViewModel;
                 
-                // Set the logged in user as the selected user
-                mainViewModel.SelectedUser = loginViewModel.LoggedInUser;
+                // Store the logged in user ID to set after initialization
+                var loggedInUserId = loginViewModel.LoggedInUser.UserId;
                 
                 // Set as main application window and show
                 MainWindow = mainWindow;
                 mainWindow.Show();
                 
                 // Initialize the dashboard and load data
-                _ = mainViewModel.InitializeAsync();
+                await mainViewModel.InitializeAsync();
+                
+                // Set the logged in user as the selected user (from the loaded ActiveUsers collection)
+                mainViewModel.SelectedUser = mainViewModel.ActiveUsers.FirstOrDefault(u => u.UserId == loggedInUserId);
             }
             else
             {

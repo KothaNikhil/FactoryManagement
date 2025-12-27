@@ -192,8 +192,8 @@ namespace FactoryManagement.ViewModels
                 ActiveUsers.Add(user);
             }
 
-            // Set first user as selected if available
-            if (ActiveUsers.Any())
+            // Only set first user as selected if no user is currently selected
+            if (SelectedUser == null && ActiveUsers.Any())
             {
                 SelectedUser = ActiveUsers.First();
             }
