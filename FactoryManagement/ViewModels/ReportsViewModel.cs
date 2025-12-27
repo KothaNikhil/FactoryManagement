@@ -11,29 +11,6 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    // Unified view model for displaying all transaction types in a single grid
-    public class UnifiedTransactionViewModel
-    {
-        public string Category { get; set; } = string.Empty;
-        public string TransactionId { get; set; } = string.Empty;
-        public DateTime TransactionDate { get; set; }
-        public string TransactionType { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty; // Item name, Party name, or Worker name
-        public string? ItemName { get; set; }
-        public string? PartyName { get; set; }
-        public string? WorkerName { get; set; }
-        public decimal? Quantity { get; set; }
-        public decimal? Rate { get; set; }
-        public decimal Amount { get; set; }
-        public string? AdditionalInfo { get; set; } // For extra details like days worked, interest, etc.
-        public string? Notes { get; set; }
-        
-        // Processing-specific fields
-        public string? InputItemName { get; set; }
-        public decimal? InputQuantity { get; set; }
-        public decimal? ConversionRate { get; set; }
-    }
-
     public enum ReportType
     {
         All,
@@ -64,6 +41,7 @@ namespace FactoryManagement.ViewModels
         private readonly IExportService _exportService;
         private readonly FinancialTransactionService _financialService;
         private readonly IWageService _wageService;
+        private readonly UnifiedTransactionService _unifiedTransactionService;
 
         [ObservableProperty]
         private ObservableCollection<Transaction> _transactions = new();
@@ -75,7 +53,7 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<WageTransaction> _wageTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<UnifiedTransactionViewModel> _allTransactions = new();
+        private ObservableCollection<Services.UnifiedTransactionViewModel> _allTransactions = new();
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
@@ -142,7 +120,8 @@ namespace FactoryManagement.ViewModels
             IPartyService partyService,
             IExportService exportService,
             FinancialTransactionService financialService,
-            IWageService wageService)
+            IWageService wageService,
+            UnifiedTransactionService unifiedTransactionService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -150,6 +129,7 @@ namespace FactoryManagement.ViewModels
             _exportService = exportService;
             _financialService = financialService;
             _wageService = wageService;
+            _unifiedTransactionService = unifiedTransactionService;
         }
 
         partial void OnSelectedReportTypeChanged(ReportType value)
@@ -268,101 +248,12 @@ namespace FactoryManagement.ViewModels
             {
                 IsBusy = true;
                 
-                // Load all transaction types
-                var inventoryTransactions = await _transactionService.GetAllTransactionsAsync();
-                var financialTransactions = await _financialService.GetAllFinancialTransactionsAsync();
-                var wageTransactions = await _wageService.GetTransactionsByDateRangeAsync(DateTime.MinValue, DateTime.MaxValue);
+                // Use the shared service to get all unified transactions
+                var unifiedTransactions = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync();
                 
-                // Update individual collections
-                Transactions.Clear();
-                foreach (var t in inventoryTransactions)
-                    Transactions.Add(t);
-                    
-                FinancialTransactions.Clear();
-                foreach (var t in financialTransactions)
-                    FinancialTransactions.Add(t);
-                    
-                WageTransactions.Clear();
-                foreach (var t in wageTransactions)
-                    WageTransactions.Add(t);
-                
-                // Combine all transactions into unified view models
                 AllTransactions.Clear();
-                
-                // Add inventory transactions
-                foreach (var t in inventoryTransactions)
-                {
-                    var description = t.TransactionType == TransactionType.Processing
-                        ? $"{t.InputItem?.ItemName ?? "N/A"} → {t.Item?.ItemName ?? "N/A"} ({t.Party?.Name ?? "N/A"})"
-                        : $"{t.Item?.ItemName ?? "N/A"} - {t.Party?.Name ?? "N/A"}";
-                    
-                    var additionalInfo = t.TransactionType == TransactionType.Processing
-                        ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2} (Conv: {(t.ConversionRate ?? 0) * 100:N1}%)"
-                        : (t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null);
-
-                    AllTransactions.Add(new UnifiedTransactionViewModel
-                    {
-                        Category = "Inventory",
-                        TransactionId = t.TransactionId.ToString(),
-                        TransactionDate = t.TransactionDate,
-                        TransactionType = t.TransactionType.ToString(),
-                        Description = description,
-                        ItemName = t.Item?.ItemName,
-                        PartyName = t.Party?.Name,
-                        WorkerName = null,
-                        Quantity = t.Quantity,
-                        Rate = t.PricePerUnit,
-                        Amount = t.TotalAmount,
-                        AdditionalInfo = additionalInfo,
-                        Notes = t.Notes,
-                        InputItemName = t.InputItem?.ItemName,
-                        InputQuantity = t.InputQuantity,
-                        ConversionRate = t.ConversionRate
-                    });
-                }
-                
-                // Add financial transactions
-                foreach (var t in financialTransactions)
-                {
-                    AllTransactions.Add(new UnifiedTransactionViewModel
-                    {
-                        Category = "Financial",
-                        TransactionId = t.FinancialTransactionId.ToString(),
-                        TransactionDate = t.TransactionDate,
-                        TransactionType = t.TransactionType.ToString(),
-                        Description = t.Party?.Name ?? "N/A",
-                        ItemName = null,
-                        PartyName = t.Party?.Name,
-                        WorkerName = null,
-                        Quantity = null,
-                        Rate = t.InterestRate > 0 ? t.InterestRate : null,
-                        Amount = t.Amount,
-                        AdditionalInfo = t.InterestRate > 0 ? $"Interest: {t.InterestRate:N2}% (₹{t.InterestAmount:N2})" : null,
-                        Notes = t.Notes
-                    });
-                }
-                
-                // Add wage transactions
-                foreach (var t in wageTransactions)
-                {
-                    AllTransactions.Add(new UnifiedTransactionViewModel
-                    {
-                        Category = "Wages",
-                        TransactionId = t.WageTransactionId.ToString(),
-                        TransactionDate = t.TransactionDate,
-                        TransactionType = t.TransactionType.ToString(),
-                        Description = t.Worker?.Name ?? "N/A",
-                        ItemName = null,
-                        PartyName = null,
-                        WorkerName = t.Worker?.Name,
-                        Quantity = t.DaysWorked > 0 ? t.DaysWorked : (t.HoursWorked > 0 ? t.HoursWorked : null),
-                        Rate = t.Rate,
-                        Amount = t.NetAmount,
-                        AdditionalInfo = t.DaysWorked > 0 ? $"{t.DaysWorked:N1} days @ ₹{t.Rate:N2}" : 
-                                        (t.HoursWorked > 0 ? $"{t.HoursWorked:N1} hrs @ ₹{t.Rate:N2}" : null),
-                        Notes = t.Notes
-                    });
-                }
+                foreach (var t in unifiedTransactions)
+                    AllTransactions.Add(t);
                 
                 CalculateTotals();
                 ReportTitle = "All Transactions (Combined)";

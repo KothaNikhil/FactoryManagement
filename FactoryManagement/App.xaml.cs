@@ -86,6 +86,7 @@ namespace FactoryManagement
             services.AddScoped<BackupService>();
             services.AddScoped<FinancialTransactionService>();
             services.AddScoped<IWageService, WageService>();
+            services.AddScoped<UnifiedTransactionService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();

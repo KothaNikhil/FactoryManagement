@@ -125,22 +125,22 @@
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="Recent Entries" Style="{StaticResource SectionHeader.Title}"/>
-                                    <TextBlock Text="Latest transactions across all categories" Style="{StaticResource SectionHeader.Subtitle}"/>
+                                    <TextBlock Text="Latest 15 transactions across all categories" Style="{StaticResource SectionHeader.Subtitle}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
 
                         <!-- DataGrid -->
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding RecentActivities}" Style="{StaticResource Section.DataGrid}">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MMM-yyyy}" Width="110"/>
                                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                                <DataGridTextColumn Header="Type" Binding="{Binding Type, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
-                                <DataGridTextColumn Header="Party" Binding="{Binding Party}" Width="*"/>
+                                <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">

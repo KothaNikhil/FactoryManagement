@@ -15,6 +15,7 @@ namespace FactoryManagement.ViewModels
         private readonly IItemService _itemService;
         private readonly FinancialTransactionService? _financialTransactionService;
         private readonly IWageService? _wageService;
+        private readonly UnifiedTransactionService? _unifiedTransactionService;
 
         [ObservableProperty]
         private decimal _totalPurchases;
@@ -50,6 +51,9 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Transaction> _recentTransactions = new();
 
         [ObservableProperty]
+        private ObservableCollection<Services.UnifiedTransactionViewModel> _allTransactions = new();
+
+        [ObservableProperty]
         private ObservableCollection<RecentActivity> _recentActivities = new();
 
         [ObservableProperty]
@@ -62,12 +66,14 @@ namespace FactoryManagement.ViewModels
             ITransactionService transactionService, 
             IItemService itemService,
             FinancialTransactionService? financialTransactionService = null,
-            IWageService? wageService = null)
+            IWageService? wageService = null,
+            UnifiedTransactionService? unifiedTransactionService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _financialTransactionService = financialTransactionService;
             _wageService = wageService;
+            _unifiedTransactionService = unifiedTransactionService;
         }
 
         [RelayCommand]
@@ -189,6 +195,15 @@ namespace FactoryManagement.ViewModels
                 {
                     TotalWagesPaid = await _wageService.GetTotalWagesPaidAsync();
                     TotalAdvancesGiven = await _wageService.GetTotalAdvancesGivenAsync();
+                }
+
+                // Load recent 15 unified transactions if service is available
+                if (_unifiedTransactionService != null)
+                {
+                    var recentUnified = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync(limit: 20);
+                    AllTransactions.Clear();
+                    foreach (var transaction in recentUnified)
+                        AllTransactions.Add(transaction);
                 }
             }
             catch (Exception ex)
