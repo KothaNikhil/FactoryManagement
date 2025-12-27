@@ -2,11 +2,12 @@ using System.Windows.Controls;
 
 namespace FactoryManagement.Views
 {
-    public partial class BackupView : UserControl
+    public partial class DataBackupView : UserControl
     {
-        public BackupView()
+        public DataBackupView()
         {
             InitializeComponent();
         }
     }
 }
+

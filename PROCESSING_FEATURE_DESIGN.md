@@ -369,7 +369,7 @@ public ObservableCollection<string> TransactionTypeFilters { get; } = new()
 
 ## Validation Rules
 
-### Transaction Entry Validation
+### New Transaction Validation
 ```csharp
 private bool ValidateProcessingTransaction()
 {
@@ -427,7 +427,7 @@ private bool ValidateProcessingTransaction()
 
 ## User Workflow
 
-### Processing Transaction Entry Flow
+### Processing New Transaction Flow
 
 1. **Select Transaction Type:** "Processing"
 2. **Select Customer/Party:** Choose the party bringing material

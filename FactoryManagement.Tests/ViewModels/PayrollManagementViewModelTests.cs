@@ -10,15 +10,15 @@ using System.Linq;
 
 namespace FactoryManagement.Tests.ViewModels
 {
-    public class WagesManagementViewModelTests
+    public class PayrollManagementViewModelTests
     {
         private readonly Mock<IWageService> _mockWageService;
-        private readonly WagesManagementViewModel _viewModel;
+        private readonly PayrollManagementViewModel _viewModel;
 
-        public WagesManagementViewModelTests()
+        public PayrollManagementViewModelTests()
         {
             _mockWageService = new Mock<IWageService>();
-            _viewModel = new WagesManagementViewModel(_mockWageService.Object);
+            _viewModel = new PayrollManagementViewModel(_mockWageService.Object);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace FactoryManagement.Tests.ViewModels
             };
             
             // Manually set the internal collections
-            typeof(WagesManagementViewModel)
+            typeof(PayrollManagementViewModel)
                 .GetField("_allWorkers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(_viewModel, new System.Collections.ObjectModel.ObservableCollection<Worker>(workers));
             
@@ -188,3 +188,4 @@ namespace FactoryManagement.Tests.ViewModels
         }
     }
 }
+

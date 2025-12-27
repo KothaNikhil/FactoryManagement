@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class TransactionEntryViewModel : ViewModelBase
+    public partial class NewTransactionViewModel : ViewModelBase
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
@@ -98,7 +98,7 @@ namespace FactoryManagement.ViewModels
         public string SaveButtonText => IsEditMode ? "UPDATE TRANSACTION" : "SAVE TRANSACTION";
         public string FormTitle => IsEditMode ? "Edit Transaction" : "New Transaction";
 
-        public TransactionEntryViewModel(
+        public NewTransactionViewModel(
             ITransactionService transactionService,
             IItemService itemService,
             IPartyService partyService,

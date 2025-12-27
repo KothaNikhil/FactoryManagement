@@ -86,14 +86,14 @@ To verify everything works:
    - View recent transactions (should be empty initially)
 
 2. **Add an Item**
-   - Click "Items Management" from menu
+   - Click "Inventory" from menu
    - Click "NEW"
    - Enter: Name="Test Rice", Stock=100, Unit="Kg"
    - Click "SAVE ITEM"
    - Success message appears
 
 3. **Add a Transaction**
-   - Click "Transaction Entry"
+   - Click "New Transaction"
    - Select Type: "Buy"
    - Select Item: "Test Rice"
    - Select Party: Any from dropdown
@@ -184,8 +184,8 @@ After setup, you should be able to:
 - [x] Start the application
 - [x] See the Dashboard
 - [x] Navigate using the menu
-- [x] Add items in Items Management
-- [x] Add parties in Parties Management
+- [x] Add items in Inventory
+- [x] Add parties in Contacts
 - [x] Record transactions
 - [x] View reports
 - [x] Export to Excel/CSV

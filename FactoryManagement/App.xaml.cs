@@ -90,13 +90,13 @@ namespace FactoryManagement
             // ViewModels
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<DashboardViewModel>();
-            services.AddTransient<TransactionEntryViewModel>();
+            services.AddTransient<NewTransactionViewModel>();
             services.AddTransient<ReportsViewModel>();
-            services.AddTransient<ItemsManagementViewModel>();
-            services.AddTransient<PartiesManagementViewModel>();
-            services.AddTransient<BackupViewModel>();
-            services.AddTransient<FinancialTransactionsViewModel>();
-            services.AddTransient<WagesManagementViewModel>();
+            services.AddTransient<InventoryViewModel>();
+            services.AddTransient<ContactsViewModel>();
+            services.AddTransient<DataBackupViewModel>();
+            services.AddTransient<FinancialRecordsViewModel>();
+            services.AddTransient<PayrollManagementViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();

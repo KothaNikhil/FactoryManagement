@@ -362,8 +362,8 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - [ ] Can record Sell transaction (stock decreases)
 - [ ] Can record Wastage
 - [ ] Validation prevents invalid data
-- [ ] Search works in Items Management
-- [ ] Search works in Parties Management
+- [ ] Search works in Inventory
+- [ ] Search works in Contacts
 - [ ] Reports filter by item
 - [ ] Reports filter by party
 - [ ] Reports filter by date range
@@ -602,7 +602,7 @@ WageTransactionTypeConverter:
 #### Use Case 1: Adding a Worker
 ```
 Scenario: Add new worker "John" with mobile "9876543210"
-1. Navigate to Wages Management
+1. Navigate to Payroll Management
 2. Click "ADD NEW WORKER"
 3. Enter Name: "John"
 4. Enter Mobile: "9876543210"

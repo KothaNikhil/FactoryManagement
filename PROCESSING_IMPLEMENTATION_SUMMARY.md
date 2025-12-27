@@ -123,7 +123,7 @@ The migration should add these columns to the `Transactions` table:
 
 ### Creating a Processing Transaction
 
-1. **Navigate to Transaction Entry**
+1. **Navigate to New Transaction**
 2. **Select Transaction Type:** Choose "Processing"
 3. **Select Customer:** Choose the party bringing material (suggest PartyType = Processor)
 4. **Input Material Section:**

@@ -8,24 +8,24 @@ namespace FactoryManagement.Tests.ViewModels
     {
         private readonly MainWindowViewModel _viewModel;
         private readonly Mock<DashboardViewModel> _mockDashboardVM;
-        private readonly Mock<TransactionEntryViewModel> _mockTransactionEntryVM;
+        private readonly Mock<NewTransactionViewModel> _mockTransactionEntryVM;
         private readonly Mock<ReportsViewModel> _mockReportsVM;
-        private readonly Mock<ItemsManagementViewModel> _mockItemsVM;
-        private readonly Mock<PartiesManagementViewModel> _mockPartiesVM;
-        private readonly Mock<BackupViewModel> _mockBackupVM;
-        private readonly Mock<FinancialTransactionsViewModel> _mockFinancialVM;
-        private readonly Mock<WagesManagementViewModel> _mockWagesVM;
+        private readonly Mock<InventoryViewModel> _mockItemsVM;
+        private readonly Mock<ContactsViewModel> _mockPartiesVM;
+        private readonly Mock<DataBackupViewModel> _mockBackupVM;
+        private readonly Mock<FinancialRecordsViewModel> _mockFinancialVM;
+        private readonly Mock<PayrollManagementViewModel> _mockWagesVM;
 
         public MainWindowViewModelTests()
         {
             _mockDashboardVM = new Mock<DashboardViewModel>(null!, null!, null!, null!);
-            _mockTransactionEntryVM = new Mock<TransactionEntryViewModel>(null!, null!, null!, null!);
+            _mockTransactionEntryVM = new Mock<NewTransactionViewModel>(null!, null!, null!, null!);
             _mockReportsVM = new Mock<ReportsViewModel>(null!, null!, null!, null!, null!, null!);
-            _mockItemsVM = new Mock<ItemsManagementViewModel>(null!);
-            _mockPartiesVM = new Mock<PartiesManagementViewModel>(null!);
-            _mockBackupVM = new Mock<BackupViewModel>(null!);
-            _mockFinancialVM = new Mock<FinancialTransactionsViewModel>(null!, null!);
-            _mockWagesVM = new Mock<WagesManagementViewModel>(null!);
+            _mockItemsVM = new Mock<InventoryViewModel>(null!);
+            _mockPartiesVM = new Mock<ContactsViewModel>(null!);
+            _mockBackupVM = new Mock<DataBackupViewModel>(null!);
+            _mockFinancialVM = new Mock<FinancialRecordsViewModel>(null!, null!);
+            _mockWagesVM = new Mock<PayrollManagementViewModel>(null!);
 
             _viewModel = new MainWindowViewModel(
                 _mockDashboardVM.Object,
@@ -66,7 +66,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.NavigateToTransactionEntryCommand.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal("Transaction Entry", _viewModel.CurrentViewTitle);
+            Assert.Equal("New Transaction", _viewModel.CurrentViewTitle);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.NavigateToItemsCommand.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal("Items Management", _viewModel.CurrentViewTitle);
+            Assert.Equal("Inventory", _viewModel.CurrentViewTitle);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.NavigateToPartiesCommand.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal("Parties Management", _viewModel.CurrentViewTitle);
+            Assert.Equal("Contacts", _viewModel.CurrentViewTitle);
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.NavigateToFinancialTransactionsCommand.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal("Financial Transactions", _viewModel.CurrentViewTitle);
+            Assert.Equal("Financial Records", _viewModel.CurrentViewTitle);
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.NavigateToWagesCommand.ExecuteAsync(null);
 
             // Assert
-            Assert.Equal("Wages Management", _viewModel.CurrentViewTitle);
+            Assert.Equal("Payroll Management", _viewModel.CurrentViewTitle);
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace FactoryManagement.Tests.ViewModels
             _viewModel.NavigateToBackupCommand.Execute(null);
 
             // Assert
-            Assert.Equal("Backup & Restore", _viewModel.CurrentViewTitle);
+            Assert.Equal("Data Backup", _viewModel.CurrentViewTitle);
         }
 
         [Fact]

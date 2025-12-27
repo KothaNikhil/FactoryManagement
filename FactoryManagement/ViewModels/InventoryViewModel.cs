@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class ItemsManagementViewModel : ViewModelBase
+    public partial class InventoryViewModel : ViewModelBase
     {
         private readonly IItemService _itemService;
 
@@ -44,7 +44,7 @@ namespace FactoryManagement.ViewModels
 
         private ObservableCollection<Item> _allItems = new();
 
-        public ItemsManagementViewModel(IItemService itemService)
+        public InventoryViewModel(IItemService itemService)
         {
             _itemService = itemService;
         }
@@ -227,3 +227,4 @@ namespace FactoryManagement.ViewModels
         }
     }
 }
+

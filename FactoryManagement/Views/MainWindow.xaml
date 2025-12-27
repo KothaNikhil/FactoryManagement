@@ -30,26 +30,26 @@
         <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
             <views:DashboardView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:TransactionEntryViewModel}">
-            <views:TransactionEntryView />
+        <DataTemplate DataType="{x:Type viewmodels:NewTransactionViewModel}">
+            <views:NewTransactionView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:ReportsViewModel}">
             <views:ReportsView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:ItemsManagementViewModel}">
-            <views:ItemsManagementView />
+        <DataTemplate DataType="{x:Type viewmodels:InventoryViewModel}">
+            <views:InventoryView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:PartiesManagementViewModel}">
-            <views:PartiesManagementView />
+        <DataTemplate DataType="{x:Type viewmodels:ContactsViewModel}">
+            <views:ContactsView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:BackupViewModel}">
-            <views:BackupView />
+        <DataTemplate DataType="{x:Type viewmodels:DataBackupViewModel}">
+            <views:DataBackupView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:FinancialTransactionsViewModel}">
-            <views:FinancialTransactionsView />
+        <DataTemplate DataType="{x:Type viewmodels:FinancialRecordsViewModel}">
+            <views:FinancialRecordsView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:WagesManagementViewModel}">
-            <views:WagesManagementView />
+        <DataTemplate DataType="{x:Type viewmodels:PayrollManagementViewModel}">
+            <views:PayrollManagementView />
         </DataTemplate>
     </Window.Resources>
 

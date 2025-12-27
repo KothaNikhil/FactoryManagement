@@ -10,7 +10,7 @@ using FactoryManagement.Services;
 
 namespace FactoryManagement.ViewModels
 {
-    public class BackupViewModel : ViewModelBase
+    public class DataBackupViewModel : ViewModelBase
     {
         private readonly BackupService _backupService;
         private ObservableCollection<BackupFileInfo> _backups = new();
@@ -18,7 +18,7 @@ namespace FactoryManagement.ViewModels
         private string _statusMessage = string.Empty;
         private bool _isProcessing;
 
-        public BackupViewModel(BackupService backupService)
+        public DataBackupViewModel(BackupService backupService)
         {
             _backupService = backupService;
             Backups = new ObservableCollection<BackupFileInfo>();
@@ -221,3 +221,4 @@ namespace FactoryManagement.ViewModels
         }
     }
 }
+

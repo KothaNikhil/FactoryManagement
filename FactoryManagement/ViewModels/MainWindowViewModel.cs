@@ -13,23 +13,23 @@ namespace FactoryManagement.ViewModels
         private string _currentViewTitle = "Dashboard";
 
         private readonly DashboardViewModel _dashboardViewModel;
-        private readonly TransactionEntryViewModel _transactionEntryViewModel;
+        private readonly NewTransactionViewModel _transactionEntryViewModel;
         private readonly ReportsViewModel _reportsViewModel;
-        private readonly ItemsManagementViewModel _itemsManagementViewModel;
-        private readonly PartiesManagementViewModel _partiesManagementViewModel;
-        private readonly BackupViewModel _backupViewModel;
-        private readonly FinancialTransactionsViewModel _financialTransactionsViewModel;
-        private readonly WagesManagementViewModel _wagesManagementViewModel;
+        private readonly InventoryViewModel _itemsManagementViewModel;
+        private readonly ContactsViewModel _partiesManagementViewModel;
+        private readonly DataBackupViewModel _backupViewModel;
+        private readonly FinancialRecordsViewModel _financialTransactionsViewModel;
+        private readonly PayrollManagementViewModel _wagesManagementViewModel;
 
         public MainWindowViewModel(
             DashboardViewModel dashboardViewModel,
-            TransactionEntryViewModel transactionEntryViewModel,
+            NewTransactionViewModel transactionEntryViewModel,
             ReportsViewModel reportsViewModel,
-            ItemsManagementViewModel itemsManagementViewModel,
-            PartiesManagementViewModel partiesManagementViewModel,
-            BackupViewModel backupViewModel,
-            FinancialTransactionsViewModel financialTransactionsViewModel,
-            WagesManagementViewModel wagesManagementViewModel)
+            InventoryViewModel itemsManagementViewModel,
+            ContactsViewModel partiesManagementViewModel,
+            DataBackupViewModel backupViewModel,
+            FinancialRecordsViewModel financialTransactionsViewModel,
+            PayrollManagementViewModel wagesManagementViewModel)
         {
             _dashboardViewModel = dashboardViewModel;
             _transactionEntryViewModel = transactionEntryViewModel;
@@ -56,7 +56,7 @@ namespace FactoryManagement.ViewModels
         private async System.Threading.Tasks.Task NavigateToTransactionEntryAsync()
         {
             CurrentView = _transactionEntryViewModel;
-            CurrentViewTitle = "Transaction Entry";
+            CurrentViewTitle = "New Transaction";
             await _transactionEntryViewModel.InitializeAsync();
         }
 
@@ -72,7 +72,7 @@ namespace FactoryManagement.ViewModels
         private async System.Threading.Tasks.Task NavigateToItemsAsync()
         {
             CurrentView = _itemsManagementViewModel;
-            CurrentViewTitle = "Items Management";
+            CurrentViewTitle = "Inventory";
             await _itemsManagementViewModel.InitializeAsync();
         }
 
@@ -80,7 +80,7 @@ namespace FactoryManagement.ViewModels
         private async System.Threading.Tasks.Task NavigateToPartiesAsync()
         {
             CurrentView = _partiesManagementViewModel;
-            CurrentViewTitle = "Parties Management";
+            CurrentViewTitle = "Contacts";
             await _partiesManagementViewModel.InitializeAsync();
         }
 
@@ -88,7 +88,7 @@ namespace FactoryManagement.ViewModels
         private async System.Threading.Tasks.Task NavigateToFinancialTransactionsAsync()
         {
             CurrentView = _financialTransactionsViewModel;
-            CurrentViewTitle = "Financial Transactions";
+            CurrentViewTitle = "Financial Records";
             // Load data is called in constructor, but we can optionally refresh here
             await System.Threading.Tasks.Task.CompletedTask;
         }
@@ -97,7 +97,7 @@ namespace FactoryManagement.ViewModels
         private async System.Threading.Tasks.Task NavigateToWagesAsync()
         {
             CurrentView = _wagesManagementViewModel;
-            CurrentViewTitle = "Wages Management";
+            CurrentViewTitle = "Payroll Management";
             await _wagesManagementViewModel.InitializeAsync();
         }
 
@@ -105,7 +105,7 @@ namespace FactoryManagement.ViewModels
         private void NavigateToBackup()
         {
             CurrentView = _backupViewModel;
-            CurrentViewTitle = "Backup & Restore";
+            CurrentViewTitle = "Data Backup";
         }
 
         [RelayCommand]

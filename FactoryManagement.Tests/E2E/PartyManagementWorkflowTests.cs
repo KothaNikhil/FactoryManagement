@@ -20,7 +20,7 @@ namespace FactoryManagement.Tests.E2E
         private readonly FactoryDbContext _context;
         private readonly PartyService _partyService;
         private readonly TransactionService _transactionService;
-        private readonly PartiesManagementViewModel _viewModel;
+        private readonly ContactsViewModel _viewModel;
 
         public PartyManagementWorkflowTests()
         {
@@ -37,7 +37,7 @@ namespace FactoryManagement.Tests.E2E
             var itemService = new ItemService(itemRepo);
             _partyService = new PartyService(partyRepo);
             _transactionService = new TransactionService(transactionRepo, itemService);
-            _viewModel = new PartiesManagementViewModel(_partyService);
+            _viewModel = new ContactsViewModel(_partyService);
 
             SeedTestData().Wait();
         }
@@ -311,3 +311,4 @@ namespace FactoryManagement.Tests.E2E
         }
     }
 }
+

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FactoryManagement.Tests.ViewModels
 {
-    public class ItemsManagementViewModelTests
+    public class InventoryViewModelTests
     {
         [Fact]
         public async Task LoadItemsAsync_ShouldPopulateItems()
@@ -21,7 +21,7 @@ namespace FactoryManagement.Tests.ViewModels
                 new Item { ItemId = 2, ItemName = "Item2", CurrentStock = 200, Unit = "pcs" }
             };
             mockService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(items);
-            var viewModel = new ItemsManagementViewModel(mockService.Object);
+            var viewModel = new InventoryViewModel(mockService.Object);
 
             // Act
             await viewModel.LoadItemsCommand.ExecuteAsync(null);
@@ -36,7 +36,7 @@ namespace FactoryManagement.Tests.ViewModels
         {
             // Arrange
             var mockService = new Mock<IItemService>();
-            var viewModel = new ItemsManagementViewModel(mockService.Object)
+            var viewModel = new InventoryViewModel(mockService.Object)
             {
                 ItemName = "Test",
                 CurrentStock = 100,
@@ -58,7 +58,7 @@ namespace FactoryManagement.Tests.ViewModels
         {
             // Arrange
             var mockService = new Mock<IItemService>();
-            var viewModel = new ItemsManagementViewModel(mockService.Object);
+            var viewModel = new InventoryViewModel(mockService.Object);
             var item = new Item { ItemId = 1, ItemName = "Test Item", CurrentStock = 100, Unit = "kg" };
 
             // Act
@@ -72,3 +72,4 @@ namespace FactoryManagement.Tests.ViewModels
         }
     }
 }
+

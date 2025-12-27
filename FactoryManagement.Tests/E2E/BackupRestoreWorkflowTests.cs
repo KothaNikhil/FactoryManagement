@@ -115,7 +115,7 @@ namespace FactoryManagement.Tests.E2E
         public async Task BackupWorkflow_ViewModel_ShouldHandleBackupOperations()
         {
             // Arrange
-            var viewModel = new BackupViewModel(_backupService);
+            var viewModel = new DataBackupViewModel(_backupService);
 
             // Add some data to context
             await _context.Items.AddAsync(new Item { ItemName = "VM Test Item", Unit = "Pcs", CurrentStock = 5 });
@@ -310,3 +310,4 @@ namespace FactoryManagement.Tests.E2E
         }
     }
 }
+

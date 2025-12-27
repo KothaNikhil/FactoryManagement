@@ -1,49 +1,53 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FactoryManagement.Services;
-using FactoryManagement.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
+using FactoryManagement.ViewModels;
+using FactoryManagement.Services;
+using Moq;
+using System.Windows;
 
 namespace FactoryManagement.Tests
 {
-    public class BackupViewModelTests
+    public class DataDataBackupViewUITests
     {
         [Fact]
-        public void CreateBackupCommand_CallsBackupService()
+        public void CreateBackup_UI_CommandIsInitialized()
         {
             // Arrange
             var mockService = new Mock<BackupService>(null!);
             mockService.Setup(s => s.CreateBackupAsync()).ReturnsAsync("test.json");
             mockService.Setup(s => s.GetAvailableBackups()).Returns(new List<BackupFileInfo>());
-            var vm = new BackupViewModel(mockService.Object);
+            var vm = new DataBackupViewModel(mockService.Object);
 
-            // Act
-            Assert.True(vm.CreateBackupCommand.CanExecute(null));
-            
-            // Assert - Verify command is properly initialized and executable
+            // Assert - UI test verifies command initialization and state
             Assert.NotNull(vm.CreateBackupCommand);
-            mockService.Verify(s => s.GetAvailableBackups(), Times.Once); // Called in constructor
+            Assert.True(vm.CreateBackupCommand.CanExecute(null));
+            Assert.False(vm.IsProcessing);
+            Assert.Equal("Found 0 backup(s)", vm.StatusMessage);
         }
 
         [Fact]
-        public void DeleteBackupCommand_IsEnabledWhenBackupSelected()
+        public void DeleteBackup_UI_CommandStateManagement()
         {
             // Arrange
             var mockService = new Mock<BackupService>(null!);
             mockService.Setup(s => s.GetAvailableBackups()).Returns(new List<BackupFileInfo>());
             mockService.Setup(s => s.DeleteBackup(It.IsAny<string>()));
-            var vm = new BackupViewModel(mockService.Object);
+            var vm = new DataBackupViewModel(mockService.Object);
+            
+            // Assert - Initially delete command should be disabled
+            Assert.False(vm.DeleteBackupCommand.CanExecute(null));
+            
+            // Act - Add and select a backup
             var backup = new BackupFileInfo { FileName = "test.json", FilePath = "test.json", CreatedDate = DateTime.Now, FileSize = 100 };
             vm.Backups.Add(backup);
             vm.SelectedBackup = backup;
 
-            // Assert - Verify delete command is enabled when backup is selected
+            // Assert - Delete command should now be enabled
             Assert.True(vm.DeleteBackupCommand.CanExecute(null));
-            Assert.Single(vm.Backups);
-            Assert.Equal("test.json", vm.SelectedBackup.FileName);
+            Assert.NotNull(vm.SelectedBackup);
         }
     }
 }
+

@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class WagesManagementViewModel : ViewModelBase
+    public partial class PayrollManagementViewModel : ViewModelBase
     {
         private readonly IWageService _wageService;
 
@@ -119,7 +119,7 @@ namespace FactoryManagement.ViewModels
             "Wage Payment", "Advance Given", "Advance Returned"
         };
 
-        public WagesManagementViewModel(IWageService wageService)
+        public PayrollManagementViewModel(IWageService wageService)
         {
             _wageService = wageService;
         }
@@ -370,3 +370,4 @@ namespace FactoryManagement.ViewModels
         }
     }
 }
+

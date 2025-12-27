@@ -20,7 +20,7 @@ namespace FactoryManagement.Tests.E2E
         private readonly FactoryDbContext _context;
         private readonly ItemService _itemService;
         private readonly TransactionService _transactionService;
-        private readonly ItemsManagementViewModel _viewModel;
+        private readonly InventoryViewModel _viewModel;
 
         public InventoryManagementWorkflowTests()
         {
@@ -35,7 +35,7 @@ namespace FactoryManagement.Tests.E2E
 
             _itemService = new ItemService(itemRepo);
             _transactionService = new TransactionService(transactionRepo, _itemService);
-            _viewModel = new ItemsManagementViewModel(_itemService);
+            _viewModel = new InventoryViewModel(_itemService);
 
             SeedTestData().Wait();
         }
@@ -381,3 +381,4 @@ namespace FactoryManagement.Tests.E2E
         }
     }
 }
+

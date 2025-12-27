@@ -284,7 +284,7 @@ Success Icon                  : #1e7e34
    - Match form card styling
    - Use consistent colors
 
-### Transaction Entry Screen
+### New Transaction Screen
 1. Left panel (form):
    - Use FormCard style
    - Icon badge header with #4a90c8
@@ -319,7 +319,7 @@ Success Icon                  : #1e7e34
    - Icon badge header
    - SAVE ITEM button with success green
 
-### Parties Management Screen
+### Contacts Screen
 1. "All Parties" table:
    - Standard DataGrid styling
    - Proper card wrapper
@@ -357,10 +357,10 @@ Form Field Margin     : 0,0,0,16
 
 - [ ] Update DarkTheme.xaml with all color resources
 - [ ] Update Dashboard with summary cards and styling
-- [ ] Update Transaction Entry forms and tables
+- [ ] Update New Transaction forms and tables
 - [ ] Update Reports & Analytics screen
-- [ ] Update Items Management screen
-- [ ] Update Parties Management screen
+- [ ] Update Inventory screen
+- [ ] Update Contacts screen
 - [ ] Verify consistency across all screens
 - [ ] Test hover states and interactions
 - [ ] Verify WCAG AA contrast ratios

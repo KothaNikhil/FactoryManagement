@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace FactoryManagement.ViewModels
 {
-    public class FinancialTransactionsViewModel : ViewModelBase
+    public class FinancialRecordsViewModel : ViewModelBase
     {
         private readonly FinancialTransactionService _financialTransactionService;
         private readonly IPartyService _partyService;
@@ -36,7 +36,7 @@ namespace FactoryManagement.ViewModels
         private string _filterStatus;
         private bool _isLoading;
 
-        public FinancialTransactionsViewModel(
+        public FinancialRecordsViewModel(
             FinancialTransactionService financialTransactionService,
             IPartyService partyService)
         {
@@ -520,3 +520,4 @@ namespace FactoryManagement.ViewModels
         #endregion
     }
 }
+

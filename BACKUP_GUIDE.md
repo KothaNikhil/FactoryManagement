@@ -1,4 +1,4 @@
-# Backup & Restore Feature
+# Data Backup Feature
 
 ## Overview
 A comprehensive backup and restore system has been added to the Factory Management application. This allows you to create backups of all your data (items, parties, and transactions) and restore them when needed.
@@ -37,13 +37,13 @@ Each backup contains:
 ## How to Use
 
 ### Creating a Backup
-1. Navigate to "Backup & Restore" from the main menu
+1. Navigate to "Data Backup" from the main menu
 2. Click "Create Backup" button
 3. Backup is created instantly with current timestamp
 4. Status message confirms backup creation
 
 ### Restoring a Backup
-1. Navigate to "Backup & Restore" from the main menu
+1. Navigate to "Data Backup" from the main menu
 2. Select a backup from the list
 3. Click "Restore Selected" button
 4. Confirm the restoration (warning: this replaces all data!)
@@ -109,7 +109,7 @@ C:\Users\[YourUsername]\Documents\FactoryManagement\Backups\
 - Verify files have not been moved or deleted
 
 ## Navigation
-Access the Backup & Restore feature from the main menu:
-- Menu Item: "Backup & Restore"
+Access the Data Backup feature from the main menu:
+- Menu Item: "Data Backup"
 - Icon: Backup/Restore symbol
-- Located below "Parties Management" in the menu
+- Located below "Contacts" in the menu

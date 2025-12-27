@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class PartiesManagementViewModel : ViewModelBase
+    public partial class ContactsViewModel : ViewModelBase
     {
         private readonly IPartyService _partyService;
 
@@ -52,7 +52,7 @@ namespace FactoryManagement.ViewModels
             "Buyer", "Seller", "Both"
         };
 
-        public PartiesManagementViewModel(IPartyService partyService)
+        public ContactsViewModel(IPartyService partyService)
         {
             _partyService = partyService;
         }
@@ -228,3 +228,4 @@ namespace FactoryManagement.ViewModels
         }
     }
 }
+

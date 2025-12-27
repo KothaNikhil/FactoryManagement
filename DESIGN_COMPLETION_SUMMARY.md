@@ -25,7 +25,7 @@ All screens have been updated with the new standardized dark theme design, extra
 - **Add Item Form**: FormCard with icon badge, Button.Success for save
 - **Form Labels**: Text.Label color (#AAA)
 
-### 4. Parties Management View ✅
+### 4. Contacts View ✅
 - **Summary Cards**: 4 cards (Total Parties, Active Parties, Outstanding Balance, Recent Activity)
 - **Colors**: Blue, Green, Red, Orange (following standard palette)
 - **Parties Table**: DataGrid.Standard with search box

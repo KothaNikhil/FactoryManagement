@@ -312,7 +312,7 @@
 
 - [ ] **Complete Transaction Workflow**
   1. Launch application
-  2. Navigate to Transaction Entry
+  2. Navigate to New Transaction
   3. Select item from dropdown
   4. Select party from dropdown
   5. Enter quantity and price
@@ -324,7 +324,7 @@
   11. Verify transaction appears in recent transactions
 
 - [ ] **Inventory Management Workflow**
-  1. Navigate to Items Management
+  1. Navigate to Inventory
   2. Click Add New Item
   3. Enter item details
   4. Save item
@@ -334,7 +334,7 @@
   8. Delete item (with validation)
 
 - [ ] **Party Management Workflow**
-  1. Navigate to Parties Management
+  1. Navigate to Contacts
   2. Add new party
   3. Select party type
   4. Enter contact information
@@ -344,7 +344,7 @@
   8. Delete party (with transaction check)
 
 - [ ] **Loan Workflow**
-  1. Navigate to Financial Transactions
+  1. Navigate to Financial Records
   2. Create new loan (Given/Taken)
   3. Enter loan details
   4. Save loan

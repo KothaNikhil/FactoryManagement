@@ -13,7 +13,7 @@ cd C:\FactoryManagement
 - Recent Transactions (Last 10)
 - Low Stock Alerts
 
-### Transaction Entry
+### New Transaction
 1. Select Type: Buy/Sell/Wastage
 2. Choose Item & Party
 3. Enter Quantity & Price
@@ -26,16 +26,16 @@ cd C:\FactoryManagement
 - View transaction history
 
 ### Master Data
-- **Items**: Add/Edit/Delete products
-- **Parties**: Manage buyers/sellers
+- **Inventory**: Add/Edit/Delete products
+- **Contacts**: Manage buyers/sellers
 
 ## 🎯 Common Tasks
 
 ### Record a Purchase
-Transaction Entry → Buy → Select Item & Seller → Enter Details → Save
+New Transaction → Buy → Select Item & Seller → Enter Details → Save
 
 ### Record a Sale
-Transaction Entry → Sell → Select Item & Buyer → Enter Details → Save
+New Transaction → Sell → Select Item & Buyer → Enter Details → Save
 
 ### View Item History
 Reports → Filter by Item → Select Item → Apply
@@ -44,10 +44,10 @@ Reports → Filter by Item → Select Item → Apply
 Reports → Set Date Range → Filter by Date → Export to Excel
 
 ### Add New Item
-Items Management → NEW → Enter Details → Save
+Inventory → NEW → Enter Details → Save
 
 ### Add New Party
-Parties Management → NEW → Enter Details → Save
+Contacts → NEW → Enter Details → Save
 
 ## ⚡ Quick Tips
 
@@ -84,10 +84,10 @@ Parties Management → NEW → Enter Details → Save
 | ✏️ | Edit |
 | 🗑️ | Delete |
 | 📊 | Dashboard |
-| 🛒 | Transaction Entry |
+| 🛒 | New Transaction |
 | 📈 | Reports |
-| 📦 | Items Management |
-| 👥 | Parties Management |
+| 📦 | Inventory |
+| 👥 | Contacts |
 
 ## ⌨️ Keyboard Shortcuts
 

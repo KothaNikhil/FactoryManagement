@@ -2,14 +2,14 @@ using System.Windows.Controls;
 
 namespace FactoryManagement.Views
 {
-    public partial class WagesManagementView : UserControl
+    public partial class PayrollManagementView : UserControl
     {
-        public WagesManagementView()
+        public PayrollManagementView()
         {
             InitializeComponent();
             Loaded += async (s, e) =>
             {
-                if (DataContext is ViewModels.WagesManagementViewModel viewModel)
+                if (DataContext is ViewModels.PayrollManagementViewModel viewModel)
                 {
                     await viewModel.InitializeAsync();
                 }
@@ -17,3 +17,5 @@ namespace FactoryManagement.Views
         }
     }
 }
+
+

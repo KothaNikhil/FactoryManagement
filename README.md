@@ -90,7 +90,7 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 - Monitor recent transactions
 - Check low stock alerts
 
-### Transaction Entry
+### New Transaction
 1. Select transaction type (Buy/Sell/Wastage)
 2. Choose item from dropdown (shows current stock)
 3. Select party (optional for wastage)
@@ -108,12 +108,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 
 ### Master Data Management
 
-#### Items Management
+#### Inventory
 - Add, edit, and delete inventory items
 - Search functionality
 - Track current stock levels
 
-#### Parties Management
+#### Contacts
 - Manage buyers, sellers, and suppliers
 - Store contact information and location
 - Categorize as Buyer, Seller, or Both

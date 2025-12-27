@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Getting Started](#getting-started)
 2. [Dashboard Overview](#dashboard-overview)
-3. [Transaction Entry](#transaction-entry)
+3. [New Transaction](#new-transaction)
 4. [Reports & Analytics](#reports--analytics)
 5. [Master Data Management](#master-data-management)
 6. [Tips & Best Practices](#tips--best-practices)
@@ -21,10 +21,10 @@ When you first launch the application:
 ### Navigation
 Use the **hamburger menu** (☰) on the top-left to access different sections:
 - **Dashboard**: Overview and quick stats
-- **Transaction Entry**: Record new transactions
+- **New Transaction**: Record new transactions
 - **Reports**: View and export transaction data
-- **Items Management**: Manage inventory items
-- **Parties Management**: Manage buyers and sellers
+- **Inventory**: Manage inventory items
+- **Contacts**: Manage buyers and sellers
 
 ---
 
@@ -52,10 +52,10 @@ The Dashboard provides a quick overview of your business:
 
 ---
 
-## Transaction Entry
+## New Transaction
 
 ### Recording a Buy Transaction
-1. Click **Transaction Entry** from the menu
+1. Click **New Transaction** from the menu
 2. Select **"Buy"** from Transaction Type dropdown
 3. Choose the **item** you're purchasing
    - The dropdown shows current stock levels
@@ -157,10 +157,10 @@ Click **"Show All"** to return to viewing all transactions
 
 ## Master Data Management
 
-### Items Management
+### Inventory
 
 #### Adding a New Item
-1. Go to **Items Management**
+1. Go to **Inventory**
 2. Click **"NEW"** button (top-right of form)
 3. Enter **Item Name** (e.g., "Basmati Rice")
 4. Enter **Current Stock** (e.g., 1500)
@@ -187,10 +187,10 @@ Click **"Show All"** to return to viewing all transactions
 - Search by name or unit
 - Results update instantly as you type
 
-### Parties Management
+### Contacts
 
 #### Adding a New Party
-1. Go to **Parties Management**
+1. Go to **Contacts**
 2. Click **"NEW"** button
 3. Enter **Party Name** (required)
 4. Enter **Mobile Number** (optional)
@@ -293,11 +293,11 @@ Click **"Show All"** to return to viewing all transactions
 - Solution: Check current stock and adjust quantity
 
 ### "Item name is required"
-- Missing item name in Items Management
+- Missing item name in Inventory
 - Solution: Enter a name before saving
 
 ### "Party name is required"
-- Missing party name in Parties Management
+- Missing party name in Contacts
 - Solution: Enter a name before saving
 
 ---

@@ -9,15 +9,15 @@ using Xunit;
 
 namespace FactoryManagement.Tests.ViewModels
 {
-    public class PartiesManagementViewModelTests
+    public class ContactsViewModelTests
     {
         private readonly Mock<IPartyService> _mockPartyService;
-        private readonly PartiesManagementViewModel _viewModel;
+        private readonly ContactsViewModel _viewModel;
 
-        public PartiesManagementViewModelTests()
+        public ContactsViewModelTests()
         {
             _mockPartyService = new Mock<IPartyService>();
-            _viewModel = new PartiesManagementViewModel(_mockPartyService.Object);
+            _viewModel = new ContactsViewModel(_mockPartyService.Object);
         }
 
         [Fact]
@@ -219,3 +219,4 @@ namespace FactoryManagement.Tests.ViewModels
         }
     }
 }
+

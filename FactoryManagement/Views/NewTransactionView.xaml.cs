@@ -6,9 +6,9 @@ using System.Windows;
 
 namespace FactoryManagement.Views
 {
-    public partial class TransactionEntryView : UserControl
+    public partial class NewTransactionView : UserControl
     {
-        public TransactionEntryView()
+        public NewTransactionView()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace FactoryManagement.Views
                 if (result == true && dialog.NewParty != null)
                 {
                     // Refresh the parties list in the view model
-                    if (DataContext is TransactionEntryViewModel viewModel)
+                    if (DataContext is NewTransactionViewModel viewModel)
                     {
                         await viewModel.LoadDataCommand.ExecuteAsync(null);
                         
@@ -73,7 +73,7 @@ namespace FactoryManagement.Views
         {
             if (sender is DataGrid dataGrid && dataGrid.SelectedItem != null)
             {
-                if (DataContext is TransactionEntryViewModel viewModel)
+                if (DataContext is NewTransactionViewModel viewModel)
                 {
                     viewModel.EditTransactionCommand.Execute(dataGrid.SelectedItem);
                 }
@@ -81,3 +81,4 @@ namespace FactoryManagement.Views
         }
     }
 }
+
