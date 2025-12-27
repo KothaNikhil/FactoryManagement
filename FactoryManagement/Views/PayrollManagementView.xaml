@@ -253,41 +253,24 @@
                         </Border>
 
                         <!-- Workers List -->
-                        <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
+                        <DataGrid Grid.Row="1" 
                                   ItemsSource="{Binding Workers}"
                                   SelectedItem="{Binding SelectedWorker}"
-                                  AutoGenerateColumns="False"
-                                  IsReadOnly="True"
-                                  SelectionMode="Single"
-                                  CanUserAddRows="False"
-                                  Background="Transparent"
-                                  RowBackground="#1a1a1a"
-                                  AlternatingRowBackground="#333"
-                                  BorderThickness="0"
-                                  GridLinesVisibility="None"
-                                  HeadersVisibility="Column">
+                                  Style="{StaticResource Section.DataGrid}">
                             <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="#1a1a1a"/>
-                                    <Setter Property="Foreground" Value="#BBB"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Padding" Value="10"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
-                                    <Setter Property="BorderBrush" Value="#444"/>
-                                </Style>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTemplateColumn Header="Action" Width="70">
+                                <DataGridTemplateColumn Header="Action" Width="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="✏️" 
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
                                                     Command="{Binding DataContext.EditWorkerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding}"
-                                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                                    Foreground="#4FC3F7"
-                                                    ToolTip="Edit worker"
-                                                    Padding="6,4"/>
+                                                    ToolTip="Edit">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
