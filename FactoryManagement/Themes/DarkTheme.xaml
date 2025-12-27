@@ -331,6 +331,39 @@
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
   </Style>
+
+  <!-- SECTION-LEVEL SCROLL STYLES -->
+  <!-- Use this ScrollViewer style inside sections to enable internal scrolling only -->
+  <Style x:Key="Section.ScrollViewer" TargetType="ScrollViewer">
+    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+    <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+    <Setter Property="CanContentScroll" Value="True"/>
+    <Setter Property="PanningMode" Value="VerticalOnly"/>
+  </Style>
+
+  <!-- Use this DataGrid style for lists inside sections; enables internal scroll + virtualization -->
+  <Style x:Key="Section.DataGrid" TargetType="DataGrid" BasedOn="{StaticResource DataGrid.Dark}">
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+    <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+    <Setter Property="EnableRowVirtualization" Value="True"/>
+    <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+    <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+  </Style>
+
+  <!-- Use this ItemsControl style with VirtualizingStackPanel to keep sections scrollable and fast -->
+  <Style x:Key="Section.ItemsControl" TargetType="ItemsControl">
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+    <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+    <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+  </Style>
   
     <!-- BUTTON ICON STYLE -->
   <Style x:Key="Button.Icon" TargetType="Button">

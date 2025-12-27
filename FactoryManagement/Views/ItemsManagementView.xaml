@@ -145,7 +145,7 @@
                     </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource DataGrid.Dark}">
+                    <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
@@ -222,7 +222,7 @@
                         </Grid>
                     </Border>
                     
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
                     <StackPanel>
                             <!-- Item Name -->
                             <TextBlock Text="Item Name *" 

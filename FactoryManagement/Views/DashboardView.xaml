@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid>
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -151,7 +151,7 @@
                         </Border>
 
                         <!-- DataGrid -->
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding RecentActivities}" Style="{StaticResource DataGrid.Standard}">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding RecentActivities}" Style="{StaticResource Section.DataGrid}">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
@@ -195,8 +195,8 @@
                         </Border>
 
                         <!-- Stock List -->
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                            <ItemsControl ItemsSource="{Binding AllItems}">
+                        <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
+                            <ItemsControl ItemsSource="{Binding AllItems}" Style="{StaticResource Section.ItemsControl}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Padding="0,12" BorderBrush="{StaticResource Card.Border}" BorderThickness="0,0,0,1">
@@ -264,5 +264,5 @@
                 </StackPanel>
             </Border>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

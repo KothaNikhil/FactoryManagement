@@ -12,7 +12,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid>
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -414,7 +414,7 @@
                         </Border>
 
                         <!-- Loans DataGrid -->
-                        <DataGrid Grid.Row="1" 
+                        <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
                                   ItemsSource="{Binding Loans}" 
                                   SelectedItem="{Binding SelectedLoan}"
                                   AutoGenerateColumns="False" 
@@ -466,7 +466,7 @@
                                        FontWeight="Bold" FontSize="16" Foreground="White"/>
                         </Border>
 
-                        <DataGrid Grid.Row="1" 
+                        <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
                                   ItemsSource="{Binding Transactions}" 
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True"
@@ -509,5 +509,5 @@
                 </StackPanel>
             </Border>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

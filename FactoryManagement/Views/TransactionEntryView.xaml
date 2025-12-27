@@ -8,8 +8,8 @@
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <!-- Transaction Form -->
@@ -36,8 +36,9 @@
                 </StackPanel>
             </Border>
             
-            <!-- Content Grid -->
-            <Grid Grid.Row="1" Margin="0,0,0,0">
+            <!-- Content Grid (scrolls within section) -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid Margin="0,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -357,6 +358,7 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+            </ScrollViewer>
 
             <!-- Loading Overlay -->
             <Grid Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" ZIndex="999">
@@ -369,7 +371,7 @@
         </materialDesign:Card>
         
         <!-- Recent Transactions -->
-        <materialDesign:Card Grid.Row="1" Padding="24" Style="{StaticResource Card.Glass}">
+        <materialDesign:Card Grid.Row="1" Padding="24" Style="{StaticResource Card.Glass}" VerticalAlignment="Stretch">
             <DockPanel>
                 <!-- Header -->
                 <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">

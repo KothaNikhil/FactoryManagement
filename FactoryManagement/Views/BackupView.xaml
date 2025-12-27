@@ -107,6 +107,7 @@
 
                 <!-- Backup DataGrid -->
                 <DataGrid
+                    Style="{StaticResource Section.DataGrid}"
                     Grid.Row="1"
                     ItemsSource="{Binding Backups}"
                     SelectedItem="{Binding SelectedBackup}"

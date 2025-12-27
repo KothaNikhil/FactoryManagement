@@ -247,7 +247,7 @@
                         </Border>
 
                         <!-- Workers List -->
-                        <DataGrid Grid.Row="1" 
+                        <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
                                   ItemsSource="{Binding Workers}"
                                   SelectedItem="{Binding SelectedWorker}"
                                   AutoGenerateColumns="False"
@@ -317,7 +317,7 @@
                         </StackPanel>
                     </Border>
 
-                    <DataGrid Grid.Row="1"
+                    <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
                               ItemsSource="{Binding Transactions}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"

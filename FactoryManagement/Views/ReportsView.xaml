@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid>
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -286,7 +286,7 @@
                     </Border>
 
                     <!-- All Categories DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource DataGrid.Standard}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}" 
                               Visibility="{Binding IsAllView, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
@@ -308,7 +308,7 @@
                     </DataGrid>
 
                     <!-- Inventory DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Transactions}" Style="{StaticResource DataGrid.Standard}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Transactions}" Style="{StaticResource Section.DataGrid}" 
                               Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
@@ -331,7 +331,7 @@
                     </DataGrid>
 
                     <!-- Financial DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding FinancialTransactions}" Style="{StaticResource DataGrid.Standard}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding FinancialTransactions}" Style="{StaticResource Section.DataGrid}" 
                               Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
@@ -354,7 +354,7 @@
                     </DataGrid>
 
                     <!-- Wages DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding WageTransactions}" Style="{StaticResource DataGrid.Standard}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding WageTransactions}" Style="{StaticResource Section.DataGrid}" 
                               Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
@@ -385,5 +385,5 @@
                 </StackPanel>
             </Border>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </UserControl>
