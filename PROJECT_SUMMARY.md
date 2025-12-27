@@ -11,7 +11,11 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Real-time inventory management
 - ✓ Automatic stock updates
 - ✓ Party (buyer/seller) management
-- ✓ Multi-user support
+- ✓ **Multi-user support with comprehensive tracking**
+- ✓ User management (Create, Edit, Activate/Deactivate)
+- ✓ Global user selection in header
+- ✓ Automatic user tracking for all transactions
+- ✓ User-based filtering in reports
 - ✓ Comprehensive reporting
 - ✓ Data export (Excel & CSV)
 - ✓ **Financial Transactions & Loan Management**
@@ -19,7 +23,7 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Interest calculation & accrual
 - ✓ Payment recording with smart allocation
 - ✓ Loan status management
-- ✓ **Wages Management System** (NEW)
+- ✓ **Wages Management System**
 - ✓ Worker management (Name, Mobile)
 - ✓ Wage payment tracking
 - ✓ Advance payment system
@@ -38,9 +42,12 @@ A complete, production-ready WPF application for managing factory inventory and 
 - ✓ Material Design theme
 - ✓ Responsive layout
 - ✓ Hamburger navigation menu
+- ✓ **Global user selector in header** (all pages)
 - ✓ Dashboard with summary cards
 - ✓ Transaction entry form with validation
-- ✓ Reports with filtering
+- ✓ Reports with filtering (including user-based filter)
+- ✓ **User management screen** (Create/Edit/Deactivate users)
+- ✓ **"Entered By" column in all transaction grids**
 - ✓ Master data management screens
 - ✓ Search functionality
 - ✓ Loading indicators

@@ -17,7 +17,12 @@ A comprehensive WPF application for managing factory inventory and transactions 
 - **Transaction Management**: Track Buy, Sell, and Wastage transactions
 - **Inventory Tracking**: Real-time stock updates for items like Rice, Husk, Paddy, Broken Rice, etc.
 - **Party Management**: Manage buyers, sellers, and suppliers
-- **Reports & Analytics**: Comprehensive reporting with filtering by item, party, and date range
+- **User Management**: Multi-user support with activity tracking
+  - Create and manage system users
+  - Global user selection in header
+  - Automatic tracking of who entered each transaction
+  - User-based filtering in reports
+- **Reports & Analytics**: Comprehensive reporting with filtering by item, party, date range, and user
 - **Data Export**: Export reports to Excel (.xlsx) and CSV formats
 
 ### Technical Features
@@ -75,7 +80,8 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
    - PartyId, Name, MobileNumber, Place, PartyType
 
 3. **Users**: System users
-   - UserId, Username, Role
+   - UserId, Username, Role, IsActive, CreatedDate
+   - Used for multi-user tracking and accountability
 
 4. **Transactions**: All business transactions
    - TransactionId, ItemId, PartyId, TransactionType, Quantity, PricePerUnit, TotalAmount, TransactionDate, EnteredBy, Notes
@@ -87,17 +93,30 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 
 ### Dashboard
 - View summary cards for total purchases, sales, and wastage
-- Monitor recent transactions
+- Monitor recent transactions with "Entered By" information
 - Check low stock alerts
 
+### User Selection
+- Select your username from the dropdown in the top-right header
+- Must be done before entering any transactions
+- Your username will be automatically recorded with all changes
+
+### User Management
+- Access via **Users** menu item
+- Create new users with username and role
+- Edit existing users or deactivate accounts
+- View all users with their status and creation date
+- Search users by username or role
+
 ### New Transaction
-1. Select transaction type (Buy/Sell/Wastage)
-2. Choose item from dropdown (shows current stock)
-3. Select party (optional for wastage)
-4. Enter quantity and price per unit
-5. Total amount is auto-calculated
-6. Select date and entering user
-7. Add optional notes
+1. **Select your user** from header dropdown first
+2. Select transaction type (Buy/Sell/Wastage)
+3. Choose item from dropdown (shows current stock)
+4. Select party (optional for wastage)
+5. Enter quantity and price per unit
+6. Total amount is auto-calculated
+7. Select date
+8. Add optional notes
 8. Click "SAVE TRANSACTION"
 
 ### Reports & Analytics

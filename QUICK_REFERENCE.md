@@ -28,6 +28,7 @@ cd C:\FactoryManagement
 ### Master Data
 - **Inventory**: Add/Edit/Delete products
 - **Contacts**: Manage buyers/sellers
+- **Users**: Manage system users and access
 
 ## 🎯 Common Tasks
 
@@ -49,14 +50,22 @@ Inventory → NEW → Enter Details → Save
 ### Add New Party
 Contacts → NEW → Enter Details → Save
 
+### Add New User
+Users → NEW USER → Enter Username & Role → Save
+
+### Filter by User in Reports
+Reports → Select "Entered By" dropdown → Choose User → View
+
 ## ⚡ Quick Tips
 
+✓ **Always select your user from header dropdown before entering data**
 ✓ Dashboard shows real-time overview
 ✓ Stock updates automatically
 ✓ Party optional for wastage
 ✓ Search boxes in all master screens
 ✓ Export for backups
 ✓ Check low stock daily
+✓ Filter reports by "Entered By" to track user activity
 
 ## 🔧 Validation Rules
 
@@ -88,6 +97,8 @@ Contacts → NEW → Enter Details → Save
 | 📈 | Reports |
 | 📦 | Inventory |
 | 👥 | Contacts |
+| 👤 | Users |
+| 👨‍💼 | User Selection (Header) |
 
 ## ⌨️ Keyboard Shortcuts
 

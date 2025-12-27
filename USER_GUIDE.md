@@ -2,11 +2,12 @@
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
-2. [Dashboard Overview](#dashboard-overview)
-3. [New Transaction](#new-transaction)
-4. [Reports & Analytics](#reports--analytics)
-5. [Master Data Management](#master-data-management)
-6. [Tips & Best Practices](#tips--best-practices)
+2. [User Management](#user-management)
+3. [Dashboard Overview](#dashboard-overview)
+4. [New Transaction](#new-transaction)
+5. [Reports & Analytics](#reports--analytics)
+6. [Master Data Management](#master-data-management)
+7. [Tips & Best Practices](#tips--best-practices)
 
 ---
 
@@ -49,6 +50,60 @@ The Dashboard provides a quick overview of your business:
 - Helps prevent stock-outs
 
 **Tip**: Check the dashboard daily to monitor business health!
+
+---
+
+## User Management
+
+The Factory Management System supports multiple users to track who performs each operation.
+
+### Selecting Active User
+1. Look for the **user dropdown** in the top-right header (all pages)
+2. Click on it to see all active users
+3. Select your username before performing any transactions
+4. The selected user will be recorded with all changes you make
+
+**Important**: Always select the correct user before entering data!
+
+### Managing Users
+1. Click **Users** from the menu
+2. View all system users in the left panel
+3. See username, role, status (Active/Inactive), and creation date
+
+#### Adding a New User
+1. Click **"+ New User"** button or the **"+ New"** link in the form header
+2. Enter **Username** (required, must be unique)
+3. Enter **Role** (e.g., Manager, Data Entry, Supervisor)
+4. Check **"Active User"** to enable the account
+5. Click **"SAVE USER"**
+
+#### Editing a User
+1. Click the **pencil icon** in the Actions column
+2. Modify username, role, or active status
+3. Click **"UPDATE USER"** to save changes
+
+#### Deactivating a User
+1. Click the **pencil icon** to edit
+2. Uncheck **"Active User"**
+3. Click **"UPDATE USER"**
+- Inactive users won't appear in the header dropdown
+- Their historical data remains intact
+
+#### Deleting a User
+1. Click the **delete icon** in the Actions column
+2. Confirm the deletion
+- **Warning**: Only delete if no transactions are associated
+- Consider deactivating instead to preserve history
+
+### User Tracking
+Every transaction automatically records:
+- **Inventory Transactions**: User who entered buy/sell/wastage/processing
+- **Financial Transactions**: User who recorded loans, payments, interest
+- **Wage Transactions**: User who processed worker payments/advances
+
+View "Entered By" column in all transaction grids to see who created each record.
+
+**Best Practice**: Create separate users for each person who enters data for accountability.
 
 ---
 
