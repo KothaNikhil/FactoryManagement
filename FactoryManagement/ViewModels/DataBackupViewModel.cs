@@ -17,6 +17,7 @@ namespace FactoryManagement.ViewModels
         private BackupFileInfo? _selectedBackup;
         private string _statusMessage = string.Empty;
         private bool _isProcessing;
+        private string _backupPath = string.Empty;
 
         public DataBackupViewModel(BackupService backupService)
         {
@@ -28,7 +29,9 @@ namespace FactoryManagement.ViewModels
             DeleteBackupCommand = new RelayCommand(DeleteBackup, () => SelectedBackup != null && !IsProcessing);
             RefreshBackupsCommand = new RelayCommand(LoadBackups);
             OpenBackupFolderCommand = new RelayCommand(OpenBackupFolder);
+            BrowseBackupFolderCommand = new RelayCommand(BrowseBackupFolder);
 
+            BackupPath = _backupService.GetBackupDirectory();
             LoadBackups();
         }
 
@@ -67,11 +70,18 @@ namespace FactoryManagement.ViewModels
             }
         }
 
+        public string BackupPath
+        {
+            get => _backupPath;
+            set => SetProperty(ref _backupPath, value);
+        }
+
         public ICommand CreateBackupCommand { get; }
         public ICommand RestoreBackupCommand { get; }
         public ICommand DeleteBackupCommand { get; }
         public ICommand RefreshBackupsCommand { get; }
         public ICommand OpenBackupFolderCommand { get; }
+        public ICommand BrowseBackupFolderCommand { get; }
 
         private async Task CreateBackupAsync()
         {
@@ -190,6 +200,32 @@ namespace FactoryManagement.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to open backup folder: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BrowseBackupFolder()
+        {
+            try
+            {
+                using var dialog = new System.Windows.Forms.FolderBrowserDialog
+                {
+                    Description = "Select the folder where backups will be stored",
+                    SelectedPath = BackupPath,
+                    ShowNewFolderButton = true
+                };
+
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var newPath = dialog.SelectedPath;
+                    _backupService.SetBackupDirectory(newPath);
+                    BackupPath = newPath;
+                    LoadBackups();
+                    StatusMessage = $"Backup folder changed to: {newPath}";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to change backup folder: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

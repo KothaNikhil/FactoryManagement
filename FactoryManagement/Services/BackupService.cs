@@ -27,7 +27,7 @@ namespace FactoryManagement.Services
     public class BackupService
     {
         private readonly FactoryDbContext _context;
-        private readonly string _backupDirectory;
+        private string _backupDirectory;
 
         public BackupService(FactoryDbContext context)
         {
@@ -291,6 +291,21 @@ namespace FactoryManagement.Services
         public virtual string GetBackupDirectory()
         {
             return _backupDirectory;
+        }
+
+        public virtual void SetBackupDirectory(string directory)
+        {
+            if (string.IsNullOrWhiteSpace(directory))
+            {
+                throw new ArgumentException("Backup directory cannot be empty", nameof(directory));
+            }
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            _backupDirectory = directory;
         }
     }
 

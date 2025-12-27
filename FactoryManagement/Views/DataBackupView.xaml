@@ -7,12 +7,68 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Summary Cards Section -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Backup Folder Location Card -->
+            <materialDesign:Card Grid.Column="0" Padding="20" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Grid.Column="0" 
+                                           Kind="Folder" 
+                                           Width="28" 
+                                           Height="28" 
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,16,0"
+                                           Foreground="#64B5F6"/>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="Backup Folder Location" 
+                                 FontSize="12" 
+                                 Foreground="{StaticResource TextSecondary}"
+                                 Margin="0,0,0,6"/>
+                        <TextBlock Text="{Binding BackupPath}" 
+                                 FontSize="14" 
+                                 FontWeight="Medium"
+                                 Foreground="White"
+                                 TextTrimming="CharacterEllipsis"
+                                 TextWrapping="NoWrap"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Browse Button Card -->
+            <materialDesign:Card Grid.Column="2" Padding="20" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+                <Button Command="{Binding BrowseBackupFolderCommand}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Height="40"
+                        Padding="20,0"
+                        Foreground="White"
+                        ToolTip="Browse and select a different folder for storing backups">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FolderSearch" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Change Folder" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                    </StackPanel>
+                </Button>
+            </materialDesign:Card>
+        </Grid>
+
         <!-- Action Buttons -->
-        <materialDesign:Card Grid.Row="0" Margin="0,0,0,20" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+        <materialDesign:Card Grid.Row="1" Margin="0,0,0,20" Padding="24" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -87,7 +143,7 @@
         </materialDesign:Card>
 
         <!-- Backup List -->
-        <materialDesign:Card Grid.Row="1" Style="{StaticResource ModernCard}" Background="#2a2a2a">
+        <materialDesign:Card Grid.Row="2" Style="{StaticResource ModernCard}" Background="#2a2a2a">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -207,7 +263,7 @@
         </materialDesign:Card>
 
         <!-- Status Bar -->
-        <materialDesign:Card Grid.Row="2" Margin="0,20,0,0" Padding="20,16">
+        <materialDesign:Card Grid.Row="3" Margin="0,20,0,0" Padding="20,16">
             <DockPanel>
                 <materialDesign:PackIcon Kind="Information" 
                                        Width="20" 
