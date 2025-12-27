@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:FactoryManagement.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <i:Interaction.Triggers>
@@ -172,7 +173,11 @@
                                 <ComboBox ItemsSource="{Binding Parties}" 
                                           SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
-                                          Style="{StaticResource ComboBox.Standard}"/>
+                                          Style="{StaticResource ComboBox.Standard}">
+                                    <i:Interaction.Behaviors>
+                                        <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                                    </i:Interaction.Behaviors>
+                                </ComboBox>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">

@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:FactoryManagement.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid Margin="20">
@@ -63,7 +65,11 @@
                              Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding TransactionTypes}"
                             SelectedItem="{Binding SelectedTransactionTypeString}"
-                        Style="{StaticResource ComboBox.Dark}"/>
+                        Style="{StaticResource ComboBox.Dark}">
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior/>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
                 </StackPanel>
 
                 <!-- Processing Input Item (visible only for Processing type) -->
@@ -81,6 +87,9 @@
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior DisplayMemberPath="ItemName"/>
+                        </i:Interaction.Behaviors>
                     </ComboBox>
                 </StackPanel>
 
@@ -98,6 +107,9 @@
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior DisplayMemberPath="ItemName"/>
+                        </i:Interaction.Behaviors>
                     </ComboBox>
                 </StackPanel>
 
@@ -121,6 +133,9 @@
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
+                            <i:Interaction.Behaviors>
+                                <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                            </i:Interaction.Behaviors>
                         </ComboBox>
                         <Button Grid.Column="1"
                             Style="{StaticResource Button.Secondary}"
@@ -170,6 +185,9 @@
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior DisplayMemberPath="ItemName"/>
+                        </i:Interaction.Behaviors>
                     </ComboBox>
                 </StackPanel>
 
@@ -304,7 +322,11 @@
                     <ComboBox ItemsSource="{Binding Users}"
                             SelectedItem="{Binding SelectedUser}"
                             DisplayMemberPath="Username"
-                        Style="{StaticResource ComboBox.Dark}"/>
+                        Style="{StaticResource ComboBox.Dark}">
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior DisplayMemberPath="Username"/>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
                 </StackPanel>
 
                 <!-- Entered By (Processing mode - different row position) -->
@@ -316,7 +338,11 @@
                     <ComboBox ItemsSource="{Binding Users}"
                             SelectedItem="{Binding SelectedUser}"
                             DisplayMemberPath="Username"
-                        Style="{StaticResource ComboBox.Dark}"/>
+                        Style="{StaticResource ComboBox.Dark}">
+                        <i:Interaction.Behaviors>
+                            <local:SearchableComboBoxBehavior DisplayMemberPath="Username"/>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
                 </StackPanel>
 
                 <!-- Row 3: Notes (columns 0-3) and Action Buttons (columns 4-6) -->
