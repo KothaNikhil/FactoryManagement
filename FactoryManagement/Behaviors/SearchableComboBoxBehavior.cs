@@ -46,6 +46,12 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.GotFocus += ComboBox_GotFocus;
             AssociatedObject.DropDownOpened += ComboBox_DropDownOpened;
             AssociatedObject.PreviewMouseDown += ComboBox_PreviewMouseDown;
+            
+            // Listen for ItemsSource changes
+            var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
+                ItemsControl.ItemsSourceProperty, typeof(ComboBox));
+            descriptor?.AddValueChanged(AssociatedObject, OnItemsSourceChanged);
+            
             // Capture editable TextBox after template loads
             AssociatedObject.Dispatcher.BeginInvoke((Action)(() => EnsureEditableTextBox()), DispatcherPriority.Loaded);
         }
@@ -59,6 +65,11 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.GotFocus -= ComboBox_GotFocus;
             AssociatedObject.DropDownOpened -= ComboBox_DropDownOpened;
             AssociatedObject.PreviewMouseDown -= ComboBox_PreviewMouseDown;
+            
+            // Unsubscribe from ItemsSource changes
+            var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
+                ItemsControl.ItemsSourceProperty, typeof(ComboBox));
+            descriptor?.RemoveValueChanged(AssociatedObject, OnItemsSourceChanged);
         }
 
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
@@ -76,6 +87,16 @@ namespace FactoryManagement.Behaviors
                     _editableTextBox.CaretIndex = 0;
                     _editableTextBox.Select(0, 0);
                 }
+            }
+        }
+
+        private void OnItemsSourceChanged(object? sender, EventArgs e)
+        {
+            // When ItemsSource changes (e.g., new worker added), update our reference
+            // Only update if we're not currently filtering
+            if (string.IsNullOrEmpty(_searchText))
+            {
+                _originalItemsSource = AssociatedObject.ItemsSource;
             }
         }
 
