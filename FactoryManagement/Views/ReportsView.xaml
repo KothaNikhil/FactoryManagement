@@ -10,97 +10,11 @@
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Summary Cards -->
-            <Grid Grid.Row="0" Margin="0,0,0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Total Amount Card -->
-                <Border Grid.Column="0" Background="{StaticResource Card.Success}" Style="{StaticResource SummaryCard}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Total Amount" Foreground="{StaticResource Card.Success.Label}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding TotalAmount, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Total Transactions Card -->
-                <Border Grid.Column="2" Background="{StaticResource Card.Info}" Style="{StaticResource SummaryCard}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="📊" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Total Transactions" Foreground="{StaticResource Card.Info.Label}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding CurrentTransactions.Count, FallbackValue=0}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Average Transaction Card -->
-                <Border Grid.Column="4" Background="{StaticResource Card.Warning}" Style="{StaticResource SummaryCard}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="📈" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Avg Transaction" Foreground="{StaticResource Card.Warning.Label}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding AverageAmount, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Date Range Card -->
-                <Border Grid.Column="6" Background="{StaticResource Card.Danger}" Style="{StaticResource SummaryCard}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="📅" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Date Range" Foreground="{StaticResource Card.Danger.Label}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding DateRangeText, FallbackValue='All Time'}" 
-                                       Foreground="White" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
-
             <!-- Filter Panel -->
-            <Border Grid.Row="1" Style="{StaticResource FormCard}" Margin="0,0,0,20">
+            <Border Grid.Row="0" Style="{StaticResource FormCard}" Margin="0,0,0,20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -266,7 +180,7 @@
             </Border>
 
             <!-- Results Table -->
-            <Border Grid.Row="2" Style="{StaticResource FormCard}">
+            <Border Grid.Row="1" Style="{StaticResource FormCard}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -377,7 +291,7 @@
             </Border>
 
             <!-- Loading Overlay -->
-            <Border Grid.RowSpan="3" Background="#CC000000" 
+            <Border Grid.RowSpan="2" Background="#CC000000" 
                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Width="250" Height="6" Foreground="{StaticResource Card.Info}"/>
