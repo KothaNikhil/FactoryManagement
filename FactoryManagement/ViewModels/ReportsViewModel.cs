@@ -263,6 +263,8 @@ namespace FactoryManagement.ViewModels
 
                 var users = await _userService.GetAllUsersAsync();
                 Users.Clear();
+                // Add "All Users" option
+                Users.Add(new User { UserId = 0, Username = "All Users" });
                 foreach (var user in users)
                     Users.Add(user);
 
@@ -335,6 +337,9 @@ namespace FactoryManagement.ViewModels
 
                 switch (SelectedReportType)
                 {
+                    case ReportType.All:
+                        await ApplyAllTransactionsFiltersAsync();
+                        break;
                     case ReportType.Inventory:
                         await ApplyInventoryFiltersAsync();
                         break;
@@ -356,6 +361,25 @@ namespace FactoryManagement.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private async Task ApplyAllTransactionsFiltersAsync()
+        {
+            IEnumerable<UnifiedTransactionViewModel> transactions = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync();
+
+            // Apply user filter (skip if "All Users" is selected)
+            if (SelectedUser != null && SelectedUser.UserId != 0)
+            {
+                transactions = transactions.Where(t => t.EnteredBy == SelectedUser.Username);
+            }
+
+            _allUnifiedTransactions.Clear();
+            foreach (var t in transactions)
+                _allUnifiedTransactions.Add(t);
+
+            CurrentPage = 1;
+            UpdatePaginatedData();
+            UpdateReportTitle();
         }
 
         private async Task ApplyInventoryFiltersAsync()
@@ -402,8 +426,8 @@ namespace FactoryManagement.ViewModels
                 transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
             }
 
-            // Apply user filter
-            if (SelectedUser != null)
+            // Apply user filter (skip if "All Users" is selected)
+            if (SelectedUser != null && SelectedUser.UserId != 0)
             {
                 transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
             }
@@ -430,8 +454,8 @@ namespace FactoryManagement.ViewModels
                 transactions = transactions.Where(t => t.WorkerId == SelectedWorker.WorkerId);
             }
 
-            // Apply user filter
-            if (SelectedUser != null)
+            // Apply user filter (skip if "All Users" is selected)
+            if (SelectedUser != null && SelectedUser.UserId != 0)
             {
                 transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
             }

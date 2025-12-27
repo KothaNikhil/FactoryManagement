@@ -22,6 +22,7 @@ namespace FactoryManagement.Services
         public decimal Amount { get; set; }
         public string? AdditionalInfo { get; set; } // For extra details like days worked, interest, etc.
         public string? Notes { get; set; }
+        public string? EnteredBy { get; set; } // Username of the person who entered the transaction
         
         // Processing-specific fields
         public string? InputItemName { get; set; }
@@ -88,6 +89,7 @@ namespace FactoryManagement.Services
                     Amount = t.TotalAmount,
                     AdditionalInfo = additionalInfo,
                     Notes = t.Notes,
+                    EnteredBy = t.User?.Username,
                     InputItemName = t.InputItem?.ItemName,
                     InputQuantity = t.InputQuantity,
                     ConversionRate = t.ConversionRate
@@ -111,7 +113,8 @@ namespace FactoryManagement.Services
                     Rate = t.InterestRate > 0 ? t.InterestRate : null,
                     Amount = t.Amount,
                     AdditionalInfo = t.InterestRate > 0 ? $"Interest: {t.InterestRate:N2}% (₹{t.InterestAmount:N2})" : null,
-                    Notes = t.Notes
+                    Notes = t.Notes,
+                    EnteredBy = t.User?.Username
                 });
             }
             
@@ -133,7 +136,8 @@ namespace FactoryManagement.Services
                     Amount = t.NetAmount,
                     AdditionalInfo = t.DaysWorked > 0 ? $"{t.DaysWorked:N1} days @ ₹{t.Rate:N2}" : 
                                     (t.HoursWorked > 0 ? $"{t.HoursWorked:N1} hrs @ ₹{t.Rate:N2}" : null),
-                    Notes = t.Notes
+                    Notes = t.Notes,
+                    EnteredBy = t.User?.Username
                 });
             }
 
