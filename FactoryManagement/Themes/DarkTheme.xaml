@@ -297,6 +297,26 @@
       <Setter.Value>
         <Style TargetType="DataGridCell">
           <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="Padding" Value="8,6"/>
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="DataGridCell">
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter VerticalAlignment="Center"/>
+                </Border>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
+            </Trigger>
+          </Style.Triggers>
         </Style>
       </Setter.Value>
     </Setter>
@@ -304,6 +324,23 @@
       <Setter.Value>
         <Style TargetType="DataGridRow">
           <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+          <Setter Property="Background" Value="Transparent"/>
+          <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter Property="Background" Value="#30FFFFFF"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
+              <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
+            </Trigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="IsSelected" Value="True"/>
+                <Condition Property="IsMouseOver" Value="True"/>
+              </MultiTrigger.Conditions>
+              <Setter Property="Background" Value="#5aa5d8"/>
+            </MultiTrigger>
+          </Style.Triggers>
         </Style>
       </Setter.Value>
     </Setter>
@@ -326,10 +363,45 @@
   <Style x:Key="DataGrid.Dark.Row" TargetType="DataGridRow">
     <Setter Property="Background" Value="{StaticResource Grid.Row.Default}"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="#30FFFFFF"/>
+      </Trigger>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
+      </Trigger>
+      <MultiTrigger>
+        <MultiTrigger.Conditions>
+          <Condition Property="IsSelected" Value="True"/>
+          <Condition Property="IsMouseOver" Value="True"/>
+        </MultiTrigger.Conditions>
+        <Setter Property="Background" Value="#5aa5d8"/>
+      </MultiTrigger>
+    </Style.Triggers>
   </Style>
   <Style x:Key="DataGrid.Dark.Cell" TargetType="DataGridCell">
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="Padding" Value="8,6"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="DataGridCell">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
+      </Trigger>
+    </Style.Triggers>
   </Style>
 
   <!-- SECTION-LEVEL SCROLL STYLES -->
