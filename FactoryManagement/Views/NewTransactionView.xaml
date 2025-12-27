@@ -428,7 +428,11 @@
                     </Grid>
                 </Border>
                 
-                <DataGrid ItemsSource="{Binding RecentTransactions}" Style="{StaticResource DataGrid.Dark}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid ItemsSource="{Binding RecentTransactions}" 
+                              Style="{StaticResource DataGrid.Dark}"
+                              MaxHeight="2000"
+                              VerticalScrollBarVisibility="Disabled">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>
@@ -464,7 +468,8 @@
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                         <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
                     </DataGrid.Columns>
-                </DataGrid>
+                    </DataGrid>
+                </ScrollViewer>
             </DockPanel>
         </materialDesign:Card>
         <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>

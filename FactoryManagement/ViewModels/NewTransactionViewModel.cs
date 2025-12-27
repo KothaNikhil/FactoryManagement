@@ -181,8 +181,8 @@ namespace FactoryManagement.ViewModels
                 if (Users.Any())
                     SelectedUser = Users.First();
 
-                // Load recent transactions (last 5)
-                var recentTrans = await _transactionService.GetRecentTransactionsAsync(5);
+                // Load recent transactions (last 100 - grid will scroll)
+                var recentTrans = await _transactionService.GetRecentTransactionsAsync(100);
                 RecentTransactions.Clear();
                 foreach (var trans in recentTrans)
                     RecentTransactions.Add(trans);
