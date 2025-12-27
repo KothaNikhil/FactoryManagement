@@ -71,6 +71,11 @@ namespace FactoryManagement.Models
 
         public DateTime? ModifiedDate { get; set; }
 
+        public override string ToString()
+        {
+            return Name ?? "Unnamed Worker";
+        }
+
         // Navigation property
         public virtual ICollection<WageTransaction> WageTransactions { get; set; } = new List<WageTransaction>();
     }
