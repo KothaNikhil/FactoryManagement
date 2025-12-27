@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Microsoft.Xaml.Behaviors;
 
 namespace FactoryManagement.Behaviors
@@ -18,6 +19,7 @@ namespace FactoryManagement.Behaviors
         private IEnumerable? _originalItemsSource;
         private ObservableCollection<object>? _filteredItems;
         private string _searchText = string.Empty;
+        private TextBox? _editableTextBox;
 
         public static readonly DependencyProperty DisplayMemberPathProperty =
             DependencyProperty.Register(
@@ -35,9 +37,14 @@ namespace FactoryManagement.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+            AssociatedObject.IsEditable = true;
+            AssociatedObject.StaysOpenOnEdit = true;
+            AssociatedObject.IsTextSearchEnabled = false;
             AssociatedObject.PreviewKeyDown += ComboBox_PreviewKeyDown;
             AssociatedObject.PreviewTextInput += ComboBox_PreviewTextInput;
             AssociatedObject.Loaded += ComboBox_Loaded;
+            // Capture editable TextBox after template loads
+            AssociatedObject.Dispatcher.BeginInvoke((Action)(() => EnsureEditableTextBox()), DispatcherPriority.Loaded);
         }
 
         protected override void OnDetaching()
@@ -55,12 +62,22 @@ namespace FactoryManagement.Behaviors
             {
                 _originalItemsSource = AssociatedObject.ItemsSource;
                 _filteredItems = new ObservableCollection<object>();
+                _searchText = string.Empty;
+                AssociatedObject.Text = string.Empty;
+                EnsureEditableTextBox();
+                if (_editableTextBox != null)
+                {
+                    _editableTextBox.CaretIndex = 0;
+                    _editableTextBox.Select(0, 0);
+                }
             }
         }
 
         private void ComboBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             _searchText += e.Text;
+            AssociatedObject.Text = _searchText;
+            SetCaretToEnd();
             FilterItems(_searchText);
             
             // Open dropdown to show filtered results
@@ -78,6 +95,9 @@ namespace FactoryManagement.Behaviors
                     _searchText = _searchText.Substring(0, _searchText.Length - 1);
                 }
                 
+                AssociatedObject.Text = _searchText;
+                SetCaretToEnd();
+                
                 if (_searchText.Length == 0)
                 {
                     RestoreOriginalItems();
@@ -94,6 +114,8 @@ namespace FactoryManagement.Behaviors
             else if (e.Key == Key.Escape)
             {
                 _searchText = string.Empty;
+                AssociatedObject.Text = string.Empty;
+                SetCaretToEnd();
                 RestoreOriginalItems();
                 AssociatedObject.IsDropDownOpen = false;
                 e.Handled = true;
@@ -102,6 +124,8 @@ namespace FactoryManagement.Behaviors
             else if (e.Key == Key.Return || e.Key == Key.Tab)
             {
                 _searchText = string.Empty;
+                AssociatedObject.Text = string.Empty;
+                SetCaretToEnd();
                 RestoreOriginalItems();
                 AssociatedObject.IsDropDownOpen = false;
                 e.Handled = e.Key == Key.Return;
@@ -151,6 +175,27 @@ namespace FactoryManagement.Behaviors
             if (_originalItemsSource != null)
             {
                 AssociatedObject.ItemsSource = _originalItemsSource;
+            }
+        }
+
+        private void EnsureEditableTextBox()
+        {
+            _editableTextBox = AssociatedObject.Template?.FindName("PART_EditableTextBox", AssociatedObject) as TextBox;
+        }
+
+        private void SetCaretToEnd()
+        {
+            if (_editableTextBox == null)
+                EnsureEditableTextBox();
+
+            if (_editableTextBox != null)
+            {
+                // Defer caret update to ensure TextBox reflects latest text
+                _editableTextBox.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    _editableTextBox.CaretIndex = _searchText.Length;
+                    _editableTextBox.Select(_searchText.Length, 0);
+                }), DispatcherPriority.Background);
             }
         }
 
