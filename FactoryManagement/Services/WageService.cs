@@ -13,13 +13,13 @@ namespace FactoryManagement.Services
         Task<IEnumerable<Worker>> GetAllWorkersAsync();
         Task<IEnumerable<Worker>> GetActiveWorkersAsync();
         Task<Worker?> GetWorkerByIdAsync(int id);
-        Task<Worker> AddWorkerAsync(Worker worker);
-        Task UpdateWorkerAsync(Worker worker);
+        Task<Worker> AddWorkerAsync(Worker worker, int? userId = null);
+        Task UpdateWorkerAsync(Worker worker, int? userId = null);
         Task DeleteWorkerAsync(int id);
 
         // Wage Transaction Operations
-        Task<WageTransaction> RecordWagePaymentAsync(WageTransaction transaction);
-        Task<WageTransaction> RecordAdvanceAsync(int workerId, decimal amount, string notes);
+        Task<WageTransaction> RecordWagePaymentAsync(WageTransaction transaction, int? userId = null);
+        Task<WageTransaction> RecordAdvanceAsync(int workerId, decimal amount, string notes, int? userId = null);
         Task<IEnumerable<WageTransaction>> GetWorkerTransactionsAsync(int workerId);
         Task<IEnumerable<WageTransaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync();
@@ -61,17 +61,19 @@ namespace FactoryManagement.Services
             return await _workerRepository.GetByIdAsync(id);
         }
 
-        public async Task<Worker> AddWorkerAsync(Worker worker)
+        public async Task<Worker> AddWorkerAsync(Worker worker, int? userId = null)
         {
             worker.CreatedDate = DateTime.Now;
+            worker.CreatedByUserId = userId;
             worker.TotalAdvance = 0;
             worker.TotalWagesPaid = 0;
             return await _workerRepository.AddAsync(worker);
         }
 
-        public async Task UpdateWorkerAsync(Worker worker)
+        public async Task UpdateWorkerAsync(Worker worker, int? userId = null)
         {
             worker.ModifiedDate = DateTime.Now;
+            worker.ModifiedByUserId = userId;
             await _workerRepository.UpdateAsync(worker);
         }
 
@@ -85,9 +87,13 @@ namespace FactoryManagement.Services
         }
 
         // Wage Transaction Operations
-        public async Task<WageTransaction> RecordWagePaymentAsync(WageTransaction transaction)
+        public async Task<WageTransaction> RecordWagePaymentAsync(WageTransaction transaction, int? userId = null)
         {
             transaction.CreatedDate = DateTime.Now;
+            if (userId.HasValue)
+            {
+                transaction.EnteredBy = userId.Value;
+            }
 
             // Calculate net amount if not provided
             if (transaction.NetAmount == 0)
@@ -141,7 +147,7 @@ namespace FactoryManagement.Services
             return savedTransaction;
         }
 
-        public async Task<WageTransaction> RecordAdvanceAsync(int workerId, decimal amount, string notes)
+        public async Task<WageTransaction> RecordAdvanceAsync(int workerId, decimal amount, string notes, int? userId = null)
         {
             var advance = new WageTransaction
             {
@@ -151,7 +157,8 @@ namespace FactoryManagement.Services
                 Amount = amount,
                 NetAmount = amount,
                 Notes = notes,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                EnteredBy = userId ?? 1
             };
 
             var savedAdvance = await _wageTransactionRepository.AddAsync(advance);

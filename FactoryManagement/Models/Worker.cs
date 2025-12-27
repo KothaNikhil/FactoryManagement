@@ -60,6 +60,16 @@ namespace FactoryManagement.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalWagesPaid { get; set; }
 
+        public int? CreatedByUserId { get; set; }
+
+        [ForeignKey(nameof(CreatedByUserId))]
+        public virtual User? CreatedBy { get; set; }
+
+        public int? ModifiedByUserId { get; set; }
+
+        [ForeignKey(nameof(ModifiedByUserId))]
+        public virtual User? ModifiedBy { get; set; }
+
         public DateTime JoiningDate { get; set; } = DateTime.Now;
 
         public DateTime? LeavingDate { get; set; }

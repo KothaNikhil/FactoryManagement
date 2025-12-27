@@ -119,7 +119,7 @@ namespace FactoryManagement.ViewModels
                     SelectedItem.ItemName = ItemName;
                     SelectedItem.CurrentStock = CurrentStock;
                     SelectedItem.Unit = Unit;
-                    await _itemService.UpdateItemAsync(SelectedItem);
+                    await _itemService.UpdateItemAsync(SelectedItem, MainWindowViewModel.Instance?.CurrentUser?.UserId);
                     ErrorMessage = "Item updated successfully!";
                 }
                 else
@@ -130,7 +130,7 @@ namespace FactoryManagement.ViewModels
                         CurrentStock = CurrentStock,
                         Unit = Unit
                     };
-                    await _itemService.AddItemAsync(newItem);
+                    await _itemService.AddItemAsync(newItem, MainWindowViewModel.Instance?.CurrentUser?.UserId);
                     ErrorMessage = "Item added successfully!";
                 }
 

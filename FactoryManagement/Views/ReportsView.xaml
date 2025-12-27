@@ -47,6 +47,8 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Report Type -->
@@ -128,6 +130,15 @@
                             <TextBlock Text="End Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <DatePicker SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource DatePicker.Standard}"/>
+                        </StackPanel>
+
+                        <!-- Entered By User Filter -->
+                        <StackPanel Grid.Column="10">
+                            <TextBlock Text="Entered By" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding Users}"
+                                    SelectedItem="{Binding SelectedUser, UpdateSourceTrigger=PropertyChanged}"
+                                    DisplayMemberPath="Username"
+                                    Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
                     </Grid>
 
@@ -235,6 +246,7 @@
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                             <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -258,6 +270,7 @@
                             <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat='{}{0:N2}%'}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
                             <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -278,6 +291,7 @@
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                             <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding NetAmount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">

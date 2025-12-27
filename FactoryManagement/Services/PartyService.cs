@@ -11,8 +11,8 @@ namespace FactoryManagement.Services
         Task<IEnumerable<Party>> GetAllPartiesAsync();
         Task<IEnumerable<Party>> GetPartiesByTypeAsync(PartyType type);
         Task<Party?> GetPartyByIdAsync(int id);
-        Task<Party> AddPartyAsync(Party party);
-        Task UpdatePartyAsync(Party party);
+        Task<Party> AddPartyAsync(Party party, int? userId = null);
+        Task UpdatePartyAsync(Party party, int? userId = null);
         Task DeletePartyAsync(int id);
     }
 
@@ -40,15 +40,17 @@ namespace FactoryManagement.Services
             return await _partyRepository.GetByIdAsync(id);
         }
 
-        public async Task<Party> AddPartyAsync(Party party)
+        public async Task<Party> AddPartyAsync(Party party, int? userId = null)
         {
             party.CreatedDate = DateTime.Now;
+            party.CreatedByUserId = userId;
             return await _partyRepository.AddAsync(party);
         }
 
-        public async Task UpdatePartyAsync(Party party)
+        public async Task UpdatePartyAsync(Party party, int? userId = null)
         {
             party.ModifiedDate = DateTime.Now;
+            party.ModifiedByUserId = userId;
             await _partyRepository.UpdateAsync(party);
         }
 

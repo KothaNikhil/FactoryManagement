@@ -67,13 +67,14 @@ namespace FactoryManagement.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal NetAmount { get; set; }
+        [Required]
+        public int EnteredBy { get; set; }
 
+        [ForeignKey(nameof(EnteredBy))]
+        public virtual User? User { get; set; }
+        
         [MaxLength(500)]
         public string Notes { get; set; } = string.Empty;
-
-        [Required]
-        [MaxLength(100)]
-        public string EnteredBy { get; set; } = "Admin";
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 

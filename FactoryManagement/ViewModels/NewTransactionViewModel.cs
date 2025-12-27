@@ -17,7 +17,6 @@ namespace FactoryManagement.ViewModels
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
-        private readonly IRepository<User> _userRepository;
         private Transaction? _lastDeletedTransaction;
 
         public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
@@ -29,9 +28,6 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Party> _parties = new();
 
         [ObservableProperty]
-        private ObservableCollection<User> _users = new();
-
-        [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
 
         [ObservableProperty]
@@ -39,9 +35,6 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private Party? _selectedParty;
-
-        [ObservableProperty]
-        private User? _selectedUser;
 
         [ObservableProperty]
         private string _selectedTransactionTypeString = "Buy";
@@ -106,13 +99,11 @@ namespace FactoryManagement.ViewModels
         public NewTransactionViewModel(
             ITransactionService transactionService,
             IItemService itemService,
-            IPartyService partyService,
-            IRepository<User> userRepository)
+            IPartyService partyService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _partyService = partyService;
-            _userRepository = userRepository;
         }
 
         partial void OnQuantityChanged(decimal value)
@@ -173,14 +164,6 @@ namespace FactoryManagement.ViewModels
                 foreach (var party in parties)
                     Parties.Add(party);
 
-                var users = await _userRepository.GetAllAsync();
-                Users.Clear();
-                foreach (var user in users.Where(u => u.IsActive))
-                    Users.Add(user);
-                
-                if (Users.Any())
-                    SelectedUser = Users.First();
-
                 // Load recent transactions (last 100 - grid will scroll)
                 var recentTrans = await _transactionService.GetRecentTransactionsAsync(100);
                 RecentTransactions.Clear();
@@ -231,7 +214,7 @@ namespace FactoryManagement.ViewModels
                     transaction.PricePerUnit = PricePerUnit;
                     transaction.TotalAmount = TotalAmount;
                     transaction.TransactionDate = TransactionDate;
-                    transaction.EnteredBy = SelectedUser!.UserId;
+                    transaction.EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1;
                     transaction.Notes = Notes;
 
                     // Reverse old stock impact with correct semantics per type
@@ -273,7 +256,7 @@ namespace FactoryManagement.ViewModels
                         PricePerUnit = PricePerUnit,
                         TotalAmount = TotalAmount,
                         TransactionDate = TransactionDate,
-                        EnteredBy = SelectedUser!.UserId,
+                        EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                         Notes = Notes
                     };
 
@@ -351,7 +334,6 @@ namespace FactoryManagement.ViewModels
                 Quantity = transaction.Quantity;
                 PricePerUnit = transaction.PricePerUnit;
                 TransactionDate = transaction.TransactionDate;
-                SelectedUser = Users.FirstOrDefault(u => u.UserId == transaction.EnteredBy);
                 Notes = transaction.Notes ?? string.Empty;
 
                 // Load processing-specific data
@@ -488,9 +470,9 @@ namespace FactoryManagement.ViewModels
                 return false;
             }
 
-            if (SelectedUser == null)
+            if (MainWindowViewModel.Instance?.CurrentUser == null)
             {
-                ErrorMessage = "Please select a user";
+                ErrorMessage = "Please select a user from the header";
                 return false;
             }
 

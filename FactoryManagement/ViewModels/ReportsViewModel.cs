@@ -42,6 +42,7 @@ namespace FactoryManagement.ViewModels
         private readonly FinancialTransactionService _financialService;
         private readonly IWageService _wageService;
         private readonly UnifiedTransactionService _unifiedTransactionService;
+        private readonly IUserService _userService;
 
         // Full collections (all data)
         private ObservableCollection<Transaction> _allInventoryTransactions = new();
@@ -93,6 +94,9 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Worker> _workers = new();
 
         [ObservableProperty]
+        private ObservableCollection<User> _users = new();
+
+        [ObservableProperty]
         private Item? _selectedItem;
 
         [ObservableProperty]
@@ -100,6 +104,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private Worker? _selectedWorker;
+
+        [ObservableProperty]
+        private User? _selectedUser;
 
         [ObservableProperty]
         private DateTime _startDate = DateTime.Now.AddMonths(-1);
@@ -149,7 +156,8 @@ namespace FactoryManagement.ViewModels
             IExportService exportService,
             FinancialTransactionService financialService,
             IWageService wageService,
-            UnifiedTransactionService unifiedTransactionService)
+            UnifiedTransactionService unifiedTransactionService,
+            IUserService userService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -158,6 +166,7 @@ namespace FactoryManagement.ViewModels
             _financialService = financialService;
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
+            _userService = userService;
         }
 
         partial void OnSelectedReportTypeChanged(ReportType value)
@@ -209,6 +218,11 @@ namespace FactoryManagement.ViewModels
             }
         }
 
+        partial void OnSelectedUserChanged(User? value)
+        {
+            _ = ApplyFiltersAsync();
+        }
+
         partial void OnStartDateChanged(DateTime value)
         {
             if (SelectedReportType != ReportType.All)
@@ -246,6 +260,11 @@ namespace FactoryManagement.ViewModels
                 Workers.Clear();
                 foreach (var worker in workers)
                     Workers.Add(worker);
+
+                var users = await _userService.GetAllUsersAsync();
+                Users.Clear();
+                foreach (var user in users)
+                    Users.Add(user);
 
                 await LoadReportDataAsync();
             }
@@ -355,6 +374,12 @@ namespace FactoryManagement.ViewModels
                 transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
             }
 
+            // Apply user filter
+            if (SelectedUser != null)
+            {
+                transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
+            }
+
             // Apply date range filter
             transactions = transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate);
 
@@ -377,6 +402,12 @@ namespace FactoryManagement.ViewModels
                 transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
             }
 
+            // Apply user filter
+            if (SelectedUser != null)
+            {
+                transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
+            }
+
             // Apply date range filter
             transactions = transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate);
 
@@ -397,6 +428,12 @@ namespace FactoryManagement.ViewModels
             if (SelectedWorker != null)
             {
                 transactions = transactions.Where(t => t.WorkerId == SelectedWorker.WorkerId);
+            }
+
+            // Apply user filter
+            if (SelectedUser != null)
+            {
+                transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
             }
 
             _allWageTransactions.Clear();

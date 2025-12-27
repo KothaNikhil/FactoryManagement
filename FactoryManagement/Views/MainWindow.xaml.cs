@@ -122,6 +122,9 @@ namespace FactoryManagement.Views
                     case "Backup":
                         ViewModel.NavigateToBackupCommand.Execute(null);
                         break;
+                    case "Users":
+                        await ViewModel.NavigateToUsersCommand.ExecuteAsync(null);
+                        break;
                     case "Exit":
                         ViewModel.ExitCommand.Execute(null);
                         break;

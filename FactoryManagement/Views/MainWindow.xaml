@@ -51,6 +51,9 @@
         <DataTemplate DataType="{x:Type viewmodels:PayrollManagementViewModel}">
             <views:PayrollManagementView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:UsersViewModel}">
+            <views:UsersView />
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -413,6 +416,31 @@
 
                     <Separator Style="{StaticResource MaterialDesignDarkSeparator}" Margin="12,8"/>
 
+                    <ListBoxItem Tag="Users">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="AccountMultiple" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+                            <TextBlock Grid.Column="1" Text="User Management" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </ListBoxItem>
+
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}" Margin="12,8"/>
+
                     <ListBoxItem Tag="Backup">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -480,17 +508,26 @@
                              Text="{Binding CurrentViewTitle}"/>
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="AccountCircle" 
-                                               Width="24" 
-                                               Height="24" 
-                                               Foreground="White" 
-                                               VerticalAlignment="Center"
-                                               Margin="0,0,8,0"/>
-                        <TextBlock Text="Admin" 
-                                 FontSize="14" 
-                                 Foreground="White" 
-                                 FontWeight="Medium"
-                                 VerticalAlignment="Center"/>
+                        <Border Background="{StaticResource Card.Header}" 
+                                CornerRadius="8" 
+                                Padding="12,8">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountCircle" 
+                                                       Width="20" 
+                                                       Height="20" 
+                                                       Foreground="{StaticResource Text.Secondary}" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,8,0"/>
+                                <ComboBox ItemsSource="{Binding ActiveUsers}"
+                                          SelectedItem="{Binding SelectedUser}"
+                                          DisplayMemberPath="Username"
+                                          Width="160"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource ComboBox.Standard}"
+                                          materialDesign:HintAssist.Hint="Select User">
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </DockPanel>
             </materialDesign:ColorZone>

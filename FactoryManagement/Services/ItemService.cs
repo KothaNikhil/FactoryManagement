@@ -10,8 +10,8 @@ namespace FactoryManagement.Services
     {
         Task<IEnumerable<Item>> GetAllItemsAsync();
         Task<Item?> GetItemByIdAsync(int id);
-        Task<Item> AddItemAsync(Item item);
-        Task UpdateItemAsync(Item item);
+        Task<Item> AddItemAsync(Item item, int? userId = null);
+        Task UpdateItemAsync(Item item, int? userId = null);
         Task DeleteItemAsync(int id);
         Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType);
         Task UpdateStockForProcessingAsync(int inputItemId, decimal inputQuantity, int outputItemId, decimal outputQuantity);
@@ -36,15 +36,17 @@ namespace FactoryManagement.Services
             return await _itemRepository.GetByIdAsync(id);
         }
 
-        public async Task<Item> AddItemAsync(Item item)
+        public async Task<Item> AddItemAsync(Item item, int? userId = null)
         {
             item.CreatedDate = DateTime.Now;
+            item.CreatedByUserId = userId;
             return await _itemRepository.AddAsync(item);
         }
 
-        public async Task UpdateItemAsync(Item item)
+        public async Task UpdateItemAsync(Item item, int? userId = null)
         {
             item.ModifiedDate = DateTime.Now;
+            item.ModifiedByUserId = userId;
             await _itemRepository.UpdateAsync(item);
         }
 

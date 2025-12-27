@@ -34,6 +34,16 @@ namespace FactoryManagement.Models
         [Required]
         public PartyType PartyType { get; set; }
 
+        public int? CreatedByUserId { get; set; }
+
+        [ForeignKey(nameof(CreatedByUserId))]
+        public virtual User? CreatedBy { get; set; }
+
+        public int? ModifiedByUserId { get; set; }
+
+        [ForeignKey(nameof(ModifiedByUserId))]
+        public virtual User? ModifiedBy { get; set; }
+
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         
         public DateTime? ModifiedDate { get; set; }

@@ -77,6 +77,7 @@ namespace FactoryManagement
             services.AddScoped<ILoanAccountRepository, LoanAccountRepository>();
             services.AddScoped<IWorkerRepository, WorkerRepository>();
             services.AddScoped<IWageTransactionRepository, WageTransactionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Services
             services.AddScoped<IItemService, ItemService>();
@@ -87,6 +88,7 @@ namespace FactoryManagement
             services.AddScoped<FinancialTransactionService>();
             services.AddScoped<IWageService, WageService>();
             services.AddScoped<UnifiedTransactionService>();
+            services.AddScoped<IUserService, UserService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();
@@ -98,6 +100,7 @@ namespace FactoryManagement
             services.AddTransient<DataBackupViewModel>();
             services.AddTransient<FinancialRecordsViewModel>();
             services.AddTransient<PayrollManagementViewModel>();
+            services.AddTransient<UsersViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();
@@ -140,6 +143,15 @@ namespace FactoryManagement
 
                 // Add missing columns on AppSettings for UI preferences
                 TryAddColumn(context, "AppSettings", "IsMenuPinned", "INTEGER NOT NULL DEFAULT 1");
+
+                // Add user tracking columns
+                TryAddColumn(context, "Items", "CreatedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "Items", "ModifiedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "Parties", "CreatedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "Parties", "ModifiedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "Workers", "CreatedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "Workers", "ModifiedByUserId", "INTEGER NULL");
+                TryAddColumn(context, "WageTransactions", "EnteredBy", "INTEGER NOT NULL DEFAULT 1");
             }
             catch (Exception ex)
             {

@@ -4,11 +4,17 @@ using System.Windows;
 using FactoryManagement.Data;
 using FactoryManagement.Models;
 using System.Linq;
+using System.Collections.ObjectModel;
+using FactoryManagement.Services;
+using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        private static MainWindowViewModel? _instance;
+        public static MainWindowViewModel? Instance => _instance;
+
         [ObservableProperty]
         private object? _currentView;
 
@@ -21,6 +27,14 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private bool _isMenuExpanded = true;
 
+        [ObservableProperty]
+        private ObservableCollection<User> _activeUsers = new();
+
+        [ObservableProperty]
+        private User? _selectedUser;
+
+        public User? CurrentUser => SelectedUser;
+
         private readonly DashboardViewModel _dashboardViewModel;
         private readonly NewTransactionViewModel _transactionEntryViewModel;
         private readonly ReportsViewModel _reportsViewModel;
@@ -29,8 +43,10 @@ namespace FactoryManagement.ViewModels
         private readonly DataBackupViewModel _backupViewModel;
         private readonly FinancialRecordsViewModel _financialTransactionsViewModel;
         private readonly PayrollManagementViewModel _wagesManagementViewModel;
+        private readonly UsersViewModel _usersViewModel;
 
         private readonly FactoryDbContext _dbContext;
+        private readonly IUserService _userService;
 
         public MainWindowViewModel(
             DashboardViewModel dashboardViewModel,
@@ -41,7 +57,9 @@ namespace FactoryManagement.ViewModels
             DataBackupViewModel backupViewModel,
             FinancialRecordsViewModel financialTransactionsViewModel,
             PayrollManagementViewModel wagesManagementViewModel,
-            FactoryDbContext dbContext)
+            UsersViewModel usersViewModel,
+            FactoryDbContext dbContext,
+            IUserService userService)
         {
             _dashboardViewModel = dashboardViewModel;
             _transactionEntryViewModel = transactionEntryViewModel;
@@ -51,7 +69,12 @@ namespace FactoryManagement.ViewModels
             _backupViewModel = backupViewModel;
             _financialTransactionsViewModel = financialTransactionsViewModel;
             _wagesManagementViewModel = wagesManagementViewModel;
+            _usersViewModel = usersViewModel;
             _dbContext = dbContext;
+            _userService = userService;
+
+            // Set singleton instance
+            _instance = this;
 
             // Set default view
             CurrentView = _dashboardViewModel;
@@ -60,6 +83,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToDashboardAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _dashboardViewModel;
             CurrentViewTitle = "Dashboard";
             await _dashboardViewModel.InitializeAsync();
@@ -68,6 +92,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToTransactionEntryAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _transactionEntryViewModel;
             CurrentViewTitle = "New Transaction";
             await _transactionEntryViewModel.InitializeAsync();
@@ -76,6 +101,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToReportsAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _reportsViewModel;
             CurrentViewTitle = "Reports & Analytics";
             await _reportsViewModel.InitializeAsync();
@@ -84,6 +110,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToItemsAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _itemsManagementViewModel;
             CurrentViewTitle = "Inventory";
             await _itemsManagementViewModel.InitializeAsync();
@@ -92,6 +119,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToPartiesAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _partiesManagementViewModel;
             CurrentViewTitle = "Contacts";
             await _partiesManagementViewModel.InitializeAsync();
@@ -100,6 +128,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToFinancialTransactionsAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _financialTransactionsViewModel;
             CurrentViewTitle = "Financial Records";
             // Load data is called in constructor, but we can optionally refresh here
@@ -109,6 +138,7 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToWagesAsync()
         {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _wagesManagementViewModel;
             CurrentViewTitle = "Payroll Management";
             await _wagesManagementViewModel.InitializeAsync();
@@ -119,6 +149,15 @@ namespace FactoryManagement.ViewModels
         {
             CurrentView = _backupViewModel;
             CurrentViewTitle = "Data Backup";
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToUsersAsync()
+        {
+            CurrentView = _usersViewModel;
+            CurrentViewTitle = "User Management";
+            _usersViewModel.UserListChangedCallback = LoadActiveUsersAsync;
+            await _usersViewModel.InitializeAsync();
         }
 
         [RelayCommand]
@@ -138,6 +177,25 @@ namespace FactoryManagement.ViewModels
                 IsMenuPinned = settings.IsMenuPinned;
                 // Default expanded when pinned; collapsed when unpinned
                 IsMenuExpanded = IsMenuPinned ? true : false;
+            }
+
+            // Load active users for dropdown
+            await LoadActiveUsersAsync();
+        }
+
+        public async Task LoadActiveUsersAsync()
+        {
+            var users = await _userService.GetActiveUsersAsync();
+            ActiveUsers.Clear();
+            foreach (var user in users)
+            {
+                ActiveUsers.Add(user);
+            }
+
+            // Set first user as selected if available
+            if (ActiveUsers.Any())
+            {
+                SelectedUser = ActiveUsers.First();
             }
         }
 

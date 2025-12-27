@@ -314,38 +314,6 @@
                     </Border>
                 </StackPanel>
 
-                <!-- Entered By (non-Processing) -->
-                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
-                            Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                    <TextBlock Text="Entered By *" 
-                             Style="{StaticResource MaterialDesignBody2TextBlock}"
-                             Margin="0,0,0,8"/>
-                    <ComboBox ItemsSource="{Binding Users}"
-                            SelectedItem="{Binding SelectedUser}"
-                            DisplayMemberPath="Username"
-                        Style="{StaticResource ComboBox.Dark}">
-                        <i:Interaction.Behaviors>
-                            <local:SearchableComboBoxBehavior DisplayMemberPath="Username"/>
-                        </i:Interaction.Behaviors>
-                    </ComboBox>
-                </StackPanel>
-
-                <!-- Entered By (Processing mode - different row position) -->
-                <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,16"
-                            Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock Text="Entered By *" 
-                             Style="{StaticResource MaterialDesignBody2TextBlock}"
-                             Margin="0,0,0,8"/>
-                    <ComboBox ItemsSource="{Binding Users}"
-                            SelectedItem="{Binding SelectedUser}"
-                            DisplayMemberPath="Username"
-                        Style="{StaticResource ComboBox.Dark}">
-                        <i:Interaction.Behaviors>
-                            <local:SearchableComboBoxBehavior DisplayMemberPath="Username"/>
-                        </i:Interaction.Behaviors>
-                    </ComboBox>
-                </StackPanel>
-
                 <!-- Notes -->
                 <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,0">
                     <TextBlock Text="Notes" 
@@ -467,6 +435,7 @@
                         <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                         <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
+                        <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                     </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>

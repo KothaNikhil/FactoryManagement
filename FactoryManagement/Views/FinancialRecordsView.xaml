@@ -552,6 +552,7 @@
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N0}}" Width="90"/>
                                 <DataGridTextColumn Header="Interest" Binding="{Binding InterestAmount, StringFormat=₹{0:N0}}" Width="80"/>
+                                <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
