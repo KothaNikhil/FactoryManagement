@@ -9,13 +9,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
         
         <!-- Transaction Form -->
-        <materialDesign:Card Grid.Row="0" Padding="24" Margin="0,0,0,16" Style="{StaticResource Card.Glass}">
+        <materialDesign:Card Grid.Column="0" Padding="24" Margin="0,0,16,0" Style="{StaticResource Card.Glass}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -46,14 +46,13 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="12"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -114,7 +113,7 @@
                 </StackPanel>
 
                 <!-- Party Selection with Add Button -->
-                <StackPanel Grid.Row="0" Grid.Column="4" Margin="0,0,0,16">
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,16">
                     <TextBlock Text="Party" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -149,7 +148,7 @@
                 </StackPanel>
 
                 <!-- Transaction Date -->
-                <StackPanel Grid.Row="0" Grid.Column="6" Margin="0,0,0,16">
+                <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,16">
                     <TextBlock Text="Transaction Date *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -159,7 +158,7 @@
 
                 <!-- Row 2: Price Per Unit, Total Amount, Quantity, Entered By (4 columns) -->
                 <!-- Input Quantity (visible only for Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Input Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -171,7 +170,7 @@
                 </StackPanel>
 
                 <!-- Output Item (visible only for Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,16"
+                <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Output Item *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -192,7 +191,7 @@
                 </StackPanel>
 
                 <!-- Quantity (visible for non-Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -203,7 +202,7 @@
                 </StackPanel>
 
                 <!-- Output Quantity (visible only for Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="4" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Output Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -224,7 +223,7 @@
                 </StackPanel>
 
                 <!-- Price Per Unit (label changes for Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,16"
+                <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Price Per Unit *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -235,7 +234,7 @@
                 </StackPanel>
 
                 <!-- Processing Fee (visible only for Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="6" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Processing Fee (per unit) *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -246,7 +245,7 @@
                 </StackPanel>
 
                 <!-- Total Amount (Read-only) -->
-                <StackPanel Grid.Row="1" Grid.Column="4" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Total Amount" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -255,7 +254,8 @@
                         BorderBrush="{StaticResource Border.Default}"
                             BorderThickness="0,0,0,2"
                             CornerRadius="4"
-                            Padding="16,12">
+                            Padding="12,8"
+                            Height="40">
                         <Border.Effect>
                             <DropShadowEffect Color="#00f2fe" Opacity="0.15" ShadowDepth="0" BlurRadius="8"/>
                         </Border.Effect>
@@ -280,7 +280,7 @@
                 </StackPanel>
 
                 <!-- Total Processing Fee (Read-only, visible only for Processing) -->
-                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,16"
+                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Total Processing Fee" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -289,7 +289,8 @@
                         BorderBrush="{StaticResource Border.Default}"
                             BorderThickness="0,0,0,2"
                             CornerRadius="4"
-                            Padding="16,12">
+                            Padding="12,8"
+                            Height="40">
                         <Border.Effect>
                             <DropShadowEffect Color="#00f2fe" Opacity="0.15" ShadowDepth="0" BlurRadius="8"/>
                         </Border.Effect>
@@ -314,7 +315,7 @@
                 </StackPanel>
 
                 <!-- Entered By (non-Processing) -->
-                <StackPanel Grid.Row="1" Grid.Column="6" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Entered By *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -330,7 +331,7 @@
                 </StackPanel>
 
                 <!-- Entered By (Processing mode - different row position) -->
-                <StackPanel Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Margin="0,0,0,16"
+                <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Entered By *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -345,8 +346,8 @@
                     </ComboBox>
                 </StackPanel>
 
-                <!-- Row 3: Notes (columns 0-3) and Action Buttons (columns 4-6) -->
-                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="0,0,12,0">
+                <!-- Notes -->
+                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,0">
                     <TextBlock Text="Notes" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -365,8 +366,8 @@
                              Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
                 </StackPanel>
 
-                <!-- Row 3: Action Buttons (columns 5-6) -->
-                <StackPanel Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                <!-- Action Buttons -->
+                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0,16,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="CLEAR"
                             Command="{Binding ClearFormCommand}"
@@ -397,7 +398,7 @@
         </materialDesign:Card>
         
         <!-- Recent Transactions -->
-        <materialDesign:Card Grid.Row="1" Padding="24" Style="{StaticResource Card.Glass}" VerticalAlignment="Stretch">
+        <materialDesign:Card Grid.Column="1" Padding="24" Style="{StaticResource Card.Glass}" VerticalAlignment="Stretch">
             <DockPanel>
                 <!-- Header -->
                 <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">

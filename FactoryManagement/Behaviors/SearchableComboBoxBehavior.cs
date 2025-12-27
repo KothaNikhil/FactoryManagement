@@ -43,6 +43,9 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.PreviewKeyDown += ComboBox_PreviewKeyDown;
             AssociatedObject.PreviewTextInput += ComboBox_PreviewTextInput;
             AssociatedObject.Loaded += ComboBox_Loaded;
+            AssociatedObject.GotFocus += ComboBox_GotFocus;
+            AssociatedObject.DropDownOpened += ComboBox_DropDownOpened;
+            AssociatedObject.PreviewMouseDown += ComboBox_PreviewMouseDown;
             // Capture editable TextBox after template loads
             AssociatedObject.Dispatcher.BeginInvoke((Action)(() => EnsureEditableTextBox()), DispatcherPriority.Loaded);
         }
@@ -53,6 +56,9 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.PreviewKeyDown -= ComboBox_PreviewKeyDown;
             AssociatedObject.PreviewTextInput -= ComboBox_PreviewTextInput;
             AssociatedObject.Loaded -= ComboBox_Loaded;
+            AssociatedObject.GotFocus -= ComboBox_GotFocus;
+            AssociatedObject.DropDownOpened -= ComboBox_DropDownOpened;
+            AssociatedObject.PreviewMouseDown -= ComboBox_PreviewMouseDown;
         }
 
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
@@ -70,6 +76,35 @@ namespace FactoryManagement.Behaviors
                     _editableTextBox.CaretIndex = 0;
                     _editableTextBox.Select(0, 0);
                 }
+            }
+        }
+
+        private void ComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // When ComboBox gets focus, show all items if no active search
+            if (string.IsNullOrEmpty(_searchText))
+            {
+                RestoreOriginalItems();
+                // Open dropdown to show all options
+                AssociatedObject.IsDropDownOpen = true;
+            }
+        }
+
+        private void ComboBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // When clicking the ComboBox, ensure all items are shown if no search is active
+            if (string.IsNullOrEmpty(_searchText))
+            {
+                RestoreOriginalItems();
+            }
+        }
+
+        private void ComboBox_DropDownOpened(object? sender, EventArgs e)
+        {
+            // When dropdown opens, always ensure items are shown
+            if (string.IsNullOrEmpty(_searchText))
+            {
+                RestoreOriginalItems();
             }
         }
 
