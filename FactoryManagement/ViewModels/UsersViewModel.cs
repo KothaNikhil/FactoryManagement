@@ -173,6 +173,17 @@ namespace FactoryManagement.ViewModels
         {
             if (user == null) return;
 
+            // Prevent deletion of Guest user
+            if (user.Username.Equals("Guest", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show(
+                    "The Guest user cannot be deleted as it is a system default user.",
+                    "Cannot Delete",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             var result = MessageBox.Show(
                 $"Are you sure you want to delete user '{user.Username}'?",
                 "Confirm Delete",

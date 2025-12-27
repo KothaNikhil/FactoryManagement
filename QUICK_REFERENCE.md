@@ -97,8 +97,6 @@ Reports → Select "Entered By" dropdown → Choose User → View
 | 📈 | Reports |
 | 📦 | Inventory |
 | 👥 | Contacts |
-| 👤 | Users |
-| 👨‍💼 | User Selection (Header) |
 
 ## ⌨️ Keyboard Shortcuts
 

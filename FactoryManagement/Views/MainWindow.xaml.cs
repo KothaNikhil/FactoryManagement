@@ -16,8 +16,15 @@ namespace FactoryManagement.Views
             DataContext = viewModel;
             Loaded += async (s, e) => await viewModel.InitializeAsync();
             StateChanged += MainWindow_StateChanged;
+            Closing += MainWindow_Closing;
             // Set initial icon state
             UpdateMaximizeRestoreIcon();
+        }
+
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Ensure app shuts down when main window closes
+            Application.Current.Shutdown();
         }
 
         private void MainWindow_StateChanged(object? sender, System.EventArgs e)

@@ -4,7 +4,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:FactoryManagement.Converters"
              xmlns:viewmodels="clr-namespace:FactoryManagement.ViewModels"
-             xmlns:System="clr-namespace:System;assembly=mscorlib">
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -56,9 +56,36 @@ namespace FactoryManagement
             // Initialize database
             InitializeDatabase();
 
-            // Show main window
-            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            // Show login window first
+            var loginWindow = _serviceProvider.GetRequiredService<LoginWindow>();
+            var userService = _serviceProvider.GetRequiredService<IUserService>();
+            var loginViewModel = new LoginViewModel(userService, loginWindow);
+            loginWindow.DataContext = loginViewModel;
+            
+            var result = loginWindow.ShowDialog();
+            
+            if (result == true && loginViewModel.LoggedInUser != null)
+            {
+                // User logged in successfully, show main window
+                var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+                var mainViewModel = _serviceProvider.GetRequiredService<MainWindowViewModel>();
+                mainWindow.DataContext = mainViewModel;
+                
+                // Set the logged in user as the selected user
+                mainViewModel.SelectedUser = loginViewModel.LoggedInUser;
+                
+                // Set as main application window and show
+                MainWindow = mainWindow;
+                mainWindow.Show();
+                
+                // Initialize the dashboard and load data
+                _ = mainViewModel.InitializeAsync();
+            }
+            else
+            {
+                // User cancelled login, exit application
+                Shutdown();
+            }
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -101,9 +128,11 @@ namespace FactoryManagement
             services.AddTransient<FinancialRecordsViewModel>();
             services.AddTransient<PayrollManagementViewModel>();
             services.AddTransient<UsersViewModel>();
+            services.AddTransient<LoginViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();
+            services.AddTransient<LoginWindow>();
         }
 
         private void InitializeDatabase()
@@ -191,13 +220,20 @@ namespace FactoryManagement
                 
             try
             {
-                // Seed Users
-                var defaultUser = new User
+                // Seed Users - Guest user is required and cannot be deleted
+                var guestUser = new User
+                {
+                    Username = "Guest",
+                    Role = "Guest",
+                    IsActive = true
+                };
+                var adminUser = new User
                 {
                     Username = "Admin",
-                    Role = "Administrator"
+                    Role = "Administrator",
+                    IsActive = true
                 };
-                context.Users.Add(defaultUser);
+                context.Users.AddRange(guestUser, adminUser);
                 context.SaveChanges();
                 
                 // Seed Items
