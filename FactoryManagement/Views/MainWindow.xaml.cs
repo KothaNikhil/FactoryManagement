@@ -40,25 +40,27 @@ namespace FactoryManagement.Views
         private void NavigationBorder_MouseEnter(object sender, MouseEventArgs e)
         {
             // Expand menu on hover when unpinned
-            if (PinToggle.IsChecked == false)
+            if (ViewModel.IsMenuPinned == false)
             {
-                NavigationBorder.Width = 260;
+                ViewModel.IsMenuExpanded = true;
             }
         }
 
         private void NavigationBorder_MouseLeave(object sender, MouseEventArgs e)
         {
             // Collapse menu on mouse leave when unpinned
-            if (PinToggle.IsChecked == false)
+            if (ViewModel.IsMenuPinned == false)
             {
-                NavigationBorder.Width = 52;
+                ViewModel.IsMenuExpanded = false;
             }
         }
 
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        
+
+        private void PinButton_Click(object sender, RoutedEventArgs e)
         {
-            // Toggle menu pin state
-            PinToggle.IsChecked = !PinToggle.IsChecked;
+            // Toggle menu pin state via pin icon
+            ViewModel.IsMenuPinned = !ViewModel.IsMenuPinned;
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

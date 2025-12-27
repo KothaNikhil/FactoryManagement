@@ -1,6 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
+using FactoryManagement.Data;
+using FactoryManagement.Models;
+using System.Linq;
 
 namespace FactoryManagement.ViewModels
 {
@@ -12,6 +15,12 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private string _currentViewTitle = "Dashboard";
 
+        [ObservableProperty]
+        private bool _isMenuPinned = true;
+
+        [ObservableProperty]
+        private bool _isMenuExpanded = true;
+
         private readonly DashboardViewModel _dashboardViewModel;
         private readonly NewTransactionViewModel _transactionEntryViewModel;
         private readonly ReportsViewModel _reportsViewModel;
@@ -21,6 +30,8 @@ namespace FactoryManagement.ViewModels
         private readonly FinancialRecordsViewModel _financialTransactionsViewModel;
         private readonly PayrollManagementViewModel _wagesManagementViewModel;
 
+        private readonly FactoryDbContext _dbContext;
+
         public MainWindowViewModel(
             DashboardViewModel dashboardViewModel,
             NewTransactionViewModel transactionEntryViewModel,
@@ -29,7 +40,8 @@ namespace FactoryManagement.ViewModels
             ContactsViewModel partiesManagementViewModel,
             DataBackupViewModel backupViewModel,
             FinancialRecordsViewModel financialTransactionsViewModel,
-            PayrollManagementViewModel wagesManagementViewModel)
+            PayrollManagementViewModel wagesManagementViewModel,
+            FactoryDbContext dbContext)
         {
             _dashboardViewModel = dashboardViewModel;
             _transactionEntryViewModel = transactionEntryViewModel;
@@ -39,6 +51,7 @@ namespace FactoryManagement.ViewModels
             _backupViewModel = backupViewModel;
             _financialTransactionsViewModel = financialTransactionsViewModel;
             _wagesManagementViewModel = wagesManagementViewModel;
+            _dbContext = dbContext;
 
             // Set default view
             CurrentView = _dashboardViewModel;
@@ -117,6 +130,32 @@ namespace FactoryManagement.ViewModels
         public async System.Threading.Tasks.Task InitializeAsync()
         {
             await NavigateToDashboardAsync();
+
+            // Load menu pinned setting from AppSettings
+            var settings = _dbContext.AppSettings.FirstOrDefault();
+            if (settings != null)
+            {
+                IsMenuPinned = settings.IsMenuPinned;
+                // Default expanded when pinned; collapsed when unpinned
+                IsMenuExpanded = IsMenuPinned ? true : false;
+            }
+        }
+
+        // Persist setting when toggled
+        partial void OnIsMenuPinnedChanged(bool value)
+        {
+            var settings = _dbContext.AppSettings.FirstOrDefault();
+            if (settings == null)
+            {
+                settings = new AppSettings { CompanyName = "Factory Management System", CurrencySymbol = "₹", Address = string.Empty };
+                _dbContext.AppSettings.Add(settings);
+            }
+            settings.IsMenuPinned = value;
+            settings.ModifiedDate = System.DateTime.UtcNow;
+            _dbContext.SaveChanges();
+
+            // Keep menu expanded when pinned; collapse when unpinned
+            IsMenuExpanded = value ? true : false;
         }
     }
 }

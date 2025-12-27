@@ -21,6 +21,9 @@ namespace FactoryManagement.Models
         [MaxLength(500)]
         public string Address { get; set; } = string.Empty;
 
+        // UI preferences
+        public bool IsMenuPinned { get; set; } = true;
+
         public DateTime? ModifiedDate { get; set; }
     }
 }
