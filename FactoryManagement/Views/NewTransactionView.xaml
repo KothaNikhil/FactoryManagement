@@ -447,7 +447,8 @@
                     <DataGrid ItemsSource="{Binding RecentTransactions}" 
                               Style="{StaticResource DataGrid.Dark}"
                               MaxHeight="2000"
-                              VerticalScrollBarVisibility="Disabled">
+                              VerticalScrollBarVisibility="Disabled"
+                              KeyboardNavigation.TabNavigation="Once">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>

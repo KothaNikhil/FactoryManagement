@@ -142,6 +142,31 @@ namespace FactoryManagement.Views
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Handle Ctrl+Tab and Ctrl+Shift+Tab for menu navigation
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.Tab)
+            {
+                // Ctrl+Tab: Navigate to next menu item
+                // Ctrl+Shift+Tab: Navigate to previous menu item
+                bool goToNext = (Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.Shift;
+                
+                int currentIndex = MenuListBox.SelectedIndex;
+                int nextIndex = goToNext ? currentIndex + 1 : currentIndex - 1;
+                
+                // Wrap around: if at end, go to beginning; if at beginning, go to end
+                if (nextIndex >= MenuListBox.Items.Count)
+                {
+                    nextIndex = 0;
+                }
+                else if (nextIndex < 0)
+                {
+                    nextIndex = MenuListBox.Items.Count - 1;
+                }
+                
+                MenuListBox.SelectedIndex = nextIndex;
+                e.Handled = true;
+                return;
+            }
+            
             // Handle Ctrl+Number keyboard shortcuts for navigation
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {

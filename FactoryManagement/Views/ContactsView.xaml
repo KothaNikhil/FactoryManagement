@@ -147,7 +147,7 @@
                     </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding Parties}" SelectedItem="{Binding SelectedParty}" Style="{StaticResource Section.DataGrid}">
+                    <DataGrid ItemsSource="{Binding Parties}" SelectedItem="{Binding SelectedParty}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>

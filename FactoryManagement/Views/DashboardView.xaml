@@ -131,7 +131,7 @@
                         </Border>
 
                         <!-- DataGrid -->
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>

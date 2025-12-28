@@ -55,7 +55,8 @@
                 <!-- Users DataGrid -->
                 <DataGrid ItemsSource="{Binding Users}" 
                           SelectedItem="{Binding SelectedUser, Mode=TwoWay}" 
-                          Style="{StaticResource Section.DataGrid}">
+                          Style="{StaticResource Section.DataGrid}"
+                          KeyboardNavigation.TabNavigation="Once">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>

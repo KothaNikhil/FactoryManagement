@@ -267,7 +267,8 @@
                         <DataGrid Grid.Row="1" 
                                   ItemsSource="{Binding Workers}"
                                   SelectedItem="{Binding SelectedWorker}"
-                                  Style="{StaticResource Section.DataGrid}">
+                                  Style="{StaticResource Section.DataGrid}"
+                                  KeyboardNavigation.TabNavigation="Once">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
@@ -336,6 +337,7 @@
                               RowBackground="#1a1a1a"
                               AlternatingRowBackground="#333"
                               BorderThickness="0"
+                              KeyboardNavigation.TabNavigation="Once"
                               GridLinesVisibility="None"
                               HeadersVisibility="Column">
                         <DataGrid.ColumnHeaderStyle>

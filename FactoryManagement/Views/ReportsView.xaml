@@ -225,7 +225,8 @@
 
                     <!-- All Categories DataGrid -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedAllTransactions}" Style="{StaticResource Section.DataGrid}" 
-                              Visibility="{Binding IsAllView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                              Visibility="{Binding IsAllView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
@@ -271,7 +272,8 @@
 
                     <!-- Inventory DataGrid -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedTransactions}" Style="{StaticResource Section.DataGrid}" 
-                              Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                              Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
@@ -318,7 +320,8 @@
 
                     <!-- Financial DataGrid -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedFinancialTransactions}" Style="{StaticResource Section.DataGrid}" 
-                              Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                              Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
@@ -365,7 +368,8 @@
 
                     <!-- Wages DataGrid -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedWageTransactions}" Style="{StaticResource Section.DataGrid}" 
-                              Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                              Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
