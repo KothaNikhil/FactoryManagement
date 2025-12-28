@@ -233,29 +233,36 @@
                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
-                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
-                                                <Setter Property="Foreground" Value="#D32F2F"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
-                                                <Setter Property="Foreground" Value="#388E3C"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
                             <DataGridTextColumn Header="Item" Binding="{Binding Item}" Width="*"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
+                            <DataGridTextColumn Header="Debit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                        <Binding Path="Amount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#D32F2F"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Credit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                        <Binding Path="Amount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#388E3C"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -271,31 +278,38 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
-                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
-                                                <Setter Property="Foreground" Value="#D32F2F"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
-                                                <Setter Property="Foreground" Value="#388E3C"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
                             <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                             <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹{0:N2}'}" Width="130">
+                            <DataGridTextColumn Header="Debit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                        <Binding Path="TotalAmount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#D32F2F"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Credit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                        <Binding Path="TotalAmount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#388E3C"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -311,31 +325,38 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
-                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
-                                                <Setter Property="Foreground" Value="#D32F2F"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
-                                                <Setter Property="Foreground" Value="#388E3C"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
                             <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
+                            <DataGridTextColumn Header="Debit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                        <Binding Path="Amount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#D32F2F"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Credit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                        <Binding Path="Amount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#388E3C"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -351,28 +372,35 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
-                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
-                                                <Setter Property="Foreground" Value="#D32F2F"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
-                                                <Setter Property="Foreground" Value="#388E3C"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
                             <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding NetAmount, StringFormat='₹{0:N2}'}" Width="130">
+                            <DataGridTextColumn Header="Debit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                        <Binding Path="NetAmount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#D32F2F"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Credit (₹)" Width="130">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                        <Binding Path="NetAmount"/>
+                                        <Binding Path="DebitCredit"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#388E3C"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -406,6 +434,22 @@
                                 <TextBlock Text=" of " Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
                                 <TextBlock Text="{Binding TotalRecords}" FontWeight="SemiBold" Foreground="{StaticResource Text.Primary}" FontSize="13" Margin="0,0,4,0"/>
                                 <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
+                            </StackPanel>
+
+                            <!-- Totals Display -->
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border Background="{StaticResource Card.Warning}" CornerRadius="4" Padding="10,6" Margin="0,0,8,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Total Debit: " Foreground="White" FontSize="13"/>
+                                        <TextBlock Text="{Binding TotalDebit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="{StaticResource Card.Success}" CornerRadius="4" Padding="10,6">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Total Credit: " Foreground="White" FontSize="13"/>
+                                        <TextBlock Text="{Binding TotalCredit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
 
                             <!-- Page Navigation -->

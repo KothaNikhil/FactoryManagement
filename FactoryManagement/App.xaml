@@ -197,6 +197,8 @@
             <!-- Converters for theme-aware bindings -->
             <converters:AmountToBrushConverter x:Key="AmountToBrushConverter"/>
             <converters:StockLevelPercentConverter x:Key="StockLevelPercentConverter"/>
+            <!-- New converters for Debit/Credit split amounts -->
+            <converters:DebitCreditAmountConverter x:Key="DebitCreditAmountConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

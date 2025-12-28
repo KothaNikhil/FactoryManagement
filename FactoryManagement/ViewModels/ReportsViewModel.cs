@@ -134,6 +134,12 @@ namespace FactoryManagement.ViewModels
         private decimal _totalAmount;
 
         [ObservableProperty]
+        private decimal _totalDebit;
+
+        [ObservableProperty]
+        private decimal _totalCredit;
+
+        [ObservableProperty]
         private decimal _totalInventoryAmount;
 
         [ObservableProperty]
@@ -704,6 +710,7 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Starting Excel export for {SelectedReportType}");
                 var dialog = new SaveFileDialog
                 {
                     Filter = "Excel Files (*.xlsx)|*.xlsx",
@@ -711,119 +718,110 @@ namespace FactoryManagement.ViewModels
                     FileName = $"{SelectedReportType}Transactions_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"
                 };
 
-                if (dialog.ShowDialog() == true)
+                    if (dialog.ShowDialog() == true)
                 {
                     IsBusy = true;
-                    object exportData;
-                    
+                    List<ReportExportRow> rows;
+
                     if (SelectedReportType == ReportType.All)
                     {
-                        // Export combined data with category column
-                        var inventoryData = Transactions.Select(t => new
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Exporting All - Unified transactions count: {_allUnifiedTransactions.Count}");
+                        rows = new List<ReportExportRow>();
+
+                        // Use unified transactions for All report
+                        rows.AddRange(_allUnifiedTransactions.Select(t => new ReportExportRow
                         {
-                            Category = "Inventory",
-                            TransactionId = t.TransactionId.ToString(),
-                            ItemName = t.Item?.ItemName ?? "",
-                            PartyName = t.Party?.Name ?? "",
-                            WorkerName = "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)t.Quantity,
-                            Rate = (decimal?)t.PricePerUnit,
-                            Amount = t.TotalAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        var financialData = FinancialTransactions.Select(t => new
-                        {
-                            Category = "Financial",
-                            TransactionId = t.FinancialTransactionId.ToString(),
-                            ItemName = "",
-                            PartyName = t.Party?.Name ?? "",
-                            WorkerName = "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)null,
-                            Rate = (decimal?)null,
+                            Category = t.Category,
+                            TransactionId = t.TransactionId,
+                            ItemName = t.ItemName ?? string.Empty,
+                            PartyName = t.PartyName ?? string.Empty,
+                            WorkerName = t.WorkerName ?? string.Empty,
+                            TransactionType = t.TransactionType,
+                            Quantity = t.Quantity,
+                            Rate = t.Rate,
                             Amount = t.Amount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        var wageData = WageTransactions.Select(t => new
-                        {
-                            Category = "Wages",
-                            TransactionId = t.WageTransactionId.ToString(),
-                            ItemName = "",
-                            PartyName = "",
-                            WorkerName = t.Worker?.Name ?? "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)null,
-                            Rate = (decimal?)t.Rate,
-                            Amount = t.NetAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        exportData = inventoryData.Concat(financialData).Concat(wageData)
-                            .OrderByDescending(t => t.TransactionDate).ToList();
+                            DebitAmount = t.DebitCredit == "Debit" ? t.Amount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.Amount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes ?? string.Empty,
+                            EnteredBy = t.EnteredBy ?? string.Empty
+                        }));
+
+                        rows = rows.OrderByDescending(r => r.TransactionDate).ToList();
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] All report prepared {rows.Count} rows for export");
                     }
                     else if (SelectedReportType == ReportType.Inventory)
                     {
-                        exportData = Transactions.Select(t => new
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Exporting Inventory - count: {_allInventoryTransactions.Count}");
+                        rows = Transactions.Select(t => new ReportExportRow
                         {
-                            t.TransactionId,
-                            ItemName = t.Item?.ItemName,
-                            PartyName = t.Party?.Name,
+                            Category = "Inventory",
+                            TransactionId = t.TransactionId.ToString(),
+                            ItemName = t.Item?.ItemName ?? string.Empty,
+                            PartyName = t.Party?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.Quantity,
-                            t.PricePerUnit,
-                            t.TotalAmount,
-                            t.TransactionDate,
-                            EnteredBy = t.User?.Username,
-                            t.Notes
-                        }).ToList();
+                            Quantity = t.Quantity,
+                            Rate = t.PricePerUnit,
+                            Amount = t.TotalAmount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.TotalAmount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.TotalAmount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Inventory report prepared {rows.Count} rows for export");
                     }
                     else if (SelectedReportType == ReportType.Financial)
                     {
-                        exportData = FinancialTransactions.Select(t => new
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Exporting Financial - count: {_allFinancialTransactions.Count}");
+                        rows = FinancialTransactions.Select(t => new ReportExportRow
                         {
-                            t.FinancialTransactionId,
-                            PartyName = t.Party?.Name,
+                            Category = "Financial",
+                            TransactionId = t.FinancialTransactionId.ToString(),
+                            PartyName = t.Party?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.Amount,
-                            t.InterestRate,
-                            t.InterestAmount,
-                            t.TransactionDate,
-                            t.DueDate,
-                            t.Notes
-                        }).ToList();
+                            Amount = t.Amount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.Amount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.Amount : null,
+                            InterestRate = t.InterestRate,
+                            InterestAmount = t.InterestAmount,
+                            TransactionDate = t.TransactionDate,
+                            DueDate = t.DueDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Financial report prepared {rows.Count} rows for export");
                     }
                     else // Wages
                     {
-                        exportData = WageTransactions.Select(t => new
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Exporting Wages - count: {_allWageTransactions.Count}");
+                        rows = WageTransactions.Select(t => new ReportExportRow
                         {
-                            t.WageTransactionId,
-                            WorkerName = t.Worker?.Name,
+                            Category = "Wages",
+                            TransactionId = t.WageTransactionId.ToString(),
+                            WorkerName = t.Worker?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.DaysWorked,
-                            t.HoursWorked,
-                            t.Rate,
-                            t.Amount,
-                            t.OvertimeAmount,
-                            t.AdvanceAdjusted,
-                            t.Deductions,
-                            t.NetAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        }).ToList();
+                            Quantity = t.DaysWorked ?? t.HoursWorked,
+                            Rate = t.Rate,
+                            Amount = t.NetAmount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.NetAmount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.NetAmount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
+                        System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Wages report prepared {rows.Count} rows for export");
                     }
 
-                    await _exportService.ExportToExcelAsync((dynamic)exportData, dialog.FileName, $"{SelectedReportType}Transactions");
+                    System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Calling ExportService with {rows.Count} rows");
+                    await _exportService.ExportToExcelAsync(rows, dialog.FileName, $"{SelectedReportType}Transactions");
                     ErrorMessage = "Export to Excel completed successfully!";
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] EXCEPTION in ExportToExcelAsync: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Stack trace: {ex.StackTrace}");
                 ErrorMessage = $"Error exporting to Excel: {ex.Message}";
             }
             finally
@@ -844,114 +842,93 @@ namespace FactoryManagement.ViewModels
                     FileName = $"{SelectedReportType}Transactions_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
                 };
 
-                if (dialog.ShowDialog() == true)
+                    if (dialog.ShowDialog() == true)
                 {
                     IsBusy = true;
-                    object exportData;
-                    
+                    List<ReportExportRow> rows;
+
                     if (SelectedReportType == ReportType.All)
                     {
-                        // Export combined data with category column
-                        var inventoryData = Transactions.Select(t => new
+                        rows = new List<ReportExportRow>();
+
+                        rows.AddRange(_allUnifiedTransactions.Select(t => new ReportExportRow
                         {
-                            Category = "Inventory",
-                            TransactionId = t.TransactionId.ToString(),
-                            ItemName = t.Item?.ItemName ?? "",
-                            PartyName = t.Party?.Name ?? "",
-                            WorkerName = "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)t.Quantity,
-                            Rate = (decimal?)t.PricePerUnit,
-                            Amount = t.TotalAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        var financialData = FinancialTransactions.Select(t => new
-                        {
-                            Category = "Financial",
-                            TransactionId = t.FinancialTransactionId.ToString(),
-                            ItemName = "",
-                            PartyName = t.Party?.Name ?? "",
-                            WorkerName = "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)null,
-                            Rate = (decimal?)null,
+                            Category = t.Category,
+                            TransactionId = t.TransactionId,
+                            ItemName = t.ItemName ?? string.Empty,
+                            PartyName = t.PartyName ?? string.Empty,
+                            WorkerName = t.WorkerName ?? string.Empty,
+                            TransactionType = t.TransactionType,
+                            Quantity = t.Quantity,
+                            Rate = t.Rate,
                             Amount = t.Amount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        var wageData = WageTransactions.Select(t => new
-                        {
-                            Category = "Wages",
-                            TransactionId = t.WageTransactionId.ToString(),
-                            ItemName = "",
-                            PartyName = "",
-                            WorkerName = t.Worker?.Name ?? "",
-                            TransactionType = t.TransactionType.ToString(),
-                            Quantity = (decimal?)null,
-                            Rate = (decimal?)t.Rate,
-                            Amount = t.NetAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        });
-                        
-                        exportData = inventoryData.Concat(financialData).Concat(wageData)
-                            .OrderByDescending(t => t.TransactionDate).ToList();
+                            DebitAmount = t.DebitCredit == "Debit" ? t.Amount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.Amount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes ?? string.Empty,
+                            EnteredBy = t.EnteredBy ?? string.Empty
+                        }));
+
+                        rows = rows.OrderByDescending(r => r.TransactionDate).ToList();
                     }
                     else if (SelectedReportType == ReportType.Inventory)
                     {
-                        exportData = Transactions.Select(t => new
+                        rows = Transactions.Select(t => new ReportExportRow
                         {
-                            t.TransactionId,
-                            ItemName = t.Item?.ItemName,
-                            PartyName = t.Party?.Name,
+                            Category = "Inventory",
+                            TransactionId = t.TransactionId.ToString(),
+                            ItemName = t.Item?.ItemName ?? string.Empty,
+                            PartyName = t.Party?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.Quantity,
-                            t.PricePerUnit,
-                            t.TotalAmount,
-                            t.TransactionDate,
-                            EnteredBy = t.User?.Username,
-                            t.Notes
-                        }).ToList();
+                            Quantity = t.Quantity,
+                            Rate = t.PricePerUnit,
+                            Amount = t.TotalAmount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.TotalAmount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.TotalAmount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
                     }
                     else if (SelectedReportType == ReportType.Financial)
                     {
-                        exportData = FinancialTransactions.Select(t => new
+                        rows = FinancialTransactions.Select(t => new ReportExportRow
                         {
-                            t.FinancialTransactionId,
-                            PartyName = t.Party?.Name,
+                            Category = "Financial",
+                            TransactionId = t.FinancialTransactionId.ToString(),
+                            PartyName = t.Party?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.Amount,
-                            t.InterestRate,
-                            t.InterestAmount,
-                            t.TransactionDate,
-                            t.DueDate,
-                            t.Notes
-                        }).ToList();
+                            Amount = t.Amount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.Amount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.Amount : null,
+                            InterestRate = t.InterestRate,
+                            InterestAmount = t.InterestAmount,
+                            TransactionDate = t.TransactionDate,
+                            DueDate = t.DueDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
                     }
                     else // Wages
                     {
-                        exportData = WageTransactions.Select(t => new
+                        rows = WageTransactions.Select(t => new ReportExportRow
                         {
-                            t.WageTransactionId,
-                            WorkerName = t.Worker?.Name,
+                            Category = "Wages",
+                            TransactionId = t.WageTransactionId.ToString(),
+                            WorkerName = t.Worker?.Name ?? string.Empty,
                             TransactionType = t.TransactionType.ToString(),
-                            t.DaysWorked,
-                            t.HoursWorked,
-                            t.Rate,
-                            t.Amount,
-                            t.OvertimeAmount,
-                            t.AdvanceAdjusted,
-                            t.Deductions,
-                            t.NetAmount,
-                            t.TransactionDate,
-                            t.Notes
-                        }).ToList();
+                            Quantity = t.DaysWorked ?? t.HoursWorked,
+                            Rate = t.Rate,
+                            Amount = t.NetAmount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.NetAmount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.NetAmount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        }).OrderByDescending(r => r.TransactionDate).ToList();
                     }
 
-                    await _exportService.ExportToCsvAsync((dynamic)exportData, dialog.FileName);
+                    await _exportService.ExportToCsvAsync(rows, dialog.FileName);
                     ErrorMessage = "Export to CSV completed successfully!";
                 }
             }
@@ -979,6 +956,33 @@ namespace FactoryManagement.ViewModels
                 ReportType.Wages => TotalWagesAmount,
                 _ => 0
             };
+
+            // Compute Debit/Credit totals based on current filtered collections
+            decimal debit = 0m;
+            decimal credit = 0m;
+
+            switch (SelectedReportType)
+            {
+                case ReportType.All:
+                    debit = _allUnifiedTransactions.Where(t => t.DebitCredit == "Debit").Sum(t => t.Amount);
+                    credit = _allUnifiedTransactions.Where(t => t.DebitCredit == "Credit").Sum(t => t.Amount);
+                    break;
+                case ReportType.Inventory:
+                    debit = _allInventoryTransactions.Where(t => t.DebitCredit == "Debit").Sum(t => t.TotalAmount);
+                    credit = _allInventoryTransactions.Where(t => t.DebitCredit == "Credit").Sum(t => t.TotalAmount);
+                    break;
+                case ReportType.Financial:
+                    debit = _allFinancialTransactions.Where(t => t.DebitCredit == "Debit").Sum(t => t.Amount);
+                    credit = _allFinancialTransactions.Where(t => t.DebitCredit == "Credit").Sum(t => t.Amount);
+                    break;
+                case ReportType.Wages:
+                    debit = _allWageTransactions.Where(t => t.DebitCredit == "Debit").Sum(t => t.NetAmount);
+                    credit = _allWageTransactions.Where(t => t.DebitCredit == "Credit").Sum(t => t.NetAmount);
+                    break;
+            }
+
+            TotalDebit = debit;
+            TotalCredit = credit;
 
             TransactionCount = SelectedReportType switch
             {

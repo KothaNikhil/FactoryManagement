@@ -330,6 +330,37 @@ namespace FactoryManagement.Converters
         }
     }
 
+    // Converts amount + DebitCredit to either Debit amount or Credit amount
+    public class DebitCreditAmountConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || values.Length < 2)
+                return DependencyProperty.UnsetValue;
+
+            // First value is amount (decimal/double/int), second is DebitCredit string
+            decimal amount = 0m;
+            var v0 = values[0];
+            if (v0 is decimal d) amount = d;
+            else if (v0 is double dbl) amount = (decimal)dbl;
+            else if (v0 is int i) amount = i;
+
+            var typeStr = values[1]?.ToString() ?? string.Empty;
+            var targetTypeStr = parameter?.ToString() ?? string.Empty; // "Debit" or "Credit"
+
+            if (string.Equals(typeStr, targetTypeStr, StringComparison.OrdinalIgnoreCase))
+                return amount;
+
+            // Return UnsetValue to avoid displaying 0 in the opposite column
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     // Transaction Bar Height Converters
     public class TransactionBarHeightConverter : IMultiValueConverter
     {
