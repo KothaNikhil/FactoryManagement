@@ -65,17 +65,25 @@
                         <StackPanel Grid.Column="2" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Item" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Items}"
-                                    SelectedIndex="{Binding SelectedItemIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                     DisplayMemberPath="ItemName"
-                                    Style="{StaticResource ComboBox.Standard}"/>
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="ItemName"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Grid.Column="4" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Parties}"
-                                    SelectedIndex="{Binding SelectedPartyIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource ComboBox.Standard}"/>
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
 
                         <!-- Unified Name Filter (searchable) -->
@@ -92,7 +100,7 @@
                             </StackPanel.Style>
                             <TextBlock Text="Filter by Name" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding AllNames}"
-                                    SelectedIndex="{Binding SelectedNameIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedName, Mode=TwoWay}"
                                     IsEditable="True"
                                     IsTextSearchEnabled="True"
                                     Style="{StaticResource ComboBox.Standard}">
@@ -106,18 +114,26 @@
                         <StackPanel Grid.Column="2" Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Parties}"
-                                    SelectedIndex="{Binding SelectedPartyIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource ComboBox.Standard}"/>
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
 
                         <!-- Wages Filters -->
                         <StackPanel Grid.Column="2" Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Worker" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Workers}"
-                                    SelectedIndex="{Binding SelectedWorkerIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedWorker, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
-                                    Style="{StaticResource ComboBox.Standard}"/>
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
 
                         <!-- Start Date -->
@@ -138,9 +154,13 @@
                         <StackPanel Grid.Column="10">
                             <TextBlock Text="Entered By" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Users}"
-                                    SelectedIndex="{Binding SelectedUserIndex, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                     DisplayMemberPath="Username"
-                                    Style="{StaticResource ComboBox.Standard}"/>
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="Username"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
                     </Grid>
 

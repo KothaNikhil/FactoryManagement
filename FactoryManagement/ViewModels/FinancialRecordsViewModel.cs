@@ -24,9 +24,7 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Party> _partiesForFilter;
         private LoanAccount? _selectedLoan;
         private Party? _selectedParty;
-        private int _selectedPartyIndex = -1;
         private Party? _filterParty;
-        private int _filterPartyIndex = -1;
         private LoanAccount? _lastDeletedLoan;
         private List<FinancialTransaction>? _lastDeletedLoanTransactions;
         private FinancialTransaction? _lastDeletedFinancialTransaction;
@@ -158,18 +156,6 @@ namespace FactoryManagement.ViewModels
             }
         }
 
-        public int SelectedPartyIndex
-        {
-            get => _selectedPartyIndex;
-            set
-            {
-                _selectedPartyIndex = value;
-                if (value >= 0 && value < Parties.Count)
-                    SelectedParty = Parties[value];
-                OnPropertyChanged();
-            }
-        }
-
         public Party? FilterParty
         {
             get => _filterParty;
@@ -178,18 +164,6 @@ namespace FactoryManagement.ViewModels
                 _filterParty = value;
                 OnPropertyChanged();
                 Task.Run(async () => await FilterLoansAsync());
-            }
-        }
-
-        public int FilterPartyIndex
-        {
-            get => _filterPartyIndex;
-            set
-            {
-                _filterPartyIndex = value;
-                if (value >= 0 && value < PartiesForFilter.Count)
-                    FilterParty = PartiesForFilter[value];
-                OnPropertyChanged();
             }
         }
 
@@ -388,9 +362,6 @@ namespace FactoryManagement.ViewModels
                     }
                     
                     System.Diagnostics.Debug.WriteLine($"Loaded {Parties.Count} parties");
-
-                    // Use SelectedIndex for reliable ComboBox initialization
-                    FilterPartyIndex = 0;
 
                     TotalLoansGiven = summary["TotalLoansGiven"];
                     TotalLoansTaken = summary["TotalLoansTaken"];

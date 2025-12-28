@@ -104,31 +104,16 @@ namespace FactoryManagement.ViewModels
         private Item? _selectedItem;
 
         [ObservableProperty]
-        private int _selectedItemIndex = -1;
-
-        [ObservableProperty]
         private Party? _selectedParty;
-
-        [ObservableProperty]
-        private int _selectedPartyIndex = -1;
 
         [ObservableProperty]
         private Worker? _selectedWorker;
 
         [ObservableProperty]
-        private int _selectedWorkerIndex = -1;
-
-        [ObservableProperty]
         private string? _selectedName;
 
         [ObservableProperty]
-        private int _selectedNameIndex = -1;
-
-        [ObservableProperty]
         private User? _selectedUser;
-
-        [ObservableProperty]
-        private int _selectedUserIndex = -1;
 
         [ObservableProperty]
         private DateTime _startDate = DateTime.Now.AddMonths(-1);
@@ -189,37 +174,6 @@ namespace FactoryManagement.ViewModels
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
             _userService = userService;
-        }
-
-        // Sync SelectedIndex changes to SelectedItem properties
-        partial void OnSelectedItemIndexChanged(int value)
-        {
-            if (value >= 0 && value < Items.Count)
-                SelectedItem = Items[value];
-        }
-
-        partial void OnSelectedPartyIndexChanged(int value)
-        {
-            if (value >= 0 && value < Parties.Count)
-                SelectedParty = Parties[value];
-        }
-
-        partial void OnSelectedWorkerIndexChanged(int value)
-        {
-            if (value >= 0 && value < Workers.Count)
-                SelectedWorker = Workers[value];
-        }
-
-        partial void OnSelectedUserIndexChanged(int value)
-        {
-            if (value >= 0 && value < Users.Count)
-                SelectedUser = Users[value];
-        }
-
-        partial void OnSelectedNameIndexChanged(int value)
-        {
-            if (value >= 0 && value < AllNames.Count)
-                SelectedName = AllNames[value];
         }
 
         partial void OnSelectedReportTypeChanged(ReportType value)
@@ -333,12 +287,12 @@ namespace FactoryManagement.ViewModels
                     if (!string.IsNullOrEmpty(worker.Name))
                         AllNames.Add(worker.Name);
 
-                // Use SelectedIndex instead of SelectedItem for reliable initial display
-                SelectedItemIndex = 0;
-                SelectedPartyIndex = 0;
-                SelectedWorkerIndex = 0;
-                SelectedUserIndex = 0;
-                SelectedNameIndex = 0;
+                // Set default selections
+                SelectedItem = Items.Count > 0 ? Items[0] : null;
+                SelectedParty = Parties.Count > 0 ? Parties[0] : null;
+                SelectedWorker = Workers.Count > 0 ? Workers[0] : null;
+                SelectedUser = Users.Count > 0 ? Users[0] : null;
+                SelectedName = AllNames.Count > 0 ? AllNames[0] : null;
 
                 await LoadReportDataAsync();
             }

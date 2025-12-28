@@ -72,33 +72,20 @@ namespace FactoryManagement.Behaviors
                 _originalItemsSource = AssociatedObject.ItemsSource;
                 _filteredItems = new ObservableCollection<object>();
                 _searchText = string.Empty;
-                
-                // Don't clear text if there's a selected item - preserve its display
-                if (AssociatedObject.SelectedItem == null)
-                {
-                    AssociatedObject.Text = string.Empty;
-                }
-                else
-                {
-                    // Set text to display the selected item
-                    AssociatedObject.Text = GetDisplayText(AssociatedObject.SelectedItem);
-                }
-                
                 EnsureEditableTextBox();
-                if (_editableTextBox != null && AssociatedObject.SelectedItem == null)
-                {
-                    _editableTextBox.CaretIndex = 0;
-                    _editableTextBox.Select(0, 0);
-                }
             }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // When selection changes programmatically, update the text to show selected item
-            if (AssociatedObject.SelectedItem != null && string.IsNullOrEmpty(_searchText))
+            // When selection changes, update the text to show selected item (only if not actively searching)
+            if (string.IsNullOrEmpty(_searchText) && AssociatedObject.SelectedItem != null)
             {
-                AssociatedObject.Text = GetDisplayText(AssociatedObject.SelectedItem);
+                var displayText = GetDisplayText(AssociatedObject.SelectedItem);
+                if (AssociatedObject.Text != displayText)
+                {
+                    AssociatedObject.Text = displayText;
+                }
             }
         }
 
