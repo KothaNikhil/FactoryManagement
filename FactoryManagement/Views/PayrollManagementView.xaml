@@ -153,7 +153,7 @@
                             <!-- Worker Selection -->
                             <TextBlock Text="Select Worker *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <ComboBox ItemsSource="{Binding Workers}"
-                                      SelectedItem="{Binding SelectedWorker}"
+                                      SelectedItem="{Binding SelectedWorker, Mode=TwoWay}"
                                       DisplayMemberPath="Name"
                                       materialDesign:HintAssist.Hint="Choose worker"
                                       Style="{StaticResource ComboBox.Standard}"
@@ -175,7 +175,7 @@
                             <!-- Payment Type -->
                             <TextBlock Text="Payment Type *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
                             <ComboBox ItemsSource="{Binding TransactionTypes}"
-                                      SelectedItem="{Binding TransactionType}"
+                                      SelectedItem="{Binding TransactionType, Mode=TwoWay}"
                                       Style="{StaticResource ComboBox.Standard}"
                                       Margin="0,0,0,10"/>
 

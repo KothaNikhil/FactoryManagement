@@ -61,7 +61,7 @@
                 
                 <ComboBox x:Name="UserComboBox"
                           ItemsSource="{Binding ActiveUsers}"
-                          SelectedItem="{Binding SelectedUser}"
+                          SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                           DisplayMemberPath="Username"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
                           FontSize="16"

@@ -39,6 +39,9 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private string _selectedTransactionTypeString = "Buy";
 
+        [ObservableProperty]
+        private int _selectedTransactionTypeIndex = 0;
+
         public TransactionType SelectedTransactionType
         {
             get => Enum.Parse<TransactionType>(SelectedTransactionTypeString);
@@ -132,6 +135,12 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(SelectedTransactionType));
             OnPropertyChanged(nameof(ItemLabelText));
             OnPropertyChanged(nameof(QuantityLabelText));
+        }
+
+        partial void OnSelectedTransactionTypeIndexChanged(int value)
+        {
+            if (value >= 0 && value < TransactionTypes.Count)
+                SelectedTransactionTypeString = TransactionTypes[value];
         }
 
         public string ItemLabelText => IsProcessingMode ? "Output Item (Processed):" : "Item:";

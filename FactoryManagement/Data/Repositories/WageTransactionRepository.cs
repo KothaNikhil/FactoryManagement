@@ -29,6 +29,7 @@ namespace FactoryManagement.Data.Repositories
         {
             return await _context.WageTransactions
                 .Include(wt => wt.Worker)
+                .Include(wt => wt.User)
                 .OrderByDescending(wt => wt.TransactionDate)
                 .ToListAsync();
         }
@@ -37,6 +38,7 @@ namespace FactoryManagement.Data.Repositories
         {
             return await _context.WageTransactions
                 .Include(wt => wt.Worker)
+                .Include(wt => wt.User)
                 .Where(wt => wt.WorkerId == workerId)
                 .OrderByDescending(wt => wt.TransactionDate)
                 .ToListAsync();
@@ -46,6 +48,7 @@ namespace FactoryManagement.Data.Repositories
         {
             return await _context.WageTransactions
                 .Include(wt => wt.Worker)
+                .Include(wt => wt.User)
                 .Where(wt => wt.TransactionType == type)
                 .OrderByDescending(wt => wt.TransactionDate)
                 .ToListAsync();
@@ -55,6 +58,7 @@ namespace FactoryManagement.Data.Repositories
         {
             return await _context.WageTransactions
                 .Include(wt => wt.Worker)
+                .Include(wt => wt.User)
                 .Where(wt => wt.TransactionDate >= startDate && wt.TransactionDate <= endDate)
                 .OrderByDescending(wt => wt.TransactionDate)
                 .ToListAsync();
@@ -64,6 +68,7 @@ namespace FactoryManagement.Data.Repositories
         {
             return await _context.WageTransactions
                 .Include(wt => wt.Worker)
+                .Include(wt => wt.User)
                 .Where(wt => wt.WorkerId == workerId && 
                             wt.TransactionDate >= startDate && 
                             wt.TransactionDate <= endDate)

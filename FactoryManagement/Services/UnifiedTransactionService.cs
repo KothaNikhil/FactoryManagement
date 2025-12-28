@@ -15,6 +15,8 @@ namespace FactoryManagement.Services
         public string TransactionType { get; set; } = string.Empty;
         public string DebitCredit { get; set; } = string.Empty; // "Debit" or "Credit"
         public string Description { get; set; } = string.Empty; // Item name, Party name, or Worker name
+        public string? Item { get; set; } // Item name for display
+        public string? Name { get; set; } // Party or Worker name for display
         public string? ItemName { get; set; }
         public string? PartyName { get; set; }
         public string? WorkerName { get; set; }
@@ -86,6 +88,8 @@ namespace FactoryManagement.Services
                     TransactionType = t.TransactionType.ToString(),
                     DebitCredit = debitCredit,
                     Description = description,
+                    Item = t.Item?.ItemName,
+                    Name = t.Party?.Name,
                     ItemName = t.Item?.ItemName,
                     PartyName = t.Party?.Name,
                     WorkerName = null,
@@ -119,6 +123,8 @@ namespace FactoryManagement.Services
                     TransactionType = t.TransactionType.ToString(),
                     DebitCredit = debitCredit,
                     Description = t.Party?.Name ?? "N/A",
+                    Item = null,
+                    Name = t.Party?.Name,
                     ItemName = null,
                     PartyName = t.Party?.Name,
                     WorkerName = null,
@@ -149,6 +155,8 @@ namespace FactoryManagement.Services
                     TransactionType = t.TransactionType.ToString(),
                     DebitCredit = debitCredit,
                     Description = t.Worker?.Name ?? "N/A",
+                    Item = null,
+                    Name = t.Worker?.Name,
                     ItemName = null,
                     PartyName = null,
                     WorkerName = t.Worker?.Name,

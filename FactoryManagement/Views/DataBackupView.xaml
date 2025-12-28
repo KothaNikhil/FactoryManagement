@@ -166,7 +166,7 @@
                     Style="{StaticResource Section.DataGrid}"
                     Grid.Row="1"
                     ItemsSource="{Binding Backups}"
-                    SelectedItem="{Binding SelectedBackup}">
+                    SelectedItem="{Binding SelectedBackup, Mode=TwoWay}">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Dark.Header}"/>
                     </DataGrid.ColumnHeaderStyle>

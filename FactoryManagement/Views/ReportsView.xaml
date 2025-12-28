@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:behaviors="clr-namespace:FactoryManagement.Behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid>
@@ -55,7 +57,7 @@
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Report Type" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding ReportTypes}"
-                                    SelectedItem="{Binding SelectedReportType}"
+                                    SelectedItem="{Binding SelectedReportType, Mode=TwoWay}"
                                     Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
@@ -63,7 +65,7 @@
                         <StackPanel Grid.Column="2" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Item" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Items}"
-                                    SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedIndex="{Binding SelectedItemIndex, Mode=TwoWay}"
                                     DisplayMemberPath="ItemName"
                                     Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
@@ -71,16 +73,40 @@
                         <StackPanel Grid.Column="4" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Parties}"
-                                    SelectedItem="{Binding SelectedParty, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedIndex="{Binding SelectedPartyIndex, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
                                     Style="{StaticResource ComboBox.Standard}"/>
+                        </StackPanel>
+
+                        <!-- Unified Name Filter (searchable) -->
+                        <StackPanel Grid.Column="4">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsInventoryView}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock Text="Filter by Name" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding AllNames}"
+                                    SelectedIndex="{Binding SelectedNameIndex, Mode=TwoWay}"
+                                    IsEditable="True"
+                                    IsTextSearchEnabled="True"
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
                         </StackPanel>
 
                         <!-- Financial Filters -->
                         <StackPanel Grid.Column="2" Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Parties}"
-                                    SelectedItem="{Binding SelectedParty, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedIndex="{Binding SelectedPartyIndex, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
                                     Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
@@ -89,27 +115,13 @@
                         <StackPanel Grid.Column="2" Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Text="Filter by Worker" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Workers}"
-                                    SelectedItem="{Binding SelectedWorker, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedIndex="{Binding SelectedWorkerIndex, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
                                     Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
 
-                        <!-- Start Date (visible for Inventory, Financial, Wages - not All) -->
-                        <StackPanel Grid.Column="6" Visibility="{Binding IsAllView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="" Height="19" Margin="0,0,0,8"/>
-                        </StackPanel>
-                        
+                        <!-- Start Date -->
                         <StackPanel Grid.Column="6">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsAllView}" Value="True">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
                             <TextBlock Text="Start Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <DatePicker SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource DatePicker.Standard}"/>
@@ -117,16 +129,6 @@
 
                         <!-- End Date -->
                         <StackPanel Grid.Column="8">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsAllView}" Value="True">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
                             <TextBlock Text="End Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <DatePicker SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource DatePicker.Standard}"/>
@@ -136,7 +138,7 @@
                         <StackPanel Grid.Column="10">
                             <TextBlock Text="Entered By" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
                             <ComboBox ItemsSource="{Binding Users}"
-                                    SelectedItem="{Binding SelectedUser, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedIndex="{Binding SelectedUserIndex, Mode=TwoWay}"
                                     DisplayMemberPath="Username"
                                     Style="{StaticResource ComboBox.Standard}"/>
                         </StackPanel>
@@ -152,18 +154,8 @@
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
                             <Button Content="CLEAR FILTERS" 
                                   Command="{Binding ClearFiltersCommand}"
-                                  Margin="0,0,0,0">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource Button.Secondary}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsAllView}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+                                  Style="{StaticResource Button.Secondary}"
+                                  Margin="0,0,0,0"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -236,7 +228,8 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="Item" Binding="{Binding Item}" Width="*"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>

@@ -96,17 +96,39 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<User> _users = new();
 
+        // Unified names collection for searchable filter (contains all parties and workers)
+        [ObservableProperty]
+        private ObservableCollection<string> _allNames = new();
+
         [ObservableProperty]
         private Item? _selectedItem;
+
+        [ObservableProperty]
+        private int _selectedItemIndex = -1;
 
         [ObservableProperty]
         private Party? _selectedParty;
 
         [ObservableProperty]
+        private int _selectedPartyIndex = -1;
+
+        [ObservableProperty]
         private Worker? _selectedWorker;
 
         [ObservableProperty]
+        private int _selectedWorkerIndex = -1;
+
+        [ObservableProperty]
+        private string? _selectedName;
+
+        [ObservableProperty]
+        private int _selectedNameIndex = -1;
+
+        [ObservableProperty]
         private User? _selectedUser;
+
+        [ObservableProperty]
+        private int _selectedUserIndex = -1;
 
         [ObservableProperty]
         private DateTime _startDate = DateTime.Now.AddMonths(-1);
@@ -169,6 +191,37 @@ namespace FactoryManagement.ViewModels
             _userService = userService;
         }
 
+        // Sync SelectedIndex changes to SelectedItem properties
+        partial void OnSelectedItemIndexChanged(int value)
+        {
+            if (value >= 0 && value < Items.Count)
+                SelectedItem = Items[value];
+        }
+
+        partial void OnSelectedPartyIndexChanged(int value)
+        {
+            if (value >= 0 && value < Parties.Count)
+                SelectedParty = Parties[value];
+        }
+
+        partial void OnSelectedWorkerIndexChanged(int value)
+        {
+            if (value >= 0 && value < Workers.Count)
+                SelectedWorker = Workers[value];
+        }
+
+        partial void OnSelectedUserIndexChanged(int value)
+        {
+            if (value >= 0 && value < Users.Count)
+                SelectedUser = Users[value];
+        }
+
+        partial void OnSelectedNameIndexChanged(int value)
+        {
+            if (value >= 0 && value < AllNames.Count)
+                SelectedName = AllNames[value];
+        }
+
         partial void OnSelectedReportTypeChanged(ReportType value)
         {
             // Clear filters when changing report type
@@ -223,20 +276,19 @@ namespace FactoryManagement.ViewModels
             _ = ApplyFiltersAsync();
         }
 
+        partial void OnSelectedNameChanged(string? value)
+        {
+            _ = ApplyFiltersAsync();
+        }
+
         partial void OnStartDateChanged(DateTime value)
         {
-            if (SelectedReportType != ReportType.All)
-            {
-                _ = ApplyFiltersAsync();
-            }
+            _ = ApplyFiltersAsync();
         }
 
         partial void OnEndDateChanged(DateTime value)
         {
-            if (SelectedReportType != ReportType.All)
-            {
-                _ = ApplyFiltersAsync();
-            }
+            _ = ApplyFiltersAsync();
         }
 
         [RelayCommand]
@@ -248,16 +300,19 @@ namespace FactoryManagement.ViewModels
 
                 var items = await _itemService.GetAllItemsAsync();
                 Items.Clear();
+                Items.Add(new Item { ItemId = 0, ItemName = "All Items" });
                 foreach (var item in items)
                     Items.Add(item);
 
                 var parties = await _partyService.GetAllPartiesAsync();
                 Parties.Clear();
+                Parties.Add(new Party { PartyId = 0, Name = "All Parties" });
                 foreach (var party in parties)
                     Parties.Add(party);
 
                 var workers = await _wageService.GetAllWorkersAsync();
                 Workers.Clear();
+                Workers.Add(new Worker { WorkerId = 0, Name = "All Workers" });
                 foreach (var worker in workers)
                     Workers.Add(worker);
 
@@ -267,6 +322,23 @@ namespace FactoryManagement.ViewModels
                 Users.Add(new User { UserId = 0, Username = "All Users" });
                 foreach (var user in users)
                     Users.Add(user);
+
+                // Populate unified names collection
+                AllNames.Clear();
+                AllNames.Add("All Names"); // Default option
+                foreach (var party in parties)
+                    if (!string.IsNullOrEmpty(party.Name))
+                        AllNames.Add(party.Name);
+                foreach (var worker in workers)
+                    if (!string.IsNullOrEmpty(worker.Name))
+                        AllNames.Add(worker.Name);
+
+                // Use SelectedIndex instead of SelectedItem for reliable initial display
+                SelectedItemIndex = 0;
+                SelectedPartyIndex = 0;
+                SelectedWorkerIndex = 0;
+                SelectedUserIndex = 0;
+                SelectedNameIndex = 0;
 
                 await LoadReportDataAsync();
             }
@@ -367,10 +439,19 @@ namespace FactoryManagement.ViewModels
         {
             IEnumerable<UnifiedTransactionViewModel> transactions = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync();
 
+            // Apply date filter
+            transactions = transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate.AddDays(1).AddSeconds(-1));
+
             // Apply user filter (skip if "All Users" is selected)
             if (SelectedUser != null && SelectedUser.UserId != 0)
             {
                 transactions = transactions.Where(t => t.EnteredBy == SelectedUser.Username);
+            }
+
+            // Apply name filter (skip if "All Names" is selected)
+            if (!string.IsNullOrEmpty(SelectedName) && SelectedName != "All Names")
+            {
+                transactions = transactions.Where(t => t.Name == SelectedName);
             }
 
             _allUnifiedTransactions.Clear();
@@ -386,20 +467,20 @@ namespace FactoryManagement.ViewModels
         {
             IEnumerable<Transaction> transactions = await _transactionService.GetAllTransactionsAsync();
 
-            // Apply item filter
-            if (SelectedItem != null)
+            // Apply item filter (skip if "All Items" is selected)
+            if (SelectedItem != null && SelectedItem.ItemId != 0)
             {
                 transactions = transactions.Where(t => t.ItemId == SelectedItem.ItemId);
             }
 
-            // Apply party filter
-            if (SelectedParty != null)
+            // Apply party filter (skip if "All Parties" is selected)
+            if (SelectedParty != null && SelectedParty.PartyId != 0)
             {
                 transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
             }
 
-            // Apply user filter
-            if (SelectedUser != null)
+            // Apply user filter (skip if "All Users" is selected)
+            if (SelectedUser != null && SelectedUser.UserId != 0)
             {
                 transactions = transactions.Where(t => t.EnteredBy == SelectedUser.UserId);
             }
@@ -420,8 +501,8 @@ namespace FactoryManagement.ViewModels
         {
             IEnumerable<FinancialTransaction> transactions = await _financialService.GetAllFinancialTransactionsAsync();
 
-            // Apply party filter
-            if (SelectedParty != null)
+            // Apply party filter (skip if "All Parties" is selected)
+            if (SelectedParty != null && SelectedParty.PartyId != 0)
             {
                 transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
             }
@@ -448,8 +529,8 @@ namespace FactoryManagement.ViewModels
         {
             var transactions = await _wageService.GetTransactionsByDateRangeAsync(StartDate, EndDate);
 
-            // Apply worker filter
-            if (SelectedWorker != null)
+            // Apply worker filter (skip if "All Workers" is selected)
+            if (SelectedWorker != null && SelectedWorker.WorkerId != 0)
             {
                 transactions = transactions.Where(t => t.WorkerId == SelectedWorker.WorkerId);
             }
@@ -473,11 +554,11 @@ namespace FactoryManagement.ViewModels
         {
             var filters = new List<string>();
 
-            if (SelectedItem != null)
+            if (SelectedItem != null && SelectedItem.ItemId != 0)
                 filters.Add($"Item: {SelectedItem.ItemName}");
-            if (SelectedParty != null)
+            if (SelectedParty != null && SelectedParty.PartyId != 0)
                 filters.Add($"Party: {SelectedParty.Name}");
-            if (SelectedWorker != null)
+            if (SelectedWorker != null && SelectedWorker.WorkerId != 0)
                 filters.Add($"Worker: {SelectedWorker.Name}");
             if (StartDate != DateTime.MinValue || EndDate != DateTime.MaxValue)
                 filters.Add($"{StartDate:dd/MM/yyyy} to {EndDate:dd/MM/yyyy}");
@@ -490,9 +571,11 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async Task ClearFiltersAsync()
         {
-            SelectedItem = null;
-            SelectedParty = null;
-            SelectedWorker = null;
+            SelectedItem = Items.Count > 0 ? Items[0] : null;
+            SelectedParty = Parties.Count > 0 ? Parties[0] : null;
+            SelectedWorker = Workers.Count > 0 ? Workers[0] : null;
+            SelectedName = AllNames.Count > 0 ? AllNames[0] : null;
+            SelectedUser = Users.Count > 0 ? Users[0] : null;
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
             

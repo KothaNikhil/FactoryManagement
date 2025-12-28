@@ -173,7 +173,7 @@
                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                                          Margin="0,0,0,8"/>
                                 <ComboBox ItemsSource="{Binding Parties}" 
-                                          SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
+                                          SelectedIndex="{Binding SelectedPartyIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
                                           Style="{StaticResource ComboBox.Standard}">
                                     <i:Interaction.Behaviors>
@@ -408,7 +408,7 @@
 
                                 <ComboBox Grid.Column="2" 
                                           ItemsSource="{Binding PartiesForFilter}" 
-                                          SelectedItem="{Binding FilterParty, Mode=TwoWay}"
+                                          SelectedIndex="{Binding FilterPartyIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
                                           Style="{StaticResource ComboBox.Standard}"
                                           materialDesign:HintAssist.Hint="Filter by Party"

@@ -524,7 +524,7 @@
                                             FontWeight="Medium"
                                             Margin="0,0,8,0"/>
                                 <ComboBox ItemsSource="{Binding ActiveUsers}"
-                                          SelectedItem="{Binding SelectedUser}"
+                                          SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                           DisplayMemberPath="Username"
                                           Width="160"
                                           VerticalAlignment="Center"

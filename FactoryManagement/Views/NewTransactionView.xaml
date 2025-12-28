@@ -63,7 +63,7 @@
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding TransactionTypes}"
-                            SelectedItem="{Binding SelectedTransactionTypeString}"
+                            SelectedIndex="{Binding SelectedTransactionTypeIndex, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}">
                         <i:Interaction.Behaviors>
                             <local:SearchableComboBoxBehavior/>
@@ -79,7 +79,7 @@
                              Margin="0,0,0,8"
                              Foreground="#FFA726"/>
                     <ComboBox ItemsSource="{Binding Items}"
-                            SelectedItem="{Binding InputItem}"
+                            SelectedItem="{Binding InputItem, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -99,7 +99,7 @@
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding Items}"
-                            SelectedItem="{Binding SelectedItem}"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -124,7 +124,7 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox Grid.Column="0"
                             ItemsSource="{Binding Parties}"
-                            SelectedItem="{Binding SelectedParty}"
+                            SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                             Style="{StaticResource ComboBox.Dark}"
                             Margin="0,0,8,0">
                             <ComboBox.ItemTemplate>
@@ -194,7 +194,7 @@
                              Margin="0,0,0,8"
                              Foreground="{StaticResource AccentCyan}"/>
                     <ComboBox ItemsSource="{Binding Items}"
-                            SelectedItem="{Binding SelectedItem}"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

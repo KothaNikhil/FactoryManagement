@@ -46,6 +46,7 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.GotFocus += ComboBox_GotFocus;
             AssociatedObject.DropDownOpened += ComboBox_DropDownOpened;
             AssociatedObject.PreviewMouseDown += ComboBox_PreviewMouseDown;
+            AssociatedObject.SelectionChanged += ComboBox_SelectionChanged;
             // Capture editable TextBox after template loads
             AssociatedObject.Dispatcher.BeginInvoke((Action)(() => EnsureEditableTextBox()), DispatcherPriority.Loaded);
         }
@@ -59,6 +60,8 @@ namespace FactoryManagement.Behaviors
             AssociatedObject.GotFocus -= ComboBox_GotFocus;
             AssociatedObject.DropDownOpened -= ComboBox_DropDownOpened;
             AssociatedObject.PreviewMouseDown -= ComboBox_PreviewMouseDown;
+            AssociatedObject.SelectionChanged -= ComboBox_SelectionChanged;
+            AssociatedObject.PreviewMouseDown -= ComboBox_PreviewMouseDown;
         }
 
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
@@ -69,13 +72,33 @@ namespace FactoryManagement.Behaviors
                 _originalItemsSource = AssociatedObject.ItemsSource;
                 _filteredItems = new ObservableCollection<object>();
                 _searchText = string.Empty;
-                AssociatedObject.Text = string.Empty;
+                
+                // Don't clear text if there's a selected item - preserve its display
+                if (AssociatedObject.SelectedItem == null)
+                {
+                    AssociatedObject.Text = string.Empty;
+                }
+                else
+                {
+                    // Set text to display the selected item
+                    AssociatedObject.Text = GetDisplayText(AssociatedObject.SelectedItem);
+                }
+                
                 EnsureEditableTextBox();
-                if (_editableTextBox != null)
+                if (_editableTextBox != null && AssociatedObject.SelectedItem == null)
                 {
                     _editableTextBox.CaretIndex = 0;
                     _editableTextBox.Select(0, 0);
                 }
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // When selection changes programmatically, update the text to show selected item
+            if (AssociatedObject.SelectedItem != null && string.IsNullOrEmpty(_searchText))
+            {
+                AssociatedObject.Text = GetDisplayText(AssociatedObject.SelectedItem);
             }
         }
 
