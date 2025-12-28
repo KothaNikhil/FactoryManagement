@@ -221,6 +221,21 @@
                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
+                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
+                                                <Setter Property="Foreground" Value="#D32F2F"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
+                                                <Setter Property="Foreground" Value="#388E3C"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
@@ -242,6 +257,21 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
+                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
+                                                <Setter Property="Foreground" Value="#D32F2F"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
+                                                <Setter Property="Foreground" Value="#388E3C"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
@@ -266,6 +296,21 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
+                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
+                                                <Setter Property="Foreground" Value="#D32F2F"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
+                                                <Setter Property="Foreground" Value="#388E3C"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
@@ -290,6 +335,21 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
+                            <DataGridTextColumn Header="Dr/Cr" Binding="{Binding DebitCredit}" Width="70">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Debit">
+                                                <Setter Property="Foreground" Value="#D32F2F"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DebitCredit}" Value="Credit">
+                                                <Setter Property="Foreground" Value="#388E3C"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding NetAmount, StringFormat='₹{0:N2}'}" Width="130">

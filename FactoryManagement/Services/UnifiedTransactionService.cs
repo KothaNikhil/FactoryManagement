@@ -13,6 +13,7 @@ namespace FactoryManagement.Services
         public string TransactionId { get; set; } = string.Empty;
         public DateTime TransactionDate { get; set; }
         public string TransactionType { get; set; } = string.Empty;
+        public string DebitCredit { get; set; } = string.Empty; // "Debit" or "Credit"
         public string Description { get; set; } = string.Empty; // Item name, Party name, or Worker name
         public string? ItemName { get; set; }
         public string? PartyName { get; set; }
@@ -74,12 +75,16 @@ namespace FactoryManagement.Services
                     ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2} (Conv: {(t.ConversionRate ?? 0) * 100:N1}%)"
                     : (t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null);
 
+                // Buy/Processing = Debit (money out), Sell = Credit (money in), Wastage = Debit
+                var debitCredit = t.TransactionType == TransactionType.Sell ? "Credit" : "Debit";
+
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {
                     Category = "Inventory",
                     TransactionId = t.TransactionId.ToString(),
                     TransactionDate = t.TransactionDate,
                     TransactionType = t.TransactionType.ToString(),
+                    DebitCredit = debitCredit,
                     Description = description,
                     ItemName = t.Item?.ItemName,
                     PartyName = t.Party?.Name,
@@ -99,12 +104,20 @@ namespace FactoryManagement.Services
             // Add financial transactions
             foreach (var t in financialTransactions)
             {
+                // LoanGiven/LoanPayment/InterestPaid = Debit (money out)
+                // LoanTaken/LoanRepayment/InterestReceived = Credit (money in)
+                var debitCredit = t.TransactionType == FinancialTransactionType.LoanGiven ||
+                                 t.TransactionType == FinancialTransactionType.LoanPayment ||
+                                 t.TransactionType == FinancialTransactionType.InterestPaid
+                                 ? "Debit" : "Credit";
+
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {
                     Category = "Financial",
                     TransactionId = t.FinancialTransactionId.ToString(),
                     TransactionDate = t.TransactionDate,
                     TransactionType = t.TransactionType.ToString(),
+                    DebitCredit = debitCredit,
                     Description = t.Party?.Name ?? "N/A",
                     ItemName = null,
                     PartyName = t.Party?.Name,
@@ -121,12 +134,20 @@ namespace FactoryManagement.Services
             // Add wage transactions
             foreach (var t in wageTransactions)
             {
+                // AdvanceGiven = Debit (money out to worker)
+                // AdvanceAdjustment/Deduction = Credit (money recovered/deducted)
+                // All other wage types (DailyWage, HourlyWage, MonthlyWage, OvertimePay, Bonus) = Debit (money paid)
+                var debitCredit = t.TransactionType == WageTransactionType.AdvanceAdjustment ||
+                                 t.TransactionType == WageTransactionType.Deduction
+                                 ? "Credit" : "Debit";
+
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {
                     Category = "Wages",
                     TransactionId = t.WageTransactionId.ToString(),
                     TransactionDate = t.TransactionDate,
                     TransactionType = t.TransactionType.ToString(),
+                    DebitCredit = debitCredit,
                     Description = t.Worker?.Name ?? "N/A",
                     ItemName = null,
                     PartyName = null,

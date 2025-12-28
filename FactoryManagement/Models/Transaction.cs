@@ -64,5 +64,9 @@ namespace FactoryManagement.Models
         public decimal? InputQuantity { get; set; }
 
         public decimal? ConversionRate { get; set; }
+
+        // Computed property for Debit/Credit indicator
+        [NotMapped]
+        public string DebitCredit => TransactionType == TransactionType.Sell ? "Credit" : "Debit";
     }
 }

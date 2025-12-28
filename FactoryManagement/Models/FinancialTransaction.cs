@@ -70,5 +70,12 @@ namespace FactoryManagement.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? ModifiedDate { get; set; }
+
+        // Computed property for Debit/Credit indicator
+        [NotMapped]
+        public string DebitCredit => TransactionType == FinancialTransactionType.LoanGiven ||
+                                     TransactionType == FinancialTransactionType.LoanPayment ||
+                                     TransactionType == FinancialTransactionType.InterestPaid
+                                     ? "Debit" : "Credit";
     }
 }
