@@ -395,6 +395,8 @@
       <Trigger Property="IsSelected" Value="True">
         <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
         <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderThickness" Value="2"/>
       </Trigger>
       <MultiTrigger>
         <MultiTrigger.Conditions>

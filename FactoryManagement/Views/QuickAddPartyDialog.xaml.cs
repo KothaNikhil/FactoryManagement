@@ -2,6 +2,7 @@ using FactoryManagement.Models;
 using FactoryManagement.Services;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FactoryManagement.Views
 {
@@ -15,6 +16,16 @@ namespace FactoryManagement.Views
             InitializeComponent();
             _partyService = partyService;
             PartyNameTextBox.Focus();
+            this.PreviewKeyDown += QuickAddPartyDialog_PreviewKeyDown;
+        }
+
+        private void QuickAddPartyDialog_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                CancelButton_Click(null!, null!);
+                e.Handled = true;
+            }
         }
 
         private async void AddPartyButton_Click(object sender, RoutedEventArgs e)

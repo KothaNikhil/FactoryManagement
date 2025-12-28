@@ -65,7 +65,8 @@
                              Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding TransactionTypes}"
                             SelectedItem="{Binding SelectedTransactionTypeString, Mode=TwoWay}"
-                        Style="{StaticResource ComboBox.Dark}">
+                        Style="{StaticResource ComboBox.Dark}"
+                        TabIndex="0">
                         <i:Interaction.Behaviors>
                             <local:SearchableComboBoxBehavior/>
                         </i:Interaction.Behaviors>
@@ -81,7 +82,8 @@
                              Foreground="#FFA726"/>
                     <ComboBox ItemsSource="{Binding Items}"
                             SelectedItem="{Binding InputItem, Mode=TwoWay}"
-                        Style="{StaticResource ComboBox.Dark}">
+                        Style="{StaticResource ComboBox.Dark}"
+                        TabIndex="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
@@ -101,7 +103,8 @@
                              Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding Items}"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        Style="{StaticResource ComboBox.Dark}">
+                        Style="{StaticResource ComboBox.Dark}"
+                        TabIndex="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
@@ -127,7 +130,8 @@
                             ItemsSource="{Binding Parties}"
                             SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                             Style="{StaticResource ComboBox.Dark}"
-                            Margin="0,0,8,0">
+                            Margin="0,0,8,0"
+                            TabIndex="3">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}"/>
@@ -143,7 +147,8 @@
                             Click="QuickAddPartyButton_Click"
                             Padding="12,0"
                             Height="40"
-                            MinWidth="90">
+                            MinWidth="90"
+                            TabIndex="4">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,4,0"/>
                                 <TextBlock Text="New" VerticalAlignment="Center"/>
@@ -165,13 +170,15 @@
                             <ColumnDefinition Width="110"/>
                         </Grid.ColumnDefinitions>
                         <DatePicker Grid.Column="0" SelectedDate="{Binding TransactionDate}"
-                                  Style="{StaticResource DatePicker.Dark}"/>
+                                  Style="{StaticResource DatePicker.Dark}"
+                                  TabIndex="5"/>
                         <materialDesign:TimePicker Grid.Column="2" 
                                                  SelectedTime="{Binding TransactionTime}"
                                                  Is24Hours="True"
                                                  WithSeconds="False"
                                                  Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
-                                                 materialDesign:HintAssist.Hint="Time"/>
+                                                 materialDesign:HintAssist.Hint="Time"
+                                                 TabIndex="6"/>
                     </Grid>
                 </StackPanel>
 
@@ -185,7 +192,8 @@
                              Foreground="#FFA726"/>
                     <TextBox Text="{Binding InputQuantity, UpdateSourceTrigger=PropertyChanged}"
                            Style="{StaticResource TextBox.Dark}"
-                           GotFocus="NumericTextBox_GotFocus"/>
+                           GotFocus="NumericTextBox_GotFocus"
+                           TabIndex="7"/>
                 </StackPanel>
 
                 <!-- Output Item (visible only for Processing) -->
@@ -197,7 +205,8 @@
                              Foreground="{StaticResource AccentCyan}"/>
                     <ComboBox ItemsSource="{Binding Items}"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        Style="{StaticResource ComboBox.Dark}">
+                        Style="{StaticResource ComboBox.Dark}"
+                        TabIndex="8">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
@@ -217,7 +226,8 @@
                              Margin="0,0,0,8"/>
                     <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                            Style="{StaticResource TextBox.Dark}"
-                           GotFocus="NumericTextBox_GotFocus"/>
+                           GotFocus="NumericTextBox_GotFocus"
+                           TabIndex="7"/>
                 </StackPanel>
 
                 <!-- Output Quantity (visible only for Processing) -->
@@ -230,7 +240,8 @@
                     <Grid>
                         <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                Style="{StaticResource TextBox.Dark}"
-                               GotFocus="NumericTextBox_GotFocus"/>
+                               GotFocus="NumericTextBox_GotFocus"
+                               TabIndex="9"/>
                         <TextBlock Text="{Binding ConversionRate, StringFormat='({0:N1}%)'}"
                                  HorizontalAlignment="Right"
                                  VerticalAlignment="Center"
@@ -249,7 +260,8 @@
                              Margin="0,0,0,8"/>
                     <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
                            Style="{StaticResource TextBox.Dark}"
-                           GotFocus="NumericTextBox_GotFocus"/>
+                           GotFocus="NumericTextBox_GotFocus"
+                           TabIndex="8"/>
                 </StackPanel>
 
                 <!-- Processing Fee (visible only for Processing) -->
@@ -260,7 +272,8 @@
                              Margin="0,0,0,8"/>
                     <TextBox Text="{Binding PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
                            Style="{StaticResource TextBox.Dark}"
-                           GotFocus="NumericTextBox_GotFocus"/>
+                           GotFocus="NumericTextBox_GotFocus"
+                           TabIndex="10"/>
                 </StackPanel>
 
                 <!-- Total Amount (Read-only) -->
@@ -306,7 +319,8 @@
                          Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding PaymentModes}"
                           SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
-                          Style="{StaticResource ComboBox.Dark}"/>
+                          Style="{StaticResource ComboBox.Dark}"
+                          TabIndex="9"/>
                 </StackPanel>
 
                 <!-- Total Processing Fee (Read-only, visible only for Processing) -->
@@ -354,7 +368,8 @@
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
                          MinLines="1"
-                         MaxLines="2"/>
+                         MaxLines="2"
+                         TabIndex="11"/>
                     <!-- Error/Success Message -->
                     <TextBlock Text="{Binding ErrorMessage}"
                              Foreground="#EF5350"
@@ -373,13 +388,15 @@
                             Margin="0,0,8,0"
                             Height="40"
                             Padding="20,0"
-                            ToolTip="Clear all fields and start a new transaction"/>
+                            ToolTip="Clear all fields and start a new transaction"
+                            TabIndex="12"/>
                         <Button Content="{Binding SaveButtonText}"
                             Command="{Binding SaveTransactionCommand}"
                             Style="{StaticResource Button.Primary}"
                             Height="40"
                             Padding="20,0"
-                            ToolTip="Save this transaction"/>
+                            ToolTip="Save this transaction"
+                            TabIndex="13"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

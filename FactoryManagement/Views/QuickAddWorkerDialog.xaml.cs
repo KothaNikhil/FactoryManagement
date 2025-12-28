@@ -2,6 +2,7 @@ using FactoryManagement.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FactoryManagement.Views
 {
@@ -13,6 +14,7 @@ namespace FactoryManagement.Views
         public QuickAddWorkerDialog()
         {
             InitializeComponent();
+            this.PreviewKeyDown += QuickAddWorkerDialog_PreviewKeyDown;
         }
 
         public QuickAddWorkerDialog(Worker worker)
@@ -20,6 +22,17 @@ namespace FactoryManagement.Views
             InitializeComponent();
             _existingWorker = worker;
             LoadWorkerData(worker);
+            this.PreviewKeyDown += QuickAddWorkerDialog_PreviewKeyDown;
+        }
+
+        private void QuickAddWorkerDialog_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.DialogResult = false;
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         private void LoadWorkerData(Worker worker)

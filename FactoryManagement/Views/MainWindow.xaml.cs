@@ -142,10 +142,42 @@ namespace FactoryManagement.Views
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Handle Ctrl+Number keyboard shortcuts
+            // Handle Ctrl+Number keyboard shortcuts for navigation
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 string? tag = null;
+                
+                // Handle Ctrl+S to save (relay to current view if it supports save)
+                if (e.Key == Key.S)
+                {
+                    // Try to find and trigger save command on current DataContext (MainWindow's DataContext)
+                    if (this.DataContext is ViewModels.ViewModelBase viewModel)
+                    {
+                        // Most ViewModels have a SaveCommand or SaveTransactionCommand
+                        var saveProp = viewModel.GetType().GetProperty("SaveCommand") 
+                            ?? viewModel.GetType().GetProperty("SaveTransactionCommand");
+                        
+                        if (saveProp != null)
+                        {
+                            var saveCommand = saveProp.GetValue(viewModel);
+                            if (saveCommand is System.Windows.Input.ICommand command && command.CanExecute(null))
+                            {
+                                command.Execute(null);
+                                e.Handled = true;
+                                return;
+                            }
+                        }
+                    }
+                }
+                
+                // Handle Ctrl+N for New
+                if (e.Key == Key.N)
+                {
+                    // This would navigate to a form or clear current form
+                    // For now, this is handled by individual views
+                    e.Handled = false;
+                    return;
+                }
                 
                 switch (e.Key)
                 {
