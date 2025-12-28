@@ -74,11 +74,11 @@ namespace FactoryManagement.Services
                     : $"{t.Item?.ItemName ?? "N/A"} - {t.Party?.Name ?? "N/A"}";
                 
                 var additionalInfo = t.TransactionType == TransactionType.Processing
-                    ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2} (Conv: {(t.ConversionRate ?? 0) * 100:N1}%)"
+                    ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2}"
                     : (t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null);
 
-                // Buy/Processing = Debit (money out), Sell = Credit (money in), Wastage = Debit
-                var debitCredit = t.TransactionType == TransactionType.Sell ? "Credit" : "Debit";
+                // Buy/Wastage = Debit (money out), Sell/Processing = Credit (money in)
+                var debitCredit = (t.TransactionType == TransactionType.Sell || t.TransactionType == TransactionType.Processing) ? "Credit" : "Debit";
 
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {
@@ -101,7 +101,7 @@ namespace FactoryManagement.Services
                     EnteredBy = t.User?.Username,
                     InputItemName = t.InputItem?.ItemName,
                     InputQuantity = t.InputQuantity,
-                    ConversionRate = t.ConversionRate
+                    ConversionRate = null
                 });
             }
             

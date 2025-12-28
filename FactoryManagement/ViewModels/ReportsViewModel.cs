@@ -140,6 +140,9 @@ namespace FactoryManagement.ViewModels
         private decimal _totalCredit;
 
         [ObservableProperty]
+        private decimal _totalDifference;
+
+        [ObservableProperty]
         private decimal _totalInventoryAmount;
 
         [ObservableProperty]
@@ -983,6 +986,7 @@ namespace FactoryManagement.ViewModels
 
             TotalDebit = debit;
             TotalCredit = credit;
+            TotalDifference = credit - debit;
 
             TransactionCount = SelectedReportType switch
             {

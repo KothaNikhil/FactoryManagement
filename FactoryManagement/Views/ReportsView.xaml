@@ -454,6 +454,12 @@
                                         <TextBlock Text="{Binding TotalCredit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
+                                <Border Background="{Binding TotalDifference, Converter={StaticResource AmountToBrushConverter}}" CornerRadius="4" Padding="10,6" Margin="8,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Difference: " Foreground="White" FontSize="13"/>
+                                        <TextBlock Text="{Binding TotalDifference, StringFormat=₹{0:N2}}" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
 
                             <!-- Page Navigation -->

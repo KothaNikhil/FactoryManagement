@@ -71,6 +71,6 @@ namespace FactoryManagement.Models
 
         // Computed property for Debit/Credit indicator
         [NotMapped]
-        public string DebitCredit => TransactionType == TransactionType.Sell ? "Credit" : "Debit";
+        public string DebitCredit => (TransactionType == TransactionType.Sell || TransactionType == TransactionType.Processing) ? "Credit" : "Debit";
     }
 }

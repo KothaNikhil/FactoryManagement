@@ -127,7 +127,6 @@ namespace FactoryManagement.ViewModels
         partial void OnQuantityChanged(decimal value)
         {
             CalculateTotal();
-            CalculateConversionRate();
         }
 
         partial void OnPricePerUnitChanged(decimal value)
@@ -137,7 +136,7 @@ namespace FactoryManagement.ViewModels
 
         partial void OnInputQuantityChanged(decimal value)
         {
-            CalculateConversionRate();
+            // No conversion tracking
         }
 
         partial void OnSelectedTransactionTypeStringChanged(string value)
@@ -152,13 +151,7 @@ namespace FactoryManagement.ViewModels
         public string ItemLabelText => IsProcessingMode ? "Output Item (Processed):" : "Item:";
         public string QuantityLabelText => IsProcessingMode ? "Output Quantity:" : "Quantity:";
 
-        private void CalculateConversionRate()
-        {
-            if (IsProcessingMode && InputQuantity > 0 && Quantity > 0)
-            {
-                ConversionRate = (Quantity / InputQuantity) * 100;
-            }
-        }
+        // Conversion percentage no longer tracked
 
         private void CalculateTotal()
         {
@@ -285,7 +278,7 @@ namespace FactoryManagement.ViewModels
                     {
                         transaction.InputItemId = InputItem?.ItemId;
                         transaction.InputQuantity = InputQuantity;
-                        transaction.ConversionRate = ConversionRate / 100; // Store as decimal (0.70 instead of 70%)
+                        transaction.ConversionRate = null;
                     }
 
                     await _transactionService.AddTransactionAsync(transaction);
@@ -368,7 +361,6 @@ namespace FactoryManagement.ViewModels
                         ? Items.FirstOrDefault(i => i.ItemId == transaction.InputItemId.Value) 
                         : null;
                     InputQuantity = transaction.InputQuantity ?? 0;
-                    ConversionRate = (transaction.ConversionRate ?? 0) * 100; // Display as percentage
                 }
 
                 OnPropertyChanged(nameof(SaveButtonText));
@@ -443,7 +435,7 @@ namespace FactoryManagement.ViewModels
                     Notes = _lastDeletedTransaction.Notes,
                     InputItemId = _lastDeletedTransaction.InputItemId,
                     InputQuantity = _lastDeletedTransaction.InputQuantity,
-                    ConversionRate = _lastDeletedTransaction.ConversionRate
+                    ConversionRate = null
                 };
                 await _transactionService.AddTransactionAsync(restore);
                 _lastDeletedTransaction = null;
