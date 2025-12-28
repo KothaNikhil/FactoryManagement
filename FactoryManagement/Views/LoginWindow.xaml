@@ -126,7 +126,19 @@
                         FontSize="14"
                         FontWeight="SemiBold"
                         BorderBrush="#666"
-                        Foreground="#999"/>
+                        Foreground="#999">
+                    <Button.FocusVisualStyle>
+                        <Style>
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="#00f2fe" BorderThickness="2" CornerRadius="4"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.FocusVisualStyle>
+                </Button>
 
                 <Button Grid.Column="2"
                         Content="LOGIN"
@@ -136,7 +148,19 @@
                         BorderBrush="{StaticResource Accent.Primary}"
                         Height="44"
                         FontSize="14"
-                        FontWeight="SemiBold"/>
+                        FontWeight="SemiBold">
+                    <Button.FocusVisualStyle>
+                        <Style>
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="#FFFFFF" BorderThickness="2" CornerRadius="4"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.FocusVisualStyle>
+                </Button>
             </Grid>
 
             <!-- Loading Overlay -->

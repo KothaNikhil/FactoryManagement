@@ -256,12 +256,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="ViewDashboard" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Dashboard" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+1" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -279,12 +292,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="CartPlus" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="New Transaction" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+2" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -302,12 +328,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="AccountCash" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Payroll Management" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+3" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -325,12 +364,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="CashMultiple" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Financial Records" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+4" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -348,12 +400,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="ChartBar" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Reports" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+5" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -373,12 +438,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="Package" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Inventory" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+6" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="60">
@@ -396,12 +474,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="AccountGroup" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Contacts" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+7" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
@@ -421,12 +512,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="AccountMultiple" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="User Management" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+8" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
@@ -446,12 +550,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="BackupRestore" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Data Backup" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+9" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
@@ -471,12 +588,25 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:PackIcon Grid.Column="0" Kind="ExitToApp" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
                             <TextBlock Grid.Column="1" Text="Exit" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+0" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">

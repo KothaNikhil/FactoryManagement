@@ -17,6 +17,7 @@ namespace FactoryManagement.Views
             Loaded += async (s, e) => await viewModel.InitializeAsync();
             StateChanged += MainWindow_StateChanged;
             Closing += MainWindow_Closing;
+            PreviewKeyDown += MainWindow_PreviewKeyDown;
             // Set initial icon state
             UpdateMaximizeRestoreIcon();
         }
@@ -138,5 +139,61 @@ namespace FactoryManagement.Views
                 }
             }
         }
-    }
+
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Handle Ctrl+Number keyboard shortcuts
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                string? tag = null;
+                
+                switch (e.Key)
+                {
+                    case Key.D1:
+                        tag = "Dashboard";
+                        break;
+                    case Key.D2:
+                        tag = "TransactionEntry";
+                        break;
+                    case Key.D3:
+                        tag = "Wages";
+                        break;
+                    case Key.D4:
+                        tag = "FinancialTransactions";
+                        break;
+                    case Key.D5:
+                        tag = "Reports";
+                        break;
+                    case Key.D6:
+                        tag = "Items";
+                        break;
+                    case Key.D7:
+                        tag = "Parties";
+                        break;
+                    case Key.D8:
+                        tag = "Users";
+                        break;
+                    case Key.D9:
+                        tag = "Backup";
+                        break;
+                    case Key.D0:
+                        tag = "Exit";
+                        break;
+                }
+                
+                if (tag != null)
+                {
+                    // Find and select the menu item by tag
+                    foreach (var item in MenuListBox.Items)
+                    {
+                        if (item is ListBoxItem listBoxItem && listBoxItem.Tag?.ToString() == tag)
+                        {
+                            MenuListBox.SelectedItem = listBoxItem;
+                            e.Handled = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }    }
 }

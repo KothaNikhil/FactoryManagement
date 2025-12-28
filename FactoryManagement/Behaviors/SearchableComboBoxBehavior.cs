@@ -168,8 +168,14 @@ namespace FactoryManagement.Behaviors
             // Handle Enter or Tab to confirm selection and close dropdown
             else if (e.Key == Key.Return || e.Key == Key.Tab)
             {
+                // Set the text to the selected item before clearing search
+                if (AssociatedObject.SelectedItem != null)
+                {
+                    var displayText = GetDisplayText(AssociatedObject.SelectedItem);
+                    AssociatedObject.Text = displayText;
+                }
+                
                 _searchText = string.Empty;
-                AssociatedObject.Text = string.Empty;
                 SetCaretToEnd();
                 RestoreOriginalItems();
                 AssociatedObject.IsDropDownOpen = false;

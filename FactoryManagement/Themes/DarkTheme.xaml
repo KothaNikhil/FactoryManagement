@@ -159,7 +159,8 @@
         <ControlTemplate TargetType="Button">
           <Border Background="{TemplateBinding Background}" 
                   CornerRadius="6" 
-                  BorderThickness="0"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
                   Padding="{TemplateBinding Padding}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
@@ -169,6 +170,10 @@
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="{StaticResource Button.Create.Hover}"/>
+      </Trigger>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
       </Trigger>
     </Style.Triggers>
   </Style>
@@ -187,7 +192,8 @@
         <ControlTemplate TargetType="Button">
           <Border Background="{TemplateBinding Background}" 
                   CornerRadius="6" 
-                  BorderThickness="0"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
                   Padding="{TemplateBinding Padding}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
@@ -198,6 +204,10 @@
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="{StaticResource Button.Save.Hover}"/>
       </Trigger>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
+      </Trigger>
     </Style.Triggers>
   </Style>
   
@@ -207,6 +217,16 @@
     <Setter Property="Height" Value="38"/>
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
+    <Style.Triggers>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Foreground" Value="#00f2fe"/>
+      </Trigger>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+      </Trigger>
+    </Style.Triggers>
   </Style>
   
   <Style x:Key="Button.Danger" TargetType="Button">
@@ -223,7 +243,8 @@
         <ControlTemplate TargetType="Button">
           <Border Background="{TemplateBinding Background}" 
                   CornerRadius="6" 
-                  BorderThickness="0"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
                   Padding="{TemplateBinding Padding}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
@@ -233,6 +254,10 @@
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="#9a3a37"/>
+      </Trigger>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
       </Trigger>
     </Style.Triggers>
   </Style>
@@ -462,6 +487,10 @@
       </Trigger>
       <Trigger Property="IsPressed" Value="True">
         <Setter Property="Background" Value="#30FFFFFF"/>
+      </Trigger>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#00f2fe"/>
       </Trigger>
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Opacity" Value="0.5"/>
