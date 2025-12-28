@@ -251,6 +251,7 @@
                             <DataGridTextColumn Header="Item" Binding="{Binding Item}" Width="*"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -289,6 +290,7 @@
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                             <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
@@ -328,6 +330,7 @@
                             <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
                             <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
@@ -364,6 +367,7 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding NetAmount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>

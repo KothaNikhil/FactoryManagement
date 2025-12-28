@@ -37,6 +37,7 @@ namespace FactoryManagement.ViewModels
         private string _notes;
         private decimal _paymentAmount;
         private string _paymentNotes;
+        private string _selectedPaymentModeString = "Cash";
         private decimal _totalLoansGiven;
         private decimal _totalLoansTaken;
         private decimal _totalInterestReceivable;
@@ -251,6 +252,20 @@ namespace FactoryManagement.ViewModels
             }
         }
 
+        public ObservableCollection<string> PaymentModes { get; } = new ObservableCollection<string> { "Cash", "Bank" };
+
+        public string SelectedPaymentModeString
+        {
+            get => _selectedPaymentModeString;
+            set
+            {
+                _selectedPaymentModeString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public PaymentMode SelectedPaymentMode => Enum.Parse<PaymentMode>(SelectedPaymentModeString);
+
         public string PaymentNotes
         {
             get => _paymentNotes;
@@ -433,7 +448,7 @@ namespace FactoryManagement.ViewModels
                     CreatedBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1
                 };
 
-                await _financialTransactionService.CreateLoanAsync(loan);
+                await _financialTransactionService.CreateLoanAsync(loan, SelectedPaymentMode);
                 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -448,6 +463,7 @@ namespace FactoryManagement.ViewModels
                 StartTime = DateTime.Now;
                 DueDate = null;
                 Notes = string.Empty;
+                SelectedPaymentModeString = "Cash";
 
                 await LoadDataAsync();
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
@@ -474,6 +490,7 @@ namespace FactoryManagement.ViewModels
                 await _financialTransactionService.RecordPaymentAsync(
                     SelectedLoan!.LoanAccountId,
                     PaymentAmount,
+                    SelectedPaymentMode,
                     MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                     PaymentNotes
                 );

@@ -87,6 +87,14 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private string _notes = string.Empty;
 
+        // Payment mode selection
+        public ObservableCollection<string> PaymentModes { get; } = new() { "Cash", "Bank" };
+
+        [ObservableProperty]
+        private string _selectedPaymentModeString = "Cash";
+
+        public PaymentMode SelectedPaymentMode => Enum.Parse<PaymentMode>(SelectedPaymentModeString);
+
         // Summary Properties
         [ObservableProperty]
         private decimal _totalWagesPaid;
@@ -251,6 +259,7 @@ namespace FactoryManagement.ViewModels
                     TransactionDate = DateTime.Now,
                     Amount = Amount,
                     NetAmount = Amount,
+                    PaymentMode = SelectedPaymentMode,
                     EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                     Notes = Notes
                 };
@@ -267,6 +276,7 @@ namespace FactoryManagement.ViewModels
                 // Clear form
                 Amount = 0;
                 Notes = string.Empty;
+                SelectedPaymentModeString = "Cash";
                 ErrorMessage = string.Empty;
             }
             catch (Exception ex)

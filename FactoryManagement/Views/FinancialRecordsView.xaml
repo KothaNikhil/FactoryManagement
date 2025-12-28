@@ -156,9 +156,11 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Row 1: Party, Type, Amount, Rate -->
+                        <!-- Row 1: Party, Type, Amount, Rate, Payment Mode -->
                         <Grid Grid.Row="1" Margin="0,0,0,16">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="*"/>
@@ -207,6 +209,15 @@
                                 <TextBox Text="{Binding InterestRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          GotFocus="NumericTextBox_GotFocus"
                                          Style="{StaticResource TextBox.Standard}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="8">
+                                <TextBlock Text="Payment Mode" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
+                                <ComboBox ItemsSource="{Binding PaymentModes}"
+                                          SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
+                                          Style="{StaticResource ComboBox.Standard}"/>
                             </StackPanel>
                         </Grid>
 
@@ -318,6 +329,13 @@
 
                         <!-- Payment Amount -->
                         <StackPanel Grid.Row="2" Margin="0,0,0,16">
+                            <TextBlock Text="Payment Mode *" 
+                                     Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                     Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding PaymentModes}"
+                                      SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
+                                      Style="{StaticResource ComboBox.Standard}"
+                                      Margin="0,0,0,10"/>
                             <TextBlock Text="Payment Amount (₹)" 
                                      Style="{StaticResource MaterialDesignBody2TextBlock}"
                                      Margin="0,0,0,8"/>
@@ -565,6 +583,7 @@
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N0}}" Width="90"/>
                                 <DataGridTextColumn Header="Interest" Binding="{Binding InterestAmount, StringFormat=₹{0:N0}}" Width="80"/>
+                                <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
                                 <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             </DataGrid.Columns>
                         </DataGrid>

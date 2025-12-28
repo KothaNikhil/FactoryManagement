@@ -49,6 +49,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -149,6 +150,7 @@
                             </StackPanel>
                         </Button>
                     </Grid>
+
                 </StackPanel>
 
                 <!-- Transaction Date & Time -->
@@ -296,6 +298,17 @@
                     </Border>
                 </StackPanel>
 
+                <!-- Payment Mode (same row as Total Amount) -->
+                <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,16"
+                        Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <TextBlock Text="Payment Mode *" 
+                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                         Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding PaymentModes}"
+                          SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
+                          Style="{StaticResource ComboBox.Dark}"/>
+                </StackPanel>
+
                 <!-- Total Processing Fee (Read-only, visible only for Processing) -->
                 <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -332,7 +345,7 @@
                 </StackPanel>
 
                 <!-- Notes -->
-                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,0">
+                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,16">
                     <TextBlock Text="Notes" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -352,7 +365,7 @@
                 </StackPanel>
 
                 <!-- Action Buttons -->
-                <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0,16,0,0">
+                <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,8,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="CLEAR"
                             Command="{Binding ClearFormCommand}"
@@ -452,6 +465,7 @@
                         <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                         <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
+                        <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="90"/>
                         <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                     </DataGrid.Columns>
                     </DataGrid>

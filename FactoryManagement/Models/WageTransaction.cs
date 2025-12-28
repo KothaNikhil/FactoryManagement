@@ -67,6 +67,10 @@ namespace FactoryManagement.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal NetAmount { get; set; }
+
+        // Cash/Bank mode for payment
+        [Required]
+        public PaymentMode PaymentMode { get; set; } = PaymentMode.Cash;
         [Required]
         public int EnteredBy { get; set; }
 

@@ -41,6 +41,10 @@ namespace FactoryManagement.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
+        // Cash/Bank mode for payment
+        [Required]
+        public PaymentMode PaymentMode { get; set; } = PaymentMode.Cash;
+
         [Column(TypeName = "decimal(5,2)")]
         public decimal? InterestRate { get; set; }
 

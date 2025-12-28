@@ -96,6 +96,21 @@ namespace FactoryManagement.ViewModels
             "Buy", "Sell", "Wastage", "Processing"
         };
 
+        // Payment mode options
+        public ObservableCollection<string> PaymentModes { get; } = new()
+        {
+            "Cash", "Bank"
+        };
+
+        [ObservableProperty]
+        private string _selectedPaymentModeString = "Cash";
+
+        public PaymentMode SelectedPaymentMode
+        {
+            get => Enum.Parse<PaymentMode>(SelectedPaymentModeString);
+            set => SelectedPaymentModeString = value.ToString();
+        }
+
         public string SaveButtonText => IsEditMode ? "UPDATE TRANSACTION" : "SAVE TRANSACTION";
         public string FormTitle => IsEditMode ? "Edit Transaction" : "New Transaction";
 
@@ -216,6 +231,7 @@ namespace FactoryManagement.ViewModels
                     transaction.Quantity = Quantity;
                     transaction.PricePerUnit = PricePerUnit;
                     transaction.TotalAmount = TotalAmount;
+                    transaction.PaymentMode = SelectedPaymentMode;
                     transaction.TransactionDate = CombineDateAndTime(TransactionDate, TransactionTime);
                     transaction.EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1;
                     transaction.Notes = Notes;
@@ -258,6 +274,7 @@ namespace FactoryManagement.ViewModels
                         Quantity = Quantity,
                         PricePerUnit = PricePerUnit,
                         TotalAmount = TotalAmount,
+                        PaymentMode = SelectedPaymentMode,
                         TransactionDate = CombineDateAndTime(TransactionDate, TransactionTime),
                         EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                         Notes = Notes
@@ -315,6 +332,7 @@ namespace FactoryManagement.ViewModels
             InputItem = null;
             InputQuantity = 0;
             ConversionRate = 0;
+            SelectedPaymentModeString = "Cash";
             
             OnPropertyChanged(nameof(SaveButtonText));
             OnPropertyChanged(nameof(FormTitle));
@@ -341,6 +359,7 @@ namespace FactoryManagement.ViewModels
                 TransactionDate = transaction.TransactionDate.Date;
                 TransactionTime = transaction.TransactionDate;
                 Notes = transaction.Notes ?? string.Empty;
+                SelectedPaymentModeString = transaction.PaymentMode.ToString();
 
                 // Load processing-specific data
                 if (transaction.TransactionType == TransactionType.Processing)

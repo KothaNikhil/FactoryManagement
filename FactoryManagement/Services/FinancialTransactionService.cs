@@ -25,7 +25,7 @@ namespace FactoryManagement.Services
         }
 
         // Loan Account Operations
-        public async Task<LoanAccount> CreateLoanAsync(LoanAccount loan)
+        public async Task<LoanAccount> CreateLoanAsync(LoanAccount loan, PaymentMode paymentMode)
         {
             // Initialize outstanding amounts
             loan.OutstandingPrincipal = loan.OriginalAmount;
@@ -49,7 +49,8 @@ namespace FactoryManagement.Services
                 LinkedLoanAccountId = loan.LoanAccountId,
                 EnteredBy = loan.CreatedBy,
                 Notes = $"Initial loan: {loan.Notes}",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                PaymentMode = paymentMode
             };
 
             await _financialTransactionRepository.AddAsync(initialTransaction);
@@ -58,7 +59,7 @@ namespace FactoryManagement.Services
             return loan;
         }
 
-        public async Task<FinancialTransaction> RecordPaymentAsync(int loanAccountId, decimal paymentAmount, int userId, string notes = "")
+        public async Task<FinancialTransaction> RecordPaymentAsync(int loanAccountId, decimal paymentAmount, PaymentMode paymentMode, int userId, string notes = "")
         {
             var loanAccount = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
             if (loanAccount == null)
@@ -102,7 +103,8 @@ namespace FactoryManagement.Services
                 LinkedLoanAccountId = loanAccountId,
                 EnteredBy = userId,
                 Notes = notes,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                PaymentMode = paymentMode
             };
 
             await _financialTransactionRepository.AddAsync(transaction);

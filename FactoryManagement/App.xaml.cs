@@ -172,6 +172,10 @@ namespace FactoryManagement
                 TryAddColumn(context, "Transactions", "InputItemId", "INTEGER NULL");
                 TryAddColumn(context, "Transactions", "InputQuantity", "NUMERIC NULL");
                 TryAddColumn(context, "Transactions", "ConversionRate", "REAL NULL");
+                // Payment mode columns
+                TryAddColumn(context, "Transactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
+                TryAddColumn(context, "FinancialTransactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
+                TryAddColumn(context, "WageTransactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
 
                 // Add missing columns on AppSettings for UI preferences
                 TryAddColumn(context, "AppSettings", "IsMenuPinned", "INTEGER NOT NULL DEFAULT 1");

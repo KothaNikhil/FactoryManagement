@@ -41,6 +41,10 @@ namespace FactoryManagement.Models
         [Required]
         public decimal TotalAmount { get; set; }
 
+        // Cash/Bank mode for payment
+        [Required]
+        public PaymentMode PaymentMode { get; set; } = PaymentMode.Cash;
+
         [Required]
         public DateTime TransactionDate { get; set; } = DateTime.Now;
 
