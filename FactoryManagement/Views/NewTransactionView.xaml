@@ -184,13 +184,14 @@
 
                 <!-- Row 2: Price Per Unit, Total Amount, Quantity, Entered By (4 columns) -->
                 <!-- Input Quantity (visible only for Processing) -->
-                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
+                  <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Input Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"
                              Foreground="#FFA726"/>
-                    <TextBox Text="{Binding InputQuantity, UpdateSourceTrigger=PropertyChanged}"
+                      <TextBox Text="{Binding InputQuantity, UpdateSourceTrigger=PropertyChanged}"
+                          materialDesign:TextFieldAssist.SuffixText="{Binding InputItem.Unit}"
                            Style="{StaticResource TextBox.Dark}"
                            GotFocus="NumericTextBox_GotFocus"
                            TabIndex="7"/>
@@ -219,12 +220,13 @@
                 </StackPanel>
 
                 <!-- Quantity (visible for non-Processing) -->
-                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
+                  <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
-                    <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                      <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                          materialDesign:TextFieldAssist.SuffixText="{Binding SelectedItem.Unit}"
                            Style="{StaticResource TextBox.Dark}"
                            GotFocus="NumericTextBox_GotFocus"
                            TabIndex="7"/>
@@ -242,13 +244,19 @@
                                Style="{StaticResource TextBox.Dark}"
                                GotFocus="NumericTextBox_GotFocus"
                                TabIndex="9"/>
-                        <TextBlock Text="{Binding ConversionRate, StringFormat='({0:N1}%)'}"
-                                 HorizontalAlignment="Right"
-                                 VerticalAlignment="Center"
-                                 Margin="0,0,12,0"
-                                 FontSize="11"
-                                 Foreground="{StaticResource AccentCyan}"
-                                 IsHitTestVisible="False"/>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,12,0"
+                                    IsHitTestVisible="False">
+                            <TextBlock Text="{Binding SelectedItem.Unit}"
+                                       FontSize="11"
+                                       Foreground="{StaticResource AccentCyan}"
+                                       Margin="0,0,6,0"/>
+                            <TextBlock Text="{Binding ConversionRate, StringFormat='({0:N1}%)'}"
+                                       FontSize="11"
+                                       Foreground="{StaticResource AccentCyan}"/>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
 
