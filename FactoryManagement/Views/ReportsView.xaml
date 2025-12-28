@@ -219,7 +219,7 @@
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
@@ -240,7 +240,7 @@
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                             <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
@@ -264,12 +264,12 @@
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                             <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
-                            <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat='{}{0:N2}%'}" Width="110"/>
+                            <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
-                            <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
                                 <DataGridTextColumn.ElementStyle>
@@ -288,7 +288,7 @@
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                             <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
                             <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>

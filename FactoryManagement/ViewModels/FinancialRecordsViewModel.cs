@@ -32,6 +32,7 @@ namespace FactoryManagement.ViewModels
         private decimal _loanAmount;
         private decimal _interestRate;
         private DateTime _startDate;
+        private DateTime? _startTime;
         private DateTime? _dueDate;
         private string _notes;
         private decimal _paymentAmount;
@@ -57,6 +58,7 @@ namespace FactoryManagement.ViewModels
             _notes = string.Empty;
             _paymentNotes = string.Empty;
             _startDate = DateTime.Now;
+            _startTime = DateTime.Now;
 
             // Commands
             CreateLoanCommand = new RelayCommand(() => CreateLoanAsync().GetAwaiter().GetResult(), () => CanCreateLoan());
@@ -204,6 +206,16 @@ namespace FactoryManagement.ViewModels
             set
             {
                 _startDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime? StartTime
+        {
+            get => _startTime;
+            set
+            {
+                _startTime = value;
                 OnPropertyChanged();
             }
         }
@@ -415,10 +427,10 @@ namespace FactoryManagement.ViewModels
                     LoanType = SelectedLoanType,
                     OriginalAmount = LoanAmount,
                     InterestRate = InterestRate,
-                    StartDate = StartDate,
+                    StartDate = CombineDateAndTime(StartDate, StartTime),
                     DueDate = DueDate,
                     Notes = Notes,
-                    CreatedBy = 1 // TODO: Get from current user
+                    CreatedBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1
                 };
 
                 await _financialTransactionService.CreateLoanAsync(loan);
@@ -433,6 +445,7 @@ namespace FactoryManagement.ViewModels
                 LoanAmount = 0;
                 InterestRate = 0;
                 StartDate = DateTime.Now;
+                StartTime = DateTime.Now;
                 DueDate = null;
                 Notes = string.Empty;
 
@@ -441,7 +454,8 @@ namespace FactoryManagement.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error creating loan: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var innerMessage = ex.InnerException != null ? $"\nInner: {ex.InnerException.Message}" : "";
+                MessageBox.Show($"Error creating loan: {ex.Message}{innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -460,7 +474,7 @@ namespace FactoryManagement.ViewModels
                 await _financialTransactionService.RecordPaymentAsync(
                     SelectedLoan!.LoanAccountId,
                     PaymentAmount,
-                    1, // TODO: Get from current user
+                    MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                     PaymentNotes
                 );
 
@@ -652,6 +666,27 @@ namespace FactoryManagement.ViewModels
                     IsLoading = false;
                 }
             }
+
+        private DateTime CombineDateAndTime(DateTime date, DateTime? time)
+        {
+            if (time.HasValue && time.Value != DateTime.MinValue)
+            {
+                try
+                {
+                    return new DateTime(date.Year, date.Month, date.Day, 
+                                      time.Value.Hour, time.Value.Minute, time.Value.Second);
+                }
+                catch
+                {
+                    // If time combination fails, return date with current time
+                    return new DateTime(date.Year, date.Month, date.Day,
+                                      DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                }
+            }
+            // If no time specified, use current time
+            return new DateTime(date.Year, date.Month, date.Day,
+                              DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        }
 
         #endregion
     }

@@ -251,6 +251,7 @@ namespace FactoryManagement.ViewModels
                     TransactionDate = DateTime.Now,
                     Amount = Amount,
                     NetAmount = Amount,
+                    EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                     Notes = Notes
                 };
 

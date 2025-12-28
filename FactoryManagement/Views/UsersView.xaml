@@ -102,8 +102,8 @@
                         </DataGridTemplateColumn>
                         
                         <DataGridTextColumn Header="Created" 
-                                            Binding="{Binding CreatedDate, StringFormat='dd/MM/yyyy'}" 
-                                            Width="120">
+                                            Binding="{Binding CreatedDate, StringFormat='dd/MM/yyyy HH:mm'}" 
+                                            Width="150">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>

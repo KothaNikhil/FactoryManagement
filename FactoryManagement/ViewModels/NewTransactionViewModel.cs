@@ -58,6 +58,9 @@ namespace FactoryManagement.ViewModels
         private DateTime _transactionDate = DateTime.Now;
 
         [ObservableProperty]
+        private DateTime? _transactionTime = DateTime.Now;
+
+        [ObservableProperty]
         private string _notes = string.Empty;
 
         [ObservableProperty]
@@ -213,7 +216,7 @@ namespace FactoryManagement.ViewModels
                     transaction.Quantity = Quantity;
                     transaction.PricePerUnit = PricePerUnit;
                     transaction.TotalAmount = TotalAmount;
-                    transaction.TransactionDate = TransactionDate;
+                    transaction.TransactionDate = CombineDateAndTime(TransactionDate, TransactionTime);
                     transaction.EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1;
                     transaction.Notes = Notes;
 
@@ -255,7 +258,7 @@ namespace FactoryManagement.ViewModels
                         Quantity = Quantity,
                         PricePerUnit = PricePerUnit,
                         TotalAmount = TotalAmount,
-                        TransactionDate = TransactionDate,
+                        TransactionDate = CombineDateAndTime(TransactionDate, TransactionTime),
                         EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
                         Notes = Notes
                     };
@@ -281,7 +284,8 @@ namespace FactoryManagement.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Error saving transaction: {ex.Message}";
+                var innerMessage = ex.InnerException != null ? $" Inner: {ex.InnerException.Message}" : "";
+                ErrorMessage = $"Error saving transaction: {ex.Message}{innerMessage}";
                 System.Diagnostics.Debug.WriteLine($"Transaction save error: {ex}");
                 Serilog.Log.Error(ex, "Error saving transaction");
             }
@@ -300,6 +304,7 @@ namespace FactoryManagement.ViewModels
             PricePerUnit = 0;
             TotalAmount = 0;
             TransactionDate = DateTime.Now;
+            TransactionTime = DateTime.Now;
             Notes = string.Empty;
             ErrorMessage = string.Empty;
             IsEditMode = false;
@@ -333,7 +338,8 @@ namespace FactoryManagement.ViewModels
                 SelectedParty = Parties.FirstOrDefault(p => p.PartyId == transaction.PartyId);
                 Quantity = transaction.Quantity;
                 PricePerUnit = transaction.PricePerUnit;
-                TransactionDate = transaction.TransactionDate;
+                TransactionDate = transaction.TransactionDate.Date;
+                TransactionTime = transaction.TransactionDate;
                 Notes = transaction.Notes ?? string.Empty;
 
                 // Load processing-specific data
@@ -514,6 +520,27 @@ namespace FactoryManagement.ViewModels
             }
 
             return true;
+        }
+
+        private DateTime CombineDateAndTime(DateTime date, DateTime? time)
+        {
+            if (time.HasValue && time.Value != DateTime.MinValue)
+            {
+                try
+                {
+                    return new DateTime(date.Year, date.Month, date.Day, 
+                                      time.Value.Hour, time.Value.Minute, time.Value.Second);
+                }
+                catch
+                {
+                    // If time combination fails, return date with current time
+                    return new DateTime(date.Year, date.Month, date.Day,
+                                      DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                }
+            }
+            // If no time specified, use current time
+            return new DateTime(date.Year, date.Month, date.Day,
+                              DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         }
 
         [RelayCommand]

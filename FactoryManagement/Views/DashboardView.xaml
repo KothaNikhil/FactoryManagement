@@ -137,7 +137,7 @@
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                                 <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>

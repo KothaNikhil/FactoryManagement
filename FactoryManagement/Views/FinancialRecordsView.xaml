@@ -221,11 +221,24 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Start Date" 
+                                <TextBlock Text="Start Date &amp; Time" 
                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
                                          Margin="0,0,0,8"/>
-                                <DatePicker SelectedDate="{Binding StartDate}" 
-                                            Style="{StaticResource DatePicker.Standard}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <DatePicker Grid.Column="0" SelectedDate="{Binding StartDate}" 
+                                                Style="{StaticResource DatePicker.Standard}"/>
+                                    <materialDesign:TimePicker Grid.Column="2" 
+                                                             SelectedTime="{Binding StartTime}"
+                                                             Is24Hours="True"
+                                                             WithSeconds="False"
+                                                             Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                                             materialDesign:HintAssist.Hint="Time"/>
+                                </Grid>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2">
@@ -478,8 +491,8 @@
                                 <DataGridTextColumn Header="Rate %" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="80"/>
                                 <DataGridTextColumn Header="Outstanding" Binding="{Binding TotalOutstanding, StringFormat=₹{0:N2}}" Width="130"/>
                                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
-                                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
-                                <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat=dd-MMM-yyyy}" Width="110"/>
+                                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
+                                <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -548,7 +561,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd-MMM}" Width="80"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM HH:mm'}" Width="100"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N0}}" Width="90"/>
                                 <DataGridTextColumn Header="Interest" Binding="{Binding InterestAmount, StringFormat=₹{0:N0}}" Width="80"/>

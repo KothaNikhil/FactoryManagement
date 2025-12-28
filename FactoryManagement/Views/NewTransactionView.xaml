@@ -113,7 +113,7 @@
                 </StackPanel>
 
                 <!-- Party Selection with Add Button -->
-                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,16">
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,16">
                     <TextBlock Text="Party" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -126,7 +126,7 @@
                             ItemsSource="{Binding Parties}"
                             SelectedItem="{Binding SelectedParty}"
                             Style="{StaticResource ComboBox.Dark}"
-                            Margin="0,0,4,0">
+                            Margin="0,0,8,0">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}"/>
@@ -140,25 +140,42 @@
                             Style="{StaticResource Button.Secondary}"
                             ToolTip="Quickly add a new party"
                             Click="QuickAddPartyButton_Click"
-                            Padding="8"
-                            Height="40">
-                            <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                            Padding="12,0"
+                            Height="40"
+                            MinWidth="90">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,4,0"/>
+                                <TextBlock Text="New" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Button>
                     </Grid>
                 </StackPanel>
 
-                <!-- Transaction Date -->
-                <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,16">
-                    <TextBlock Text="Transaction Date *" 
+                <!-- Transaction Date & Time -->
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,16">
+                    <TextBlock Text="Transaction Date &amp; Time *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
-                    <DatePicker SelectedDate="{Binding TransactionDate}"
-                              Style="{StaticResource DatePicker.Dark}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker Grid.Column="0" SelectedDate="{Binding TransactionDate}"
+                                  Style="{StaticResource DatePicker.Dark}"/>
+                        <materialDesign:TimePicker Grid.Column="2" 
+                                                 SelectedTime="{Binding TransactionTime}"
+                                                 Is24Hours="True"
+                                                 WithSeconds="False"
+                                                 Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                                 materialDesign:HintAssist.Hint="Time"/>
+                    </Grid>
                 </StackPanel>
 
                 <!-- Row 2: Price Per Unit, Total Amount, Quantity, Entered By (4 columns) -->
                 <!-- Input Quantity (visible only for Processing) -->
-                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Input Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -170,7 +187,7 @@
                 </StackPanel>
 
                 <!-- Output Item (visible only for Processing) -->
-                <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Output Item *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -191,7 +208,7 @@
                 </StackPanel>
 
                 <!-- Quantity (visible for non-Processing) -->
-                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -202,7 +219,7 @@
                 </StackPanel>
 
                 <!-- Output Quantity (visible only for Processing) -->
-                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Output Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -223,7 +240,7 @@
                 </StackPanel>
 
                 <!-- Price Per Unit (label changes for Processing) -->
-                <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,16"
+                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Price Per Unit *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -234,7 +251,7 @@
                 </StackPanel>
 
                 <!-- Processing Fee (visible only for Processing) -->
-                <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,16"
+                <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Processing Fee (per unit) *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -245,7 +262,7 @@
                 </StackPanel>
 
                 <!-- Total Amount (Read-only) -->
-                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,16"
+                <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                     <TextBlock Text="Total Amount" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -280,7 +297,7 @@
                 </StackPanel>
 
                 <!-- Total Processing Fee (Read-only, visible only for Processing) -->
-                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,16"
+                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,12,16"
                             Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock Text="Total Processing Fee" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -315,7 +332,7 @@
                 </StackPanel>
 
                 <!-- Notes -->
-                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,0">
+                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,12,0">
                     <TextBlock Text="Notes" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"/>
@@ -335,7 +352,7 @@
                 </StackPanel>
 
                 <!-- Action Buttons -->
-                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0,16,0,0">
+                <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0,16,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="CLEAR"
                             Command="{Binding ClearFormCommand}"
@@ -429,7 +446,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd/MM/yyyy HH:mm'}" Width="130"/>
                         <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="100"/>
                         <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
                         <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
