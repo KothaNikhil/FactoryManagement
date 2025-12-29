@@ -44,12 +44,12 @@ namespace FactoryManagement.Services
     public class UnifiedTransactionService : IUnifiedTransactionService
     {
         private readonly ITransactionService _transactionService;
-        private readonly FinancialTransactionService _financialService;
+        private readonly IFinancialTransactionService _financialService;
         private readonly IWageService _wageService;
 
         public UnifiedTransactionService(
             ITransactionService transactionService,
-            FinancialTransactionService financialService,
+            IFinancialTransactionService financialService,
             IWageService wageService)
         {
             _transactionService = transactionService;

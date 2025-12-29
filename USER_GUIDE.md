@@ -116,48 +116,67 @@ View "Entered By" column in all transaction grids to see who created each record
 
 ## New Transaction
 
-### Recording a Buy Transaction
-1. Click **New Transaction** from the menu
+The **New Transaction** page is your central hub for recording all inventory movements and service transactions (purchases, sales, waste, and processing). It supports creating new transactions and editing existing ones with automatic stock management.
+
+**For detailed information**, see [New Transaction User Guide](NEW_TRANSACTION_GUIDE.md).
+
+### Quick Start: Buy Transaction
+1. Click **New Transaction** from the menu (or press `Ctrl+2`)
 2. Select **"Buy"** from Transaction Type dropdown
-3. Choose the **item** you're purchasing
-   - The dropdown shows current stock levels
-4. Select the **party** (seller)
-   - Shows name, place, and mobile number
-5. Enter **quantity** and **price per unit**
-   - Total amount is calculated automatically
-6. Select **transaction date** (defaults to today)
-7. Choose the **user** entering the data
-8. Add **notes** if needed (optional)
+3. Choose the **item** you're purchasing (searchable dropdown)
+4. Select the **party** (supplier)
+5. Enter **quantity** and **price per unit** (total auto-calculated)
+6. Select **payment mode** (Cash or Bank)
+7. Verify **transaction date** (defaults to today)
+8. (Optional) Add **notes**
 9. Click **"SAVE TRANSACTION"**
 
-**Result**: Stock increases, transaction is recorded
+**Result**: Stock increases, transaction recorded
 
-### Recording a Sell Transaction
-1. Follow steps above, but select **"Sell"**
-2. Choose a **buyer** as the party
-3. System validates that sufficient stock is available
-4. Click **"SAVE TRANSACTION"**
+### Quick Start: Sell Transaction
+1. Select **"Sell"** as transaction type
+2. Choose the **item** to sell
+3. Select **buyer** as the party
+4. Enter quantity and price (system validates stock availability)
+5. Click **"SAVE TRANSACTION"**
 
-**Result**: Stock decreases, transaction is recorded
+**Result**: Stock decreases, transaction recorded
 
-### Recording Wastage
+### Quick Start: Wastage
 1. Select **"Wastage"** as transaction type
-2. **Party selection is optional** for wastage
-3. Enter quantity and estimated value
+2. Choose **item** (party is optional)
+3. Enter quantity and cost estimate
 4. Click **"SAVE TRANSACTION"**
 
-**Result**: Stock decreases, wastage is tracked
+**Result**: Stock decreases, wastage tracked
+
+### Key Features
+- **Searchable Dropdowns**: Type to search items and parties
+- **Auto-Calculation**: Total amount = Quantity × Price Per Unit
+- **Stock Validation**: Cannot sell/waste more than available stock
+- **Edit & Delete**: Click Edit on any recent transaction to modify; Delete removes it
+- **Undo Delete**: Quick undo option appears after deletion
+- **Recent Transactions Grid**: View and manage last 100 transactions
 
 ### Validation Rules
 - ✓ Item must be selected
 - ✓ Party required for Buy/Sell (optional for Wastage)
-- ✓ Quantity must be > 0
-- ✓ Price cannot be negative
+- ✓ Quantity must be > 0; Price ≥ 0
 - ✓ Sufficient stock required for Sell/Wastage
+- ✓ User must be selected from header
 
-### Quick Actions
-- **CLEAR**: Reset the form
-- **SAVE TRANSACTION**: Record the transaction
+### Form Buttons
+- **SAVE TRANSACTION**: Create new transaction
+- **UPDATE TRANSACTION**: Save edits (appears in edit mode)
+- **CLEAR FORM**: Reset all fields
+
+### For Processing Transactions
+Select **"Processing"** type to record value-added services (no stock impact):
+- Input Material + Input Quantity → Output Item + Output Quantity
+- Useful for tracking material transformation (milling, grinding, etc.)
+- See [Processing Feature](PROCESSING_FEATURE_DESIGN.md) for details
+
+**[→ Full New Transaction Guide](NEW_TRANSACTION_GUIDE.md)**
 
 **Success Message**: Appears at the bottom when saved successfully
 

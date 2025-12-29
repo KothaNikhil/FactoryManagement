@@ -13,6 +13,7 @@ namespace FactoryManagement.Services
         Task<Transaction?> GetTransactionByIdAsync(int id);
         Task<Transaction> AddTransactionAsync(Transaction transaction);
         Task UpdateTransactionAsync(Transaction transaction);
+        Task UpdateTransactionWithStockAsync(Transaction updated);
         Task DeleteTransactionAsync(int id);
         Task<IEnumerable<Transaction>> GetTransactionsByItemAsync(int itemId);
         Task<IEnumerable<Transaction>> GetTransactionsByPartyAsync(int partyId);
@@ -62,6 +63,38 @@ namespace FactoryManagement.Services
         {
             transaction.TotalAmount = transaction.Quantity * transaction.PricePerUnit;
             await _transactionRepository.UpdateAsync(transaction);
+        }
+
+        public async Task UpdateTransactionWithStockAsync(Transaction updated)
+        {
+            var existing = await _transactionRepository.GetByIdAsync(updated.TransactionId);
+            if (existing == null)
+            {
+                throw new InvalidOperationException("Transaction not found for update.");
+            }
+
+            // Reverse stock from existing transaction when applicable
+            if (existing.TransactionType != TransactionType.Processing)
+            {
+                var reverseType = existing.TransactionType switch
+                {
+                    TransactionType.Buy => TransactionType.Sell,
+                    TransactionType.Sell => TransactionType.Buy,
+                    TransactionType.Wastage => TransactionType.Buy,
+                    _ => TransactionType.Buy
+                };
+                await _itemService.UpdateStockAsync(existing.ItemId, existing.Quantity, reverseType);
+            }
+
+            // Persist updated values and compute total
+            updated.TotalAmount = updated.Quantity * updated.PricePerUnit;
+            await _transactionRepository.UpdateAsync(updated);
+
+            // Apply stock from updated transaction when applicable
+            if (updated.TransactionType != TransactionType.Processing)
+            {
+                await _itemService.UpdateStockAsync(updated.ItemId, updated.Quantity, updated.TransactionType);
+            }
         }
 
         public async Task DeleteTransactionAsync(int id)

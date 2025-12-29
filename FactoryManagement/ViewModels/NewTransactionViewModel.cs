@@ -226,11 +226,6 @@ namespace FactoryManagement.ViewModels
                         return;
                     }
 
-                    // Store original values for stock reversal
-                    var oldQuantity = transaction.Quantity;
-                    var oldType = transaction.TransactionType;
-                    var oldItemId = transaction.ItemId;
-
                     // Update transaction properties
                     transaction.ItemId = SelectedItem!.ItemId;
                     transaction.PartyId = SelectedParty?.PartyId;
@@ -243,31 +238,8 @@ namespace FactoryManagement.ViewModels
                     transaction.EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1;
                     transaction.Notes = Notes;
 
-                    // Reverse old stock impact with correct semantics per type
-                    switch (oldType)
-                    {
-                        case TransactionType.Buy:
-                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Sell);
-                            break;
-                        case TransactionType.Sell:
-                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Buy);
-                            break;
-                        case TransactionType.Wastage:
-                            // Wastage reduced stock originally; reversal increases
-                            await _itemService.UpdateStockAsync(oldItemId, oldQuantity, TransactionType.Buy);
-                            break;
-                        case TransactionType.Processing:
-                            // Processing never altered stock; nothing to reverse
-                            break;
-                    }
-
-                    // Apply new stock impact
-                    if (transaction.TransactionType != TransactionType.Processing)
-                    {
-                        await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
-                    }
-
-                    await _transactionService.UpdateTransactionAsync(transaction);
+                    // Delegate stock reversal/apply to service for consistency
+                    await _transactionService.UpdateTransactionWithStockAsync(transaction);
                     ErrorMessage = "✓ Transaction updated successfully!";
                 }
                 else
