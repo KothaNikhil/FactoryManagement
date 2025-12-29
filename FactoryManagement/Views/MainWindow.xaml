@@ -319,7 +319,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+1" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+D" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -355,7 +355,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+2" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+T" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -391,7 +391,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+3" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+P" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -427,7 +427,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+4" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+F" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -463,7 +463,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+5" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+R" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -501,7 +501,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+6" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+I" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -537,7 +537,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+7" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+C" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -611,7 +611,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+8" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+U" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -649,7 +649,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+9" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" Text="Ctrl+B" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -687,7 +687,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Text="Ctrl+0" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>

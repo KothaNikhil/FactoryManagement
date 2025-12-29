@@ -209,35 +209,32 @@ namespace FactoryManagement.Views
                 
                 switch (e.Key)
                 {
-                    case Key.D1:
+                    case Key.D:
                         tag = "Dashboard";
                         break;
-                    case Key.D2:
+                    case Key.T:
                         tag = "TransactionEntry";
                         break;
-                    case Key.D3:
+                    case Key.P:
                         tag = "Wages";
                         break;
-                    case Key.D4:
+                    case Key.F:
                         tag = "FinancialTransactions";
                         break;
-                    case Key.D5:
+                    case Key.R:
                         tag = "Reports";
                         break;
-                    case Key.D6:
+                    case Key.I:
                         tag = "Items";
                         break;
-                    case Key.D7:
+                    case Key.C:
                         tag = "Parties";
                         break;
-                    case Key.D8:
+                    case Key.U:
                         tag = "Users";
                         break;
-                    case Key.D9:
+                    case Key.B:
                         tag = "Backup";
-                        break;
-                    case Key.D0:
-                        tag = "Exit";
                         break;
                     case Key.W:
                         tag = "Workers";

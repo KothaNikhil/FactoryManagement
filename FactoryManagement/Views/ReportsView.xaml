@@ -239,6 +239,7 @@
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                             <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding EnteredBy}" Width="110"/>
                             <DataGridTextColumn Header="Debit (₹)" Width="130">
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">

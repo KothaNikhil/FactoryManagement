@@ -26,6 +26,7 @@ namespace FactoryManagement.Services
         public string? AdditionalInfo { get; set; } // For extra details like days worked, interest, etc.
         public string? Notes { get; set; }
         public string? EnteredBy { get; set; } // Username of the person who entered the transaction
+        public PaymentMode PaymentMode { get; set; } = PaymentMode.Cash; // Payment mode for the transaction
         
         // Processing-specific fields
         public string? InputItemName { get; set; }
@@ -104,6 +105,7 @@ namespace FactoryManagement.Services
                     AdditionalInfo = additionalInfo,
                     Notes = t.Notes,
                     EnteredBy = t.User?.Username,
+                    PaymentMode = t.PaymentMode,
                     InputItemName = t.InputItem?.ItemName,
                     InputQuantity = t.InputQuantity,
                     ConversionRate = null
@@ -138,7 +140,8 @@ namespace FactoryManagement.Services
                     Amount = t.Amount,
                     AdditionalInfo = t.InterestRate > 0 ? $"Interest: {t.InterestRate:N2}% (₹{t.InterestAmount:N2})" : null,
                     Notes = t.Notes,
-                    EnteredBy = t.User?.Username
+                    EnteredBy = t.User?.Username,
+                    PaymentMode = t.PaymentMode
                 });
             }
             
@@ -171,7 +174,8 @@ namespace FactoryManagement.Services
                     AdditionalInfo = t.DaysWorked > 0 ? $"{t.DaysWorked:N1} days @ ₹{t.Rate:N2}" : 
                                     (t.HoursWorked > 0 ? $"{t.HoursWorked:N1} hrs @ ₹{t.Rate:N2}" : null),
                     Notes = t.Notes,
-                    EnteredBy = t.User?.Username
+                    EnteredBy = t.User?.Username,
+                    PaymentMode = t.PaymentMode
                 });
             }
 
