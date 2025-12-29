@@ -143,7 +143,7 @@ namespace FactoryManagement.Tests.Services
 
             _mockTransactionRepo.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(existingTransaction);
             _mockItemService.Setup(r => r.GetItemByIdAsync(1)).ReturnsAsync(item);
-            _mockItemService.Setup(r => r.UpdateItemAsync(It.IsAny<Item>())).Returns(Task.CompletedTask);
+            _mockItemService.Setup(r => r.UpdateItemAsync(It.IsAny<Item>(), It.IsAny<int?>())).Returns(Task.CompletedTask);
             _mockTransactionRepo.Setup(r => r.UpdateAsync(It.IsAny<Transaction>())).Returns(Task.CompletedTask);
 
             // Act

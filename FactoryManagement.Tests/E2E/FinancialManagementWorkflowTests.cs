@@ -36,7 +36,7 @@ namespace FactoryManagement.Tests.E2E
             _partyService = new PartyService(partyRepo);
 
             // Seed user required by financial transactions
-            _context.Users.Add(new User { UserId = 1, Username = "admin", Role = "Admin", IsActive = true }), PaymentMode.Cash);
+            _context.Users.Add(new User { UserId = 1, Username = "admin", Role = "Admin", IsActive = true });
             _context.SaveChanges();
         }
 
@@ -49,7 +49,7 @@ namespace FactoryManagement.Tests.E2E
                 Name = "Loan Customer",
                 PartyType = PartyType.Buyer,
                 MobileNumber = "1234567890"
-            }), PaymentMode.Cash);
+            });
 
             // Step 2: Create loan account (loan given to customer)
             var loan = await _financialService.CreateLoanAsync(new LoanAccount
@@ -69,10 +69,10 @@ namespace FactoryManagement.Tests.E2E
             Assert.Equal(LoanStatus.Active, loan.Status);
 
             // Step 3: Record first payment
-            await _financialService.RecordPaymentAsync(loan.LoanAccountId, 10000, 1, "First payment");
+            await _financialService.RecordPaymentAsync(loan.LoanAccountId, 10000, PaymentMode.Cash, 1, "First payment");
 
             // Step 4: Record second payment
-            await _financialService.RecordPaymentAsync(loan.LoanAccountId, 15000, 1, "Second payment");
+            await _financialService.RecordPaymentAsync(loan.LoanAccountId, 15000, PaymentMode.Cash, 1, "Second payment");
 
             // Assert - Verify loan state
             var updatedLoan = await _financialService.GetLoanWithTransactionsAsync(loan.LoanAccountId);
@@ -95,7 +95,7 @@ namespace FactoryManagement.Tests.E2E
                 Name = "Loan Supplier",
                 PartyType = PartyType.Seller,
                 MobileNumber = "9876543210"
-            }), PaymentMode.Cash);
+            });
 
             // Step 2: Take loan from supplier
             var loan2 = await _financialService.CreateLoanAsync(new LoanAccount
@@ -110,10 +110,10 @@ namespace FactoryManagement.Tests.E2E
             }, PaymentMode.Cash);
 
             // Step 3: Make partial payment
-            await _financialService.RecordPaymentAsync(loan2.LoanAccountId, 20000, 1, "Partial payment");
+            await _financialService.RecordPaymentAsync(loan2.LoanAccountId, 20000, PaymentMode.Cash, 1, "Partial payment");
 
             // Step 4: Make final payment
-            await _financialService.RecordPaymentAsync(loan2.LoanAccountId, 30000, 1, "Final payment");
+            await _financialService.RecordPaymentAsync(loan2.LoanAccountId, 30000, PaymentMode.Cash, 1, "Final payment");
 
             // Assert
             var closedLoan = await _financialService.GetLoanWithTransactionsAsync(loan2.LoanAccountId);
@@ -126,9 +126,9 @@ namespace FactoryManagement.Tests.E2E
         public async Task LoanWorkflow_MultipleLoanAccounts_FilterAndCalculate()
         {
             // Arrange - Create multiple parties and loans
-            var customer1 = await _partyService.AddPartyAsync(new Party { Name = "Customer 1", PartyType = PartyType.Buyer }), PaymentMode.Cash);
-            var customer2 = await _partyService.AddPartyAsync(new Party { Name = "Customer 2", PartyType = PartyType.Buyer }), PaymentMode.Cash);
-            var supplier1 = await _partyService.AddPartyAsync(new Party { Name = "Supplier 1", PartyType = PartyType.Seller }), PaymentMode.Cash);
+            var customer1 = await _partyService.AddPartyAsync(new Party { Name = "Customer 1", PartyType = PartyType.Buyer });
+            var customer2 = await _partyService.AddPartyAsync(new Party { Name = "Customer 2", PartyType = PartyType.Buyer });
+            var supplier1 = await _partyService.AddPartyAsync(new Party { Name = "Supplier 1", PartyType = PartyType.Seller });
 
             // Given loans
             var loan1 = await _financialService.CreateLoanAsync(new LoanAccount
@@ -139,7 +139,7 @@ namespace FactoryManagement.Tests.E2E
                 InterestRate = 12,
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             var loan3 = await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -149,7 +149,7 @@ namespace FactoryManagement.Tests.E2E
                 InterestRate = 10,
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Taken loan
             var loan4 = await _financialService.CreateLoanAsync(new LoanAccount
@@ -160,7 +160,7 @@ namespace FactoryManagement.Tests.E2E
                 InterestRate = 8,
                 Status = LoanStatus.PartiallyPaid,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Act - Filter by type
             var givenLoans = await _financialService.GetLoansByTypeAsync(LoanType.Given);
@@ -183,7 +183,7 @@ namespace FactoryManagement.Tests.E2E
         public async Task LoanWorkflow_FilterByParty_ShouldReturnCorrectLoans()
         {
             // Arrange
-            var party = await _partyService.AddPartyAsync(new Party { Name = "Test Party", PartyType = PartyType.Buyer }), PaymentMode.Cash);
+            var party = await _partyService.AddPartyAsync(new Party { Name = "Test Party", PartyType = PartyType.Buyer });
 
             await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -193,7 +193,7 @@ namespace FactoryManagement.Tests.E2E
                 InterestRate = 12,
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -203,7 +203,7 @@ namespace FactoryManagement.Tests.E2E
                 InterestRate = 10,
                 Status = LoanStatus.PartiallyPaid,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Act
             var partyLoans = await _financialService.GetLoansByPartyAsync(party.PartyId);
@@ -217,9 +217,9 @@ namespace FactoryManagement.Tests.E2E
         public async Task LoanWorkflow_FilterByStatus_ShouldReturnCorrectLoans()
         {
             // Arrange
-            var party1 = await _partyService.AddPartyAsync(new Party { Name = "Party 1", PartyType = PartyType.Buyer }), PaymentMode.Cash);
-            var party2 = await _partyService.AddPartyAsync(new Party { Name = "Party 2", PartyType = PartyType.Buyer }), PaymentMode.Cash);
-            var party3 = await _partyService.AddPartyAsync(new Party { Name = "Party 3", PartyType = PartyType.Buyer }), PaymentMode.Cash);
+            var party1 = await _partyService.AddPartyAsync(new Party { Name = "Party 1", PartyType = PartyType.Buyer });
+            var party2 = await _partyService.AddPartyAsync(new Party { Name = "Party 2", PartyType = PartyType.Buyer });
+            var party3 = await _partyService.AddPartyAsync(new Party { Name = "Party 3", PartyType = PartyType.Buyer });
 
             await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -228,7 +228,7 @@ namespace FactoryManagement.Tests.E2E
                 OriginalAmount = 10000,
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -237,7 +237,7 @@ namespace FactoryManagement.Tests.E2E
                 OriginalAmount = 20000,
                 Status = LoanStatus.PartiallyPaid,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             await _financialService.CreateLoanAsync(new LoanAccount
             {
@@ -246,7 +246,7 @@ namespace FactoryManagement.Tests.E2E
                 OriginalAmount = 15000,
                 Status = LoanStatus.Closed,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Act
             // Adjust loan statuses via payments
@@ -256,9 +256,9 @@ namespace FactoryManagement.Tests.E2E
             var loanClosed = allLoans.First(l => l.PartyId == party3.PartyId);
 
             // Make a partial payment on second loan
-            await _financialService.RecordPaymentAsync(loanPartial.LoanAccountId, 5000, 1, "Partial payment");
+            await _financialService.RecordPaymentAsync(loanPartial.LoanAccountId, 5000, PaymentMode.Cash, 1, "Partial payment");
             // Close the third loan by paying full amount
-            await _financialService.RecordPaymentAsync(loanClosed.LoanAccountId, loanClosed.TotalOutstanding, 1, "Closure payment");
+            await _financialService.RecordPaymentAsync(loanClosed.LoanAccountId, loanClosed.TotalOutstanding, PaymentMode.Cash, 1, "Closure payment");
 
             var refreshed = await _financialService.GetAllLoansAsync();
             var activeLoans = refreshed.Where(l => l.Status == LoanStatus.Active);
@@ -275,7 +275,7 @@ namespace FactoryManagement.Tests.E2E
         public async Task LoanWorkflow_InterestCalculation_ShouldBeAccurate()
         {
             // Arrange
-            var party = await _partyService.AddPartyAsync(new Party { Name = "Test Customer", PartyType = PartyType.Buyer }), PaymentMode.Cash);
+            var party = await _partyService.AddPartyAsync(new Party { Name = "Test Customer", PartyType = PartyType.Buyer });
 
             // Create loan with interest
             var loan = await _financialService.CreateLoanAsync(new LoanAccount
@@ -287,7 +287,7 @@ namespace FactoryManagement.Tests.E2E
                 StartDate = DateTime.Now.AddMonths(-1),
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Calculate 1 month interest: 100000 * 12% / 12 = 1000
             // Act - calculate interest up to today
@@ -304,7 +304,7 @@ namespace FactoryManagement.Tests.E2E
         public async Task LoanWorkflow_CompleteLifecycle_ShouldTrackAllTransactions()
         {
             // Complete loan lifecycle
-            var party = await _partyService.AddPartyAsync(new Party { Name = "Lifecycle Customer", PartyType = PartyType.Buyer }), PaymentMode.Cash);
+            var party = await _partyService.AddPartyAsync(new Party { Name = "Lifecycle Customer", PartyType = PartyType.Buyer });
 
             // Step 1: Create loan
             var loan = await _financialService.CreateLoanAsync(new LoanAccount
@@ -316,7 +316,7 @@ namespace FactoryManagement.Tests.E2E
                 StartDate = DateTime.Now,
                 Status = LoanStatus.Active,
                 CreatedBy = 1
-            }), PaymentMode.Cash);
+            }, PaymentMode.Cash);
 
             // Step 2: Add disbursement transaction
             // Initial transaction is automatically created in CreateLoanAsync
@@ -324,7 +324,7 @@ namespace FactoryManagement.Tests.E2E
             // Step 3: Record multiple payments
             for (int i = 1; i <= 5; i++)
             {
-                await _financialService.RecordPaymentAsync(loan.LoanAccountId, 10000, 1, $"Payment {i}");
+                await _financialService.RecordPaymentAsync(loan.LoanAccountId, 10000, PaymentMode.Cash, 1, $"Payment {i}");
             }
 
             // Step 4: Close loan
@@ -333,7 +333,7 @@ namespace FactoryManagement.Tests.E2E
             Assert.NotNull(current);
             if (current!.TotalOutstanding > 0)
             {
-                await _financialService.RecordPaymentAsync(loan.LoanAccountId, current!.TotalOutstanding, 1, "Final closure payment");
+                await _financialService.RecordPaymentAsync(loan.LoanAccountId, current!.TotalOutstanding, PaymentMode.Cash, 1, "Final closure payment");
             }
 
             // Assert - Verify transaction history

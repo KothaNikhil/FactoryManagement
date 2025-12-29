@@ -39,9 +39,9 @@ namespace FactoryManagement.ViewModels
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
         private readonly IExportService _exportService;
-        private readonly FinancialTransactionService _financialService;
+        private readonly IFinancialTransactionService _financialService;
         private readonly IWageService _wageService;
-        private readonly UnifiedTransactionService _unifiedTransactionService;
+        private readonly IUnifiedTransactionService _unifiedTransactionService;
         private readonly IUserService _userService;
 
         // Full collections (all data)
@@ -170,9 +170,9 @@ namespace FactoryManagement.ViewModels
             IItemService itemService,
             IPartyService partyService,
             IExportService exportService,
-            FinancialTransactionService financialService,
+            IFinancialTransactionService financialService,
             IWageService wageService,
-            UnifiedTransactionService unifiedTransactionService,
+            IUnifiedTransactionService unifiedTransactionService,
             IUserService userService)
         {
             _transactionService = transactionService;

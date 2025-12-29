@@ -8,7 +8,26 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.Services
 {
-    public class FinancialTransactionService
+    public interface IFinancialTransactionService
+    {
+        Task<IEnumerable<LoanAccount>> GetAllLoansAsync();
+        Task<LoanAccount> CreateLoanAsync(LoanAccount loan, PaymentMode paymentMode);
+        Task<FinancialTransaction> RecordPaymentAsync(int loanAccountId, decimal paymentAmount, PaymentMode paymentMode, int userId, string notes = "");
+        Task UpdateLoanInterestAsync(int loanAccountId);
+        Task<IEnumerable<FinancialTransaction>> GetTransactionsByLoanAsync(int loanAccountId);
+        Task<IEnumerable<FinancialTransaction>> GetAllFinancialTransactionsAsync();
+        Task DeleteLoanAsync(int loanAccountId);
+        Task DeleteFinancialTransactionAsync(int transactionId);
+        Task<decimal> GetTotalLoansGivenOutstandingAsync();
+        Task<decimal> GetTotalLoansTakenOutstandingAsync();
+        Task<Dictionary<string, decimal>> GetFinancialSummaryAsync();
+        Task<LoanAccount> RestoreLoanAsync(LoanAccount snapshot, IEnumerable<FinancialTransaction> transactions);
+        Task RestoreFinancialTransactionAsync(FinancialTransaction tx);
+        Task<LoanAccount?> GetLoanWithTransactionsAsync(int loanAccountId);
+        Task<IEnumerable<LoanAccount>> GetOverdueLoansAsync();
+    }
+
+    public class FinancialTransactionService : IFinancialTransactionService
     {
         private readonly IFinancialTransactionRepository _financialTransactionRepository;
         private readonly ILoanAccountRepository _loanAccountRepository;

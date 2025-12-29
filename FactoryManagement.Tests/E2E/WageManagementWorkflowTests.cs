@@ -26,6 +26,8 @@ namespace FactoryManagement.Tests.E2E
                 .Options;
 
             _context = new FactoryDbContext(_options);
+            // Ensure the in-memory database is created with the model
+            _context.Database.EnsureCreated();
             
             var workerRepo = new WorkerRepository(_context);
             var wageTransactionRepo = new WageTransactionRepository(_context);

@@ -13,6 +13,39 @@ namespace FactoryManagement.Tests.ViewModels
     public class DashboardViewModelTests
     {
         [Fact]
+        public async Task LoadDataAsync_ShouldLimitRecentActivitiesTo15()
+        {
+            // Arrange
+            var mockTransactionService = new Mock<ITransactionService>();
+            var mockItemService = new Mock<IItemService>();
+
+            var now = DateTime.Now;
+            var transactions = Enumerable.Range(1, 50)
+                .Select(i => new Transaction
+                {
+                    TransactionId = i,
+                    TransactionType = TransactionType.Buy,
+                    TotalAmount = i,
+                    TransactionDate = now.AddMinutes(-i),
+                    Item = new Item { ItemName = $"Item{i}" }
+                })
+                .ToList();
+
+            mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(transactions);
+            mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
+
+            var viewModel = new DashboardViewModel(mockTransactionService.Object, mockItemService.Object);
+
+            // Act
+            await viewModel.LoadDataCommand.ExecuteAsync(null);
+
+            // Assert
+            Assert.True(viewModel.RecentActivities.Count <= 15);
+            // Ensure ordering is by date desc (newest first)
+            var ordered = viewModel.RecentActivities.OrderByDescending(a => a.Date).ToList();
+            Assert.Equal(ordered.Select(a => a.Date), viewModel.RecentActivities.Select(a => a.Date));
+        }
+        [Fact]
         public async Task LoadDataAsync_ShouldCalculateTotalPurchases()
         {
             // Arrange
@@ -256,7 +289,7 @@ namespace FactoryManagement.Tests.ViewModels
             // Arrange
             var mockTransactionService = new Mock<ITransactionService>();
             var mockItemService = new Mock<IItemService>();
-            var mockFinancialService = new Mock<FinancialTransactionService>();
+            var mockFinancialService = new Mock<IFinancialTransactionService>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -311,7 +344,7 @@ namespace FactoryManagement.Tests.ViewModels
             // Arrange
             var mockTransactionService = new Mock<ITransactionService>();
             var mockItemService = new Mock<IItemService>();
-            var mockUnifiedService = new Mock<UnifiedTransactionService>();
+            var mockUnifiedService = new Mock<IUnifiedTransactionService>();
 
             var unifiedTransactions = new List<UnifiedTransactionViewModel>
             {
@@ -410,7 +443,7 @@ namespace FactoryManagement.Tests.ViewModels
             // Arrange
             var mockTransactionService = new Mock<ITransactionService>();
             var mockItemService = new Mock<IItemService>();
-            var mockFinancialService = new Mock<FinancialTransactionService>();
+            var mockFinancialService = new Mock<IFinancialTransactionService>();
             var mockWageService = new Mock<IWageService>();
 
             var now = DateTime.Now;

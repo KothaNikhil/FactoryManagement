@@ -57,7 +57,7 @@ namespace FactoryManagement.Tests.ViewModels
 
             // Assert
             Assert.Equal("Please select a worker first!", _viewModel.ErrorMessage);
-            _mockWageService.Verify(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>()), Times.Never);
+            _mockWageService.Verify(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>(), It.IsAny<int?>()), Times.Never);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace FactoryManagement.Tests.ViewModels
 
             // Assert
             Assert.Equal("Amount must be greater than zero!", _viewModel.ErrorMessage);
-            _mockWageService.Verify(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>()), Times.Never);
+            _mockWageService.Verify(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>(), It.IsAny<int?>()), Times.Never);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace FactoryManagement.Tests.ViewModels
             _viewModel.TransactionType = "DailyWage";
             _viewModel.Notes = "Test payment";
 
-            _mockWageService.Setup(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>()))
+            _mockWageService.Setup(s => s.RecordWagePaymentAsync(It.IsAny<WageTransaction>(), It.IsAny<int?>()))
                 .ReturnsAsync(new WageTransaction { WageTransactionId = 1 });
             _mockWageService.Setup(s => s.GetAllWorkersAsync()).ReturnsAsync(new List<Worker> { worker });
             _mockWageService.Setup(s => s.GetTotalWagesPaidAsync()).ReturnsAsync(500);
@@ -104,7 +104,7 @@ namespace FactoryManagement.Tests.ViewModels
                 t.WorkerId == 1 &&
                 t.Amount == 500 &&
                 t.Notes == "Test payment"
-            )), Times.Once);
+            ), It.IsAny<int?>()), Times.Once);
         }
 
         [Fact]
@@ -136,27 +136,27 @@ namespace FactoryManagement.Tests.ViewModels
         [Fact]
         public void SearchText_ShouldFilterWorkers()
         {
-            // Arrange
+            // Arrange - this search behavior now lives in WorkersManagementViewModel
+            var workersVm = new WorkersManagementViewModel(_mockWageService.Object);
             var workers = new List<Worker>
             {
                 new Worker { WorkerId = 1, Name = "John Doe", MobileNumber = "1234567890" },
                 new Worker { WorkerId = 2, Name = "Jane Smith", MobileNumber = "9876543210" },
                 new Worker { WorkerId = 3, Name = "Bob Johnson", MobileNumber = "5555555555" }
             };
-            
-            // Manually set the internal collections
-            typeof(PayrollManagementViewModel)
+
+            typeof(WorkersManagementViewModel)
                 .GetField("_allWorkers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(_viewModel, new System.Collections.ObjectModel.ObservableCollection<Worker>(workers));
-            
-            _viewModel.Workers = new System.Collections.ObjectModel.ObservableCollection<Worker>(workers);
+                ?.SetValue(workersVm, new System.Collections.ObjectModel.ObservableCollection<Worker>(workers));
+
+            workersVm.Workers = new System.Collections.ObjectModel.ObservableCollection<Worker>(workers);
 
             // Act
-            _viewModel.SearchText = "John";
+            workersVm.SearchText = "John";
 
             // Assert
-            Assert.Equal(2, _viewModel.Workers.Count);
-            Assert.Contains(_viewModel.Workers, w => w.Name.Contains("John"));
+            Assert.Equal(2, workersVm.Workers.Count);
+            Assert.Contains(workersVm.Workers, w => w.Name.Contains("John"));
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace FactoryManagement.Tests.ViewModels
         public async Task QuickAddWorkerAsync_OnException_ShouldSetErrorMessage()
         {
             // Arrange
-            _mockWageService.Setup(s => s.AddWorkerAsync(It.IsAny<Worker>()))
+            _mockWageService.Setup(s => s.AddWorkerAsync(It.IsAny<Worker>(), It.IsAny<int?>()))
                 .ThrowsAsync(new System.Exception("Database error"));
 
             // This test cannot invoke the actual dialog interaction; ensure async method awaits.

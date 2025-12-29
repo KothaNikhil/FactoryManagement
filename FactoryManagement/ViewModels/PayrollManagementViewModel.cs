@@ -122,7 +122,8 @@ namespace FactoryManagement.ViewModels
         private string _errorMessage = string.Empty;
 
         private WageTransaction? _lastDeletedWageTransaction;
-        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+        private ISnackbarMessageQueue? _snackbarMessageQueue;
+        public ISnackbarMessageQueue? SnackbarMessageQueue => _snackbarMessageQueue ??= CreateSnackbarIfUiThread();
 
         private ObservableCollection<Worker> _allWorkers = new();
 
@@ -135,6 +136,19 @@ namespace FactoryManagement.ViewModels
         public PayrollManagementViewModel(IWageService wageService)
         {
             _wageService = wageService;
+        }
+
+        private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
+        {
+            try
+            {
+                if (Application.Current?.Dispatcher?.CheckAccess() == true)
+                {
+                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+                }
+            }
+            catch { }
+            return null;
         }
 
         partial void OnSelectedWorkerChanged(Worker? value)
@@ -268,7 +282,7 @@ namespace FactoryManagement.ViewModels
 
             EditingWageTransactionId = transaction.WageTransactionId;
             IsEditMode = true;
-            SnackbarMessageQueue.Enqueue("Editing transaction loaded");
+            SnackbarMessageQueue?.Enqueue("Editing transaction loaded");
         }
 
         [RelayCommand]
@@ -304,7 +318,7 @@ namespace FactoryManagement.ViewModels
                     await _wageService.AddWorkerAsync(dialog.NewWorker);
                     await LoadWorkersAsync();
                     SelectedWorker = Workers.FirstOrDefault(w => w.Name == dialog.NewWorker.Name);
-                    SnackbarMessageQueue.Enqueue("Worker added successfully!");
+                    SnackbarMessageQueue?.Enqueue("Worker added successfully!");
                 }
             }
             catch (Exception ex)
@@ -335,7 +349,7 @@ namespace FactoryManagement.ViewModels
                 await LoadSummaryAsync();
                 await LoadWorkersAsync();
 
-                SnackbarMessageQueue.Enqueue(
+                SnackbarMessageQueue?.Enqueue(
                     "Transaction deleted",
                     "UNDO",
                     () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteWageTransactionAsync()));

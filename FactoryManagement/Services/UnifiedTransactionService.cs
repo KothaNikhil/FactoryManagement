@@ -36,7 +36,12 @@ namespace FactoryManagement.Services
     /// <summary>
     /// Service for creating unified transaction views from multiple transaction sources
     /// </summary>
-    public class UnifiedTransactionService
+    public interface IUnifiedTransactionService
+    {
+        Task<List<UnifiedTransactionViewModel>> GetAllUnifiedTransactionsAsync(int? limit = null);
+    }
+
+    public class UnifiedTransactionService : IUnifiedTransactionService
     {
         private readonly ITransactionService _transactionService;
         private readonly FinancialTransactionService _financialService;

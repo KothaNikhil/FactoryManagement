@@ -115,9 +115,9 @@ namespace FactoryManagement
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IExportService, ExportService>();
             services.AddScoped<BackupService>();
-            services.AddScoped<FinancialTransactionService>();
+            services.AddScoped<IFinancialTransactionService, FinancialTransactionService>();
             services.AddScoped<IWageService, WageService>();
-            services.AddScoped<UnifiedTransactionService>();
+            services.AddScoped<IUnifiedTransactionService, UnifiedTransactionService>();
             services.AddScoped<IUserService, UserService>();
 
             // ViewModels

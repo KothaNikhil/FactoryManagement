@@ -92,9 +92,11 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 ## Usage Guide
 
 ### Dashboard
-- View summary cards for total purchases, sales, and wastage
-- Monitor recent transactions with "Entered By" information
-- Check low stock alerts
+- View summary cards for total purchases, sales, processing fees, and wastage
+- Monitor recent unified activity (Inventory, Financial, Wages) — latest 15 entries
+- Check low stock alerts and stock level bar for top 10 lowest-stock items
+- Faster loads: dashboard data now loads concurrently across services
+- Refresh behavior: navigating back to Dashboard triggers a data refresh
 
 ### User Selection
 - Select your username from the dropdown in the top-right header

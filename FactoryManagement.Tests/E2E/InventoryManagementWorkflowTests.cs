@@ -198,7 +198,7 @@ namespace FactoryManagement.Tests.E2E
         }
 
         [Fact]
-        public async Task InventoryWorkflow_DeleteItem_ShouldRemoveFromInventory()
+        public async Task InventoryWorkflow_DeleteItem_ShouldBeBlockedAndNotRemove()
         {
             // Arrange
             var item = await _itemService.AddItemAsync(new Item
@@ -214,16 +214,12 @@ namespace FactoryManagement.Tests.E2E
             var exists = await _itemService.GetItemByIdAsync(itemId);
             Assert.NotNull(exists);
 
-            // Act - Delete item
-            await _itemService.DeleteItemAsync(itemId);
-
-            // Assert - Item removed
+            // Act & Assert - Delete should throw and item remains
+            await Assert.ThrowsAsync<System.InvalidOperationException>(() => _itemService.DeleteItemAsync(itemId));
             var allItems2 = await _itemService.GetAllItemsAsync();
-            Assert.DoesNotContain(allItems2, i => i.ItemId == itemId);
-
-            // Verify cannot find by ID
-            var deletedItem = await _itemService.GetItemByIdAsync(itemId);
-            Assert.Null(deletedItem);
+            Assert.Contains(allItems2, i => i.ItemId == itemId);
+            var existingItem = await _itemService.GetItemByIdAsync(itemId);
+            Assert.NotNull(existingItem);
         }
 
         [Fact]

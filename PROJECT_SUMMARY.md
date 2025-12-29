@@ -8,6 +8,7 @@
 - Schema upgrade helpers applied for SQLite (e.g., `PaymentMode`, processing fields like `InputItemId`, `InputQuantity`, `ConversionRate`).
 - Expanded JSON backup/restore to include Items, Parties, Users, Workers, LoanAccounts, Inventory `Transactions`, `FinancialTransactions`, and `WageTransactions`.
 - Moved database to `%LocalAppData%\\Factory Management\\factory.db` for per-user installs.
+ - Dashboard performance refactor: concurrent data loading across services with cancellation support; unified activity capped to latest 15.
 
 Refer to the actual code locations in the project (e.g., [FactoryManagement/App.xaml](FactoryManagement/App.xaml), [FactoryManagement/Services/UnifiedTransactionService.cs](FactoryManagement/Services/UnifiedTransactionService.cs), [FactoryManagement/Behaviors/SearchableComboBoxBehavior.cs](FactoryManagement/Behaviors/SearchableComboBoxBehavior.cs)).
 
@@ -233,11 +234,12 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 ## 🎨 UI Screenshots (Features)
 
 ### Dashboard
-- 4 Summary cards (Purchases, Sales, Wastage, Count)
+- 4 Summary cards (Purchases, Sales, Processing Fees, Wastage)
 - 2 Financial cards (Loans Given, Loans Taken)
-- 4 Wages cards (Total Wages Paid, Total Advances, Worker Total, Outstanding) (NEW)
-- Recent transactions grid
-- Low stock alert list
+- 2 Wages summaries (Total Wages Paid, Total Advances)
+- Unified recent activity grid (Inventory, Financial, Wages) — latest 15
+- Low stock and stock level visualization (Top 10 lowest stock)
+- Concurrent data fetching for faster loads; refresh on navigation
 
 ### Transaction Entry
 - Transaction type selector

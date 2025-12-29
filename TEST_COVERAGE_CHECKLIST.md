@@ -24,7 +24,7 @@
 | ViewModel | Status | Test File | Test Count | Coverage Areas |
 |-----------|--------|-----------|------------|----------------|
 | **MainWindowViewModel** | ✅ | `ViewModels/MainWindowViewModelTests.cs` | 11 | Navigation commands, view switching, title updates, initialization |
-| **DashboardViewModel** | ❌ | N/A | 0 | ❌ No tests |
+| **DashboardViewModel** | ✅ | `ViewModels/DashboardViewModelTests.cs` | 12 | KPI calculations, recent activities, low stock, financial/wage totals, unified transactions, async init |
 | **TransactionEntryViewModel** | ❌ | N/A | 0 | ❌ No tests |
 | **ReportsViewModel** | ❌ | N/A | 0 | ❌ No tests |
 | **ItemsManagementViewModel** | ✅ | `ViewModels/ItemsManagementViewModelTests.cs` | 15 | CRUD operations, search, filtering, validation |
@@ -35,15 +35,11 @@
 
 **ViewModel Tests Status:** 5/12 ViewModels Covered (~42%)
 
-#### ❌ Missing ViewModel Tests:
-- [ ] **DashboardViewModel Tests** - Need:
-  - KPI calculation tests
-  - Real-time data refresh
-  - Recent transactions loading
-  - Low stock items detection
-  - Financial summary calculations
-  - Chart data preparation
-  - Async initialization
+#### ⚠️ Remaining ViewModel Test Gaps:
+- [ ] **DashboardViewModel**
+  - Refresh behavior on navigation
+  - Cancellation path (non-blocking assert)
+  - UI command wiring (future Refresh button)
 
 - [ ] **TransactionEntryViewModel Tests** - Need:
   - Transaction creation (Buy/Sell/Wastage)

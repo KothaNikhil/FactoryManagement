@@ -85,8 +85,8 @@ namespace FactoryManagement.Tests.ViewModels
             _viewModel.PartyType = PartyType.Buyer;
             _viewModel.IsEditMode = false;
 
-            _mockPartyService.Setup(s => s.AddPartyAsync(It.IsAny<Party>()))
-                .ReturnsAsync((Party p) => p);
+            _mockPartyService.Setup(s => s.AddPartyAsync(It.IsAny<Party>(), It.IsAny<int?>()))
+                .ReturnsAsync((Party p, int? _) => p);
             _mockPartyService.Setup(s => s.GetAllPartiesAsync()).ReturnsAsync(new List<Party>());
 
             // Act
@@ -97,7 +97,7 @@ namespace FactoryManagement.Tests.ViewModels
                 p.Name == "New Party" &&
                 p.MobileNumber == "123456" &&
                 p.Place == "Test Place" &&
-                p.PartyType == PartyType.Buyer)), Times.Once);
+                p.PartyType == PartyType.Buyer), It.IsAny<int?>()), Times.Once);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace FactoryManagement.Tests.ViewModels
             await _viewModel.SavePartyCommand.ExecuteAsync(null);
 
             // Assert
-            _mockPartyService.Verify(s => s.AddPartyAsync(It.IsAny<Party>()), Times.Never);
+            _mockPartyService.Verify(s => s.AddPartyAsync(It.IsAny<Party>(), It.IsAny<int?>()), Times.Never);
             Assert.Contains("required", _viewModel.ErrorMessage.ToLower());
         }
 
@@ -131,7 +131,7 @@ namespace FactoryManagement.Tests.ViewModels
             _viewModel.MobileNumber = "222222";
             _viewModel.PartyType = PartyType.Buyer;
 
-            _mockPartyService.Setup(s => s.UpdatePartyAsync(It.IsAny<Party>())).Returns(Task.CompletedTask);
+            _mockPartyService.Setup(s => s.UpdatePartyAsync(It.IsAny<Party>(), It.IsAny<int?>())).Returns(Task.CompletedTask);
             _mockPartyService.Setup(s => s.GetAllPartiesAsync()).ReturnsAsync(new List<Party>());
 
             // Act
@@ -142,7 +142,7 @@ namespace FactoryManagement.Tests.ViewModels
                 p.PartyId == 1 &&
                 p.Name == "Updated Name" &&
                 p.MobileNumber == "222222" &&
-                p.PartyType == PartyType.Buyer)), Times.Once);
+                p.PartyType == PartyType.Buyer), It.IsAny<int?>()), Times.Once);
         }
 
         [Fact]

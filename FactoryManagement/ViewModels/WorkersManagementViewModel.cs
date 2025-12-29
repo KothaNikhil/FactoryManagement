@@ -52,7 +52,8 @@ namespace FactoryManagement.ViewModels
         private string _errorMessage = string.Empty;
 
         private Worker? _lastDeletedWorker;
-        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+        private ISnackbarMessageQueue? _snackbarMessageQueue;
+        public ISnackbarMessageQueue? SnackbarMessageQueue => _snackbarMessageQueue ??= CreateSnackbarIfUiThread();
 
         public ObservableCollection<string> WorkerStatuses { get; } = new() { "Active", "Inactive", "OnLeave", "Terminated" };
 
@@ -61,6 +62,19 @@ namespace FactoryManagement.ViewModels
         public WorkersManagementViewModel(IWageService wageService)
         {
             _wageService = wageService;
+        }
+
+        private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
+        {
+            try
+            {
+                if (Application.Current?.Dispatcher?.CheckAccess() == true)
+                {
+                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+                }
+            }
+            catch { }
+            return null;
         }
 
         partial void OnSearchTextChanged(string value)
@@ -119,12 +133,12 @@ namespace FactoryManagement.ViewModels
                 if (IsEditMode)
                 {
                     await _wageService.UpdateWorkerAsync(worker);
-                    SnackbarMessageQueue.Enqueue("Worker updated successfully!");
+                    SnackbarMessageQueue?.Enqueue("Worker updated successfully!");
                 }
                 else
                 {
                     await _wageService.AddWorkerAsync(worker);
-                    SnackbarMessageQueue.Enqueue("Worker added successfully!");
+                    SnackbarMessageQueue?.Enqueue("Worker added successfully!");
                 }
 
                 await LoadWorkersAsync();
@@ -190,7 +204,7 @@ namespace FactoryManagement.ViewModels
                 await _wageService.DeleteWorkerAsync(worker.WorkerId);
                 await LoadWorkersAsync();
 
-                SnackbarMessageQueue.Enqueue(
+                SnackbarMessageQueue?.Enqueue(
                     "Worker deleted",
                     "UNDO",
                     () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteWorkerAsync()));

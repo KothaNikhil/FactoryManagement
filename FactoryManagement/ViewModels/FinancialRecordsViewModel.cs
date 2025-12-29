@@ -14,7 +14,7 @@ namespace FactoryManagement.ViewModels
 {
     public class FinancialRecordsViewModel : ViewModelBase
     {
-        private readonly FinancialTransactionService _financialTransactionService;
+        private readonly IFinancialTransactionService _financialTransactionService;
         private readonly IPartyService _partyService;
 
         private ObservableCollection<LoanAccount> _loans;
@@ -43,10 +43,11 @@ namespace FactoryManagement.ViewModels
         private decimal _totalInterestReceivable;
         private decimal _totalInterestPayable;
         private bool _isLoading;
-        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+        private ISnackbarMessageQueue? _snackbarMessageQueue;
+        public ISnackbarMessageQueue? SnackbarMessageQueue => _snackbarMessageQueue ??= CreateSnackbarIfUiThread();
 
         public FinancialRecordsViewModel(
-            FinancialTransactionService financialTransactionService,
+            IFinancialTransactionService financialTransactionService,
             IPartyService partyService)
         {
             _financialTransactionService = financialTransactionService;
@@ -72,6 +73,19 @@ namespace FactoryManagement.ViewModels
             DeleteFinancialTransactionCommand = new RelayCommand(() => DeleteFinancialTransactionAsync(SelectedTransaction).GetAwaiter().GetResult(), () => SelectedTransaction != null);
             UndoDeleteLoanCommand = new RelayCommand(() => UndoDeleteLoanAsync().GetAwaiter().GetResult(), () => _lastDeletedLoan != null);
             UndoDeleteFinancialTransactionCommand = new RelayCommand(() => UndoDeleteFinancialTransactionAsync().GetAwaiter().GetResult(), () => _lastDeletedFinancialTransaction != null);
+        }
+
+        private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
+        {
+            try
+            {
+                if (Application.Current?.Dispatcher?.CheckAccess() == true)
+                {
+                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+                }
+            }
+            catch { }
+            return null;
         }
 
         public ICommand LoadedCommand { get; }
@@ -600,7 +614,7 @@ namespace FactoryManagement.ViewModels
                     MessageBox.Show("Loan deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
                 });
 
-                SnackbarMessageQueue.Enqueue(
+                SnackbarMessageQueue?.Enqueue(
                     "Loan deleted",
                     "UNDO",
                     () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteLoanAsync()));
@@ -628,7 +642,7 @@ namespace FactoryManagement.ViewModels
                 await _financialTransactionService.DeleteFinancialTransactionAsync(transaction.FinancialTransactionId);
                 await LoadTransactionsForSelectedLoanAsync();
 
-                SnackbarMessageQueue.Enqueue(
+                SnackbarMessageQueue?.Enqueue(
                     "Transaction deleted",
                     "UNDO",
                     () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteFinancialTransactionAsync()));

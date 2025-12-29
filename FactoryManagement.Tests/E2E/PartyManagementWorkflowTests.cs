@@ -221,7 +221,7 @@ namespace FactoryManagement.Tests.E2E
         }
 
         [Fact]
-        public async Task PartyWorkflow_DeleteParty_ShouldRemoveFromDatabase()
+        public async Task PartyWorkflow_DeleteParty_ShouldSoftDelete()
         {
             // Arrange
             var party = await _partyService.AddPartyAsync(new Party
@@ -236,15 +236,16 @@ namespace FactoryManagement.Tests.E2E
             var exists = await _partyService.GetPartyByIdAsync(partyId);
             Assert.NotNull(exists);
 
-            // Act - Delete party
+            // Act - Delete party (soft delete)
             await _partyService.DeletePartyAsync(partyId);
 
-            // Assert - Party removed
+            // Assert - Party remains but is marked inactive
             var allParties2 = await _partyService.GetAllPartiesAsync();
-            Assert.DoesNotContain(allParties2, p => p.PartyId == partyId);
+            Assert.Contains(allParties2, p => p.PartyId == partyId);
 
-            var deleted = await _partyService.GetPartyByIdAsync(partyId);
-            Assert.Null(deleted);
+            var softDeleted = await _partyService.GetPartyByIdAsync(partyId);
+            Assert.NotNull(softDeleted);
+            Assert.False(softDeleted!.IsActive);
         }
 
         [Fact]

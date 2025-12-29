@@ -19,7 +19,8 @@ namespace FactoryManagement.ViewModels
         private readonly IPartyService _partyService;
         private Transaction? _lastDeletedTransaction;
 
-        public ISnackbarMessageQueue SnackbarMessageQueue { get; } = new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+        private ISnackbarMessageQueue? _snackbarMessageQueue;
+        public ISnackbarMessageQueue? SnackbarMessageQueue => _snackbarMessageQueue ??= CreateSnackbarIfUiThread();
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
@@ -122,6 +123,19 @@ namespace FactoryManagement.ViewModels
             _transactionService = transactionService;
             _itemService = itemService;
             _partyService = partyService;
+        }
+
+        private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
+        {
+            try
+            {
+                if (Application.Current?.Dispatcher?.CheckAccess() == true)
+                {
+                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(4));
+                }
+            }
+            catch { }
+            return null;
         }
 
         partial void OnQuantityChanged(decimal value)
@@ -400,7 +414,7 @@ namespace FactoryManagement.ViewModels
                 // Refresh recent transactions and stocks
                 await LoadDataAsync();
 
-                SnackbarMessageQueue.Enqueue(
+                SnackbarMessageQueue?.Enqueue(
                     "Transaction deleted",
                     "UNDO",
                     () => Application.Current.Dispatcher.Invoke(async () => await UndoDeleteTransactionAsync()));

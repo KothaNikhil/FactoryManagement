@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FactoryManagement.ViewModels
 {
@@ -13,9 +14,14 @@ namespace FactoryManagement.ViewModels
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
-        private readonly FinancialTransactionService? _financialTransactionService;
+        private readonly IFinancialTransactionService? _financialTransactionService;
         private readonly IWageService? _wageService;
-        private readonly UnifiedTransactionService? _unifiedTransactionService;
+        private readonly IUnifiedTransactionService? _unifiedTransactionService;
+
+        private const int LowStockThreshold = 100;
+        private const int StockChartTopCount = 10;
+        private const int RecentActivitiesPerSource = 20;
+        private const int RecentActivitiesDisplayCount = 15;
 
         [ObservableProperty]
         private decimal _totalPurchases;
@@ -65,9 +71,9 @@ namespace FactoryManagement.ViewModels
         public DashboardViewModel(
             ITransactionService transactionService, 
             IItemService itemService,
-            FinancialTransactionService? financialTransactionService = null,
+            IFinancialTransactionService? financialTransactionService = null,
             IWageService? wageService = null,
-            UnifiedTransactionService? unifiedTransactionService = null)
+            IUnifiedTransactionService? unifiedTransactionService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -77,15 +83,49 @@ namespace FactoryManagement.ViewModels
         }
 
         [RelayCommand]
-        private async Task LoadDataAsync()
+        private async Task LoadDataAsync(CancellationToken cancellationToken = default)
         {
             try
             {
                 IsBusy = true;
                 ErrorMessage = string.Empty;
+                
+                // Start fetching all possible data concurrently
+                var transactionsTask = _transactionService.GetAllTransactionsAsync();
+                var itemsTask = _itemService.GetAllItemsAsync();
 
-                var allTransactions = await _transactionService.GetAllTransactionsAsync();
-                var transactions = allTransactions.ToList();
+                Task<System.Collections.Generic.IEnumerable<FinancialTransaction>>? financialAllTask = null;
+                Task<decimal>? loansGivenTask = null;
+                Task<decimal>? loansTakenTask = null;
+                if (_financialTransactionService != null)
+                {
+                    financialAllTask = _financialTransactionService.GetAllFinancialTransactionsAsync();
+                    loansGivenTask = _financialTransactionService.GetTotalLoansGivenOutstandingAsync();
+                    loansTakenTask = _financialTransactionService.GetTotalLoansTakenOutstandingAsync();
+                }
+
+                Task<System.Collections.Generic.IEnumerable<WageTransaction>>? wageAllTask = null;
+                Task<decimal>? wagesPaidTask = null;
+                Task<decimal>? advancesGivenTask = null;
+                if (_wageService != null)
+                {
+                    wageAllTask = _wageService.GetAllWageTransactionsAsync();
+                    wagesPaidTask = _wageService.GetTotalWagesPaidAsync();
+                    advancesGivenTask = _wageService.GetTotalAdvancesGivenAsync();
+                }
+
+                Task<System.Collections.Generic.List<Services.UnifiedTransactionViewModel>>? unifiedTask = null;
+                if (_unifiedTransactionService != null)
+                {
+                    unifiedTask = _unifiedTransactionService.GetAllUnifiedTransactionsAsync(limit: 20);
+                }
+
+                // Await the minimum required first
+                await Task.WhenAll(transactionsTask, itemsTask);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var transactions = (await transactionsTask).ToList();
 
                 TotalPurchases = transactions
                     .Where(t => t.TransactionType == TransactionType.Buy)
@@ -108,16 +148,17 @@ namespace FactoryManagement.ViewModels
 
                 TransactionCount = transactions.Count;
 
-                var recentList = transactions.OrderByDescending(t => t.TransactionDate).Take(10).ToList();
-                RecentTransactions.Clear();
-                foreach (var item in recentList)
-                    RecentTransactions.Add(item);
+                var recentList = transactions
+                    .OrderByDescending(t => t.TransactionDate)
+                    .Take(10)
+                    .ToList();
+                SetCollection(RecentTransactions, recentList);
 
                 // Build unified recent activities list
                 var activities = new System.Collections.Generic.List<RecentActivity>();
 
                 // Add transaction entries
-                foreach (var t in transactions.OrderByDescending(x => x.TransactionDate).Take(20))
+                foreach (var t in transactions.OrderByDescending(x => x.TransactionDate).Take(RecentActivitiesPerSource))
                 {
                     activities.Add(new RecentActivity
                     {
@@ -133,8 +174,8 @@ namespace FactoryManagement.ViewModels
                 // Add financial transactions if available
                 if (_financialTransactionService != null)
                 {
-                    var financialTrans = await _financialTransactionService.GetAllFinancialTransactionsAsync();
-                    foreach (var ft in financialTrans.OrderByDescending(x => x.TransactionDate).Take(20))
+                    var financialTrans = financialAllTask != null ? await financialAllTask : new System.Collections.Generic.List<FinancialTransaction>();
+                    foreach (var ft in financialTrans.OrderByDescending(x => x.TransactionDate).Take(RecentActivitiesPerSource))
                     {
                         activities.Add(new RecentActivity
                         {
@@ -151,8 +192,8 @@ namespace FactoryManagement.ViewModels
                 // Add wage transactions if available
                 if (_wageService != null)
                 {
-                    var wageTrans = await _wageService.GetAllWageTransactionsAsync();
-                    foreach (var wt in wageTrans.OrderByDescending(x => x.TransactionDate).Take(20))
+                    var wageTrans = wageAllTask != null ? await wageAllTask : new System.Collections.Generic.List<WageTransaction>();
+                    foreach (var wt in wageTrans.OrderByDescending(x => x.TransactionDate).Take(RecentActivitiesPerSource))
                     {
                         activities.Add(new RecentActivity
                         {
@@ -167,43 +208,45 @@ namespace FactoryManagement.ViewModels
                 }
 
                 // Sort all activities by date and take top 15
-                RecentActivities.Clear();
-                foreach (var activity in activities.OrderByDescending(a => a.Date).Take(15))
-                    RecentActivities.Add(activity);
+                var recentActivities = activities
+                    .OrderByDescending(a => a.Date)
+                    .Take(RecentActivitiesDisplayCount)
+                    .ToList();
+                SetCollection(RecentActivities, recentActivities);
 
-                var allItems = await _itemService.GetAllItemsAsync();
-                var lowStockList = allItems.Where(i => i.CurrentStock < 100).OrderBy(i => i.CurrentStock).ToList();
-                LowStockItems.Clear();
-                foreach (var item in lowStockList)
-                    LowStockItems.Add(item);
+                var allItems = await itemsTask;
+                var lowStockList = allItems
+                    .Where(i => i.CurrentStock < LowStockThreshold)
+                    .OrderBy(i => i.CurrentStock)
+                    .ToList();
+                SetCollection(LowStockItems, lowStockList);
 
                 // Load all items for stock chart (top 10 by lowest stock)
-                var chartItems = allItems.OrderBy(i => i.CurrentStock).Take(10).ToList();
-                AllItems.Clear();
-                foreach (var item in chartItems)
-                    AllItems.Add(item);
+                var chartItems = allItems
+                    .OrderBy(i => i.CurrentStock)
+                    .Take(StockChartTopCount)
+                    .ToList();
+                SetCollection(AllItems, chartItems);
 
                 // Load financial data if service is available
                 if (_financialTransactionService != null)
                 {
-                    TotalLoansGiven = await _financialTransactionService.GetTotalLoansGivenOutstandingAsync();
-                    TotalLoansTaken = await _financialTransactionService.GetTotalLoansTakenOutstandingAsync();
+                    TotalLoansGiven = loansGivenTask != null ? await loansGivenTask : 0m;
+                    TotalLoansTaken = loansTakenTask != null ? await loansTakenTask : 0m;
                 }
 
                 // Load wage data if service is available
                 if (_wageService != null)
                 {
-                    TotalWagesPaid = await _wageService.GetTotalWagesPaidAsync();
-                    TotalAdvancesGiven = await _wageService.GetTotalAdvancesGivenAsync();
+                    TotalWagesPaid = wagesPaidTask != null ? await wagesPaidTask : 0m;
+                    TotalAdvancesGiven = advancesGivenTask != null ? await advancesGivenTask : 0m;
                 }
 
                 // Load recent 15 unified transactions if service is available
                 if (_unifiedTransactionService != null)
                 {
-                    var recentUnified = await _unifiedTransactionService.GetAllUnifiedTransactionsAsync(limit: 20);
-                    AllTransactions.Clear();
-                    foreach (var transaction in recentUnified)
-                        AllTransactions.Add(transaction);
+                    var recentUnified = unifiedTask != null ? await unifiedTask : new System.Collections.Generic.List<Services.UnifiedTransactionViewModel>();
+                    SetCollection(AllTransactions, recentUnified);
                 }
             }
             catch (Exception ex)
@@ -216,9 +259,18 @@ namespace FactoryManagement.ViewModels
             }
         }
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(CancellationToken cancellationToken = default)
         {
-            await LoadDataAsync();
+            await LoadDataAsync(cancellationToken);
+        }
+
+        private static void SetCollection<T>(ObservableCollection<T> target, System.Collections.Generic.IEnumerable<T> items)
+        {
+            target.Clear();
+            foreach (var item in items)
+            {
+                target.Add(item);
+            }
         }
     }
 }
