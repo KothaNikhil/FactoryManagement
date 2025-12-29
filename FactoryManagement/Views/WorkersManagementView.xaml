@@ -1,0 +1,246 @@
+<UserControl x:Class="FactoryManagement.Views.WorkersManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page Header -->
+        <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="20" Margin="0,0,0,20" CornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Width="48" Height="48" CornerRadius="24">
+                    <TextBlock Text="👷" FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <TextBlock Text="Workers Management" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Add, edit, and manage your workers" FontSize="14" Foreground="#AAA" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content - Left (Add Worker) and Right (Workers List) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT COLUMN: Add Worker Form -->
+            <Border Grid.Column="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15"
+                    ToolTip="Add a new worker">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Form Fields -->
+                    <StackPanel Grid.Row="0">
+                        <!-- Section Header -->
+                        <Border Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                    <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                        <TextBlock FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="✏️"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEditMode}" Value="False">
+                                                            <Setter Property="Text" Value="➕"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                    <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SectionHeader.Title}">
+                                                    <Setter Property="Text" Value="Add New Worker"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                                                            <Setter Property="Text" Value="Update Worker"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                                <Button Grid.Column="1" Content="✕ Cancel" 
+                                        Command="{Binding CancelEditCommand}"
+                                        Style="{StaticResource Button.Secondary}"
+                                        Padding="12,4"
+                                        Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Worker Name -->
+                        <TextBlock Text="Worker Name *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding WorkerName, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Enter worker name"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Mobile Number -->
+                        <TextBlock Text="Mobile Number" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Enter mobile number (optional)"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Address -->
+                        <TextBlock Text="Address" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Enter address (optional)"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Status -->
+                        <TextBlock Text="Status" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding WorkerStatuses}"
+                                  SelectedItem="{Binding WorkerStatusString, Mode=TwoWay}"
+                                  Style="{StaticResource ComboBox.Standard}"
+                                  Margin="0,0,0,10"/>
+
+                        <!-- Notes -->
+                        <TextBlock Text="Notes" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding WorkerNotes, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Optional notes"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 TextWrapping="Wrap"
+                                 MinLines="2"
+                                 MaxLines="3"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Error Message -->
+                        <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
+                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                            <TextBlock Text="{Binding ErrorMessage}" 
+                                       Foreground="#ff6b6b" 
+                                       FontSize="10"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Save Button -->
+                    <Button Grid.Row="1"
+                            Command="{Binding SaveWorkerCommand}"
+                            Height="44"
+                            Margin="0,15,0,0">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource Button.Success}">
+                                <Setter Property="Content" Value="💾 ADD WORKER"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                                        <Setter Property="Content" Value="💾 SAVE CHANGES"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT COLUMN: Workers List -->
+            <Border Grid.Column="2" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Section Header and Search Box -->
+                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}" Margin="-20,-20,-20,20">
+                        <Grid Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="All Workers" Style="{StaticResource SectionHeader.Title}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="🔍 Search workers..."
+                                     Style="{StaticResource TextBox.Standard}" Margin="10,0,0,0"
+                                     VerticalAlignment="Center"/>
+                            <Button Grid.Column="2" Content="↩ Undo Delete" 
+                                    Command="{Binding UndoDeleteWorkerCommand}"
+                                    Style="{StaticResource Button.Secondary}"
+                                    Padding="12,4" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Workers DataGrid -->
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding Workers}"
+                              SelectedItem="{Binding SelectedWorker}"
+                              Style="{StaticResource Section.DataGrid}"
+                              KeyboardNavigation.TabNavigation="Once">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Mobile" Binding="{Binding MobileNumber}" Width="140"/>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTemplateColumn Header="Actions" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
+                                                    Command="{Binding DataContext.EditWorkerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip="Edit Worker"
+                                                    Margin="0,0,5,0">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                            </Button>
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
+                                                    Command="{Binding DataContext.DeleteWorkerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip="Delete Worker"
+                                                    Margin="5,0,0,0">
+                                                <materialDesign:PackIcon Kind="DeleteForever" Width="16" Height="16"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>
+    </Grid>
+</UserControl>

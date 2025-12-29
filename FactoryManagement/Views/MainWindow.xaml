@@ -51,6 +51,9 @@
         <DataTemplate DataType="{x:Type viewmodels:PayrollManagementViewModel}">
             <views:PayrollManagementView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:WorkersManagementViewModel}">
+            <views:WorkersManagementView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:UsersViewModel}">
             <views:UsersView />
         </DataTemplate>
@@ -491,6 +494,42 @@
                                 </TextBlock.Style>
                             </TextBlock>
                             <TextBlock Grid.Column="2" Text="Ctrl+7" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </ListBoxItem>
+
+                    <ListBoxItem Tag="Workers">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="HardHat" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+                            <TextBlock Grid.Column="1" Text="Workers Management" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontWeight="Medium" FontSize="16">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}" Value="52">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="2" Text="Ctrl+W" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="White" FontSize="12" Opacity="0.7">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Visible"/>

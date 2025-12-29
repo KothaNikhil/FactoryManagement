@@ -43,6 +43,7 @@ namespace FactoryManagement.ViewModels
         private readonly DataBackupViewModel _backupViewModel;
         private readonly FinancialRecordsViewModel _financialTransactionsViewModel;
         private readonly PayrollManagementViewModel _wagesManagementViewModel;
+        private readonly WorkersManagementViewModel _workersManagementViewModel;
         private readonly UsersViewModel _usersViewModel;
 
         private readonly FactoryDbContext _dbContext;
@@ -57,6 +58,7 @@ namespace FactoryManagement.ViewModels
             DataBackupViewModel backupViewModel,
             FinancialRecordsViewModel financialTransactionsViewModel,
             PayrollManagementViewModel wagesManagementViewModel,
+            WorkersManagementViewModel workersManagementViewModel,
             UsersViewModel usersViewModel,
             FactoryDbContext dbContext,
             IUserService userService)
@@ -69,6 +71,7 @@ namespace FactoryManagement.ViewModels
             _backupViewModel = backupViewModel;
             _financialTransactionsViewModel = financialTransactionsViewModel;
             _wagesManagementViewModel = wagesManagementViewModel;
+            _workersManagementViewModel = workersManagementViewModel;
             _usersViewModel = usersViewModel;
             _dbContext = dbContext;
             _userService = userService;
@@ -142,6 +145,15 @@ namespace FactoryManagement.ViewModels
             CurrentView = _wagesManagementViewModel;
             CurrentViewTitle = "Payroll Management";
             await _wagesManagementViewModel.InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToWorkersAsync()
+        {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
+            CurrentView = _workersManagementViewModel;
+            CurrentViewTitle = "Workers Management";
+            await _workersManagementViewModel.InitializeAsync();
         }
 
         [RelayCommand]

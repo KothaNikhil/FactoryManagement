@@ -130,6 +130,7 @@ namespace FactoryManagement
             services.AddTransient<DataBackupViewModel>();
             services.AddTransient<FinancialRecordsViewModel>();
             services.AddTransient<PayrollManagementViewModel>();
+            services.AddTransient<WorkersManagementViewModel>();
             services.AddTransient<UsersViewModel>();
             services.AddTransient<LoginViewModel>();
 

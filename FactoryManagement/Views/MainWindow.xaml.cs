@@ -127,6 +127,9 @@ namespace FactoryManagement.Views
                     case "Wages":
                         await ViewModel.NavigateToWagesCommand.ExecuteAsync(null);
                         break;
+                    case "Workers":
+                        await ViewModel.NavigateToWorkersCommand.ExecuteAsync(null);
+                        break;
                     case "Backup":
                         ViewModel.NavigateToBackupCommand.Execute(null);
                         break;
@@ -235,6 +238,9 @@ namespace FactoryManagement.Views
                         break;
                     case Key.D0:
                         tag = "Exit";
+                        break;
+                    case Key.W:
+                        tag = "Workers";
                         break;
                 }
                 

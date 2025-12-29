@@ -25,6 +25,7 @@ namespace FactoryManagement.Services
         Task<IEnumerable<WageTransaction>> GetAllWageTransactionsAsync();
         Task DeleteWageTransactionAsync(int wageTransactionId);
         Task RestoreWageTransactionAsync(WageTransaction transaction);
+        Task UpdateWagePaymentAsync(WageTransaction updated, int? userId = null);
         
         // Summary Operations
         Task<decimal> GetTotalWagesPaidAsync();
@@ -250,6 +251,92 @@ namespace FactoryManagement.Services
             }
 
             await _wageTransactionRepository.AddAsync(transaction);
+        }
+
+        public async Task UpdateWagePaymentAsync(WageTransaction updated, int? userId = null)
+        {
+            var existing = await _wageTransactionRepository.GetByIdAsync(updated.WageTransactionId);
+            if (existing == null)
+            {
+                throw new InvalidOperationException("Transaction not found for update.");
+            }
+
+            // Ensure timestamps and ownership
+            updated.CreatedDate = existing.CreatedDate;
+            updated.ModifiedDate = DateTime.Now;
+            updated.TransactionDate = existing.TransactionDate;
+            updated.EnteredBy = existing.EnteredBy;
+
+            // Recalculate net amount if not provided
+            if (updated.NetAmount == 0)
+            {
+                updated.NetAmount = updated.Amount
+                    + (updated.OvertimeAmount ?? 0)
+                    - (updated.AdvanceAdjusted ?? 0)
+                    - (updated.Deductions ?? 0);
+            }
+
+            // If worker changed, reverse on old worker and apply on new worker
+            if (existing.WorkerId != updated.WorkerId || existing.TransactionType != updated.TransactionType || existing.Amount != updated.Amount || existing.NetAmount != updated.NetAmount)
+            {
+                var oldWorker = await _workerRepository.GetByIdAsync(existing.WorkerId);
+                if (oldWorker != null)
+                {
+                    switch (existing.TransactionType)
+                    {
+                        case WageTransactionType.DailyWage:
+                        case WageTransactionType.HourlyWage:
+                        case WageTransactionType.MonthlyWage:
+                        case WageTransactionType.OvertimePay:
+                        case WageTransactionType.Bonus:
+                            oldWorker.TotalWagesPaid = Math.Max(0, oldWorker.TotalWagesPaid - existing.NetAmount);
+                            break;
+                        case WageTransactionType.AdvanceGiven:
+                            oldWorker.TotalAdvance = Math.Max(0, oldWorker.TotalAdvance - existing.Amount);
+                            break;
+                        case WageTransactionType.AdvanceAdjustment:
+                            oldWorker.TotalAdvance += existing.Amount;
+                            break;
+                    }
+                    // Legacy field reversal
+                    if (existing.AdvanceAdjusted.HasValue && existing.AdvanceAdjusted.Value > 0)
+                    {
+                        oldWorker.TotalAdvance += existing.AdvanceAdjusted.Value;
+                    }
+                    oldWorker.ModifiedDate = DateTime.Now;
+                    await _workerRepository.UpdateAsync(oldWorker);
+                }
+
+                var newWorker = await _workerRepository.GetByIdAsync(updated.WorkerId);
+                if (newWorker != null)
+                {
+                    switch (updated.TransactionType)
+                    {
+                        case WageTransactionType.DailyWage:
+                        case WageTransactionType.HourlyWage:
+                        case WageTransactionType.MonthlyWage:
+                        case WageTransactionType.OvertimePay:
+                        case WageTransactionType.Bonus:
+                            newWorker.TotalWagesPaid += updated.NetAmount;
+                            break;
+                        case WageTransactionType.AdvanceGiven:
+                            newWorker.TotalAdvance += updated.Amount;
+                            break;
+                        case WageTransactionType.AdvanceAdjustment:
+                            newWorker.TotalAdvance = Math.Max(0, newWorker.TotalAdvance - updated.Amount);
+                            break;
+                    }
+                    // Legacy field application
+                    if (updated.AdvanceAdjusted.HasValue && updated.AdvanceAdjusted.Value > 0)
+                    {
+                        newWorker.TotalAdvance = Math.Max(0, newWorker.TotalAdvance - updated.AdvanceAdjusted.Value);
+                    }
+                    newWorker.ModifiedDate = DateTime.Now;
+                    await _workerRepository.UpdateAsync(newWorker);
+                }
+            }
+
+            await _wageTransactionRepository.UpdateAsync(updated);
         }
 
         // Summary Operations

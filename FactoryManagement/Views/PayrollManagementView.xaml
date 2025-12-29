@@ -119,185 +119,154 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- LEFT COLUMN: Stacked Sections (Record Payment + Manage Workers) -->
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="15"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <!-- LEFT COLUMN: Record Payment -->
+            <Border Grid.Column="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15"
+                ToolTip="Select worker and enter payment">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!-- RECORD PAYMENT (Top) -->
-                <Border Grid.Row="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15"
-                    ToolTip="Select worker and enter payment">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Form Content -->
-                        <StackPanel Grid.Row="0">
-                            <!-- Section Header -->
-                            <Border Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
-                                <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="💸" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Record Payment" Style="{StaticResource SectionHeader.Title}"/>
-                                </StackPanel>
-                            </StackPanel>
+                    <!-- Form Content -->
+                    <StackPanel Grid.Row="0">
+                        <!-- Section Header -->
+                        <Border Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
+                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+                            <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                <TextBlock Text="💸" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
+                            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                <TextBlock Text="Record Payment" Style="{StaticResource SectionHeader.Title}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        </Border>
 
-                            <!-- Worker Selection -->
-                            <TextBlock Text="Select Worker *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
-                            <ComboBox ItemsSource="{Binding Workers}"
+                        <!-- Worker Selection -->
+                        <TextBlock Text="Select Worker *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <ComboBox Grid.Column="0"
+                                      ItemsSource="{Binding Workers}"
                                       SelectedItem="{Binding SelectedWorker, Mode=TwoWay}"
                                       DisplayMemberPath="Name"
                                       materialDesign:HintAssist.Hint="Choose worker"
-                                      Style="{StaticResource ComboBox.Standard}"
-                                      Margin="0,0,0,10">
+                                      Style="{StaticResource ComboBox.Standard}">
                                 <i:Interaction.Behaviors>
                                     <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
                                 </i:Interaction.Behaviors>
                             </ComboBox>
-
-                            <!-- Outstanding Advance Info -->
-                            <Border Background="#1a1a1a" CornerRadius="4" Padding="10" Margin="0,0,0,10"
-                                    Visibility="{Binding WorkerInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <TextBlock Foreground="#999" FontSize="11">
-                                    <Run Text="Outstanding Advance: "/>
-                                    <Run Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat=₹{0:N0}}" Foreground="#ff6b6b" FontWeight="Bold"/>
-                                </TextBlock>
-                            </Border>
-
-                            <!-- Payment Type -->
-                            <TextBlock Text="Payment Type *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
-                            <ComboBox ItemsSource="{Binding TransactionTypes}"
-                                      SelectedItem="{Binding TransactionType, Mode=TwoWay}"
-                                      Style="{StaticResource ComboBox.Standard}"
-                                      Margin="0,0,0,10"/>
-
-                            <!-- Payment Mode -->
-                            <TextBlock Text="Payment Mode *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
-                            <ComboBox ItemsSource="{Binding PaymentModes}"
-                                      SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
-                                      Style="{StaticResource ComboBox.Standard}"
-                                      Margin="0,0,0,10"/>
-
-                            <!-- Amount -->
-                            <TextBlock Text="Amount *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
-                            <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
-                                     Style="{StaticResource TextBox.Standard}"
-                                     FontSize="16"
-                                     FontWeight="Bold"
-                                     Margin="0,0,0,10"/>
-
-                            <!-- Notes -->
-                            <TextBlock Text="Notes" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
-                            <TextBox Text="{Binding Notes}"
-                                     materialDesign:HintAssist.Hint="Optional..."
-                                     Style="{StaticResource TextBox.Standard}"
-                                     TextWrapping="Wrap"
-                                     MinLines="1"
-                                     MaxLines="1"
-                                     Margin="0,0,0,10"/>
-
-                            <!-- Error Message -->
-                            <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
-                                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                                <TextBlock Text="{Binding ErrorMessage}" 
-                                           Foreground="#ff6b6b" 
-                                           FontSize="10"
-                                           TextWrapping="Wrap"/>
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Save Button -->
-                        <Button Grid.Row="1"
-                                Content="💾 RECORD PAYMENT"
-                                Command="{Binding SaveWagePaymentCommand}"
-                                Style="{StaticResource Button.Success}"
-                                Height="44"
-                                Margin="0,15,0,0"/>
-                    </Grid>
-                </Border>
-
-                <!-- MANAGE WORKERS (Bottom) -->
-                <Border Grid.Row="2" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="20"
-                        ToolTip="Add and manage your workers">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Section Header and Search Box in same row -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}" Margin="-20,-20,-20,20">
-                            <Grid Margin="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
                             
-                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="👷" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Manage Workers" Style="{StaticResource SectionHeader.Title}"/>
-                                </StackPanel>
-                            </StackPanel>
-                            
-                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                     materialDesign:HintAssist.Hint="🔍 Search workers..."
-                                     Style="{StaticResource TextBox.Standard}" Margin="10,0,0,0"
-                                     VerticalAlignment="Center"/>
-                                <Button Grid.Column="2" Content="↩ Undo Delete" 
-                                    Command="{Binding UndoDeleteWorkerCommand}"
-                                    Style="{StaticResource Button.Secondary}"
-                                    Padding="12,4" Margin="10,0,0,0"/>
-                            </Grid>
+                            <Button Grid.Column="2"
+                                    Content="➕"
+                                    Command="{Binding QuickAddWorkerCommand}"
+                                    ToolTip="Quick add worker"
+                                    Width="38"
+                                    Height="38"
+                                    Padding="0"
+                                    FontSize="16"
+                                    Style="{StaticResource Button.Success}"/>
+                        </Grid>
+
+                        <!-- Outstanding Advance Info -->
+                        <Border Background="#1a1a1a" CornerRadius="4" Padding="10" Margin="0,0,0,10"
+                                Visibility="{Binding WorkerInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Foreground="#999" FontSize="11">
+                                <Run Text="Outstanding Advance: "/>
+                                <Run Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat=₹{0:N0}}" Foreground="#ff6b6b" FontWeight="Bold"/>
+                            </TextBlock>
                         </Border>
 
-                        <!-- Workers List -->
-                        <DataGrid Grid.Row="1" 
-                                  ItemsSource="{Binding Workers}"
-                                  SelectedItem="{Binding SelectedWorker}"
-                                  Style="{StaticResource Section.DataGrid}"
-                                  KeyboardNavigation.TabNavigation="Once">
-                            <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-                            </DataGrid.ColumnHeaderStyle>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTemplateColumn Header="Action" Width="100">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Style="{StaticResource DataGrid.EditButton}"
-                                                    Command="{Binding DataContext.EditWorkerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}"
-                                                    ToolTip="Edit">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <!-- Payment Type -->
+                        <TextBlock Text="Payment Type *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding TransactionTypes}"
+                                  SelectedItem="{Binding TransactionType, Mode=TwoWay}"
+                                  Style="{StaticResource ComboBox.Standard}"
+                                  Margin="0,0,0,10"/>
 
-                        <!-- Add Worker Button -->
-                        <Button Grid.Row="2" Content="➕ ADD NEW WORKER" 
-                                Command="{Binding NewWorkerCommand}"
-                                Style="{StaticResource Button.Primary}"
-                                Margin="0,15,0,0"
-                                Height="44"/>
+                        <!-- Payment Mode -->
+                        <TextBlock Text="Payment Mode *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding PaymentModes}"
+                                  SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
+                                  Style="{StaticResource ComboBox.Standard}"
+                                  Margin="0,0,0,10"/>
+
+                        <!-- Amount -->
+                        <TextBlock Text="Amount *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 FontSize="16"
+                                 FontWeight="Bold"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Notes -->
+                        <TextBlock Text="Notes" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding Notes}"
+                                 materialDesign:HintAssist.Hint="Optional..."
+                                 Style="{StaticResource TextBox.Standard}"
+                                 TextWrapping="Wrap"
+                                 MinLines="1"
+                                 MaxLines="1"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- Error Message -->
+                        <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
+                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                            <TextBlock Text="{Binding ErrorMessage}" 
+                                       Foreground="#ff6b6b" 
+                                       FontSize="10"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Action Buttons: Save / Cancel Edit / Clear -->
+                    <Grid Grid.Row="1" Margin="0,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Save / Update -->
+                        <Button Grid.Column="0"
+                                Command="{Binding SaveWagePaymentCommand}"
+                                Height="44">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource Button.Success}">
+                                    <Setter Property="Content" Value="💾 RECORD PAYMENT"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                                            <Setter Property="Content" Value="💾 UPDATE PAYMENT"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!-- Cancel Edit -->
+                        <Button Grid.Column="1"
+                                Content="Cancel Edit"
+                                Command="{Binding CancelEditCommand}"
+                                Style="{StaticResource Button.Secondary}"
+                                Height="44"
+                                Margin="10,0,0,0"
+                                Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                        <!-- Clear Form -->
+                        <Button Grid.Column="2"
+                                Content="Clear"
+                                Command="{Binding ClearPaymentFormCommand}"
+                                Style="{StaticResource Button.Secondary}"
+                                Height="44"
+                                Margin="10,0,0,0"/>
                     </Grid>
-                </Border>
-            </Grid>
+                </Grid>
+            </Border>
 
             <!-- RIGHT COLUMN: Payment History (Wide) -->
             <Border Grid.Column="2" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="20">
@@ -329,7 +298,7 @@
                     </Border>
 
                     <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
-                              ItemsSource="{Binding Transactions}"
+                              ItemsSource="{Binding AllTransactions}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               CanUserAddRows="False"
@@ -351,6 +320,18 @@
                             </Style>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Edit" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource DataGrid.EditButton}"
+                                                Command="{Binding DataContext.EditWageTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip="Edit">
+                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Delete" Width="70">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
