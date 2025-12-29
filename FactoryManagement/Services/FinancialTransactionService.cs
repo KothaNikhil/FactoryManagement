@@ -261,13 +261,13 @@ namespace FactoryManagement.Services
             var loan = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
             if (loan == null) return;
 
-            // Delete related transactions first
-            foreach (var tx in loan.Transactions.ToList())
+            // Do not delete historical entries in bulk. Require explicit deletion per transaction.
+            if (loan.Transactions != null && loan.Transactions.Any())
             {
-                _context.FinancialTransactions.Remove(tx);
+                throw new InvalidOperationException("Loan account cannot be deleted because it has related transactions. Delete individual transactions if truly intended, or close the loan.");
             }
 
-            // Delete loan account
+            // Allow deletion only when there are no transactions (should be rare)
             _context.LoanAccounts.Remove(loan);
             await _context.SaveChangesAsync();
         }

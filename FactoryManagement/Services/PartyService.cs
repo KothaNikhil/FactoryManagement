@@ -59,7 +59,10 @@ namespace FactoryManagement.Services
             var party = await _partyRepository.GetByIdAsync(id);
             if (party != null)
             {
-                await _partyRepository.DeleteAsync(party);
+                // Soft delete party to preserve dependent transactions
+                party.IsActive = false;
+                party.ModifiedDate = DateTime.Now;
+                await _partyRepository.UpdateAsync(party);
             }
         }
     }

@@ -55,7 +55,8 @@ namespace FactoryManagement.Services
             var item = await _itemRepository.GetByIdAsync(id);
             if (item != null)
             {
-                await _itemRepository.DeleteAsync(item);
+                // Prevent deleting items to avoid cascading or orphaning references
+                throw new InvalidOperationException("Items cannot be deleted to preserve transaction history. Consider marking as inactive or renaming.");
             }
         }
 

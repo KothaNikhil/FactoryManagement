@@ -34,6 +34,9 @@ namespace FactoryManagement.Models
         [Required]
         public PartyType PartyType { get; set; }
 
+        // Soft-delete flag to preserve transactions if party is removed
+        public bool IsActive { get; set; } = true;
+
         public int? CreatedByUserId { get; set; }
 
         [ForeignKey(nameof(CreatedByUserId))]

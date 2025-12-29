@@ -83,7 +83,11 @@ namespace FactoryManagement.Services
             var worker = await _workerRepository.GetByIdAsync(id);
             if (worker != null)
             {
-                await _workerRepository.DeleteAsync(worker);
+                // Soft delete: mark worker inactive to retain wage history
+                worker.Status = WorkerStatus.Inactive;
+                worker.LeavingDate = DateTime.Now;
+                worker.ModifiedDate = DateTime.Now;
+                await _workerRepository.UpdateAsync(worker);
             }
         }
 

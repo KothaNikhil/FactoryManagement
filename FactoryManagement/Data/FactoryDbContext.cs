@@ -120,10 +120,103 @@ namespace FactoryManagement.Data
                 .HasIndex(wt => wt.TransactionType);
 
             // Configure relationships
+            // Transactions: prevent cascades
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.EnteredBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Item)
+                .WithMany()
+                .HasForeignKey(t => t.ItemId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Party)
+                .WithMany()
+                .HasForeignKey(t => t.PartyId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Financial Transactions and Loans
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasOne(ft => ft.User)
+                .WithMany()
+                .HasForeignKey(ft => ft.EnteredBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasOne(ft => ft.Party)
+                .WithMany()
+                .HasForeignKey(ft => ft.PartyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FinancialTransaction>()
+                .HasOne(ft => ft.LinkedLoanAccount)
+                .WithMany(l => l.Transactions)
+                .HasForeignKey(ft => ft.LinkedLoanAccountId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LoanAccount>()
+                .HasOne(l => l.Party)
+                .WithMany()
+                .HasForeignKey(l => l.PartyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LoanAccount>()
+                .HasOne(l => l.User)
+                .WithMany()
+                .HasForeignKey(l => l.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Party and Item created/modified by
+            modelBuilder.Entity<Party>()
+                .HasOne(p => p.CreatedBy)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Party>()
+                .HasOne(p => p.ModifiedBy)
+                .WithMany()
+                .HasForeignKey(p => p.ModifiedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Item>()
+                .HasOne(i => i.CreatedBy)
+                .WithMany()
+                .HasForeignKey(i => i.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Item>()
+                .HasOne(i => i.ModifiedBy)
+                .WithMany()
+                .HasForeignKey(i => i.ModifiedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Worker metadata
+            modelBuilder.Entity<Worker>()
+                .HasOne(w => w.CreatedBy)
+                .WithMany()
+                .HasForeignKey(w => w.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Worker>()
+                .HasOne(w => w.ModifiedBy)
+                .WithMany()
+                .HasForeignKey(w => w.ModifiedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<WageTransaction>()
                 .HasOne(wt => wt.Worker)
                 .WithMany(w => w.WageTransactions)
                 .HasForeignKey(wt => wt.WorkerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WageTransaction>()
+                .HasOne(wt => wt.User)
+                .WithMany()
+                .HasForeignKey(wt => wt.EnteredBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Seed initial data

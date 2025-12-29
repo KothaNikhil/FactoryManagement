@@ -186,6 +186,8 @@ namespace FactoryManagement
                 TryAddColumn(context, "Items", "ModifiedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Parties", "CreatedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Parties", "ModifiedByUserId", "INTEGER NULL");
+                // Soft-delete flag for Parties to preserve transactions on delete
+                TryAddColumn(context, "Parties", "IsActive", "INTEGER NOT NULL DEFAULT 1");
                 TryAddColumn(context, "Workers", "CreatedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Workers", "ModifiedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "WageTransactions", "EnteredBy", "INTEGER NOT NULL DEFAULT 1");

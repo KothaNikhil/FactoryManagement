@@ -65,7 +65,10 @@ namespace FactoryManagement.Services
             var user = await _userRepository.GetByIdAsync(userId);
             if (user != null)
             {
-                await _userRepository.DeleteAsync(user);
+                // Soft delete: keep user row so related transactions remain
+                user.IsActive = false;
+                user.ModifiedDate = DateTime.Now;
+                await _userRepository.UpdateAsync(user);
             }
         }
 

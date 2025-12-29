@@ -176,7 +176,8 @@
                                 <ComboBox ItemsSource="{Binding Parties}" 
                                           SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
-                                          Style="{StaticResource ComboBox.Standard}">
+                                          Style="{StaticResource ComboBox.Standard}"
+                                          materialDesign:HintAssist.Hint="Select Party">
                                     <i:Interaction.Behaviors>
                                         <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
                                     </i:Interaction.Behaviors>
