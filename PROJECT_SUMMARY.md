@@ -1,5 +1,16 @@
 # Factory Management System - Project Summary
 
+## 2025-12-29 Update Summary
+- Added login flow and active user tracking across all modules.
+- Introduced `UnifiedTransactionService` and a combined reports view (All/Inventory/Financial/Wages) with pagination and user/name/date filters.
+- Implemented `SearchableComboBoxBehavior` for type-to-search dropdowns in key views.
+- Consolidated dark theme styles and added Enhanced DataGrid look-and-feel.
+- Schema upgrade helpers applied for SQLite (e.g., `PaymentMode`, processing fields like `InputItemId`, `InputQuantity`, `ConversionRate`).
+- Expanded JSON backup/restore to include Items, Parties, Users, Workers, LoanAccounts, Inventory `Transactions`, `FinancialTransactions`, and `WageTransactions`.
+- Moved database to `%LocalAppData%\\Factory Management\\factory.db` for per-user installs.
+
+Refer to the actual code locations in the project (e.g., [FactoryManagement/App.xaml](FactoryManagement/App.xaml), [FactoryManagement/Services/UnifiedTransactionService.cs](FactoryManagement/Services/UnifiedTransactionService.cs), [FactoryManagement/Behaviors/SearchableComboBoxBehavior.cs](FactoryManagement/Behaviors/SearchableComboBoxBehavior.cs)).
+
 ## 🎯 Project Overview
 
 A complete, production-ready WPF application for managing factory inventory and transactions for agricultural products (Rice, Husk, Paddy, Broken Rice, etc.).

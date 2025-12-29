@@ -1,7 +1,7 @@
 # Keyboard Accessibility Implementation Summary
 
-**Date**: December 28, 2025  
-**Status**: ✅ COMPLETED - Phase 1 Priority Items
+**Date**: December 29, 2025  
+**Status**: ✅ COMPLETED - Phase 1 Priority Items (menus/forms queued)
 
 ---
 
@@ -128,6 +128,7 @@ if (e.Key == Key.N && Keyboard.Modifiers == ModifierKeys.Control)
 | **Ctrl+0** | Exit Application | Navigation |
 | **Ctrl+S** | Save | Form Actions |
 | **Ctrl+N** | New Record | Form Actions |
+| **Alt+F4** | Close Window | Global |
 | **Tab** | Next Field | Form Navigation |
 | **Shift+Tab** | Previous Field | Form Navigation |
 | **Escape** | Cancel/Close Dialog | Dialog Control |
@@ -246,6 +247,7 @@ All button styles now show focus indicators:
 ### Medium Priority (Nice to Have)
 1. **Screen Reader Support** - ARIA labels and descriptions
 2. **High Contrast Mode** - Support Windows high contrast theme
+3. **Focus trap in modals** - Ensure Tab does not escape modal dialogs
 3. **Custom Help** - Context-sensitive help with F1 key
 4. **Keyboard Map** - Display available shortcuts with Alt+?
 

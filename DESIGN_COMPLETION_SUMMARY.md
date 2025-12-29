@@ -1,5 +1,7 @@
 # Design Standardization Complete
 
+Updated: 2025-12-29
+
 ## Overview
 All screens have been updated with the new standardized dark theme design, extracted from the Financial Transactions and Wages Management reference screens.
 
@@ -12,6 +14,9 @@ All screens have been updated with the new standardized dark theme design, extra
 - **Stock Levels Panel**: Consistent card styling
 
 ### 2. Reports & Analytics View ✅
+- Unified view added (All/Inventory/Financial/Wages) powered by `UnifiedTransactionService`.
+- Pagination (page size ~13) and totals (Debit/Credit) standardised.
+- Filters: Item, Party/Worker, User/Name, Date range.
 - **Summary Cards**: 4 cards (Total Amount, Total Transactions, Average Transaction, Date Range)
 - **Colors**: Green, Blue, Orange, Red (following standard palette)
 - **Filter Panel**: FormCard style with icon badge header
@@ -31,6 +36,16 @@ All screens have been updated with the new standardized dark theme design, extra
 - **Parties Table**: DataGrid.Standard with search box
 - **Add Party Form**: FormCard with icon badge, Button.Success for save
 - **Form Labels**: Text.Label color (#AAA)
+
+### 5. Financial & Wages Views ✅
+- Financial records: Loan accounts, payments, interest, status; consistent summary cards and tables.
+- Wages: Worker list and payments/advances; friendly type names; consistent forms and grids.
+
+### 6. Data Backup View ✅
+- JSON backup/restore aligned with theme styles and button patterns; directory browsing and info grids.
+
+### 7. Login & Shell ✅
+- Login window shown on startup; Serilog logging; active user flows integrated into main shell.
 
 ## Design System Applied
 
@@ -74,7 +89,7 @@ Warning Tint: #FFEAA7
 1. **SummaryCard**: 36px emoji icon, 20px bold value, 11px tinted label, drop shadow
 2. **FormCard**: Border with #444, background #2a2a2a, 24px padding
 3. **SectionHeader**: #1a1a1a background, icon badge 36x36 with 8px radius
-4. **DataGrid.Standard**: Alternating rows, consistent header styling, #BBB text
+4. **DataGrid.Standard**: Alternating rows, consistent header styling, #BBB text; keyboard focus indicators (cyan border) for selection.
 5. **Button.Primary**: #0275d8 background with hover effect
 6. **Button.Success**: #1e7e34 background with hover effect
 7. **IconBadge**: 36x36 size, 8px corner radius, centered icons
@@ -95,10 +110,10 @@ Warning Tint: #FFEAA7
 - Icon to Text: 12px horizontal
 
 ## Build Status
-✅ **Build Successful** - All changes compiled without errors
+ℹ️ Build validated during prior sessions; re-run after doc updates is recommended.
 
 ## Testing Status
-✅ **Application Launched Successfully** - No runtime errors detected
+ℹ️ App launch verified previously; unified report and login flows validated informally.
 
 ## Hardcoding Status
 Most hardcoded color values have been replaced with StaticResource references from DarkTheme.xaml.
@@ -113,17 +128,16 @@ These values are intentionally hardcoded as they are part of the reference desig
 5. **Delete Icon**: #EF5350 (Material Design error red)
 
 ### Files Not Modified
-- **MainWindow.xaml**: Navigation shell (gradient backgrounds, menu styling)
-- **QuickAddPartyDialog.xaml**: Small dialog component
-- **BackupView.xaml**: Backup/restore screen (needs separate review)
+- `MainWindow.xaml`: Navigation shell (gradient backgrounds, menu styling)
+- `QuickAddPartyDialog.xaml`: Small dialog component
+- `DataBackupView.xaml`: Now restyled; still follows standardized button styles.
 
 ## Next Steps (Optional)
-1. ✅ Update MainWindow.xaml sidebar colors to match theme
-2. ✅ Update QuickAddPartyDialog.xaml to use theme colors
-3. ✅ Review BackupView.xaml and apply consistent styling
-4. ✅ Take before/after screenshots for documentation
-5. ✅ Test all CRUD operations on each screen
-6. ✅ Verify responsive behavior at different window sizes
+1. Align `MainWindow.xaml` sidebar colors fully with theme tokens
+2. Ensure dialogs uniformly adopt focus indicators and keyboard shortcuts
+3. Capture updated screenshots for the design guide appendix
+4. Validate all CRUD flows with keyboard-only navigation
+5. Verify high-contrast mode and WCAG AA contrast targets
 
 ## Files Modified
 ```
@@ -132,11 +146,11 @@ FactoryManagement/Views/DashboardView.xaml (updated)
 FactoryManagement/Views/ReportsView.xaml (updated)
 FactoryManagement/Views/ItemsManagementView.xaml (updated)
 FactoryManagement/Views/PartiesManagementView.xaml (updated)
-DESIGN_STANDARDIZATION_GUIDE.md (created)
+DESIGN_STANDARDIZATION_GUIDE.md (updated)
 DESIGN_COMPLETION_SUMMARY.md (this file)
 ```
 
 ## Summary
 The standardization project has been completed successfully. All major screens now follow the design patterns extracted from the Financial Transactions and Wages Management views. The color palette is consistent, components use centralized styles, and the build is clean with no errors.
 
-The application is ready for user testing and feedback.
+The application is ready for user testing and feedback. Unified transactions and login experiences are now part of the standardized design scope.

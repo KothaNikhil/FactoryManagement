@@ -1,9 +1,9 @@
 # Test Coverage Checklist - Factory Management Application
 
-**Last Updated:** December 25, 2025  
-**Total Tests:** 185  
+**Last Updated:** December 29, 2025  
+**Total Tests:** 139  
 **Test Pass Rate:** 100%  
-**Build Warnings:** 0
+**Build Warnings:** Nullable warnings may exist (non-blocking)
 
 ---
 
@@ -33,7 +33,7 @@
 | **WagesManagementViewModel** | ✅ | `ViewModels/WagesManagementViewModelTests.cs` | 18 | Worker management, wage transactions, search |
 | **BackupViewModel** | ✅ | `BackupViewModelTests.cs` | 8 | Backup creation, restoration, deletion, path validation |
 
-**ViewModel Tests Status:** 5/9 ViewModels Covered (55.6%)
+**ViewModel Tests Status:** 5/12 ViewModels Covered (~42%)
 
 #### ❌ Missing ViewModel Tests:
 - [ ] **DashboardViewModel Tests** - Need:
@@ -63,7 +63,7 @@
   - Print functionality
   - Custom report parameters
 
-- [ ] **FinancialTransactionsViewModel Tests** - Need:
+- [ ] **FinancialRecordsViewModel Tests** - Need:
   - Loan account creation
   - Payment recording
   - Interest calculation
@@ -124,7 +124,7 @@
 | **ExportService** | ✅ | `Services/ExportServiceTests.cs` | 8 | Excel export, CSV export, file handling |
 | **BackupService** | ✅ | `BackupServiceTests.cs` | 4 | Backup creation, restoration, file management |
 
-**Service Tests Status:** 7/7 Services Covered (100%) ✅
+**Service Tests Status:** 8/8 Services Covered (100%) ✅ (incl. UnifiedTransactionService indirectly via Reports)
 
 ### 1.4 Helpers/Utilities
 
@@ -212,7 +212,7 @@
 | **BackupView** | ✅ | `BackupViewUITests.cs` | 6 | UI element verification, button states |
 | **QuickAddPartyDialog** | ❌ | N/A | 0 | ❌ No UI tests |
 
-**UI Automation Tests Status:** 1/10 Views Covered (10%)
+**UI Automation Tests Status:** 1/12 Views Covered (~8%)
 
 #### ❌ Missing UI Tests - Critical Gap!
 
@@ -286,6 +286,7 @@
   - Calculation display
 
 - [ ] **QuickAddPartyDialog UI Tests**
+ - [ ] **LoginWindow UI Tests**
   - Dialog opening
   - Form validation
   - Save/Cancel buttons
@@ -306,7 +307,7 @@
 | **Report Generation Flow** | ❌ | N/A | Not implemented |
 | **Backup/Restore Flow** | ✅ | E2E/BackupRestoreWorkflowTests.cs | Covered: create/list/delete, integrity, scheduling |
 
-**E2E Tests Status:** 75% Coverage ✅
+**E2E Tests Status:** Partial Coverage
 
 #### ❌ Missing E2E Test Scenarios:
 
@@ -520,7 +521,7 @@
 | **Views (UI)** | ~5% | ❌ Critical gap |
 | **End-to-End** | 0% | ❌ Not implemented |
 
-**Overall Estimated Coverage:** ~45-50%
+**Overall Estimated Coverage:** ~50%
 
 ### Coverage Goals
 

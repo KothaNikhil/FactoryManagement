@@ -1,5 +1,13 @@
 # Factory Management System - Quick Reference
 
+## 2025-12-29 Quick Updates
+- Login required on startup; select your user after login if needed.
+- Database location is `%LocalAppData%\\Factory Management\\factory.db` (not under bin).
+- Reports include a unified "All" view combining Inventory, Financial, and Wages, with pagination.
+- Dropdowns support type-to-search via `SearchableComboBoxBehavior`.
+- Backup files are JSON stored under `Documents\\FactoryManagement\\Backups` (see Data Backup).
+- Keyboard: Ctrl+1..9 for screens, Ctrl+S Save, Ctrl+N New, Escape to clear/close.
+
 ## 🚀 Quick Start
 ```powershell
 cd C:\FactoryManagement
@@ -9,9 +17,9 @@ cd C:\FactoryManagement
 ## 📊 Main Features
 
 ### Dashboard
-- Total Purchases, Sales, Wastage
-- Recent Transactions (Last 10)
-- Low Stock Alerts
+- Purchases, Sales, Wastage summaries
+- Unified recent transactions
+- Low stock alerts
 
 ### New Transaction
 1. Select Type: Buy/Sell/Wastage
@@ -21,9 +29,9 @@ cd C:\FactoryManagement
 5. Save Transaction
 
 ### Reports
-- Filter by: Item, Party, Date Range
-- Export to: Excel (.xlsx), CSV
-- View transaction history
+- Views: All (Unified), Inventory, Financial, Wages
+- Filters: Item, Party/Worker, User/Name, Date Range
+- Pagination, totals, export Excel/CSV
 
 ### Master Data
 - **Inventory**: Add/Edit/Delete products
@@ -81,7 +89,7 @@ Reports → Select "Entered By" dropdown → Choose User → View
 
 | Item | Location |
 |------|----------|
-| Database | `bin/Debug/net8.0-windows/factory.db` |
+| Database | `%LocalAppData%\\Factory Management\\factory.db` |
 | Logs | `logs/app.log` |
 | Exports | User-selected location |
 
@@ -100,9 +108,12 @@ Reports → Select "Entered By" dropdown → Choose User → View
 
 ## ⌨️ Keyboard Shortcuts
 
-- **Tab**: Navigate fields
-- **Escape**: Clear form (in master screens)
-- **Enter**: Submit (when on button)
+- **Ctrl+1..9**: Navigate screens
+- **Ctrl+S**: Save (when applicable)
+- **Ctrl+N**: New record (when applicable)
+- **Tab/Shift+Tab**: Navigate fields
+- **Enter**: Activate focused button/select
+- **Escape**: Clear/close dialogs
 
 ## 🎓 Default Users
 

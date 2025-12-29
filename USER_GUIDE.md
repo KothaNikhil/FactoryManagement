@@ -1,5 +1,12 @@
 # Factory Management System - User Guide
 
+## 2025-12-29 User Guide Updates
+- Login screen appears at startup. Sign in, then the main window loads with your session.
+- Active user tracking is applied to all transactions; use the header selector where applicable.
+- Reports now include a unified "All" view combining Inventory, Financial, and Wages with pagination and filters (Item, Party/Worker, User/Name, Date).
+- Dropdowns in major forms support type-to-search for faster selection.
+- Dark theme and keyboard accessibility improved (focus indicators, Ctrl shortcuts).
+
 ## Table of Contents
 1. [Getting Started](#getting-started)
 2. [User Management](#user-management)

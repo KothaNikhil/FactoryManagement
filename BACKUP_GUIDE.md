@@ -1,5 +1,11 @@
 # Data Backup Feature
 
+## 2025-12-29 Updates
+- Backups now include: Items, Parties, Users, Workers, LoanAccounts, Inventory Transactions, FinancialTransactions, WageTransactions.
+- Backup directory is configurable and defaults to `Documents\\FactoryManagement\\Backups`.
+- JSON format with cycle-safe serialization; includes `BackupDate` and `Version` fields.
+- Restore is atomic and clears existing data before re-import.
+
 ## Overview
 A comprehensive backup and restore system has been added to the Factory Management application. This allows you to create backups of all your data (items, parties, and transactions) and restore them when needed.
 
@@ -29,10 +35,15 @@ A comprehensive backup and restore system has been added to the Factory Manageme
 
 ### 4. Data Included in Backup
 Each backup contains:
-- **All Items**: Item names, units, current stock levels
-- **All Parties**: Party names, contact info, addresses, party types
-- **All Transactions**: Complete transaction history with details
-- **Metadata**: Backup date and version information
+- Items
+- Parties
+- Users
+- Workers
+- LoanAccounts
+- Inventory Transactions
+- FinancialTransactions
+- WageTransactions
+- Metadata: Backup date and version
 
 ## How to Use
 
@@ -78,11 +89,10 @@ C:\Users\[YourUsername]\Documents\FactoryManagement\Backups\
 ### What Happens During Restore
 1. System validates the backup file
 2. Begins database transaction
-3. Clears existing data (transactions, items, parties)
-4. Restores items from backup
-5. Restores parties from backup
-6. Restores transactions from backup
-7. Commits transaction (or rolls back if any error occurs)
+3. Clears existing data (WageTransactions, FinancialTransactions, Transactions, LoanAccounts, Items, Workers, Parties, Users)
+4. Restores Items, Parties, Users, Workers, LoanAccounts
+5. Restores Transactions, FinancialTransactions, WageTransactions
+6. Commits transaction (or rolls back if any error occurs)
 
 ## Safety Features
 

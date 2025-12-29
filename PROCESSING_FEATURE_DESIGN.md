@@ -1,5 +1,13 @@
 # Processing Transaction Feature - Design Document
 
+Updated: December 29, 2025 (v1.1)
+
+Highlights:
+- SQLite schema upgrades executed at startup add processing columns when missing.
+- Precision and indexing configured in `FactoryDbContext` for `InputQuantity`, `ConversionRate`, and `InputItemId`.
+- Searchable dropdown behavior recommended for item/party/user selectors in processing UI.
+- Unified reports include processing-specific fields in the "All" view.
+
 ## Overview
 This document outlines the design for adding a **Processing** transaction type to handle job work scenarios where customers bring raw materials (e.g., paddy) for processing into finished goods (e.g., rice).
 
@@ -104,6 +112,7 @@ public class Transaction
 #### 1.2 Database Migration
 - Add nullable columns: `InputItemId`, `InputQuantity`, `ConversionRate`
 - Update existing data (set null for non-processing transactions)
+- Note: `App.xaml.cs` applies lightweight forward-only schema upgrades for SQLite deployments via `ALTER TABLE` guarded with try/catch.
 
 ### 2. Party Type Extension
 
@@ -266,7 +275,12 @@ public ObservableCollection<string> TransactionTypeFilters { get; } = new()
     <Label Content="Input Material:" />
     <ComboBox ItemsSource="{Binding Items}" 
               SelectedItem="{Binding InputItem}"
-              DisplayMemberPath="ItemName" />
+              DisplayMemberPath="ItemName">
+        <!-- Optional: enable type-to-search filtering -->
+        <i:Interaction.Behaviors>
+            <behaviors:SearchableComboBoxBehavior DisplayMemberPath="ItemName"/>
+        </i:Interaction.Behaviors>
+    </ComboBox>
     
     <Label Content="Input Quantity:" />
     <TextBox Text="{Binding InputQuantity}" />

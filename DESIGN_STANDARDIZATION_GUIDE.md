@@ -1,5 +1,7 @@
 # Factory Management System - Design Standardization Guide
 
+Updated: 2025-12-29
+
 ## Complete Color Palette (Extracted from Financial Transactions & Wages Management)
 
 ### Summary Card Colors
@@ -158,6 +160,17 @@ Success Icon                  : #1e7e34
             <Setter Property="BorderBrush" Value="#444"/>
         </Style>
     </DataGrid.ColumnHeaderStyle>
+    <!-- Keyboard-visible selection focus -->
+    <DataGrid.RowStyle>
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderBrush" Value="#00f2fe"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </DataGrid.RowStyle>
 </DataGrid>
 ```
 
@@ -174,7 +187,12 @@ Success Icon                  : #1e7e34
 
 <!-- ComboBox -->
 <ComboBox ItemsSource="{Binding Items}"
-         Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+         Style="{StaticResource MaterialDesignOutlinedComboBox}">
+    <!-- Add type-to-search behavior when bound to large lists -->
+    <i:Interaction.Behaviors>
+        <behaviors:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
+    </i:Interaction.Behaviors>
+</ComboBox>
 
 <!-- DatePicker -->
 <DatePicker SelectedDate="{Binding Date}"
@@ -290,6 +308,8 @@ Success Icon                  : #1e7e34
    - Icon badge header with #4a90c8
    - All inputs with MaterialDesignOutlined styles
    - Save button with success green #1e7e34
+ - Add Processing mode fields where applicable (Input/Output item, quantities)
+ - Use searchable behaviors for item/party/user selectors
 
 2. Right panel (recent transactions):
    - Standard DataGrid styling
@@ -306,8 +326,10 @@ Success Icon                  : #1e7e34
    - Use FormCard style
    - Consistent input styling
 
-3. Results table:
-   - Standard DataGrid styling
+3. Unified results table:
+    - Standard DataGrid styling
+    - Unified "All" view (Inventory + Financial + Wages)
+    - Pagination and totals (Debit/Credit)
 
 ### Items Management Screen
 1. Update "All Items" table:
@@ -355,7 +377,7 @@ Form Field Margin     : 0,0,0,16
 
 ## Implementation Checklist
 
-- [ ] Update DarkTheme.xaml with all color resources
+- [x] Update DarkTheme.xaml with all color resources
 - [ ] Update Dashboard with summary cards and styling
 - [ ] Update New Transaction forms and tables
 - [ ] Update Reports & Analytics screen
@@ -365,3 +387,9 @@ Form Field Margin     : 0,0,0,16
 - [ ] Test hover states and interactions
 - [ ] Verify WCAG AA contrast ratios
 - [ ] Test with real data
+
+## Integration Notes
+- Database is stored under `%LocalAppData%\Factory Management\factory.db`.
+- Lightweight schema upgrade calls (ALTER TABLE) handle new columns for processing and payment mode.
+- Serilog writes daily logs under LocalAppData; keep UI error panels minimal.
+- Use DI (`App.xaml.cs`) to register repositories, services, and viewmodels.

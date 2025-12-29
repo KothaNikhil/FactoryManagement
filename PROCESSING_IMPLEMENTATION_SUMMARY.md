@@ -1,7 +1,7 @@
 # Processing Transaction Feature - Implementation Summary
 
-**Date:** December 26, 2025  
-**Status:** ✅ COMPLETED
+**Date:** December 29, 2025  
+**Status:** ✅ COMPLETED (v1.1 updates)
 
 ## Overview
 Successfully implemented the **Processing** transaction type to handle job work scenarios where customers bring raw materials for processing into finished products with a processing fee.
@@ -85,11 +85,11 @@ Successfully implemented the **Processing** transaction type to handle job work 
 
 ---
 
-## Database Migration Required ⚠️
+## Schema Upgrades / Migration ⚠️
 
-**IMPORTANT:** You need to create and apply a database migration to add the new columns.
+SQLite note: Startup applies forward-only schema upgrades adding processing columns when missing (see `App.xaml.cs`). Migrations can still be used in environments supporting them.
 
-### Step 1: Create Migration
+### Step 1: Create Migration (optional)
 Run the following command in Package Manager Console or terminal:
 
 ```powershell
@@ -100,7 +100,7 @@ Add-Migration AddProcessingTransactionFields
 dotnet ef migrations add AddProcessingTransactionFields --project FactoryManagement --startup-project FactoryManagement
 ```
 
-### Step 2: Apply Migration
+### Step 2: Apply Migration (optional)
 ```powershell
 # Using Package Manager Console
 Update-Database
@@ -166,7 +166,7 @@ The Reports view now displays processing transactions with:
 - **Category:** Inventory
 - **Type:** Processing
 - **Description:** "Paddy → Rice (Customer Name)"
-- **Additional Info:** "Input: 100.00 → Output: 70.00 (Conv: 70.0%)"
+- **Additional Info:** "Input: 100.00 → Output: 70.00"
 - **Amount:** Processing fee (₹350)
 
 ---
@@ -181,6 +181,7 @@ The Reports view now displays processing transactions with:
 5. ✅ Verify reports display processing transactions correctly
 6. ✅ Edit a processing transaction
 7. ✅ Delete a processing transaction and verify stock reversal
+8. ✅ Keyboard-only flow using type-to-search dropdowns
 
 ### Test Scenarios
 - **Scenario 1:** Simple processing (Paddy 100kg → Rice 70kg, Fee ₹5/kg)
