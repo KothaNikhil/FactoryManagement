@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Fallback Version so builds not using BuildInstaller.ps1 still succeed -->
+<?define Version = "1.0.4.24" ?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <!-- 
     Product definition for Factory Management Application Installer
