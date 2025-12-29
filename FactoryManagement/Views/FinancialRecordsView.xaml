@@ -140,7 +140,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
@@ -221,14 +220,16 @@
                             </StackPanel>
                         </Grid>
 
-                        <!-- Row 2: Start Date, Due Date, Notes -->
-                        <Grid Grid.Row="2" Margin="0,0,0,16">
+                        <!-- Row 2: Start Date, Due Date, Notes, and Create Loan Button -->
+                        <Grid Grid.Row="2" Margin="0,0,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1.2*"/>
                                 <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
@@ -239,7 +240,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="8"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="80"/>
                                     </Grid.ColumnDefinitions>
                                     <DatePicker Grid.Column="0" SelectedDate="{Binding StartDate}" 
                                                 Style="{StaticResource DatePicker.Standard}"/>
@@ -267,15 +268,42 @@
                                 <TextBox Text="{Binding LoanNotes, Mode=TwoWay}" 
                                          Style="{StaticResource TextBox.Standard}"/>
                             </StackPanel>
-                        </Grid>
 
-                        <!-- Row 3: Create Loan Button -->
-                        <Button Grid.Row="3" Content="Create Loan" 
-                                Command="{Binding CreateLoanCommand}"
-                                Style="{StaticResource Button.Primary}"
-                                MinWidth="120"
-                                HorizontalAlignment="Right"
-                                ToolTip="Create a new loan with the specified party, amount, and interest rate"/>
+                            <Button Grid.Column="6" Content="CREATE LOAN" 
+                                    Command="{Binding CreateLoanCommand}"
+                                    Background="#1e7e34" 
+                                    Foreground="White" 
+                                    Height="38"
+                                    MinWidth="130"
+                                    FontSize="12"
+                                    FontWeight="SemiBold"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="Create a new loan with the specified party, amount, and interest rate">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#1e7e34"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" 
+                                                            CornerRadius="6" 
+                                                            BorderThickness="0">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#176428"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Border>
 
@@ -285,8 +313,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
@@ -303,81 +329,98 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Selected Loan Info -->
-                        <Border Grid.Row="1" Background="#1a1a1a" CornerRadius="6" Padding="14" Margin="0,0,0,16">
-                            <StackPanel>
-                                <Grid Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Selected Loan" Foreground="#AAA" FontSize="12" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding SelectedLoan.Party.Name, TargetNullValue='No loan selected'}" 
-                                               FontWeight="SemiBold" Foreground="White" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Outstanding:" Foreground="#AAA" FontSize="12" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding SelectedLoan.TotalOutstanding, StringFormat=' ₹{0:N2}', TargetNullValue=' ₹0.00'}" 
-                                               Foreground="#FF6B6B" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                </Grid>
+                        <!-- Row 1: Selected Loan and Outstanding -->
+                        <Grid Grid.Row="1" Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Selected Loan" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
+                                <Border Background="#1a1a1a" CornerRadius="6" Padding="12">
+                                    <TextBlock Text="{Binding SelectedLoan.Party.Name, TargetNullValue='No loan selected'}" 
+                                               FontWeight="SemiBold" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </Border>
                             </StackPanel>
-                        </Border>
 
-                        <!-- Payment Amount -->
-                        <StackPanel Grid.Row="2" Margin="0,0,0,16">
-                            <TextBlock Text="Payment Mode *" 
-                                     Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                     Margin="0,0,0,8"/>
-                            <ComboBox ItemsSource="{Binding PaymentModes}"
-                                      SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
-                                      Style="{StaticResource ComboBox.Standard}"
-                                      Margin="0,0,0,10"/>
-                            <TextBlock Text="Payment Amount (₹)" 
-                                     Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}" 
-                                     GotFocus="NumericTextBox_GotFocus"
-                                     Style="{StaticResource TextBox.Standard}"/>
-                        </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Outstanding (₹)" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
+                                <Border Background="#1a1a1a" CornerRadius="6" Padding="12">
+                                    <TextBlock Text="{Binding SelectedLoan.TotalOutstanding, StringFormat='{}{0:N2}', TargetNullValue='0.00'}" 
+                                               Foreground="#FF6B6B" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </Border>
+                            </StackPanel>
 
-                        <!-- Action Button -->
-                        <Button Grid.Row="4" Content="Record Payment" 
-                                Command="{Binding RecordPaymentCommand}"
-                                Background="#3d8b5f" 
-                                Foreground="White" 
-                                Height="38"
-                                FontSize="13"
-                                FontWeight="SemiBold"
-                                BorderThickness="0"
-                                Cursor="Hand"
-                                HorizontalAlignment="Stretch"
-                                ToolTip="Apply this payment to the selected loan. Payment is allocated to interest first, then principal">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="#1e7e34"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                                        CornerRadius="6" 
-                                                        BorderThickness="0">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#176428"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Text="Payment Mode *" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
+                                <ComboBox ItemsSource="{Binding PaymentModes}"
+                                          SelectedItem="{Binding SelectedPaymentModeString, Mode=TwoWay}"
+                                          Style="{StaticResource ComboBox.Standard}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Row 2: Payment Amount and Button -->
+                        <Grid Grid.Row="2" Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Payment Amount (₹)" 
+                                         Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                         Margin="0,0,0,8"/>
+                                <TextBox Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}" 
+                                         GotFocus="NumericTextBox_GotFocus"
+                                         Style="{StaticResource TextBox.Standard}"/>
+                            </StackPanel>
+
+                            <Button Grid.Column="2" Content="RECORD PAYMENT" 
+                                    Command="{Binding RecordPaymentCommand}"
+                                    Background="#1e7e34" 
+                                    Foreground="White" 
+                                    Height="38"
+                                    MinWidth="140"
+                                    FontSize="12"
+                                    FontWeight="SemiBold"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="Apply this payment to the selected loan. Payment is allocated to interest first, then principal">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#1e7e34"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" 
+                                                            CornerRadius="6" 
+                                                            BorderThickness="0">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#176428"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Border>
             </Grid>
