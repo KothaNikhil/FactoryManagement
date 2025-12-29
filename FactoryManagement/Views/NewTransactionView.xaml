@@ -394,7 +394,7 @@
                             TabIndex="12"/>
                         <Button Content="{Binding SaveButtonText}"
                             Command="{Binding SaveTransactionCommand}"
-                            Style="{StaticResource Button.Primary}"
+                            Style="{StaticResource Button.Success}"
                             Height="40"
                             Padding="20,0"
                             ToolTip="Save this transaction"

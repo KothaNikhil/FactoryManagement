@@ -173,7 +173,7 @@
       </Trigger>
       <Trigger Property="IsFocused" Value="True">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
       </Trigger>
     </Style.Triggers>
   </Style>
@@ -206,7 +206,7 @@
       </Trigger>
       <Trigger Property="IsFocused" Value="True">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
       </Trigger>
     </Style.Triggers>
   </Style>
@@ -219,9 +219,9 @@
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Style.Triggers>
       <Trigger Property="IsFocused" Value="True">
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Foreground" Value="#00f2fe"/>
+        <Setter Property="Foreground" Value="{StaticResource BorderFocus}"/>
       </Trigger>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
@@ -257,7 +257,7 @@
       </Trigger>
       <Trigger Property="IsFocused" Value="True">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
       </Trigger>
     </Style.Triggers>
   </Style>
@@ -395,7 +395,7 @@
       <Trigger Property="IsSelected" Value="True">
         <Setter Property="Background" Value="{StaticResource Selection.Background}"/>
         <Setter Property="Foreground" Value="{StaticResource Selection.Foreground}"/>
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
         <Setter Property="BorderThickness" Value="2"/>
       </Trigger>
       <MultiTrigger>
@@ -492,7 +492,7 @@
       </Trigger>
       <Trigger Property="IsFocused" Value="True">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="BorderBrush" Value="#00f2fe"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderFocus}"/>
       </Trigger>
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Opacity" Value="0.5"/>
