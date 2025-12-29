@@ -69,7 +69,7 @@ namespace FactoryManagement.Tests.Services
             };
 
             // Act
-            var result = await _service.CreateLoanAsync(loan);
+            var result = await _service.CreateLoanAsync(loan, PaymentMode.Cash);
 
             // Assert
             Assert.NotNull(result);
@@ -101,7 +101,7 @@ namespace FactoryManagement.Tests.Services
             };
 
             // Act
-            var result = await _service.CreateLoanAsync(loan);
+            var result = await _service.CreateLoanAsync(loan, PaymentMode.Cash);
 
             // Assert
             Assert.NotNull(result);
@@ -137,8 +137,8 @@ namespace FactoryManagement.Tests.Services
                 CreatedBy = 1
             };
 
-            await _service.CreateLoanAsync(loan1);
-            await _service.CreateLoanAsync(loan2);
+            await _service.CreateLoanAsync(loan1, PaymentMode.Cash);
+            await _service.CreateLoanAsync(loan2, PaymentMode.Cash);
 
             // Act
             var result = await _service.GetAllLoansAsync();
@@ -170,8 +170,8 @@ namespace FactoryManagement.Tests.Services
                 CreatedBy = 1
             };
 
-            await _service.CreateLoanAsync(loanGiven);
-            await _service.CreateLoanAsync(loanTaken);
+            await _service.CreateLoanAsync(loanGiven, PaymentMode.Cash);
+            await _service.CreateLoanAsync(loanTaken, PaymentMode.Cash);
 
             // Act
             var givenLoans = await _context.LoanAccounts.Where(l => l.LoanType == LoanType.Given).ToListAsync();
@@ -218,8 +218,8 @@ namespace FactoryManagement.Tests.Services
                 CreatedBy = 1
             };
 
-            await _service.CreateLoanAsync(loan1);
-            await _service.CreateLoanAsync(loan2);
+            await _service.CreateLoanAsync(loan1, PaymentMode.Cash);
+            await _service.CreateLoanAsync(loan2, PaymentMode.Cash);
 
             // Act
             var party1Loans = await _context.LoanAccounts.Where(l => l.PartyId == 1).ToListAsync();
@@ -255,8 +255,8 @@ namespace FactoryManagement.Tests.Services
                 CreatedBy = 1
             };
 
-            await _service.CreateLoanAsync(loan1);
-            await _service.CreateLoanAsync(loan2);
+            await _service.CreateLoanAsync(loan1, PaymentMode.Cash);
+            await _service.CreateLoanAsync(loan2, PaymentMode.Cash);
 
             // Act
             var result = await _context.FinancialTransactions.ToListAsync();
@@ -281,7 +281,7 @@ namespace FactoryManagement.Tests.Services
             };
 
             // Act
-            var result = await _service.CreateLoanAsync(loan);
+            var result = await _service.CreateLoanAsync(loan, PaymentMode.Cash);
 
             // Assert - Outstanding amounts should be initialized
             Assert.Equal(15000, result.OutstandingPrincipal);

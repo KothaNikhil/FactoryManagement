@@ -63,7 +63,7 @@ namespace FactoryManagement.Tests.E2E
                 DaysWorked = 1,
                 TransactionDate = DateTime.Now,
                 Notes = "Day 1 wage",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             Assert.NotNull(wageTransaction);
@@ -82,7 +82,7 @@ namespace FactoryManagement.Tests.E2E
                     DaysWorked = 1,
                     TransactionDate = DateTime.Now.AddDays(i - 1),
                     Notes = $"Day {i} wage",
-                    EnteredBy = "admin"
+                    EnteredBy = 1
                 });
             }
 
@@ -119,7 +119,7 @@ namespace FactoryManagement.Tests.E2E
                 Rate = 25000,
                 TransactionDate = DateTime.Now,
                 Notes = "Monthly salary",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Step 3: Record performance bonus
@@ -131,7 +131,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = 5000,
                 TransactionDate = DateTime.Now,
                 Notes = "Performance bonus",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Assert
@@ -170,7 +170,7 @@ namespace FactoryManagement.Tests.E2E
                     Rate = 600,
                     DaysWorked = 1,
                     TransactionDate = DateTime.Now.AddDays(i),
-                    EnteredBy = "admin"
+                    EnteredBy = 1
                 });
             }
 
@@ -183,7 +183,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = -5000, // Deduction
                 TransactionDate = DateTime.Now.AddDays(30),
                 Notes = "Advance adjustment",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Assert
@@ -249,7 +249,7 @@ namespace FactoryManagement.Tests.E2E
                     Rate = 500,
                     DaysWorked = 1,
                     TransactionDate = DateTime.Now.AddDays(i),
-                    EnteredBy = "admin"
+                    EnteredBy = 1
                 });
             }
 
@@ -265,7 +265,7 @@ namespace FactoryManagement.Tests.E2E
                     Rate = 600,
                     DaysWorked = 1,
                     TransactionDate = DateTime.Now.AddDays(i),
-                    EnteredBy = "admin"
+                    EnteredBy = 1
                 });
             }
 
@@ -278,7 +278,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = 30000,
                 Rate = 30000,
                 TransactionDate = DateTime.Now,
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Assert - Calculate total payroll
@@ -313,7 +313,7 @@ namespace FactoryManagement.Tests.E2E
                 Rate = 500,
                 DaysWorked = 1,
                 TransactionDate = DateTime.Now,
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             await _wageService.RecordWagePaymentAsync(new WageTransaction
@@ -325,7 +325,7 @@ namespace FactoryManagement.Tests.E2E
                 Rate = 600,
                 DaysWorked = 1,
                 TransactionDate = DateTime.Now,
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Act
@@ -426,7 +426,7 @@ namespace FactoryManagement.Tests.E2E
                     Rate = 700,
                     DaysWorked = 1,
                     TransactionDate = DateTime.Now.AddDays(i),
-                    EnteredBy = "admin"
+                    EnteredBy = 1
                 });
             }
 
@@ -439,7 +439,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = 500,
                 TransactionDate = DateTime.Now.AddDays(15),
                 Notes = "Overtime payment",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Add bonus
@@ -451,7 +451,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = 2000,
                 TransactionDate = DateTime.Now.AddDays(30),
                 Notes = "Performance bonus",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Adjust advance
@@ -463,7 +463,7 @@ namespace FactoryManagement.Tests.E2E
                 NetAmount = -3000,
                 TransactionDate = DateTime.Now.AddDays(30),
                 Notes = "Advance deduction",
-                EnteredBy = "admin"
+                EnteredBy = 1
             });
 
             // Assert - Calculate final payable amount
