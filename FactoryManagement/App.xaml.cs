@@ -119,6 +119,7 @@ namespace FactoryManagement
             services.AddScoped<IWageService, WageService>();
             services.AddScoped<IUnifiedTransactionService, UnifiedTransactionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IReportExportBuilder, ReportExportBuilder>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();

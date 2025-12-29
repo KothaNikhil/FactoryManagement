@@ -81,11 +81,12 @@ namespace FactoryManagement.Services
         public async Task<FinancialTransaction> RecordPaymentAsync(int loanAccountId, decimal paymentAmount, PaymentMode paymentMode, int userId, string notes = "")
         {
             var loanAccount = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
+            
+            // Validate loan and payment
             if (loanAccount == null)
                 throw new InvalidOperationException("Loan account not found");
 
-            if (loanAccount.Status == LoanStatus.Closed)
-                throw new InvalidOperationException("Cannot record payment for closed loan");
+            await ValidateLoanForPaymentAsync(loanAccount, paymentAmount);
 
             // Try to calculate interest up to current date (but don't fail if already calculated today)
             try
@@ -104,9 +105,6 @@ namespace FactoryManagement.Services
                 if (loanAccount == null)
                     throw new InvalidOperationException("Loan account not found");
             }
-
-            if (paymentAmount > loanAccount.TotalOutstanding)
-                throw new InvalidOperationException($"Payment amount ({paymentAmount:C}) exceeds outstanding amount ({loanAccount.TotalOutstanding:C})");
 
             // Create payment transaction
             var transactionType = loanAccount.LoanType == LoanType.Given
@@ -128,7 +126,42 @@ namespace FactoryManagement.Services
 
             await _financialTransactionRepository.AddAsync(transaction);
 
-            // Update loan account outstanding amounts
+            // Allocate payment to loan (interest first, then principal)
+            AllocatePaymentToLoan(loanAccount, paymentAmount);
+
+            loanAccount.ModifiedDate = DateTime.Now;
+            await _loanAccountRepository.UpdateAsync(loanAccount);
+            await _context.SaveChangesAsync();
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Validates loan and payment conditions before processing payment.
+        /// </summary>
+        private async Task ValidateLoanForPaymentAsync(LoanAccount loanAccount, decimal paymentAmount)
+        {
+            if (loanAccount == null)
+                throw new InvalidOperationException("Loan account not found");
+
+            if (loanAccount.Status == LoanStatus.Closed)
+                throw new InvalidOperationException("Cannot record payment for closed loan");
+
+            if (paymentAmount <= 0)
+                throw new InvalidOperationException("Payment amount must be greater than zero");
+
+            if (paymentAmount > loanAccount.TotalOutstanding)
+                throw new InvalidOperationException($"Payment amount ({paymentAmount:C}) exceeds outstanding amount ({loanAccount.TotalOutstanding:C})");
+
+            await Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Allocates payment amount to interest first, then to principal.
+        /// Returns the updated loan account with recalculated outstanding amounts and status.
+        /// </summary>
+        private void AllocatePaymentToLoan(LoanAccount loanAccount, decimal paymentAmount)
+        {
             decimal remainingPayment = paymentAmount;
 
             // First pay off interest
@@ -145,9 +178,10 @@ namespace FactoryManagement.Services
                 loanAccount.OutstandingPrincipal -= remainingPayment;
             }
 
+            // Recalculate totals
             loanAccount.TotalOutstanding = loanAccount.OutstandingPrincipal + loanAccount.OutstandingInterest;
 
-            // Update loan status
+            // Update loan status based on outstanding amount
             if (loanAccount.TotalOutstanding <= 0)
             {
                 loanAccount.Status = LoanStatus.Closed;
@@ -156,20 +190,14 @@ namespace FactoryManagement.Services
             {
                 loanAccount.Status = LoanStatus.PartiallyPaid;
             }
-
-            loanAccount.ModifiedDate = DateTime.Now;
-            await _loanAccountRepository.UpdateAsync(loanAccount);
-            await _context.SaveChangesAsync();
-
-            return transaction;
         }
 
-        public async Task UpdateLoanInterestAsync(int loanAccountId)
+        /// <summary>
+        /// Calculates interest accrual for a loan and creates interest transaction.
+        /// Returns the accrued interest amount.
+        /// </summary>
+        private async Task<decimal> CalculateAndAccrueInterestAsync(LoanAccount loanAccount)
         {
-            var loanAccount = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
-            if (loanAccount == null || loanAccount.Status == LoanStatus.Closed)
-                return;
-
             // Find last interest calculation date
             var lastInterestTransaction = loanAccount.Transactions
                 .Where(t => t.TransactionType == FinancialTransactionType.InterestReceived ||
@@ -210,19 +238,33 @@ namespace FactoryManagement.Services
                 InterestAmount = interestAccrued,
                 InterestRate = loanAccount.InterestRate,
                 TransactionDate = today,
-                LinkedLoanAccountId = loanAccountId,
+                LinkedLoanAccountId = loanAccount.LoanAccountId,
                 EnteredBy = loanAccount.CreatedBy,
                 Notes = $"Interest accrued for {daysSinceLastCalculation} days",
                 CreatedDate = DateTime.Now
             };
 
             await _financialTransactionRepository.AddAsync(interestTransaction);
+            await _context.SaveChangesAsync();
+
+            return interestAccrued;
+        }
+
+        public async Task UpdateLoanInterestAsync(int loanAccountId)
+        {
+            var loanAccount = await _loanAccountRepository.GetWithTransactionsAsync(loanAccountId);
+            if (loanAccount == null || loanAccount.Status == LoanStatus.Closed)
+                return;
+
+            // Calculate and accrue interest
+            decimal interestAccrued = await CalculateAndAccrueInterestAsync(loanAccount);
 
             // Update loan account
             loanAccount.OutstandingInterest += interestAccrued;
             loanAccount.TotalOutstanding = loanAccount.OutstandingPrincipal + loanAccount.OutstandingInterest;
 
             // Check if loan is overdue
+            var today = DateTime.Now;
             if (loanAccount.DueDate.HasValue && today > loanAccount.DueDate.Value && loanAccount.Status == LoanStatus.Active)
             {
                 loanAccount.Status = LoanStatus.Overdue;
@@ -291,6 +333,44 @@ namespace FactoryManagement.Services
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Reverses the impact of a transaction on its linked loan account.
+        /// Handles interest reversals and payment reversals appropriately.
+        /// </summary>
+        private async Task ReverseTransactionImpactAsync(FinancialTransaction tx, LoanAccount loan)
+        {
+            switch (tx.TransactionType)
+            {
+                case FinancialTransactionType.InterestReceived:
+                case FinancialTransactionType.InterestPaid:
+                    // Reverse interest accrual
+                    if (tx.InterestAmount.HasValue && tx.InterestAmount.Value > 0)
+                    {
+                        loan.OutstandingInterest = Math.Max(0, loan.OutstandingInterest - tx.InterestAmount.Value);
+                        loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+                    }
+                    break;
+
+                case FinancialTransactionType.LoanRepayment:
+                case FinancialTransactionType.LoanPayment:
+                    // Reverse payment - re-add payment amount back to principal
+                    loan.OutstandingPrincipal += tx.Amount;
+                    loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
+
+                    // Update status based on totals
+                    loan.Status = loan.TotalOutstanding <= 0 ? LoanStatus.Closed : 
+                                  (loan.TotalOutstanding < loan.OriginalAmount ? LoanStatus.PartiallyPaid : LoanStatus.Active);
+                    break;
+
+                case FinancialTransactionType.LoanGiven:
+                case FinancialTransactionType.LoanTaken:
+                    // Initial loan entry is tied to the loan account lifecycle; prefer deleting via DeleteLoanAsync
+                    break;
+            }
+
+            await Task.CompletedTask;
+        }
+
         public async Task DeleteFinancialTransactionAsync(int transactionId)
         {
             var tx = await _financialTransactionRepository.GetByIdAsync(transactionId);
@@ -302,30 +382,8 @@ namespace FactoryManagement.Services
                 var loan = await _loanAccountRepository.GetByIdAsync(tx.LinkedLoanAccountId.Value);
                 if (loan != null)
                 {
-                    switch (tx.TransactionType)
-                    {
-                        case FinancialTransactionType.InterestReceived:
-                        case FinancialTransactionType.InterestPaid:
-                            if (tx.InterestAmount.HasValue && tx.InterestAmount.Value > 0)
-                            {
-                                loan.OutstandingInterest = Math.Max(0, loan.OutstandingInterest - tx.InterestAmount.Value);
-                                loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
-                            }
-                            break;
-                        case FinancialTransactionType.LoanRepayment:
-                        case FinancialTransactionType.LoanPayment:
-                            // Re-add payment amount back to outstanding principal (approximate reversal)
-                            loan.OutstandingPrincipal += tx.Amount;
-                            loan.TotalOutstanding = loan.OutstandingPrincipal + loan.OutstandingInterest;
-
-                            // Update status based on totals
-                            loan.Status = loan.TotalOutstanding <= 0 ? LoanStatus.Closed : (loan.TotalOutstanding < loan.OriginalAmount ? LoanStatus.PartiallyPaid : LoanStatus.Active);
-                            break;
-                        case FinancialTransactionType.LoanGiven:
-                        case FinancialTransactionType.LoanTaken:
-                            // Initial loan entry is tied to the loan account lifecycle; prefer deleting via DeleteLoanAsync
-                            break;
-                    }
+                    // Reverse the transaction's impact on the loan
+                    await ReverseTransactionImpactAsync(tx, loan);
 
                     loan.ModifiedDate = DateTime.Now;
                     await _loanAccountRepository.UpdateAsync(loan);

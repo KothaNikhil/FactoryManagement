@@ -54,7 +54,8 @@ namespace FactoryManagement.Tests.ViewModels
 
             _dashboardVM = new DashboardViewModel(txSvc.Object, itemSvc.Object, finSvc.Object, wageSvc.Object, unifiedSvc.Object);
             _transactionEntryVM = new NewTransactionViewModel(txSvc.Object, itemSvc.Object, partySvc.Object);
-            _reportsVM = new ReportsViewModel(txSvc.Object, itemSvc.Object, partySvc.Object, exportSvc.Object, finSvc.Object, wageSvc.Object, unifiedSvc.Object, userSvc.Object);
+            var reportBuilder = new Mock<IReportExportBuilder>();
+            _reportsVM = new ReportsViewModel(txSvc.Object, itemSvc.Object, partySvc.Object, exportSvc.Object, finSvc.Object, wageSvc.Object, unifiedSvc.Object, userSvc.Object, reportBuilder.Object);
             _itemsVM = new InventoryViewModel(itemSvc.Object);
             _partiesVM = new ContactsViewModel(partySvc.Object);
             _backupVM = new DataBackupViewModel(new BackupService(_dbContext));

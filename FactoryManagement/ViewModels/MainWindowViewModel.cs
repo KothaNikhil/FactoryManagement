@@ -210,6 +210,9 @@ namespace FactoryManagement.ViewModels
 
         public async Task LoadActiveUsersAsync()
         {
+            // Remember the currently selected user ID before clearing
+            var currentUserId = SelectedUser?.UserId;
+            
             var users = await _userService.GetActiveUsersAsync();
             ActiveUsers.Clear();
             foreach (var user in users)
@@ -217,7 +220,18 @@ namespace FactoryManagement.ViewModels
                 ActiveUsers.Add(user);
             }
 
-            // Only set first user as selected if no user is currently selected
+            // Try to restore the previously selected user by ID
+            if (currentUserId.HasValue)
+            {
+                var previousUser = ActiveUsers.FirstOrDefault(u => u.UserId == currentUserId.Value);
+                if (previousUser != null)
+                {
+                    SelectedUser = previousUser;
+                    return;
+                }
+            }
+
+            // Only set first user as selected if no user was previously selected
             if (SelectedUser == null && ActiveUsers.Any())
             {
                 SelectedUser = ActiveUsers.First();

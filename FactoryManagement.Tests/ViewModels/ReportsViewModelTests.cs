@@ -25,6 +25,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             var unifiedTransactions = new List<UnifiedTransactionViewModel>
             {
@@ -49,7 +50,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.All;
 
@@ -72,6 +74,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             var transactions = new List<Transaction>
             {
@@ -96,7 +99,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.Inventory;
 
@@ -119,6 +123,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             var financialTransactions = new List<FinancialTransaction>
             {
@@ -143,7 +148,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.Financial;
 
@@ -166,6 +172,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             var wageTransactions = new List<WageTransaction>
             {
@@ -190,7 +197,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.Wages;
 
@@ -213,6 +221,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -231,7 +240,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             var testItem = new Item { ItemId = 1, ItemName = "Test" };
             viewModel.SelectedItem = testItem;
@@ -256,6 +266,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -274,7 +285,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             // Use Inventory view for pagination and add 26 dummy records
             viewModel.SelectedReportType = ReportType.Inventory;
@@ -302,6 +314,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -320,7 +333,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             // Act & Assert
             Assert.False(viewModel.CanGoToPreviousPage);
@@ -338,6 +352,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -356,7 +371,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             // Act
             viewModel.CurrentPage = 1;
@@ -378,6 +394,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -396,7 +413,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.All;
 
@@ -419,6 +437,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -437,7 +456,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.Inventory;
 
@@ -460,6 +480,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -478,7 +499,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             viewModel.SelectedReportType = ReportType.Inventory;
             viewModel.CurrentPage = 3;
@@ -502,6 +524,7 @@ namespace FactoryManagement.Tests.ViewModels
             var mockWageService = new Mock<IWageService>();
             var mockUnifiedService = new Mock<IUnifiedTransactionService>();
             var mockUserService = new Mock<IUserService>();
+            var mockReportExportBuilder = new Mock<IReportExportBuilder>();
 
             mockTransactionService.Setup(s => s.GetAllTransactionsAsync()).ReturnsAsync(new List<Transaction>());
             mockItemService.Setup(s => s.GetAllItemsAsync()).ReturnsAsync(new List<Item>());
@@ -520,7 +543,8 @@ namespace FactoryManagement.Tests.ViewModels
                 mockFinancialService.Object,
                 mockWageService.Object,
                 mockUnifiedService.Object,
-                mockUserService.Object);
+                mockUserService.Object,
+                mockReportExportBuilder.Object);
 
             // Act & Assert
             viewModel.SelectedReportType = ReportType.All;

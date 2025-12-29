@@ -12,9 +12,10 @@
 2. [User Management](#user-management)
 3. [Dashboard Overview](#dashboard-overview)
 4. [New Transaction](#new-transaction)
-5. [Reports & Analytics](#reports--analytics)
-6. [Master Data Management](#master-data-management)
-7. [Tips & Best Practices](#tips--best-practices)
+5. [Financial Records](#financial-records)
+6. [Reports & Analytics](#reports--analytics)
+7. [Master Data Management](#master-data-management)
+8. [Tips & Best Practices](#tips--best-practices)
 
 ---
 
@@ -179,6 +180,68 @@ Select **"Processing"** type to record value-added services (no stock impact):
 **[→ Full New Transaction Guide](NEW_TRANSACTION_GUIDE.md)**
 
 **Success Message**: Appears at the bottom when saved successfully
+
+---
+
+## Financial Records
+
+The Financial Records module manages loans, payments, interest accrual, and loan tracking. Track money lent to and borrowed from parties with automatic interest calculations.
+
+### Quick Start: Create a Loan
+
+1. Go to **Financial Records** from the menu
+2. Fill in the loan form:
+   - **Loan Type**: "Given" (lent money) or "Taken" (borrowed money)
+   - **Party**: Select using searchable dropdown
+   - **Original Amount**: Principal amount (required)
+   - **Interest Rate**: Annual % (e.g., 5 for 5%; can be 0)
+   - **Start Date**: When loan begins
+   - **Due Date** (optional): When loan should be repaid
+   - **Payment Mode**: Cash or Bank
+3. Click **"CREATE LOAN"**
+
+**Result**: Loan account created with status "Active"
+
+### Quick Start: Record Payment
+
+1. Select a loan from the list
+2. Enter **Payment Amount** (cannot exceed total outstanding)
+3. Select **Payment Mode**
+4. (Optional) Add **Payment Notes** (e.g., check number, reference)
+5. Click **"RECORD PAYMENT"**
+
+**Result**: Interest auto-calculated (if not done today), payment recorded, status updated
+
+### Quick Start: Calculate Interest
+
+1. Select a loan
+2. Click **"UPDATE INTEREST"**
+3. System calculates simple interest since last calculation
+4. Interest accrued amount added to outstanding total
+
+**Can calculate once per day maximum**
+
+### Key Features
+- **Dual Loan Types**: Track loans given and loans taken separately
+- **Automatic Interest**: Calculate using simple interest method
+- **Payment Allocation**: Payments apply to interest first, then principal
+- **Status Tracking**: Active → PartiallyPaid → Closed, with Overdue tracking
+- **Transaction History**: View all payments and interest accruals per loan
+- **Undo Delete**: Restore deleted transactions with undo button
+
+### Validation Rules
+- ✓ Party must be selected
+- ✓ Amount must be > 0
+- ✓ Payment cannot exceed total outstanding
+- ✓ Interest calculates only once per day
+
+### Form Buttons
+- **CREATE LOAN**: Create new loan account
+- **RECORD PAYMENT**: Process payment (interest auto-calculated if needed)
+- **UPDATE INTEREST**: Manually calculate daily interest accrual
+- **DELETE**: Remove loan (only if no transactions) or transaction
+
+**[→ Full Financial Records Guide](FINANCIAL_RECORDS_GUIDE.md)**
 
 ---
 

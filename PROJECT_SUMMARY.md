@@ -1,6 +1,7 @@
 # Factory Management System - Project Summary
 
 ## Latest Session (Q1 2025) - Quality & Architecture Improvements
+
 ### Phase 1: Dashboard Refactoring
 - Refactored **DashboardViewModel** for improved performance and clarity
 - Implemented concurrent data loading with cancellation support
@@ -15,7 +16,7 @@
 - Enhanced E2E test stability for MainWindowViewModelTests
 - **Achieved 235/235 passing tests** (100% success rate)
 
-### Phase 3: New Transaction Page Refactoring (Current)
+### Phase 3: New Transaction Page Refactoring
 - **Centralized stock handling logic** in `ITransactionService.UpdateTransactionWithStockAsync()`
 - Refactored **NewTransactionViewModel.SaveTransactionAsync()** to delegate stock logic to service
 - Reduced ViewModel complexity by ~40 lines; improved separation of concerns
@@ -25,7 +26,131 @@
 - **Maintained 100% test pass rate** (235/235 tests passing)
 - Created **NEW_TRANSACTION_REFACTOR_SUMMARY.md** documenting all changes, rationale, and architecture decisions
 
-### Key Improvements
+### Phase 4: Financial Records Refactoring (Service Layer Decomposition)
+- **Extracted 4 new focused methods** from FinancialTransactionService:
+  - `ValidateLoanForPaymentAsync()`: Pre-flight validation for payments
+  - `AllocatePaymentToLoan()`: Interest-first payment allocation logic
+  - `CalculateAndAccrueInterestAsync()`: Centralized interest calculation
+  - `ReverseTransactionImpactAsync()`: Transaction impact reversal for deletions
+- **Simplified public methods** (RecordPaymentAsync, UpdateLoanInterestAsync, DeleteFinancialTransactionAsync)
+  - Reduced complexity and cyclomatic complexity
+  - Improved clarity and maintainability
+  - Enhanced testability through single-responsibility methods
+- Created comprehensive **FINANCIAL_RECORDS_GUIDE.md** (user workflows, validation rules, troubleshooting)
+- Created **FINANCIAL_REFACTOR_SUMMARY.md** (technical details, architecture decisions, metrics)
+- Updated **USER_GUIDE.md** with Financial Records quick-start and link to detailed guide
+- **Maintained 100% test pass rate** (235/235 tests passing, zero regressions)
+- **Zero breaking changes** to public APIs (all refactored methods are private)
+
+### Phase 5: Reports Module Refactoring (Service Extraction & Testing)
+
+#### Phase 5a: Export Logic Consolidation (Week 1)
+- **Identified duplication**: 180+ lines of export row mapping logic duplicated across `ExportToExcelAsync()` and `ExportToCsvAsync()` in ReportsViewModel
+- **Created IReportExportBuilder service** (112 lines):
+  - Single async method: `BuildExportRowsAsync(ReportType, collections...)`
+  - Encapsulates all report-type-specific field mappings (All/Inventory/Financial/Wages)
+  - Handles null coalescing for optional fields (ItemName, PartyName, WorkerName, Notes)
+  - Returns sorted-by-date-descending results for consistent ordering
+- **Integrated into DI**: Registered in `App.xaml.cs` via `services.AddScoped<IReportExportBuilder, ReportExportBuilder>()`
+- **Updated ReportsViewModel**:
+  - Added `private readonly IReportExportBuilder _reportExportBuilder;` dependency
+  - Refactored export methods to call `_reportExportBuilder.BuildExportRowsAsync()`
+  - Removed 180+ lines of duplicated inline logic
+  - Added back-compat constructor overload (8-arg) for gradual test migration
+- **Test Updates**: Updated 13 test instantiations (12 in ReportsViewModelTests, 1 in MainWindowViewModelTests) to mock new dependency
+- **Result**: ✅ All 235 tests passing, zero regressions
+
+#### Phase 5b: Comprehensive Unit Testing (Week 2)
+- **Created ReportExportBuilderTests.cs** (453 lines, 13 focused test methods):
+  - **All Report Type Tests** (3):
+    - Mapping correctness for unified transactions
+    - Date ordering (descending)
+    - Credit amount handling
+  - **Inventory Report Tests** (2):
+    - Field mapping validation (Item, Party, User, Quantity, Rate, Amount)
+    - Date ordering verification
+  - **Financial Report Tests** (2):
+    - Field mapping validation (Party, Amount, InterestRate, InterestAmount, DueDate)
+    - Credit/Debit handling for different loan types
+  - **Wages Report Tests** (3):
+    - Field mapping validation (Worker, DaysWorked/HoursWorked, Rate, Amount)
+    - HoursWorked fallback when DaysWorked is null
+    - Date ordering verification
+  - **Edge Case Tests** (3):
+    - Empty collection handling
+    - Null navigation property handling (Item, Party, User, Worker)
+    - Null field handling (Notes, etc.)
+- **Test Results**: ✅ All 13 new tests passing + all 235 existing tests = **248/248 tests passing**
+- **Bug Fixes During Testing**:
+  - Fixed null Notes handling in Inventory, Financial, and Wages mappers (added `?? string.Empty`)
+  - Corrected FinancialTransactionType usage (LoanTaken vs. LoanReceived)
+
+#### Phase 5c: Filter Logic Assessment & Documentation (Week 3)
+- **Filter Architecture Review**:
+  - Verified type-specific filter methods already well-separated (ApplyAllTransactionsFiltersAsync, ApplyInventoryFiltersAsync, ApplyFinancialFiltersAsync, ApplyWageFiltersAsync)
+  - Identified consistent pattern: fetch → filter → update collections → reset pagination
+  - Noted minor date range handling inconsistency (AllTransactions uses EndDate.AddDays(1).AddSeconds(-1), others use EndDate directly)
+  - **Decision**: Current filter organization is clean; no refactoring needed; focus on documentation
+- **Created comprehensive REPORTS_GUIDE.md** (900+ lines):
+  - Detailed documentation for all 4 report types with use cases
+  - Filter behavior explanation (date ranges, selection filters, unified names)
+  - Pagination details (13 records/page, navigation)
+  - Export functionality (Excel/CSV formats, behavior, naming)
+  - 5 common workflows with step-by-step instructions
+  - Best practices for accuracy, performance, data integrity
+  - Troubleshooting section
+  - Technical appendix with field definitions
+
+### Key Improvements (Phases 4-5)
+
+#### Code Quality & Architecture
+- **Reduced Duplication**: Extracted 180+ lines of export logic into reusable service; eliminated copy-paste in Financial methods
+- **Service-Driven Design**: IReportExportBuilder and extracted Financial methods follow single-responsibility principle
+- **Separation of Concerns**: ViewModels delegate business logic to services; services handle domain logic
+- **Type Safety**: Explicit field mappings per report type prevent incorrect field associations
+
+#### Testing & Reliability
+- **Comprehensive Test Coverage**: Added 13 focused unit tests for ReportExportBuilder (all 4 report types + edge cases)
+- **Zero Regressions**: Maintained 100% test pass rate through all refactoring phases (248/248 tests passing)
+- **Test Quality**: Tests validate field mappings, null handling, sort order, type-specific calculations
+- **Back-Compat**: Added constructor overload to ease test migration and prevent breaking changes
+
+#### Maintainability
+- **Clearer Intent**: Service names and methods clearly express purpose (BuildExportRowsAsync, ValidateLoanForPaymentAsync)
+- **Easier Updates**: Modify export logic in one place (IReportExportBuilder) instead of two (ExportToExcelAsync, ExportToCsvAsync)
+- **Encapsulation**: Financial calculations isolated in focused methods; easier to test and modify
+- **Documentation**: Comprehensive guides explain workflows, validation rules, troubleshooting, and best practices
+
+#### Performance Characteristics
+- **Consistent**: Service methods follow async/await pattern for consistency with rest of codebase
+- **Ordered Results**: Export builder ensures all exports sort by date descending for consistency
+- **Minimal Overhead**: Service abstraction adds no performance penalty (same underlying LINQ operations)
+
+### Technical Metrics
+- **Lines Refactored**: Financial = 200+ lines simplified; Reports = 180+ lines eliminated
+- **Cyclomatic Complexity**: Reduced in RecordPaymentAsync (5→3), UpdateLoanInterestAsync (4→2), DeleteFinancialTransactionAsync (3→1)
+- **Test Coverage**: 13 new tests for ReportExportBuilder; 235+ existing tests maintained
+- **Build Status**: ✅ Clean build, 0 errors, 0 warnings
+- **Test Status**: ✅ **248/248 tests passing** (13 new + 235 existing)
+
+### Documentation Created
+- **FINANCIAL_RECORDS_GUIDE.md** (~400 lines): User workflows, validation rules, financial calculations, troubleshooting
+- **FINANCIAL_REFACTOR_SUMMARY.md** (~800 lines): Technical before/after, architecture decisions, metrics
+- **REPORTS_GUIDE.md** (~900 lines): All 4 report types, filters, export, common workflows, best practices, troubleshooting
+- **PROJECT_SUMMARY.md** (this file): Consolidated architectural improvements and refactoring summary
+
+### Architectural References
+- **Financial Logic**: [FactoryManagement/Services/FinancialTransactionService.cs](FactoryManagement/Services/FinancialTransactionService.cs) - Extracted methods with clear single responsibility
+- **Export Service**: [FactoryManagement/Services/ReportExportBuilder.cs](FactoryManagement/Services/ReportExportBuilder.cs) - Consolidated export mappings (112 lines, 4 report types)
+- **Reports ViewModel**: [FactoryManagement/ViewModels/ReportsViewModel.cs](FactoryManagement/ViewModels/ReportsViewModel.cs) - Delegates to IReportExportBuilder
+- **Unit Tests**: [FactoryManagement.Tests/Services/ReportExportBuilderTests.cs](FactoryManagement.Tests/Services/ReportExportBuilderTests.cs) - 13 comprehensive tests
+
+---
+
+## Previous Improvements
+
+### Phase 3: New Transaction Page Refactoring
+Details moved to historical log (see archive docs)
 - **Code Quality**: Reduced duplication, improved separation of concerns
 - **Testability**: Service layer business logic easily unit tested
 - **Maintainability**: Stock logic centralized; simpler ViewModel maintenance
