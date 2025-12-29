@@ -79,7 +79,7 @@
                     <TextBlock Text="Input Material *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"
-                             Foreground="#FFA726"/>
+                             Foreground="{StaticResource AccentGlowOrange}"/>
                     <ComboBox ItemsSource="{Binding Items}"
                             SelectedItem="{Binding InputItem, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}"
@@ -189,7 +189,7 @@
                     <TextBlock Text="Input Quantity *" 
                              Style="{StaticResource MaterialDesignBody2TextBlock}"
                              Margin="0,0,0,8"
-                             Foreground="#FFA726"/>
+                             Foreground="{StaticResource AccentGlowOrange}"/>
                       <TextBox Text="{Binding InputQuantity, UpdateSourceTrigger=PropertyChanged}"
                           materialDesign:TextFieldAssist.SuffixText="{Binding InputItem.Unit}"
                            Style="{StaticResource TextBox.Dark}"
@@ -374,7 +374,7 @@
                          TabIndex="11"/>
                     <!-- Error/Success Message -->
                     <TextBlock Text="{Binding ErrorMessage}"
-                             Foreground="#EF5350"
+                             Foreground="{StaticResource DeleteButtonForeground}"
                              TextWrapping="Wrap"
                              Margin="0,12,0,0"
                              FontSize="12"
@@ -405,7 +405,7 @@
             </ScrollViewer>
 
             <!-- Loading Overlay -->
-            <Grid Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" ZIndex="999">
+            <Grid Background="{StaticResource ShadowColor}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" ZIndex="999">
                     <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                                Value="0"
                                IsIndeterminate="True"

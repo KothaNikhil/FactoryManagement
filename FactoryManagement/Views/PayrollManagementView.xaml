@@ -27,7 +27,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Wages Paid Card -->
-            <Border Grid.Column="0" Background="#3d8b5f" CornerRadius="8" Padding="16">
+            <Border Grid.Column="0" Background="{StaticResource SummaryCardSuccess}" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -40,7 +40,7 @@
                     <TextBlock Grid.Column="0" Text="💵" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Wages Paid" Foreground="#90EE90" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Total Wages Paid" Foreground="{StaticResource LabelSuccess}" FontSize="11" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalWagesPaid, StringFormat='₹{0:N2}'}" 
                                    Foreground="White" FontSize="20" FontWeight="Bold"/>
                     </StackPanel>
@@ -48,7 +48,7 @@
             </Border>
 
             <!-- Total Advances Card -->
-            <Border Grid.Column="2" Background="#d9a05b" CornerRadius="8" Padding="16">
+            <Border Grid.Column="2" Background="{StaticResource SummaryCardWarning}" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -61,7 +61,7 @@
                     <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Advances Given" Foreground="#FFEAA7" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Total Advances Given" Foreground="{StaticResource LabelWarning}" FontSize="11" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalAdvancesGiven, StringFormat='₹{0:N2}'}" 
                                    Foreground="White" FontSize="20" FontWeight="Bold"/>
                     </StackPanel>
@@ -69,7 +69,7 @@
             </Border>
 
             <!-- Selected Worker Wages Card -->
-            <Border Grid.Column="4" Background="#4a90c8" CornerRadius="8" Padding="16">
+            <Border Grid.Column="4" Background="{StaticResource SummaryCardInfo}" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -82,7 +82,7 @@
                     <TextBlock Grid.Column="0" Text="👤" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Worker Total Wages" Foreground="#ADD8E6" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Worker Total Wages" Foreground="{StaticResource LabelInfo}" FontSize="11" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerTotalWages, StringFormat='₹{0:N2}'}" 
                                    Foreground="White" FontSize="20" FontWeight="Bold"/>
                     </StackPanel>
@@ -90,7 +90,7 @@
             </Border>
 
             <!-- Outstanding Advance Card -->
-            <Border Grid.Column="6" Background="#b85450" CornerRadius="8" Padding="16">
+            <Border Grid.Column="6" Background="{StaticResource SummaryCardDanger}" CornerRadius="8" Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
                 </Border.Effect>
@@ -103,7 +103,7 @@
                     <TextBlock Grid.Column="0" Text="⚠️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Outstanding Advance" Foreground="#FFB6C1" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Outstanding Advance" Foreground="{StaticResource LabelDanger}" FontSize="11" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat='₹{0:N2}'}" 
                                    Foreground="White" FontSize="20" FontWeight="Bold"/>
                     </StackPanel>
@@ -120,7 +120,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- LEFT COLUMN: Record Payment -->
-            <Border Grid.Column="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15"
+            <Border Grid.Column="0" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="1" CornerRadius="8" Background="{StaticResource CardBackground}" Padding="15"
                 ToolTip="Select worker and enter payment">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -174,11 +174,11 @@
                         </Grid>
 
                         <!-- Outstanding Advance Info -->
-                        <Border Background="#1a1a1a" CornerRadius="4" Padding="10" Margin="0,0,0,10"
+                        <Border Background="{StaticResource SecondaryBackground}" CornerRadius="4" Padding="10" Margin="0,0,0,10"
                                 Visibility="{Binding WorkerInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock Foreground="#999" FontSize="11">
                                 <Run Text="Outstanding Advance: "/>
-                                <Run Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat=₹{0:N0}}" Foreground="#ff6b6b" FontWeight="Bold"/>
+                                <Run Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat=₹{0:N0}}" Foreground="{StaticResource ErrorColor}" FontWeight="Bold"/>
                             </TextBlock>
                         </Border>
 
@@ -215,10 +215,10 @@
                                  Margin="0,0,0,10"/>
 
                         <!-- Error Message -->
-                        <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
+                        <Border Background="{StaticResource HighlightBackgroundRed}" BorderBrush="{StaticResource HighlightBorderRed}" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                             <TextBlock Text="{Binding ErrorMessage}" 
-                                       Foreground="#ff6b6b" 
+                                       Foreground="{StaticResource ErrorColor}" 
                                        FontSize="10"
                                        TextWrapping="Wrap"/>
                         </Border>
@@ -269,7 +269,7 @@
             </Border>
 
             <!-- RIGHT COLUMN: Payment History (Wide) -->
-            <Border Grid.Column="2" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="20">
+            <Border Grid.Column="2" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="1" CornerRadius="8" Background="{StaticResource CardBackground}" Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -303,7 +303,7 @@
                               IsReadOnly="True"
                               CanUserAddRows="False"
                               Background="Transparent"
-                              RowBackground="#1a1a1a"
+                              RowBackground="{StaticResource SecondaryBackground}"
                               AlternatingRowBackground="#333"
                               BorderThickness="0"
                               KeyboardNavigation.TabNavigation="Once"
@@ -311,7 +311,7 @@
                               HeadersVisibility="Column">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="Background" Value="#1a1a1a"/>
+                                <Setter Property="Background" Value="{StaticResource SecondaryBackground}"/>
                                 <Setter Property="Foreground" Value="#BBB"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="Padding" Value="10"/>

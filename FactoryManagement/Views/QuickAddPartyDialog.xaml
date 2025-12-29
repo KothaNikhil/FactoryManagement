@@ -6,7 +6,7 @@
         SizeToContent="Height" Width="520"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#1e1e1e"
+        Background="{StaticResource DialogBackground}"
         FontFamily="{materialDesign:MaterialDesignFont}">
     
     <Border BorderBrush="#444" BorderThickness="1" Padding="30">
@@ -106,7 +106,7 @@
                 <Button Grid.Column="2"
                         Content="ADD PARTY"
                         Click="AddPartyButton_Click"
-                        Background="#4a90c8"
+                        Background="{StaticResource ButtonSuccess}"
                         Foreground="White"
                         Height="44"
                         FontSize="14"

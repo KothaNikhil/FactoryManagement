@@ -14,7 +14,7 @@
     <Border Background="{StaticResource BackgroundGradient}" 
             CornerRadius="12"
             BorderThickness="1"
-            BorderBrush="#3a3a3a">
+            BorderBrush="{StaticResource DialogBorder}">
         <Border.Effect>
             <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="20" ShadowDepth="5"/>
         </Border.Effect>
@@ -43,7 +43,7 @@
                                HorizontalAlignment="Center"/>
                     <TextBlock Text="Select your user account to continue" 
                                FontSize="12" 
-                               Foreground="#E0E7FF"
+                               Foreground="{StaticResource TextPrimary}"
                                HorizontalAlignment="Center"
                                Margin="0,8,0,0"/>
                 </StackPanel>
@@ -68,7 +68,7 @@
                           Padding="16,12"
                           Foreground="White"
                           materialDesign:HintAssist.Hint="Choose your username"
-                          materialDesign:TextFieldAssist.UnderlineBrush="{StaticResource Accent.Primary}">
+                          materialDesign:TextFieldAssist.UnderlineBrush="{StaticResource ButtonPrimary}">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="ComboBoxItem" BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}">
                             <Setter Property="Padding" Value="16,12"/>
@@ -80,15 +80,15 @@
 
                 <!-- Error Message -->
                 <TextBlock Text="{Binding ErrorMessage}"
-                           Foreground="#F44336"
+                           Foreground="{StaticResource ErrorColor}"
                            FontSize="12"
                            Margin="4,8,0,0"
                            TextWrapping="Wrap"
                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
 
                 <!-- Info Message -->
-                <Border Background="#1a2196F3"
-                        BorderBrush="#2196F3"
+                <Border Background="{StaticResource InfoPanelBackground}"
+                        BorderBrush="{StaticResource InfoPanelBorder}"
                         BorderThickness="1"
                         CornerRadius="6"
                         Padding="12"
@@ -97,7 +97,7 @@
                         <materialDesign:PackIcon Kind="InformationOutline"
                                                Width="20"
                                                Height="20"
-                                               Foreground="#2196F3"
+                                               Foreground="{StaticResource InfoColor}"
                                                VerticalAlignment="Top"
                                                Margin="0,0,8,0"/>
                         <TextBlock Text="You must select a user to access the system. Your username will be recorded with all transactions."
@@ -132,7 +132,7 @@
                             <Setter Property="Control.Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <Border BorderBrush="#00f2fe" BorderThickness="2" CornerRadius="4"/>
+                                        <Border BorderBrush="{StaticResource AccentGlowCyan}" BorderThickness="2" CornerRadius="4"/>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -144,8 +144,8 @@
                         Content="LOGIN"
                         Command="{Binding LoginCommand}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
-                        Background="{StaticResource Accent.Primary}"
-                        BorderBrush="{StaticResource Accent.Primary}"
+                        Background="{StaticResource ButtonPrimary}"
+                        BorderBrush="{StaticResource ButtonPrimary}"
                         Height="44"
                         FontSize="14"
                         FontWeight="SemiBold">
@@ -154,7 +154,7 @@
                             <Setter Property="Control.Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <Border BorderBrush="#FFFFFF" BorderThickness="2" CornerRadius="4"/>
+                                        <Border BorderBrush="{StaticResource White}" BorderThickness="2" CornerRadius="4"/>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -165,7 +165,7 @@
 
             <!-- Loading Overlay -->
             <Border Grid.RowSpan="3"
-                    Background="#CC000000"
+                    Background="{StaticResource OverlayDark}"
                     CornerRadius="12"
                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -174,7 +174,7 @@
                                  IsIndeterminate="True"
                                  Width="50"
                                  Height="50"
-                                 Foreground="{StaticResource Accent.Primary}"/>
+                                 Foreground="{StaticResource ButtonPrimary}"/>
                     <TextBlock Text="Loading users..." 
                                Foreground="White" 
                                FontSize="14" 

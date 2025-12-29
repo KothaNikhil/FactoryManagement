@@ -4,62 +4,62 @@
   
   <!-- EXTRACTED FROM FINANCIAL TRANSACTIONS & WAGES MANAGEMENT SCREENS -->
   
-  <!-- Summary Card Colors (Top Row Cards) -->
-  <SolidColorBrush x:Key="Card.Success" Color="#3d8b5f"/> <!-- Green - Positive/Income/Wages Paid -->
-  <SolidColorBrush x:Key="Card.Danger" Color="#b85450"/> <!-- Red - Negative/Outstanding/Issues -->
-  <SolidColorBrush x:Key="Card.Info" Color="#4a90c8"/> <!-- Blue - Neutral/Info -->
-  <SolidColorBrush x:Key="Card.Warning" Color="#d9a05b"/> <!-- Orange - Warnings/Advances -->
+  <!-- Summary Card Colors (Top Row Cards) - Using darker tinted backgrounds like FinancialRecords -->
+  <SolidColorBrush x:Key="Card.Success" Color="{Binding Source={StaticResource SummaryCardSuccess}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Danger" Color="{Binding Source={StaticResource SummaryCardDanger}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Info" Color="{Binding Source={StaticResource SummaryCardInfo}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Warning" Color="{Binding Source={StaticResource SummaryCardWarning}, Path=Color}"/>
   
-  <!-- Card Label Colors (lighter tints for summary card labels) -->
-  <SolidColorBrush x:Key="Card.Success.Label" Color="#90EE90"/>
-  <SolidColorBrush x:Key="Card.Danger.Label" Color="#FFB6C1"/>
-  <SolidColorBrush x:Key="Card.Info.Label" Color="#ADD8E6"/>
-  <SolidColorBrush x:Key="Card.Warning.Label" Color="#FFEAA7"/>
+  <!-- Card Label Colors (lighter tints for summary card labels) - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Card.Success.Label" Color="{Binding Source={StaticResource LabelSuccess}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Danger.Label" Color="{Binding Source={StaticResource LabelDanger}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Info.Label" Color="{Binding Source={StaticResource LabelInfo}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Warning.Label" Color="{Binding Source={StaticResource LabelWarning}, Path=Color}"/>
   
-  <!-- Main Card/Panel Backgrounds -->
-  <SolidColorBrush x:Key="Card.Background" Color="#2a2a2a"/> <!-- Main card background -->
-  <SolidColorBrush x:Key="Card.Header" Color="#1a1a1a"/> <!-- Card header/section background -->
-  <SolidColorBrush x:Key="Card.Border" Color="#444"/> <!-- Card borders -->
-  <SolidColorBrush x:Key="Bg.Card" Color="#1a1a1a"/> <!-- Alias for Card.Header -->
-  <SolidColorBrush x:Key="Border.Default" Color="#444"/> <!-- Alias for Card.Border -->
+  <!-- Main Card/Panel Backgrounds - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Card.Background" Color="{Binding Source={StaticResource CardBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Header" Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Card.Border" Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Bg.Card" Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Border.Default" Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
   
-  <!-- DataGrid Colors -->
-  <SolidColorBrush x:Key="Grid.Row.Default" Color="#2a2a2a"/> <!-- Default row background -->
-  <SolidColorBrush x:Key="Grid.Row.Alternate" Color="#333"/> <!-- Alternate row background -->
-  <SolidColorBrush x:Key="Grid.Header" Color="#1a1a1a"/> <!-- Header background -->
-  <SolidColorBrush x:Key="Grid.HeaderText" Color="#BBB"/> <!-- Header text -->
-  <SolidColorBrush x:Key="Grid.Border" Color="#444"/> <!-- Grid borders -->
+  <!-- DataGrid Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Grid.Row.Default" Color="{Binding Source={StaticResource PrimaryBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Grid.Row.Alternate" Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Grid.Header" Color="{Binding Source={StaticResource ElevatedBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Grid.HeaderText" Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Grid.Border" Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
   
-  <!-- Text Colors -->
-  <SolidColorBrush x:Key="Text.Primary" Color="White"/> <!-- Primary text -->
-  <SolidColorBrush x:Key="Text.Secondary" Color="#888"/> <!-- Secondary/muted text -->
-  <SolidColorBrush x:Key="Text.Label" Color="#AAA"/> <!-- Form labels -->
-  <SolidColorBrush x:Key="Text.Amount.Positive" Color="#3d8b5f"/> <!-- Positive amounts/success -->
-  <SolidColorBrush x:Key="Text.Amount.Negative" Color="#FF6B6B"/> <!-- Negative amounts/danger -->
+  <!-- Text Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Text.Primary" Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Text.Secondary" Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Text.Label" Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Text.Amount.Positive" Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
+  <SolidColorBrush x:Key="Text.Amount.Negative" Color="{Binding Source={StaticResource ErrorColor}, Path=Color}"/>
   
-  <!-- Selection Colors -->
-  <SolidColorBrush x:Key="Selection.Background" Color="#4a90c8"/> <!-- Selection background -->
-  <SolidColorBrush x:Key="Selection.Foreground" Color="White"/> <!-- Selection text -->
+  <!-- Selection Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Selection.Background" Color="{Binding Source={StaticResource SelectionBackground}, Path=Color}"/>
+  <SolidColorBrush x:Key="Selection.Foreground" Color="{Binding Source={StaticResource SelectionForeground}, Path=Color}"/>
   
-  <!-- Accent Colors -->
-  <SolidColorBrush x:Key="Accent.Primary" Color="#00f2fe"/> <!-- Primary accent color -->
+  <!-- Accent Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Accent.Primary" Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
   
-  <!-- Button Colors -->
-  <SolidColorBrush x:Key="Button.Create" Color="#0275d8"/> <!-- Create/Primary actions -->
-  <SolidColorBrush x:Key="Button.Create.Hover" Color="#025aa5"/>
-  <SolidColorBrush x:Key="Button.Save" Color="#1e7e34"/> <!-- Save/Success actions -->
-  <SolidColorBrush x:Key="Button.Save.Hover" Color="#176428"/>
-  <SolidColorBrush x:Key="Button.Info" Color="#4a90c8"/> <!-- Info buttons -->
-  <SolidColorBrush x:Key="Button.Warning" Color="#d9a05b"/> <!-- Warning buttons -->
+  <!-- Button Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Button.Create" Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
+  <SolidColorBrush x:Key="Button.Create.Hover" Color="{Binding Source={StaticResource InfoSoft}, Path=Color}"/>
+  <SolidColorBrush x:Key="Button.Save" Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
+  <SolidColorBrush x:Key="Button.Save.Hover" Color="{Binding Source={StaticResource SuccessSoft}, Path=Color}"/>
+  <SolidColorBrush x:Key="Button.Info" Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
+  <SolidColorBrush x:Key="Button.Warning" Color="{Binding Source={StaticResource WarningColor}, Path=Color}"/>
   
-  <!-- Input/Form Colors -->
+  <!-- Input/Form Colors - Aliasing to new theme colors -->
   <SolidColorBrush x:Key="Input.Background" Color="Transparent"/>
-  <SolidColorBrush x:Key="Input.Border" Color="#444"/>
-  <SolidColorBrush x:Key="Input.InfoBox" Color="#1a1a1a"/> <!-- Info boxes inside forms -->
+  <SolidColorBrush x:Key="Input.Border" Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+  <SolidColorBrush x:Key="Input.InfoBox" Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
   
-  <!-- Icon Colors -->
-  <SolidColorBrush x:Key="Icon.Primary" Color="#4FC3F7"/> <!-- Primary icon color -->
-  <SolidColorBrush x:Key="Icon.Success" Color="#1e7e34"/> <!-- Success icon -->
+  <!-- Icon Colors - Aliasing to new theme colors -->
+  <SolidColorBrush x:Key="Icon.Primary" Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
+  <SolidColorBrush x:Key="Icon.Success" Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
   
   <!-- SUMMARY CARD STYLE (Top Row Cards) -->
   <Style x:Key="SummaryCard" TargetType="Border">
@@ -72,20 +72,20 @@
     </Setter>
   </Style>
   
-  <!-- FORM CARD STYLE (Create/Record Forms) -->
+  <!-- FORM CARD STYLE (Create/Record Forms) - Using new theme -->
   <Style x:Key="FormCard" TargetType="Border">
-    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource BorderPrimary}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="Background" Value="{StaticResource Card.Background}"/>
+    <Setter Property="Background" Value="{StaticResource CardBackground}"/>
     <Setter Property="Padding" Value="24"/>
   </Style>
   
-  <!-- CARD.GLASS STYLE (MaterialDesign Card with glass effect) -->
+  <!-- CARD.GLASS STYLE (MaterialDesign Card with glass effect) - Using new theme -->
   <Style x:Key="Card.Glass" TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">
     <Setter Property="UniformCornerRadius" Value="12"/>
     <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
-    <Setter Property="Background" Value="{StaticResource Card.Background}"/>
+    <Setter Property="Background" Value="{StaticResource CardBackground}"/>
   </Style>
   
   <!-- SECTION HEADER STYLES -->

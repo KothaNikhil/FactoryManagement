@@ -68,10 +68,7 @@
         <!-- Custom Title Bar with Gradient -->
         <Border Grid.Row="0" Height="50" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#1a1a2e" Offset="0"/>
-                    <GradientStop Color="#16213e" Offset="1"/>
-                </LinearGradientBrush>
+                <StaticResource ResourceKey="TitleBarGradient"/>
             </Border.Background>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -89,7 +86,7 @@
                             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#f45c43"/>
+                                        <Setter Property="Background" Value="{StaticResource CloseButtonHover}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -124,10 +121,7 @@
                 MouseEnter="NavigationBorder_MouseEnter"
                 MouseLeave="NavigationBorder_MouseLeave">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="#16213e" Offset="0"/>
-                    <GradientStop Color="#0f3460" Offset="1"/>
-                </LinearGradientBrush>
+                <StaticResource ResourceKey="NavPanelGradient"/>
             </Border.Background>
             <Border.Style>
                 <Style TargetType="Border">

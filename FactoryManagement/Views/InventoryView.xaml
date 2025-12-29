@@ -169,7 +169,7 @@
                                                   CommandParameter="{Binding}"
                                                   ToolTip="Delete"
                                                   Margin="4,0,0,0"
-                                                  Foreground="#EF5350">
+                                                  Foreground="{StaticResource DeleteButtonForeground}">
                                                 <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                                             </Button>
                                         </StackPanel>
@@ -264,7 +264,7 @@
 
                             <!-- Error Message -->
                             <Border Style="{StaticResource InfoBox}" 
-                                    Background="#3a2020"
+                                    Background="{StaticResource DeleteButtonBackground}"
                                     BorderBrush="{StaticResource Card.Danger}"
                                     Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
                                     Margin="0,0,0,16">
@@ -288,7 +288,7 @@
             </Border>
 
             <!-- Loading Overlay -->
-            <Grid Grid.ColumnSpan="2" Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Grid.ColumnSpan="2" Background="{StaticResource ShadowColor}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                            Value="0"
                            IsIndeterminate="True"
