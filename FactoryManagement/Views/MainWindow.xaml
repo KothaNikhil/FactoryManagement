@@ -65,12 +65,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!-- Custom Title Bar with Gradient -->
-        <Border Grid.Row="0" Height="50" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+        <!-- Custom Title Bar with Gradient and Page Context -->
+        <Border Grid.Row="0" Height="72" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <Border.Background>
                 <StaticResource ResourceKey="TitleBarGradient"/>
             </Border.Background>
             <DockPanel>
+                <!-- Window control buttons (far right) -->
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <Button Width="50" Height="50" Style="{StaticResource MaterialDesignFlatButton}" 
                             Click="MinimizeButton_Click" Foreground="White">
@@ -94,18 +95,67 @@
                         <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                     </Button>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
-                    <Border Background="Transparent"
-                            Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Source="pack://application:,,,/Images/factory-icon.ico"/>
+
+                <!-- User dropdown (to the left of window controls) -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                    <Border Background="{StaticResource Card.Header}"
+                            CornerRadius="8"
+                            Padding="12,8">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AccountCircle"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Foreground="{StaticResource Text.Secondary}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,8,0"/>
+                            <TextBlock Text="User:"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Text.Secondary}"
+                                       FontWeight="Medium"
+                                       Margin="0,0,8,0"/>
+                            <ComboBox ItemsSource="{Binding ActiveUsers}"
+                                      SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                                      DisplayMemberPath="Username"
+                                      Width="160"
+                                      VerticalAlignment="Center"
+                                      Style="{StaticResource ComboBox.Standard}"/>
+                        </StackPanel>
                     </Border>
-                    <TextBlock Text="Factory Management System" 
-                               VerticalAlignment="Center" 
-                               FontSize="16" 
-                               FontWeight="SemiBold"
-                               Foreground="White"/>
                 </StackPanel>
+
+                <!-- Fill area: App identity (left) + Page context (center/left) -->
+                <Grid Margin="16,6,12,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- App identity -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Background="Transparent"
+                                Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Source="pack://application:,,,/Images/factory-icon.ico"/>
+                        </Border>
+                        <TextBlock Text="Factory Management System"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- Page title + subtitle -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding CurrentViewTitle}"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                        <!-- <TextBlock Text="{Binding CurrentViewSubtitle}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource Text.Secondary}"/> -->
+                    </StackPanel>
+                </Grid>
             </DockPanel>
         </Border>
         
@@ -657,48 +707,6 @@
 
         <!-- Main Content Area -->
         <DockPanel Grid.Column="1">
-            <!-- Top Bar -->
-            <materialDesign:ColorZone Padding="24,12" 
-                                     materialDesign:ElevationAssist.Elevation="Dp4"
-                                     DockPanel.Dock="Top"
-                                     Background="#2D2D30">
-                <DockPanel>
-                    <TextBlock HorizontalAlignment="Left" 
-                             VerticalAlignment="Center" 
-                             FontSize="22"
-                             FontWeight="SemiBold"
-                             Foreground="White"
-                             Text="{Binding CurrentViewTitle}"/>
-                    
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Border Background="{StaticResource Card.Header}" 
-                                CornerRadius="8" 
-                                Padding="12,8">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountCircle" 
-                                                       Width="20" 
-                                                       Height="20" 
-                                                       Foreground="{StaticResource Text.Secondary}" 
-                                                       VerticalAlignment="Center"
-                                                       Margin="0,0,8,0"/>
-                                <TextBlock Text="User:" 
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource Text.Secondary}"
-                                            FontWeight="Medium"
-                                            Margin="0,0,8,0"/>
-                                <ComboBox ItemsSource="{Binding ActiveUsers}"
-                                          SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                                          DisplayMemberPath="Username"
-                                          Width="160"
-                                          VerticalAlignment="Center"
-                                          Style="{StaticResource ComboBox.Standard}">
-                                </ComboBox>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </DockPanel>
-            </materialDesign:ColorZone>
-
             <!-- Content Area with Unified Background -->
             <Grid Background="#1E1E1E">
                 <ContentControl Content="{Binding CurrentView}" Margin="20">

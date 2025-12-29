@@ -22,6 +22,9 @@ namespace FactoryManagement.ViewModels
         private string _currentViewTitle = "Dashboard";
 
         [ObservableProperty]
+        private string _currentViewSubtitle = "Welcome back, here's what's happening in your factory today.";
+
+        [ObservableProperty]
         private bool _isMenuPinned = true;
 
         [ObservableProperty]
@@ -88,7 +91,8 @@ namespace FactoryManagement.ViewModels
         {
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _dashboardViewModel;
-            CurrentViewTitle = "Dashboard";
+            CurrentViewTitle = "Dashboard Overview";
+            CurrentViewSubtitle = "Welcome back, here's what's happening in your factory today.";
             await _dashboardViewModel.InitializeAsync();
         }
 
@@ -98,6 +102,7 @@ namespace FactoryManagement.ViewModels
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _transactionEntryViewModel;
             CurrentViewTitle = "New Transaction";
+            CurrentViewSubtitle = "Create and record a new transaction.";
             await _transactionEntryViewModel.InitializeAsync();
         }
 
@@ -107,6 +112,7 @@ namespace FactoryManagement.ViewModels
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _reportsViewModel;
             CurrentViewTitle = "Reports & Analytics";
+            CurrentViewSubtitle = "Visualize performance and export insights.";
             await _reportsViewModel.InitializeAsync();
         }
 
@@ -115,7 +121,8 @@ namespace FactoryManagement.ViewModels
         {
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _itemsManagementViewModel;
-            CurrentViewTitle = "Inventory";
+            CurrentViewTitle = "Inventory Management";
+            CurrentViewSubtitle = "Track stock levels and manage items.";
             await _itemsManagementViewModel.InitializeAsync();
         }
 
@@ -124,7 +131,8 @@ namespace FactoryManagement.ViewModels
         {
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _partiesManagementViewModel;
-            CurrentViewTitle = "Contacts";
+            CurrentViewTitle = "Contact Management";
+            CurrentViewSubtitle = "Manage suppliers, customers, and partners.";
             await _partiesManagementViewModel.InitializeAsync();
         }
 
@@ -134,6 +142,7 @@ namespace FactoryManagement.ViewModels
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _financialTransactionsViewModel;
             CurrentViewTitle = "Financial Records";
+            CurrentViewSubtitle = "Review and reconcile financial transactions.";
             // Load data is called in constructor, but we can optionally refresh here
             await System.Threading.Tasks.Task.CompletedTask;
         }
@@ -144,6 +153,7 @@ namespace FactoryManagement.ViewModels
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _wagesManagementViewModel;
             CurrentViewTitle = "Payroll Management";
+            CurrentViewSubtitle = "Record wages and manage payments.";
             await _wagesManagementViewModel.InitializeAsync();
         }
 
@@ -153,6 +163,7 @@ namespace FactoryManagement.ViewModels
             await LoadActiveUsersAsync(); // Refresh user dropdown
             CurrentView = _workersManagementViewModel;
             CurrentViewTitle = "Workers Management";
+            CurrentViewSubtitle = "Manage worker profiles and activities.";
             await _workersManagementViewModel.InitializeAsync();
         }
 
@@ -160,7 +171,8 @@ namespace FactoryManagement.ViewModels
         private void NavigateToBackup()
         {
             CurrentView = _backupViewModel;
-            CurrentViewTitle = "Data Backup";
+            CurrentViewTitle = "Backup & Restore";
+            CurrentViewSubtitle = "Securely back up and restore your data.";
         }
 
         [RelayCommand]
@@ -168,6 +180,7 @@ namespace FactoryManagement.ViewModels
         {
             CurrentView = _usersViewModel;
             CurrentViewTitle = "User Management";
+            CurrentViewSubtitle = "Manage users, roles, and permissions.";
             _usersViewModel.UserListChangedCallback = LoadActiveUsersAsync;
             await _usersViewModel.InitializeAsync();
         }
