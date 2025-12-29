@@ -187,7 +187,8 @@
                         <ComboBox ItemsSource="{Binding TransactionTypes}"
                                   SelectedItem="{Binding TransactionType, Mode=TwoWay}"
                                   Style="{StaticResource ComboBox.Standard}"
-                                  Margin="0,0,0,10"/>
+                                  Margin="0,0,0,10"
+                                  materialDesign:HintAssist.Hint="Select Type"/>
 
                         <!-- Payment Mode -->
                         <TextBlock Text="Payment Mode *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>

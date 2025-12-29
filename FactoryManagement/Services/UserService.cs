@@ -57,6 +57,17 @@ namespace FactoryManagement.Services
         public async Task UpdateUserAsync(User user)
         {
             user.ModifiedDate = DateTime.Now;
+            // Prevent deactivating the last active user
+            var existing = await _userRepository.GetByIdAsync(user.UserId);
+            if (existing != null && existing.IsActive && !user.IsActive)
+            {
+                var activeCount = await _userRepository.CountAsync(u => u.IsActive && u.UserId != user.UserId);
+                if (activeCount == 0)
+                {
+                    throw new InvalidOperationException("At least one active user must remain in the system.");
+                }
+            }
+
             await _userRepository.UpdateAsync(user);
         }
 
@@ -65,6 +76,16 @@ namespace FactoryManagement.Services
             var user = await _userRepository.GetByIdAsync(userId);
             if (user != null)
             {
+                // Do not allow deleting (deactivating) the last active user
+                if (user.IsActive)
+                {
+                    var activeCount = await _userRepository.CountAsync(u => u.IsActive);
+                    if (activeCount <= 1)
+                    {
+                        throw new InvalidOperationException("Cannot delete the last active user. At least one active user must remain.");
+                    }
+                }
+
                 // Soft delete: keep user row so related transactions remain
                 user.IsActive = false;
                 user.ModifiedDate = DateTime.Now;

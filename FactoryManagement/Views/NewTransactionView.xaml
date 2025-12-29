@@ -104,7 +104,8 @@
                     <ComboBox ItemsSource="{Binding Items}"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         Style="{StaticResource ComboBox.Dark}"
-                        TabIndex="2">
+                        TabIndex="2"
+                        materialDesign:HintAssist.Hint="Select Item">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ItemName}" FontWeight="Bold"/>
@@ -131,7 +132,8 @@
                             SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                             Style="{StaticResource ComboBox.Dark}"
                             Margin="0,0,8,0"
-                            TabIndex="3">
+                            TabIndex="3"
+                            materialDesign:HintAssist.Hint="Select Party">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}"/>
