@@ -11,12 +11,15 @@ using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class WorkersManagementViewModel : ViewModelBase
+    public partial class WorkersManagementViewModel : PaginationViewModel
     {
         private readonly IWageService _wageService;
 
         [ObservableProperty]
         private ObservableCollection<Worker> _workers = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Worker> _paginatedWorkers = new();
 
         [ObservableProperty]
         private Worker? _selectedWorker;
@@ -80,6 +83,17 @@ namespace FactoryManagement.ViewModels
         partial void OnSearchTextChanged(string value)
         {
             FilterWorkers();
+            UpdatePaginatedData();
+        }
+
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(Workers);
+            PaginatedWorkers.Clear();
+            foreach (var worker in GetPagedItems(Workers))
+            {
+                PaginatedWorkers.Add(worker);
+            }
         }
 
         [RelayCommand]
@@ -91,6 +105,7 @@ namespace FactoryManagement.ViewModels
                 var workers = await _wageService.GetAllWorkersAsync();
                 _allWorkers = new ObservableCollection<Worker>(workers.OrderBy(w => w.Name));
                 Workers = new ObservableCollection<Worker>(_allWorkers);
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {

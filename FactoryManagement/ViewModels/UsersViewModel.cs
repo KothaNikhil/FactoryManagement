@@ -10,12 +10,15 @@ using System.Windows;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class UsersViewModel : ViewModelBase
+    public partial class UsersViewModel : PaginationViewModel
     {
         private readonly IUserService _userService;
 
         [ObservableProperty]
         private ObservableCollection<User> _users = new();
+
+        [ObservableProperty]
+        private ObservableCollection<User> _paginatedUsers = new();
 
         [ObservableProperty]
         private User? _selectedUser;
@@ -49,6 +52,16 @@ namespace FactoryManagement.ViewModels
             await LoadUsersAsync();
         }
 
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(Users);
+            PaginatedUsers.Clear();
+            foreach (var user in GetPagedItems(Users))
+            {
+                PaginatedUsers.Add(user);
+            }
+        }
+
         [RelayCommand]
         private async Task LoadUsersAsync()
         {
@@ -62,6 +75,7 @@ namespace FactoryManagement.ViewModels
                 {
                     Users.Add(user);
                 }
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {

@@ -77,8 +77,21 @@
                     <!-- Search Box -->
                     <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search items by name..." />
 
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl DockPanel.Dock="Bottom"
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
+
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                    <DataGrid ItemsSource="{Binding PaginatedItems}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>

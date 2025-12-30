@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class InventoryViewModel : ViewModelBase
+    public partial class InventoryViewModel : PaginationViewModel
     {
         private readonly IItemService _itemService;
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Item> _paginatedItems = new();
 
         [ObservableProperty]
         private Item? _selectedItem;
@@ -52,6 +55,17 @@ namespace FactoryManagement.ViewModels
         partial void OnSearchTextChanged(string value)
         {
             FilterItems();
+            UpdatePaginatedData();
+        }
+
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(Items);
+            PaginatedItems.Clear();
+            foreach (var item in GetPagedItems(Items))
+            {
+                PaginatedItems.Add(item);
+            }
         }
 
         [RelayCommand]
@@ -69,6 +83,7 @@ namespace FactoryManagement.ViewModels
                     Items.Add(item);
                 }
                 UpdateSummaryProperties();
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {

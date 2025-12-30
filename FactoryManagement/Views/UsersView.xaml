@@ -25,8 +25,21 @@
                 <!-- Search Box -->
                 <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search users by username or role..." />
 
+                <!-- Pagination Control -->
+                <controls:PaginationControl DockPanel.Dock="Bottom"
+                    CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                    TotalPages="{Binding TotalPages}"
+                    TotalRecords="{Binding TotalRecords}"
+                    CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                    CanGoToNextPage="{Binding CanGoToNextPage}"
+                    FirstPageCommand="{Binding GoToFirstPageCommand}"
+                    PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                    NextPageCommand="{Binding GoToNextPageCommand}"
+                    LastPageCommand="{Binding GoToLastPageCommand}"
+                    Margin="0,16,0,0"/>
+
                 <!-- Users DataGrid -->
-                <DataGrid ItemsSource="{Binding Users}" 
+                <DataGrid ItemsSource="{Binding PaginatedUsers}" 
                           SelectedItem="{Binding SelectedUser, Mode=TwoWay}" 
                           Style="{StaticResource Section.DataGrid}"
                           KeyboardNavigation.TabNavigation="Once">

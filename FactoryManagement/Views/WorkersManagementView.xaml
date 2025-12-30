@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid Margin="20">
@@ -168,6 +169,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- Section Header and Search Box -->
@@ -201,7 +203,7 @@
 
                     <!-- Workers DataGrid -->
                     <DataGrid Grid.Row="1" 
-                              ItemsSource="{Binding Workers}"
+                              ItemsSource="{Binding PaginatedWorkers}"
                               SelectedItem="{Binding SelectedWorker}"
                               Style="{StaticResource Section.DataGrid}"
                               KeyboardNavigation.TabNavigation="Once">
@@ -237,6 +239,19 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl Grid.Row="2"
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
                 </Grid>
             </Border>
         </Grid>

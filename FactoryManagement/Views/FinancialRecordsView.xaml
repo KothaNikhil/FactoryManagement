@@ -429,6 +429,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Header with Filter -->
@@ -500,7 +501,7 @@
 
                         <!-- Loans DataGrid -->
                         <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
-                                  ItemsSource="{Binding Loans}" 
+                                  ItemsSource="{Binding PaginatedLoans}" 
                                   SelectedItem="{Binding SelectedLoan}"
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True"
@@ -547,6 +548,20 @@
                                 <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>
                             </DataGrid.Columns>
                         </DataGrid>
+                        
+                        <!-- Loans Pagination Control -->
+                        <controls:PaginationControl Grid.Row="2"
+                                                    DockPanel.Dock="Bottom"
+                                                    CurrentPage="{Binding CurrentPageLoans}"
+                                                    TotalPages="{Binding TotalPagesLoans}"
+                                                    TotalRecords="{Binding TotalRecordsLoans}"
+                                                    CanGoToPreviousPage="{Binding CanGoToPreviousPageLoans}"
+                                                    CanGoToNextPage="{Binding CanGoToNextPageLoans}"
+                                                    FirstPageCommand="{Binding GoToFirstPageLoansCommand}"
+                                                    PreviousPageCommand="{Binding GoToPreviousPageLoansCommand}"
+                                                    NextPageCommand="{Binding GoToNextPageLoansCommand}"
+                                                    LastPageCommand="{Binding GoToLastPageLoansCommand}"
+                                                    Margin="0,16,0,0"/>
                     </Grid>
                 </Border>
 
@@ -556,6 +571,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="0" Background="#1a1a1a" Padding="15" BorderBrush="#444" BorderThickness="0,0,0,1">
@@ -578,7 +594,7 @@
                         </Border>
 
                         <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
-                                  ItemsSource="{Binding Transactions}" 
+                                  ItemsSource="{Binding PaginatedTransactions}" 
                                   SelectedItem="{Binding SelectedTransaction}"
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True"
@@ -622,6 +638,20 @@
                                 <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                             </DataGrid.Columns>
                         </DataGrid>
+                        
+                        <!-- Transactions Pagination Control -->
+                        <controls:PaginationControl Grid.Row="2"
+                                                    DockPanel.Dock="Bottom"
+                                                    CurrentPage="{Binding CurrentPageTransactions}"
+                                                    TotalPages="{Binding TotalPagesTransactions}"
+                                                    TotalRecords="{Binding TotalRecordsTransactions}"
+                                                    CanGoToPreviousPage="{Binding CanGoToPreviousPageTransactions}"
+                                                    CanGoToNextPage="{Binding CanGoToNextPageTransactions}"
+                                                    FirstPageCommand="{Binding GoToFirstPageTransactionsCommand}"
+                                                    PreviousPageCommand="{Binding GoToPreviousPageTransactionsCommand}"
+                                                    NextPageCommand="{Binding GoToNextPageTransactionsCommand}"
+                                                    LastPageCommand="{Binding GoToLastPageTransactionsCommand}"
+                                                    Margin="0,16,0,0"/>
                     </Grid>
                 </Border>
             </Grid>

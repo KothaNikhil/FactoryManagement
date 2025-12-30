@@ -269,6 +269,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-20,-20,-20,15" CornerRadius="8,8,0,0">
@@ -293,7 +294,7 @@
                     </Border>
 
                     <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
-                              ItemsSource="{Binding AllTransactions}"
+                              ItemsSource="{Binding PaginatedTransactions}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               CanUserAddRows="False"
@@ -348,6 +349,19 @@
                             <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl Grid.Row="2"
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
                 </Grid>
             </Border>
         </Grid>

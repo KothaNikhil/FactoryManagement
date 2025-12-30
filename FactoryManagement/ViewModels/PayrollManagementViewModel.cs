@@ -12,7 +12,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class PayrollManagementViewModel : ViewModelBase
+    public partial class PayrollManagementViewModel : PaginationViewModel
     {
         private readonly IWageService _wageService;
 
@@ -21,6 +21,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<WageTransaction> _transactions = new();
+
+        [ObservableProperty]
+        private ObservableCollection<WageTransaction> _paginatedTransactions = new();
 
         [ObservableProperty]
         private ObservableCollection<WageTransaction> _allTransactions = new();
@@ -136,6 +139,16 @@ namespace FactoryManagement.ViewModels
         public PayrollManagementViewModel(IWageService wageService)
         {
             _wageService = wageService;
+        }
+
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(AllTransactions);
+            PaginatedTransactions.Clear();
+            foreach (var transaction in GetPagedItems(AllTransactions))
+            {
+                PaginatedTransactions.Add(transaction);
+            }
         }
 
         private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
@@ -415,6 +428,7 @@ namespace FactoryManagement.ViewModels
                     DateTime.Now.AddDays(-30), DateTime.Now);
                 AllTransactions = new ObservableCollection<WageTransaction>(
                     recentTransactions.OrderByDescending(t => t.TransactionDate));
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {

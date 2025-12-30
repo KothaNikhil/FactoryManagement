@@ -99,8 +99,21 @@
                         </Grid>
                     </Border>
 
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl DockPanel.Dock="Bottom" 
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
+
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding Parties}" SelectedItem="{Binding SelectedParty}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                    <DataGrid ItemsSource="{Binding PaginatedParties}" SelectedItem="{Binding SelectedParty}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>

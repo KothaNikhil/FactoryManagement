@@ -18,7 +18,9 @@ namespace FactoryManagement.ViewModels
         private readonly IPartyService _partyService;
 
         private ObservableCollection<LoanAccount> _loans;
+        private ObservableCollection<LoanAccount> _paginatedLoans;
         private ObservableCollection<FinancialTransaction> _transactions;
+        private ObservableCollection<FinancialTransaction> _paginatedTransactions;
         private FinancialTransaction? _selectedTransaction;
         private ObservableCollection<Party> _parties;
         private ObservableCollection<Party> _partiesForFilter;
@@ -44,6 +46,19 @@ namespace FactoryManagement.ViewModels
         private decimal _totalInterestPayable;
         private bool _isLoading;
         private ISnackbarMessageQueue? _snackbarMessageQueue;
+        
+        // Pagination properties for Loans
+        private int _currentPageLoans = 1;
+        private int _totalPagesLoans = 1;
+        private int _totalRecordsLoans = 0;
+        private const int PageSizeLoans = 10;
+        
+        // Pagination properties for Transactions
+        private int _currentPageTransactions = 1;
+        private int _totalPagesTransactions = 1;
+        private int _totalRecordsTransactions = 0;
+        private const int PageSizeTransactions = 10;
+        
         public ISnackbarMessageQueue? SnackbarMessageQueue => _snackbarMessageQueue ??= CreateSnackbarIfUiThread();
 
         public FinancialRecordsViewModel(
@@ -54,7 +69,9 @@ namespace FactoryManagement.ViewModels
             _partyService = partyService;
 
             _loans = new ObservableCollection<LoanAccount>();
+            _paginatedLoans = new ObservableCollection<LoanAccount>();
             _transactions = new ObservableCollection<FinancialTransaction>();
+            _paginatedTransactions = new ObservableCollection<FinancialTransaction>();
             _parties = new ObservableCollection<Party>();
             _partiesForFilter = new ObservableCollection<Party>();
             _notes = string.Empty;
@@ -107,12 +124,32 @@ namespace FactoryManagement.ViewModels
             }
         }
 
+        public ObservableCollection<LoanAccount> PaginatedLoans
+        {
+            get => _paginatedLoans;
+            set
+            {
+                _paginatedLoans = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<FinancialTransaction> Transactions
         {
             get => _transactions;
             set
             {
                 _transactions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<FinancialTransaction> PaginatedTransactions
+        {
+            get => _paginatedTransactions;
+            set
+            {
+                _paginatedTransactions = value;
                 OnPropertyChanged();
             }
         }
@@ -342,6 +379,82 @@ namespace FactoryManagement.ViewModels
 
         public Array LoanTypes => Enum.GetValues(typeof(LoanType));
         public Array LoanStatuses => Enum.GetValues(typeof(LoanStatus));
+        
+        // Loans Pagination Properties
+        public int CurrentPageLoans
+        {
+            get => _currentPageLoans;
+            set
+            {
+                _currentPageLoans = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToPreviousPageLoans));
+                OnPropertyChanged(nameof(CanGoToNextPageLoans));
+                UpdatePaginatedLoans();
+            }
+        }
+        
+        public int TotalPagesLoans
+        {
+            get => _totalPagesLoans;
+            set
+            {
+                _totalPagesLoans = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToNextPageLoans));
+            }
+        }
+        
+        public int TotalRecordsLoans
+        {
+            get => _totalRecordsLoans;
+            set
+            {
+                _totalRecordsLoans = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool CanGoToPreviousPageLoans => CurrentPageLoans > 1;
+        public bool CanGoToNextPageLoans => CurrentPageLoans < TotalPagesLoans;
+        
+        // Transactions Pagination Properties
+        public int CurrentPageTransactions
+        {
+            get => _currentPageTransactions;
+            set
+            {
+                _currentPageTransactions = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToPreviousPageTransactions));
+                OnPropertyChanged(nameof(CanGoToNextPageTransactions));
+                UpdatePaginatedTransactions();
+            }
+        }
+        
+        public int TotalPagesTransactions
+        {
+            get => _totalPagesTransactions;
+            set
+            {
+                _totalPagesTransactions = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToNextPageTransactions));
+            }
+        }
+        
+        public int TotalRecordsTransactions
+        {
+            get => _totalRecordsTransactions;
+            set
+            {
+                _totalRecordsTransactions = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool CanGoToPreviousPageTransactions => CurrentPageTransactions > 1;
+        public bool CanGoToNextPageTransactions => CurrentPageTransactions < TotalPagesTransactions;
 
         #endregion
 
@@ -356,6 +469,18 @@ namespace FactoryManagement.ViewModels
         public ICommand DeleteFinancialTransactionCommand { get; }
         public ICommand UndoDeleteLoanCommand { get; }
         public ICommand UndoDeleteFinancialTransactionCommand { get; }
+        
+        // Loans Pagination Commands
+        public ICommand GoToFirstPageLoansCommand => new RelayCommand(GoToFirstPageLoans, () => CanGoToPreviousPageLoans);
+        public ICommand GoToPreviousPageLoansCommand => new RelayCommand(GoToPreviousPageLoans, () => CanGoToPreviousPageLoans);
+        public ICommand GoToNextPageLoansCommand => new RelayCommand(GoToNextPageLoans, () => CanGoToNextPageLoans);
+        public ICommand GoToLastPageLoansCommand => new RelayCommand(GoToLastPageLoans, () => CanGoToNextPageLoans);
+        
+        // Transactions Pagination Commands
+        public ICommand GoToFirstPageTransactionsCommand => new RelayCommand(GoToFirstPageTransactions, () => CanGoToPreviousPageTransactions);
+        public ICommand GoToPreviousPageTransactionsCommand => new RelayCommand(GoToPreviousPageTransactions, () => CanGoToPreviousPageTransactions);
+        public ICommand GoToNextPageTransactionsCommand => new RelayCommand(GoToNextPageTransactions, () => CanGoToNextPageTransactions);
+        public ICommand GoToLastPageTransactionsCommand => new RelayCommand(GoToLastPageTransactions, () => CanGoToNextPageTransactions);
 
         #endregion
 
@@ -396,6 +521,8 @@ namespace FactoryManagement.ViewModels
                     TotalLoansTaken = summary["TotalLoansTaken"];
                     TotalInterestReceivable = summary["TotalInterestReceivable"];
                     TotalInterestPayable = summary["TotalInterestPayable"];
+                    
+                    UpdatePaginatedLoans();
                 });
             }
             catch (Exception ex)
@@ -426,6 +553,8 @@ namespace FactoryManagement.ViewModels
                     {
                         Transactions.Add(transaction);
                     }
+                    
+                    UpdatePaginatedTransactions();
                 });
             }
             catch (Exception ex)
@@ -583,6 +712,8 @@ namespace FactoryManagement.ViewModels
                     {
                         Loans.Add(loan);
                     }
+                    
+                    UpdatePaginatedLoans();
                 });
             }
             catch (Exception ex)
@@ -718,6 +849,94 @@ namespace FactoryManagement.ViewModels
             return new DateTime(date.Year, date.Month, date.Day,
                               DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         }
+        
+        #region Pagination Methods
+        
+        private void UpdatePaginatedLoans()
+        {
+            TotalRecordsLoans = Loans.Count;
+            TotalPagesLoans = TotalRecordsLoans > 0 ? (int)Math.Ceiling((double)TotalRecordsLoans / PageSizeLoans) : 1;
+            
+            if (CurrentPageLoans > TotalPagesLoans)
+                CurrentPageLoans = TotalPagesLoans;
+            if (CurrentPageLoans < 1)
+                CurrentPageLoans = 1;
+            
+            var pagedLoans = Loans
+                .Skip((CurrentPageLoans - 1) * PageSizeLoans)
+                .Take(PageSizeLoans)
+                .ToList();
+            
+            PaginatedLoans.Clear();
+            foreach (var loan in pagedLoans)
+                PaginatedLoans.Add(loan);
+        }
+        
+        private void UpdatePaginatedTransactions()
+        {
+            TotalRecordsTransactions = Transactions.Count;
+            TotalPagesTransactions = TotalRecordsTransactions > 0 ? (int)Math.Ceiling((double)TotalRecordsTransactions / PageSizeTransactions) : 1;
+            
+            if (CurrentPageTransactions > TotalPagesTransactions)
+                CurrentPageTransactions = TotalPagesTransactions;
+            if (CurrentPageTransactions < 1)
+                CurrentPageTransactions = 1;
+            
+            var pagedTransactions = Transactions
+                .Skip((CurrentPageTransactions - 1) * PageSizeTransactions)
+                .Take(PageSizeTransactions)
+                .ToList();
+            
+            PaginatedTransactions.Clear();
+            foreach (var transaction in pagedTransactions)
+                PaginatedTransactions.Add(transaction);
+        }
+        
+        private void GoToFirstPageLoans()
+        {
+            CurrentPageLoans = 1;
+        }
+        
+        private void GoToPreviousPageLoans()
+        {
+            if (CurrentPageLoans > 1)
+                CurrentPageLoans--;
+        }
+        
+        private void GoToNextPageLoans()
+        {
+            if (CurrentPageLoans < TotalPagesLoans)
+                CurrentPageLoans++;
+        }
+        
+        private void GoToLastPageLoans()
+        {
+            CurrentPageLoans = TotalPagesLoans;
+        }
+        
+        private void GoToFirstPageTransactions()
+        {
+            CurrentPageTransactions = 1;
+        }
+        
+        private void GoToPreviousPageTransactions()
+        {
+            if (CurrentPageTransactions > 1)
+                CurrentPageTransactions--;
+        }
+        
+        private void GoToNextPageTransactions()
+        {
+            if (CurrentPageTransactions < TotalPagesTransactions)
+                CurrentPageTransactions++;
+        }
+        
+        private void GoToLastPageTransactions()
+        {
+            CurrentPageTransactions = TotalPagesTransactions;
+        }
+        
+        #endregion
 
         #endregion
     }

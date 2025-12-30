@@ -128,6 +128,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
@@ -138,7 +139,7 @@
                                               IconBackground="{StaticResource Card.Info}" />
 
                         <!-- DataGrid -->
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedAllTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
@@ -159,6 +160,19 @@
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
+                    
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl Grid.Row="2"
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
                     </Grid>
                 </Border>
 

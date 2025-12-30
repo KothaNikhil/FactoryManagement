@@ -12,7 +12,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class NewTransactionViewModel : ViewModelBase
+    public partial class NewTransactionViewModel : PaginationViewModel
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
@@ -30,6 +30,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Transaction> _paginatedRecentTransactions = new();
 
         [ObservableProperty]
         private Item? _selectedItem;
@@ -125,6 +128,16 @@ namespace FactoryManagement.ViewModels
             _partyService = partyService;
         }
 
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(RecentTransactions);
+            PaginatedRecentTransactions.Clear();
+            foreach (var transaction in GetPagedItems(RecentTransactions))
+            {
+                PaginatedRecentTransactions.Add(transaction);
+            }
+        }
+
         private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
         {
             try
@@ -194,6 +207,7 @@ namespace FactoryManagement.ViewModels
                 RecentTransactions.Clear();
                 foreach (var trans in recentTrans)
                     RecentTransactions.Add(trans);
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {

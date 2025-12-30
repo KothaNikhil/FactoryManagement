@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:FactoryManagement.Behaviors"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid Margin="20">
@@ -447,8 +448,20 @@
                     </Grid>
                 </Border>
                 
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <DataGrid ItemsSource="{Binding RecentTransactions}" 
+                <!-- Pagination Control -->
+                <controls:PaginationControl DockPanel.Dock="Bottom"
+                    CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                    TotalPages="{Binding TotalPages}"
+                    TotalRecords="{Binding TotalRecords}"
+                    CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                    CanGoToNextPage="{Binding CanGoToNextPage}"
+                    FirstPageCommand="{Binding GoToFirstPageCommand}"
+                    PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                    NextPageCommand="{Binding GoToNextPageCommand}"
+                    LastPageCommand="{Binding GoToLastPageCommand}"
+                    Margin="0,16,0,0"/>
+                
+                <DataGrid ItemsSource="{Binding PaginatedRecentTransactions}" 
                               Style="{StaticResource DataGrid.Dark}"
                               MaxHeight="2000"
                               VerticalScrollBarVisibility="Disabled"
@@ -491,7 +504,6 @@
                         <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
                     </DataGrid.Columns>
                     </DataGrid>
-                </ScrollViewer>
             </DockPanel>
         </materialDesign:Card>
         <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>

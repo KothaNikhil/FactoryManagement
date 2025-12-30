@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class ContactsViewModel : ViewModelBase
+    public partial class ContactsViewModel : PaginationViewModel
     {
         private readonly IPartyService _partyService;
 
         [ObservableProperty]
         private ObservableCollection<Party> _parties = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Party> _paginatedParties = new();
 
         [ObservableProperty]
         private Party? _selectedParty;
@@ -60,6 +63,17 @@ namespace FactoryManagement.ViewModels
         partial void OnSearchTextChanged(string value)
         {
             FilterParties();
+            UpdatePaginatedData();
+        }
+
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(Parties);
+            PaginatedParties.Clear();
+            foreach (var party in GetPagedItems(Parties))
+            {
+                PaginatedParties.Add(party);
+            }
         }
 
         [RelayCommand]
@@ -77,6 +91,7 @@ namespace FactoryManagement.ViewModels
                     Parties.Add(party);
                 }
                 UpdateSummaryProperties();
+                UpdatePaginatedData();
             }
             catch (Exception ex)
             {
@@ -212,6 +227,7 @@ namespace FactoryManagement.ViewModels
                     Parties.Add(party);
             }
             UpdateSummaryProperties();
+            UpdatePaginatedData();
         }
 
         private void UpdateSummaryProperties()

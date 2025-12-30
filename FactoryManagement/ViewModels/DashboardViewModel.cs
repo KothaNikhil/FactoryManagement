@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace FactoryManagement.ViewModels
 {
-    public partial class DashboardViewModel : ViewModelBase
+    public partial class DashboardViewModel : PaginationViewModel
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
@@ -21,7 +21,7 @@ namespace FactoryManagement.ViewModels
         private const int LowStockThreshold = 100;
         private const int StockChartTopCount = 10;
         private const int RecentActivitiesPerSource = 20;
-        private const int RecentActivitiesDisplayCount = 15;
+        private const int RecentActivitiesDisplayCount = 10;
 
         [ObservableProperty]
         private decimal _totalPurchases;
@@ -60,7 +60,13 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Services.UnifiedTransactionViewModel> _allTransactions = new();
 
         [ObservableProperty]
+        private ObservableCollection<Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
+
+        [ObservableProperty]
         private ObservableCollection<RecentActivity> _recentActivities = new();
+
+        [ObservableProperty]
+        private ObservableCollection<RecentActivity> _paginatedRecentActivities = new();
 
         [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
@@ -80,6 +86,16 @@ namespace FactoryManagement.ViewModels
             _financialTransactionService = financialTransactionService;
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
+        }
+
+        protected override void UpdatePaginatedData()
+        {
+            CalculatePagination(AllTransactions, DefaultPageSize);
+            PaginatedAllTransactions.Clear();
+            foreach (var transaction in GetPagedItems(AllTransactions, DefaultPageSize))
+            {
+                PaginatedAllTransactions.Add(transaction);
+            }
         }
 
         [RelayCommand]
@@ -213,6 +229,7 @@ namespace FactoryManagement.ViewModels
                     .Take(RecentActivitiesDisplayCount)
                     .ToList();
                 SetCollection(RecentActivities, recentActivities);
+                UpdatePaginatedData();
 
                 var allItems = await itemsTask;
                 var lowStockList = allItems
@@ -247,6 +264,7 @@ namespace FactoryManagement.ViewModels
                 {
                     var recentUnified = unifiedTask != null ? await unifiedTask : new System.Collections.Generic.List<Services.UnifiedTransactionViewModel>();
                     SetCollection(AllTransactions, recentUnified);
+                    UpdatePaginatedData();
                 }
             }
             catch (Exception ex)
