@@ -235,18 +235,42 @@ namespace FactoryManagement.Services
         {
             try
             {
-                var backupFiles = Directory.GetFiles(_backupDirectory, "Backup_*.json")
-                    .Select(f => new BackupFileInfo
-                    {
-                        FileName = Path.GetFileName(f),
-                        FilePath = f,
-                        CreatedDate = File.GetCreationTime(f),
-                        FileSize = new FileInfo(f).Length
-                    })
-                    .OrderByDescending(b => b.CreatedDate)
-                    .ToList();
+                var backupFiles = new List<BackupFileInfo>();
+                
+                if (!Directory.Exists(_backupDirectory))
+                {
+                    return backupFiles;
+                }
 
-                return backupFiles;
+                var filePaths = Directory.GetFiles(_backupDirectory, "Backup_*.json");
+                
+                foreach (var f in filePaths)
+                {
+                    try
+                    {
+                        // Safely try to read file properties, skip if file becomes unavailable
+                        if (!File.Exists(f))
+                        {
+                            continue;
+                        }
+
+                        var fileInfo = new FileInfo(f);
+                        backupFiles.Add(new BackupFileInfo
+                        {
+                            FileName = Path.GetFileName(f),
+                            FilePath = f,
+                            CreatedDate = fileInfo.CreationTime,
+                            FileSize = fileInfo.Length
+                        });
+                    }
+                    catch
+                    {
+                        // Skip files that become inaccessible or are deleted during enumeration
+                        continue;
+                    }
+                }
+
+                return backupFiles.OrderByDescending(b => b.CreatedDate).ToList();
             }
             catch
             {
@@ -258,6 +282,11 @@ namespace FactoryManagement.Services
         {
             try
             {
+                if (!File.Exists(filePath))
+                {
+                    throw new FileNotFoundException("Backup file not found", filePath);
+                }
+
                 var json = await File.ReadAllTextAsync(filePath);
                 var options = new JsonSerializerOptions
                 {
@@ -265,7 +294,25 @@ namespace FactoryManagement.Services
                     ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
                 };
 
-                return JsonSerializer.Deserialize<BackupData>(json, options);
+                var backupData = JsonSerializer.Deserialize<BackupData>(json, options);
+                if (backupData == null)
+                {
+                    throw new Exception("Invalid backup file format - deserialization returned null");
+                }
+
+                return backupData;
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new Exception($"Backup file not found: {ex.Message}", ex);
+            }
+            catch (IOException ex)
+            {
+                throw new Exception($"Failed to read backup file (may be in use): {ex.Message}", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception($"Invalid backup file format (corrupted JSON): {ex.Message}", ex);
             }
             catch (Exception ex)
             {
@@ -277,10 +324,35 @@ namespace FactoryManagement.Services
         {
             try
             {
+                if (!File.Exists(filePath))
+                {
+                    // File already doesn't exist, consider this a success
+                    return;
+                }
+
+                // Attempt to delete the file
+                File.Delete(filePath);
+                
+                // Verify it was actually deleted
                 if (File.Exists(filePath))
                 {
-                    File.Delete(filePath);
+                    throw new Exception("File still exists after delete attempt");
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                // File doesn't exist, which is fine - it's already deleted
+                return;
+            }
+            catch (IOException ex)
+            {
+                // File is locked or inaccessible
+                throw new Exception($"Failed to delete backup (file may be in use): {ex.Message}", ex);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                // Insufficient permissions
+                throw new Exception($"Insufficient permissions to delete backup: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
