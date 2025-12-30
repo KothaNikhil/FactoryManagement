@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid Margin="20">
@@ -25,76 +26,36 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Items Card -->
-            <Border Grid.Column="0" Background="{StaticResource Card.Success}" Style="{StaticResource SummaryCard}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="📦" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Items" Foreground="{StaticResource Card.Success.Label}" FontSize="11" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding TotalItems}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <controls:SummaryCard Grid.Column="0" 
+                                Label="Total Items" 
+                                Value="{Binding TotalItems}" 
+                                Icon="📦" 
+                                CardBackground="{StaticResource Card.Success}" 
+                                LabelForeground="{StaticResource Card.Success.Label}" />
 
             <!-- Total Stock Value Card -->
-            <Border Grid.Column="2" Background="{StaticResource Card.Info}" Style="{StaticResource SummaryCard}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="📊" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Stock" Foreground="{StaticResource Card.Info.Label}" FontSize="11" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding TotalStockValue}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <controls:SummaryCard Grid.Column="2" 
+                                Label="Total Stock" 
+                                Value="{Binding TotalStockValue}" 
+                                Icon="📊" 
+                                CardBackground="{StaticResource Card.Info}" 
+                                LabelForeground="{StaticResource Card.Info.Label}" />
 
             <!-- Low Stock Items Card -->
-            <Border Grid.Column="4" Background="{StaticResource Card.Warning}" Style="{StaticResource SummaryCard}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="⚠️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Low Stock" Foreground="{StaticResource Card.Warning.Label}" FontSize="11" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding LowStockCount}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <controls:SummaryCard Grid.Column="4" 
+                                Label="Low Stock" 
+                                Value="{Binding LowStockCount}" 
+                                Icon="⚠️" 
+                                CardBackground="{StaticResource Card.Warning}" 
+                                LabelForeground="{StaticResource Card.Warning.Label}" />
 
             <!-- Categories Card -->
-            <Border Grid.Column="6" Background="{StaticResource Card.Danger}" Style="{StaticResource SummaryCard}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="📂" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Categories" Foreground="{StaticResource Card.Danger.Label}" FontSize="11" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding CategoryCount}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <controls:SummaryCard Grid.Column="6" 
+                                Label="Categories" 
+                                Value="{Binding CategoryCount}" 
+                                Icon="📂" 
+                                CardBackground="{StaticResource Card.Danger}" 
+                                LabelForeground="{StaticResource Card.Danger.Label}" />
         </Grid>
 
         <!-- Main Content -->
@@ -108,41 +69,13 @@
             <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
                 <DockPanel>
                     <!-- Header -->
-                    <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">
-                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                            <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
-                                <materialDesign:PackIcon Kind="PackageVariant" Width="20" Height="20" 
-                                                       Foreground="White" 
-                                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Border>
-                            <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                <TextBlock Text="All Items" Style="{StaticResource SectionHeader.Title}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
+                    <controls:SectionHeader DockPanel.Dock="Top" 
+                                          Title="All Items" 
+                                          IconKind="PackageVariant" 
+                                          IconBackground="{StaticResource Card.Success}" />
 
                     <!-- Search Box -->
-                    <Border DockPanel.Dock="Top" 
-                            Background="{StaticResource Card.Header}"
-                            CornerRadius="8"
-                            Padding="12,8"
-                            Margin="0,0,0,16">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Kind="Magnify" 
-                                                   Foreground="{StaticResource Text.Secondary}"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,0,8,0"/>
-                            <TextBox Grid.Column="1"
-                                   Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Search items by name..."
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,0"/>
-                        </Grid>
-                    </Border>
+                    <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search items by name..." />
 
                     <!-- DataGrid -->
                     <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">

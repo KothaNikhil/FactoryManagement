@@ -125,8 +125,8 @@
                         Height="44"
                         FontSize="14"
                         FontWeight="SemiBold"
-                        BorderBrush="#666"
-                        Foreground="#999">
+                        BorderBrush="{StaticResource Text.Secondary}"
+                        Foreground="{StaticResource Text.Secondary}">
                     <Button.FocusVisualStyle>
                         <Style>
                             <Setter Property="Control.Template">

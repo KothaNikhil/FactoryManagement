@@ -1,0 +1,610 @@
+{
+  "analysis_date": "2025-12-30",
+  "total_files_analyzed": 14,
+  "summary": {
+    "hardcoded_colors_found": 27,
+    "inline_styles_instances": 18,
+    "duplicated_patterns": 8,
+    "missing_centralized_styles": 12,
+    "files_with_concerns": 14
+  },
+  "files": [
+    {
+      "filename": "ContactsView.xaml",
+      "hardcodedColors": [
+        "#AAA (TextBlock Foreground in form labels)",
+        "#EF5350 (Delete button foreground)"
+      ],
+      "inlineStyles": [
+        "DataGridTextColumn with inline ElementStyle for Font sizes and weights",
+        "Status badge styles in DataGridTemplateColumn with inline TextBlock styling"
+      ],
+      "duplicatedPatterns": [
+        "Summary card pattern (4 cards with icon + stat layout) - REPEATED across multiple views",
+        "DataGrid with header, search box, and action columns - REPEATED pattern",
+        "Section header with icon badge and title - REPEATED across views",
+        "Form card with DockPanel layout and search - REPEATED pattern"
+      ],
+      "missingStyleReferences": [
+        "SummaryCard style exists but cards define inline backgrounds",
+        "DataGrid.EditButton and DataGrid.DeleteButton styles used but not all inline styling moved",
+        "DeleteButtonForeground color hardcoded in some places"
+      ],
+      "notes": "Good use of StaticResource but some form label colors hardcoded. Summary cards follow pattern but could benefit from more abstraction."
+    },
+    {
+      "filename": "DashboardView.xaml",
+      "hardcodedColors": [
+        "#AAA (Form labels and secondary text in multiple places)"
+      ],
+      "inlineStyles": [
+        "DropShadowEffect on summary cards with inline Color, Opacity, ShadowDepth, BlurRadius",
+        "DataGridTextColumn with inline ElementStyle for Bold FontWeight",
+        "Border styling with inline CornerRadius and Padding on multiple cards"
+      ],
+      "duplicatedPatterns": [
+        "Summary card pattern (4 cards) with identical structure - DUPLICATED",
+        "Drop shadow effects on cards - REPEATED with same values",
+        "Icon + stat label + number layout - DUPLICATED pattern",
+        "DataGrid section layout - REPEATED"
+      ],
+      "missingStyleReferences": [
+        "DropShadowEffect should be centralized (used in FinancialRecordsView, PayrollManagementView identically)",
+        "Summary card spacing (10px gap) hardcoded in multiple views",
+        "Card padding (16px) and CornerRadius (8) repeated inline"
+      ],
+      "notes": "Heavy use of inline DropShadowEffect effects. Summary cards are nearly identical to other views. Good candidate for style extraction."
+    },
+    {
+      "filename": "DataBackupView.xaml",
+      "hardcodedColors": [
+        "#2a2a2a (Card background color)",
+        "#64B5F6 (Info icon foreground in status bar)"
+      ],
+      "inlineStyles": [
+        "DataGridTextColumn with inline ElementStyle for FontWeight and HorizontalAlignment",
+        "materialDesign:Card components with inline Padding and Style references",
+        "Border styling with inline Background and CornerRadius"
+      ],
+      "duplicatedPatterns": [
+        "DataGrid layout with header section - REPEATED",
+        "Card button layout with icon and text - REPEATED pattern",
+        "Section header with icon badge - DUPLICATED across views"
+      ],
+      "missingStyleReferences": [
+        "Background color #2a2a2a appears in multiple files (should be centralized)",
+        "Button StackPanel with icon patterns could use unified style",
+        "DataGrid.Dark.Header style referenced but could be more comprehensive"
+      ],
+      "notes": "Uses MaterialDesign Card components well. The #2a2a2a color is inconsistent with theme palette - should use CardBackground from DarkColors.xaml."
+    },
+    {
+      "filename": "FinancialRecordsView.xaml",
+      "hardcodedColors": [
+        "Summary card backgrounds use StaticResource (good)",
+        "Some inline colors in numeric text displays"
+      ],
+      "inlineStyles": [
+        "Grid-based form layout with inline spacing (Gap=10)",
+        "DropShadowEffect with inline Color, Opacity, ShadowDepth, BlurRadius",
+        "Border styling with inline CornerRadius and Padding",
+        "ComboBox and TextBox styling largely uses StaticResource"
+      ],
+      "duplicatedPatterns": [
+        "Summary card pattern (4 cards) - IDENTICAL to Dashboard and Payroll",
+        "Form section header layout - REPEATED",
+        "Create new loan section layout - DUPLICATED pattern",
+        "DataGrid column definitions - REPEATED"
+      ],
+      "missingStyleReferences": [
+        "DropShadowEffect on cards (Color=Black, Opacity=0.3, ShadowDepth=2, BlurRadius=8) - REPEATED identically in 3 views",
+        "Form field label styling (TextBlock with Foreground=Label, FontSize=11) - could be unified",
+        "Input field spacing and layout patterns should be centralized"
+      ],
+      "notes": "Good overall style usage, but the 4-card summary pattern is duplicated across Dashboard, FinancialRecords, and Payroll views with identical structure."
+    },
+    {
+      "filename": "InventoryView.xaml",
+      "hardcodedColors": [
+        "#AAA (Form labels)"
+      ],
+      "inlineStyles": [
+        "DataGrid columns with inline ElementStyle for formatting",
+        "Item form header with inline Border styling",
+        "Stock bar visualization with inline Border styling"
+      ],
+      "duplicatedPatterns": [
+        "Summary card pattern (4 cards) - REPEATED",
+        "DataGrid list + form panel layout - REPEATED",
+        "Search box with icon pattern - DUPLICATED across views",
+        "Section header with icon badge - REPEATED 5+ times"
+      ],
+      "missingStyleReferences": [
+        "Summary cards follow same pattern as Contacts, Dashboard, etc.",
+        "Search box Border+Grid pattern could be extracted to unified style",
+        "Form card layout is duplicated in ContactsView, InventoryView, etc."
+      ],
+      "notes": "Heavy use of summary cards with consistent structure. Search UI pattern is repeated 5+ times - good candidate for reusable template."
+    },
+    {
+      "filename": "LoginWindow.xaml",
+      "hardcodedColors": [
+        "#666 (ComboBox border in Exit button style)",
+        "#999 (Exit button foreground)"
+      ],
+      "inlineStyles": [
+        "Button.FocusVisualStyle defined inline for both buttons",
+        "ComboBox with inline ItemContainerStyle for padding and font",
+        "Border with inline DropShadowEffect"
+      ],
+      "duplicatedPatterns": [
+        "Header background uses PrimaryGradient (centralized)",
+        "Button layout with icon - custom inline styling",
+        "Info panel with icon and text - custom pattern"
+      ],
+      "missingStyleReferences": [
+        "Button FocusVisualStyle should be centralized (currently inline)",
+        "Error message styling could reference ErrorColor from theme",
+        "Info panel background and border colors hardcoded"
+      ],
+      "notes": "Uses gradient backgrounds well (StaticResource). Some inline button styling should be extracted. Good use of material design themes overall."
+    },
+    {
+      "filename": "MainWindow.xaml",
+      "hardcodedColors": [
+        "Mostly uses StaticResource references (good practice)"
+      ],
+      "inlineStyles": [
+        "Custom Title Bar styling with inline Border and StackPanel",
+        "Navigation panel styling with inline Width and triggers",
+        "Window control buttons with inline Click handlers and styles"
+      ],
+      "duplicatedPatterns": [
+        "Window chrome (title bar) - custom pattern specific to this view",
+        "Navigation menu structure - unique to MainWindow"
+      ],
+      "missingStyleReferences": [
+        "Title bar gradient styling could be more modular",
+        "User dropdown styling in title bar is partially inline"
+      ],
+      "notes": "Good color resource usage. Navigation panel uses data triggers for collapsed/expanded states - well designed. No major duplication as this is app shell."
+    },
+    {
+      "filename": "NewTransactionView.xaml",
+      "hardcodedColors": [
+        "No major hardcoded hex colors found - uses StaticResource well"
+      ],
+      "inlineStyles": [
+        "Form field label styling repeated (TextBlock with specific formatting)",
+        "ComboBox and TextBox with Style references (good)",
+        "Inline Grid spacing (Gap=12, 8) in multiple places"
+      ],
+      "duplicatedPatterns": [
+        "Form field label + input control pattern - REPEATED 8+ times",
+        "Party selection with Quick Add button - custom pattern",
+        "Grid layout for transaction form - consistent throughout",
+        "Transaction type conditionals (IsProcessingMode, etc.) - good pattern reuse"
+      ],
+      "missingStyleReferences": [
+        "Form field wrapper (TextBlock label + Control) could be a ControlTemplate",
+        "Consistent label styling could be extracted to FormFieldLabel style",
+        "ComboBox template patterns vary slightly - could be standardized"
+      ],
+      "notes": "Good overall structure. Heavy use of form fields with consistent pattern. Could benefit from FormFieldLabel style to reduce repetition."
+    },
+    {
+      "filename": "PayrollManagementView.xaml",
+      "hardcodedColors": [
+        "#AAA (Form labels and secondary text)",
+        "#999 (Secondary label text)"
+      ],
+      "inlineStyles": [
+        "Summary card DropShadowEffect with inline Color, Opacity, ShadowDepth, BlurRadius",
+        "Form section styling with inline Border padding and margins",
+        "Worker info display with inline styling"
+      ],
+      "duplicatedPatterns": [
+        "Summary card pattern (4 cards) - IDENTICAL to Dashboard and FinancialRecords",
+        "Record Payment form section - similar to other form sections",
+        "Worker list section - similar to Contacts list pattern",
+        "DropShadowEffect on cards - IDENTICAL values across 3 views"
+      ],
+      "missingStyleReferences": [
+        "Card summary pattern (Emoji icon + 2 TextBlock layout) - should be unified",
+        "Form label styling #AAA color should use TextLabel resource",
+        "Section header styling with emoji icon - REPEATED 3+ times"
+      ],
+      "notes": "Nearly identical summary card pattern to Dashboard and FinancialRecords. Good candidate for unified SummaryCardContent style or ControlTemplate."
+    },
+    {
+      "filename": "QuickAddPartyDialog.xaml",
+      "hardcodedColors": [
+        "#4a90c8 (Title underline color)",
+        "#AAA (Form labels)",
+        "#444 (Border color)",
+        "#666 (Cancel button border)",
+        "#ff6b6b (Error message text)"
+      ],
+      "inlineStyles": [
+        "Dialog border with hardcoded #444",
+        "Title underline Border with inline #4a90c8 color",
+        "Error TextBlock with hardcoded Foreground #ff6b6b",
+        "ComboBox items with inline ComboBoxItem Content"
+      ],
+      "duplicatedPatterns": [
+        "Dialog layout pattern (Title, Form, Buttons) - DUPLICATED in QuickAddWorkerDialog",
+        "Form field pattern (TextBlock label + TextBox) - REPEATED",
+        "Button pair (Cancel + Action) - DUPLICATED pattern"
+      ],
+      "missingStyleReferences": [
+        "Title underline color #4a90c8 should be centralized (appears in QuickAddWorkerDialog too)",
+        "Error message styling should use ErrorColor from theme",
+        "Border color #444 appears in multiple dialogs - should be DialogBorder resource",
+        "Form field labels use hardcoded #AAA instead of TextLabel resource"
+      ],
+      "notes": "Multiple hardcoded colors that should be in theme. Dialog border and accent colors are duplicated in QuickAddWorkerDialog. Needs style consolidation."
+    },
+    {
+      "filename": "QuickAddWorkerDialog.xaml",
+      "hardcodedColors": [
+        "#444 (Border color - DUPLICATED from QuickAddPartyDialog)",
+        "#AAA (Form labels - DUPLICATED)",
+        "ErrorColor StaticResource used (good)"
+      ],
+      "inlineStyles": [
+        "Window border styling with hardcoded #444",
+        "Title styling with inline TextBlock formatting",
+        "Form field styling with repeated label structure"
+      ],
+      "duplicatedPatterns": [
+        "Dialog layout (Title, Form, Buttons) - IDENTICAL to QuickAddPartyDialog",
+        "Title styling with underline - DUPLICATED exactly",
+        "Form field label + TextBox pattern - REPEATED",
+        "Action button pair layout - DUPLICATED"
+      ],
+      "missingStyleReferences": [
+        "Border color #444 should use DialogBorder resource (defined in DarkColors.xaml)",
+        "Form labels use #AAA instead of TextLabel from theme",
+        "Title underline uses SuccessColor instead of consistent DialogAccent color",
+        "Dialog window styling could be centralized in a base style"
+      ],
+      "notes": "Nearly identical structure to QuickAddPartyDialog. These two dialogs should share a base Dialog style. Multiple hardcoded colors need centralization."
+    },
+    {
+      "filename": "ReportsView.xaml",
+      "hardcodedColors": [
+        "Mostly StaticResource usage (good)"
+      ],
+      "inlineStyles": [
+        "Filter panel styling with inline Border and Grid",
+        "ComboBox styling in filter section uses Style references",
+        "DataGrid columns with inline ElementStyle"
+      ],
+      "duplicatedPatterns": [
+        "Filter section layout - unique to reports",
+        "Report type filter logic with DataTrigger and Visibility - good pattern",
+        "Export button pair (Excel/CSV) - custom pattern",
+        "Section header with icon badge - REPEATED from other views"
+      ],
+      "missingStyleReferences": [
+        "Filter panel Grid spacing (gaps of 12) could be standardized",
+        "Button pair styling (Excel/CSV export) could be unified",
+        "Section header pattern is duplicated 5+ times across views"
+      ],
+      "notes": "Good overall style usage. Filter logic is well-structured with visibility bindings. Conditional filter panels using DataTrigger is good practice."
+    },
+    {
+      "filename": "UsersView.xaml",
+      "hardcodedColors": [
+        "#1A4CAF50 (Active status background - hex with alpha)",
+        "#4CAF50 (Active status border)",
+        "#1AF44336 (Inactive status background)",
+        "#F44336 (Inactive status border)",
+        "#EF5350 (Delete button foreground)"
+      ],
+      "inlineStyles": [
+        "DataGridTemplateColumn with complex inline styling for Status badges",
+        "Border styling for status badges with conditional colors",
+        "TextBlock styling within DataTemplate with Style triggers"
+      ],
+      "duplicatedPatterns": [
+        "List + Form layout (Users list on left, form on right) - REPEATED from Contacts/Inventory",
+        "DataGrid with header and search - REPEATED pattern",
+        "Section header with icon badge - REPEATED",
+        "Form field pattern in right panel - DUPLICATED"
+      ],
+      "missingStyleReferences": [
+        "Status badge colors should use centralized Success/Error colors from theme",
+        "Hardcoded status colors #4CAF50 and #F44336 should reference theme palette",
+        "Status badge styling (Border + TextBlock) could be unified ControlTemplate",
+        "Form layout on right panel duplicates Contacts/Inventory patterns"
+      ],
+      "notes": "Good use of DataTriggers for conditional styling. However, status colors are hardcoded and don't match theme palette. Should use SuccessColor and ErrorColor from DarkColors.xaml."
+    },
+    {
+      "filename": "WorkersManagementView.xaml",
+      "hardcodedColors": [
+        "#AAA (Form labels and secondary text - REPEATED)",
+        "#ff6b6b (Error message text)"
+      ],
+      "inlineStyles": [
+        "Worker form section styling with inline Border and padding",
+        "Error Border with hardcoded #4d1f1f background and #ff6b6b border",
+        "Search and header styling in workers list section"
+      ],
+      "duplicatedPatterns": [
+        "Form section header with icon badge - REPEATED",
+        "Form field label + TextBox pattern - REPEATED 5+ times",
+        "Save button with conditional text via Style triggers - good pattern",
+        "Workers list section with search - REPEATED pattern",
+        "List + Form layout (form on left, list on right) - REPEATED"
+      ],
+      "missingStyleReferences": [
+        "Error message styling should use centralized ErrorColor instead of #ff6b6b",
+        "Error box background #4d1f1f and border color should be theme-based",
+        "Form label color #AAA should use TextLabel resource",
+        "Section header emoji icons + text pattern is REPEATED 3+ times"
+      ],
+      "notes": "Good use of conditional button text via Style triggers. Error styling is hardcoded and should use theme colors. Form field pattern is repeated extensively - candidate for style extraction."
+    }
+  ],
+  "cross_view_analysis": {
+    "most_duplicated_patterns": [
+      {
+        "pattern": "Summary Card (Icon + 2 TextBlocks with stat data)",
+        "occurrences": [
+          "ContactsView.xaml (4 cards)",
+          "DashboardView.xaml (4 cards)",
+          "FinancialRecordsView.xaml (4 cards)",
+          "InventoryView.xaml (4 cards)",
+          "PayrollManagementView.xaml (4 cards)"
+        ],
+        "total_occurrences": 20,
+        "recommendation": "CREATE: SummaryCard.xaml ControlTemplate with Emoji, Label, Value bindings"
+      },
+      {
+        "pattern": "Section Header (Icon Badge + Title + optional Subtitle)",
+        "occurrences": [
+          "All views use SectionHeader style",
+          "Pattern: Border with IconBadge + StackPanel with TextBlocks"
+        ],
+        "total_occurrences": 15,
+        "recommendation": "VERIFY: SectionHeader styles are well-centralized in DarkTheme.xaml"
+      },
+      {
+        "pattern": "DataGrid List with Header, Search Box, Action Columns",
+        "occurrences": [
+          "ContactsView.xaml",
+          "InventoryView.xaml",
+          "UsersView.xaml",
+          "DataBackupView.xaml",
+          "Dashboard (partial)"
+        ],
+        "total_occurrences": 8,
+        "recommendation": "CREATE: DataGridListSection.xaml ControlTemplate with search integration"
+      },
+      {
+        "pattern": "Form Field (Label TextBlock + Input Control)",
+        "occurrences": [
+          "NewTransactionView.xaml (8+ fields)",
+          "PayrollManagementView.xaml (5+ fields)",
+          "WorkersManagementView.xaml (5+ fields)",
+          "ContactsView.xaml (party form)",
+          "InventoryView.xaml (item form)"
+        ],
+        "total_occurrences": 25,
+        "recommendation": "CREATE: FormFieldLabel.xaml Style (TextBlock with consistent formatting)"
+      },
+      {
+        "pattern": "Dialog Window (Title + Form + Buttons)",
+        "occurrences": [
+          "QuickAddPartyDialog.xaml",
+          "QuickAddWorkerDialog.xaml"
+        ],
+        "total_occurrences": 2,
+        "recommendation": "CREATE: DialogWindow.xaml base style with title, form area, button layout"
+      },
+      {
+        "pattern": "DropShadowEffect on Cards",
+        "occurrences": [
+          "DashboardView.xaml (4 cards)",
+          "FinancialRecordsView.xaml (4 cards)",
+          "PayrollManagementView.xaml (4 cards)"
+        ],
+        "identical_values": "Color=Black, Opacity=0.3, ShadowDepth=2, BlurRadius=8",
+        "total_occurrences": 12,
+        "recommendation": "CREATE: CardShadow.xaml ControlTemplate or shadow effect resource"
+      },
+      {
+        "pattern": "Search Box (Icon + TextBox with Hint)",
+        "occurrences": [
+          "ContactsView.xaml",
+          "InventoryView.xaml",
+          "UsersView.xaml",
+          "WorkersManagementView.xaml",
+          "ReportsView.xaml"
+        ],
+        "total_occurrences": 8,
+        "recommendation": "CREATE: SearchBox.xaml ControlTemplate with icon and hint support"
+      },
+      {
+        "pattern": "List + Form Two-Panel Layout",
+        "occurrences": [
+          "ContactsView.xaml (Parties list + form)",
+          "InventoryView.xaml (Items list + form)",
+          "UsersView.xaml (Users list + form)",
+          "PayrollManagementView.xaml (Record Payment + list)"
+        ],
+        "total_occurrences": 4,
+        "recommendation": "VERIFY: Layout structure is consistent (Grid with 2 columns, 15px gap)"
+      }
+    ],
+    "hardcoded_colors_summary": {
+      "#2a2a2a": "Used in DataBackupView - should use CardBackground from theme",
+      "#4a90c8": "Title underline in dialogs - should have dedicated theme resource",
+      "#AAA": "Form labels in 8+ views - should use TextLabel StaticResource",
+      "#444": "Border color in dialogs - should use DialogBorder resource",
+      "#666": "Button border in LoginWindow - should use BorderLight resource",
+      "#999": "Button foreground in LoginWindow - should use TextSecondary resource",
+      "#1A4CAF50": "Status badge - hardcoded with alpha, should use SuccessColor",
+      "#4CAF50": "Status border - doesn't match theme, use SuccessColor",
+      "#1AF44336": "Status badge - hardcoded with alpha, use ErrorColor",
+      "#F44336": "Status border - doesn't match theme, use ErrorColor",
+      "#EF5350": "Delete button - use DangerColor from theme",
+      "#ff6b6b": "Error text - inconsistent with ErrorColor, should centralize",
+      "#4d1f1f": "Error background - should use theme-based error background"
+    },
+    "style_reuse_opportunities": [
+      {
+        "issue": "Form field label + input pattern repeated 25+ times",
+        "impact": "High maintenance burden, inconsistent spacing/sizing",
+        "solution": "Create FormFieldLabel style and use Grid with consistent proportions"
+      },
+      {
+        "issue": "Summary card layout repeated identically 20 times",
+        "impact": "Maintenance nightmare, any design change requires 20 edits",
+        "solution": "Extract to SummaryCardContent ControlTemplate with binding support"
+      },
+      {
+        "issue": "DropShadowEffect with same values in 12 places",
+        "impact": "Code duplication, inconsistent if changed",
+        "solution": "Create CardShadowEffect resource or ControlTemplate"
+      },
+      {
+        "issue": "DataGrid + search + header pattern repeated 8 times",
+        "impact": "Difficult to update grid styling consistently",
+        "solution": "Create ListSectionTemplate ControlTemplate"
+      },
+      {
+        "issue": "Dialog layout duplicated in 2 quick-add dialogs",
+        "impact": "Any design change requires multiple edits",
+        "solution": "Create DialogWindowBase style or ControlTemplate"
+      }
+    ],
+    "theme_palette_analysis": {
+      "good_usage": [
+        "StaticResource for main background colors (PrimaryBackground, CardBackground)",
+        "StaticResource for accent colors (PrimaryAccent, SecondaryAccent)",
+        "StaticResource for status indicators (SuccessColor, ErrorColor, WarningColor, InfoColor)",
+        "Material Design integration well-utilized"
+      ],
+      "poor_usage": [
+        "Hardcoded #AAA for form labels (should use TextLabel)",
+        "Hardcoded status colors in UsersView (#4CAF50, #F44336) instead of theme colors",
+        "Hardcoded #ff6b6b for errors (inconsistent with ErrorColor #E86B6B)",
+        "Dialog border #444 hardcoded instead of DialogBorder resource",
+        "DataBackupView uses #2a2a2a instead of CardBackground"
+      ],
+      "missing_resources": [
+        "DialogBorder - used in dialogs but not defined as named resource",
+        "FormFieldLabel - style pattern repeated 25+ times",
+        "SearchBoxStyle - pattern repeated 8+ times",
+        "SummaryCardShadow - effect values identical in 12 locations"
+      ]
+    }
+  },
+  "recommendations": {
+    "priority_1_critical": [
+      {
+        "action": "Extract Summary Card Pattern to ControlTemplate",
+        "files_affected": 5,
+        "locations": ["ContactsView", "DashboardView", "FinancialRecordsView", "InventoryView", "PayrollManagementView"],
+        "details": "Create SummaryCardContent.xaml ControlTemplate with emoji, label, value, and optional subtitle bindings. Appears 20 times identically.",
+        "estimated_lines_saved": 200
+      },
+      {
+        "action": "Centralize Hardcoded Colors to Theme",
+        "files_affected": 14,
+        "locations": "All files",
+        "details": "Move #AAA, #444, #666, #999, #4a90c8, #ff6b6b, #4CAF50, #F44336 to DarkColors.xaml as named resources",
+        "estimated_lines_saved": 50
+      },
+      {
+        "action": "Create FormFieldLabel Style",
+        "files_affected": 6,
+        "locations": ["NewTransactionView", "PayrollManagementView", "WorkersManagementView", "ContactsView", "InventoryView", "LoginWindow"],
+        "details": "Standardize TextBlock label styling (Foreground, FontSize, Margin) used 25+ times",
+        "estimated_lines_saved": 100
+      }
+    ],
+    "priority_2_important": [
+      {
+        "action": "Create DataGridListSection ControlTemplate",
+        "files_affected": 5,
+        "locations": ["ContactsView", "InventoryView", "UsersView", "DataBackupView", "DashboardView"],
+        "details": "Unify DataGrid + Search + Header pattern used 8 times with consistent styling",
+        "estimated_lines_saved": 150
+      },
+      {
+        "action": "Extract DropShadowEffect to Resource",
+        "files_affected": 3,
+        "locations": ["DashboardView", "FinancialRecordsView", "PayrollManagementView"],
+        "details": "Create CardShadowEffect resource with Color=Black, Opacity=0.3, ShadowDepth=2, BlurRadius=8",
+        "estimated_lines_saved": 50
+      },
+      {
+        "action": "Create SearchBox ControlTemplate",
+        "files_affected": 5,
+        "locations": ["ContactsView", "InventoryView", "UsersView", "WorkersManagementView", "ReportsView"],
+        "details": "Unify search box pattern (Icon + TextBox + Hint) used 8 times",
+        "estimated_lines_saved": 80
+      }
+    ],
+    "priority_3_nice_to_have": [
+      {
+        "action": "Create DialogWindow Base Style",
+        "files_affected": 2,
+        "locations": ["QuickAddPartyDialog", "QuickAddWorkerDialog"],
+        "details": "Unify dialog layout (Title + Form Area + Button area) and styling",
+        "estimated_lines_saved": 40
+      },
+      {
+        "action": "Standardize List+Form Two-Panel Layout",
+        "files_affected": 4,
+        "locations": ["ContactsView", "InventoryView", "UsersView", "PayrollManagementView"],
+        "details": "Create ListFormPanel.xaml ControlTemplate for consistent 2-column layout with 15px gap",
+        "estimated_lines_saved": 60
+      },
+      {
+        "action": "Create Status Badge ControlTemplate",
+        "files_affected": 1,
+        "locations": ["UsersView"],
+        "details": "Replace inline DataGridTemplateColumn styling with reusable StatusBadge ControlTemplate",
+        "estimated_lines_saved": 30
+      }
+    ]
+  },
+  "detailed_statistics": {
+    "inline_styling_distribution": {
+      "Grid_spacing": 8,
+      "Border_styling": 12,
+      "TextBlock_formatting": 15,
+      "DataGrid_columns": 8,
+      "DropShadowEffect": 12,
+      "ComboBox_items": 3,
+      "Button_styles": 6
+    },
+    "duplication_metrics": {
+      "summary_card_pattern_repetitions": 20,
+      "section_header_pattern_repetitions": 15,
+      "datagrid_pattern_repetitions": 8,
+      "form_field_pattern_repetitions": 25,
+      "dialog_pattern_repetitions": 2,
+      "search_box_pattern_repetitions": 8,
+      "list_form_layout_repetitions": 4
+    },
+    "style_reference_usage": {
+      "files_using_staticresource": 14,
+      "files_with_inline_styling": 14,
+      "average_staticresource_per_file": 12,
+      "average_inline_styles_per_file": 1.3
+    }
+  },
+  "quality_assessment": {
+    "style_consistency": "GOOD - Most files use StaticResource for colors, but many inline layout/sizing patterns",
+    "color_palette_adherence": "FAIR - Several hardcoded colors that should come from theme",
+    "duplication_level": "HIGH - Multiple identical patterns repeated 20+ times",
+    "maintainability": "MEDIUM - Good use of styles but high pattern duplication",
+    "scalability": "MEDIUM-LOW - Adding new views requires repeating 8+ common patterns"
+  }
+}

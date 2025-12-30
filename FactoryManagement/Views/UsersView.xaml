@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid Margin="20">
@@ -16,41 +17,13 @@
         <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
             <DockPanel>
                 <!-- Header -->
-                <Border DockPanel.Dock="Top" Style="{StaticResource SectionHeader.Prominent}">
-                    <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                        <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Info}">
-                            <materialDesign:PackIcon Kind="AccountGroup" Width="20" Height="20" 
-                                                   Foreground="White" 
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Style="{StaticResource SectionHeader.Content}">
-                            <TextBlock Text="User Management" Style="{StaticResource SectionHeader.Title}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
+                <controls:SectionHeader DockPanel.Dock="Top" 
+                                      Title="User Management" 
+                                      IconKind="AccountGroup" 
+                                      IconBackground="{StaticResource Card.Info}" />
 
                 <!-- Search Box -->
-                <Border DockPanel.Dock="Top" 
-                        Background="{StaticResource Card.Header}"
-                        CornerRadius="8"
-                        Padding="12,8"
-                        Margin="0,0,0,16">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Kind="Magnify" 
-                                               Foreground="{StaticResource Text.Secondary}"
-                                               VerticalAlignment="Center"
-                                               Margin="0,0,8,0"/>
-                        <TextBox Grid.Column="1"
-                               Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                               materialDesign:HintAssist.Hint="Search users by username or role..."
-                               Style="{StaticResource TextBox.Standard}"
-                               Margin="0,0,0,0"/>
-                    </Grid>
-                </Border>
+                <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search users by username or role..." />
 
                 <!-- Users DataGrid -->
                 <DataGrid ItemsSource="{Binding Users}" 
@@ -73,12 +46,12 @@
                                             BorderThickness="1">
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <Setter Property="Background" Value="#1A4CAF50"/>
-                                                <Setter Property="BorderBrush" Value="#4CAF50"/>
+                                                <Setter Property="Background" Value="#1A3DAA8F"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsActive}" Value="False">
-                                                        <Setter Property="Background" Value="#1AF44336"/>
-                                                        <Setter Property="BorderBrush" Value="#F44336"/>
+                                                        <Setter Property="Background" Value="#1AE86B6B"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource ErrorColor}"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -87,11 +60,11 @@
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Text" Value="Active"/>
-                                                    <Setter Property="Foreground" Value="#4CAF50"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsActive}" Value="False">
                                                             <Setter Property="Text" Value="Inactive"/>
-                                                            <Setter Property="Foreground" Value="#F44336"/>
+                                                            <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -129,7 +102,7 @@
                                               CommandParameter="{Binding}"
                                               ToolTip="Delete"
                                               Margin="4,0,0,0"
-                                              Foreground="#EF5350">
+                                              Foreground="{StaticResource ErrorColor}">
                                             <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                                         </Button>
                                     </StackPanel>
@@ -224,12 +197,12 @@
 
                         <!-- Error Message -->
                         <Border Style="{StaticResource InfoBox}" 
-                                Background="#3a2020"
+                                Background="{StaticResource ErrorMessageBackground}"
                                 BorderBrush="{StaticResource Card.Danger}"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
                                 Margin="0,0,0,16">
                             <TextBlock Text="{Binding ErrorMessage}"
-                                     Foreground="#EF5350"
+                                     Foreground="{StaticResource ErrorColor}"
                                      TextWrapping="Wrap"/>
                         </Border>
 
@@ -261,7 +234,7 @@
         </Border>
 
         <!-- Loading Overlay -->
-        <Grid Grid.ColumnSpan="2" Background="#80000000" 
+        <Grid Grid.ColumnSpan="2" Background="{StaticResource LoadingOverlayColor}" 
               Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                        Value="0"

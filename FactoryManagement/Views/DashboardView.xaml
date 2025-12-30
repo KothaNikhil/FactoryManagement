@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid>
@@ -130,17 +131,11 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="📊" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Recent Entries" Style="{StaticResource SectionHeader.Title}"/>
-                                    <TextBlock Text="Latest 15 transactions across all categories" Style="{StaticResource SectionHeader.Subtitle}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+                        <controls:SectionHeader Grid.Row="0" 
+                                              Title="Recent Entries" 
+                                              Subtitle="Latest 15 transactions across all categories" 
+                                              Icon="📊" 
+                                              IconBackground="{StaticResource Card.Info}" />
 
                         <!-- DataGrid -->
                         <DataGrid Grid.Row="1" ItemsSource="{Binding AllTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
@@ -176,17 +171,11 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                            <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                <TextBlock Text="📦" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                <TextBlock Text="Stock Levels" Style="{StaticResource SectionHeader.Title}"/>
-                                <TextBlock Text="Current Inventory Status" Style="{StaticResource SectionHeader.Subtitle}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        </Border>
+                        <controls:SectionHeader Grid.Row="0" 
+                                              Title="Stock Levels" 
+                                              Subtitle="Current Inventory Status" 
+                                              Icon="📦" 
+                                              IconBackground="{StaticResource Card.Info}" />
 
                         <!-- Stock List -->
                         <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">

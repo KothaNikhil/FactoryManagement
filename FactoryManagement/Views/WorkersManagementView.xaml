@@ -24,7 +24,7 @@
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0">
                     <TextBlock Text="Workers Management" FontSize="24" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Add, edit, and manage your workers" FontSize="14" Foreground="#AAA" Margin="0,4,0,0"/>
+                    <TextBlock Text="Add, edit, and manage your workers" FontSize="14" Foreground="{StaticResource Text.Secondary}" Margin="0,4,0,0"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -96,14 +96,14 @@
                         </Border>
 
                         <!-- Worker Name -->
-                        <TextBlock Text="Worker Name *" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBlock Text="Worker Name *" Style="{StaticResource FormLabel}"/>
                         <TextBox Text="{Binding WorkerName, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="Enter worker name"
                                  Style="{StaticResource TextBox.Standard}"
                                  Margin="0,0,0,10"/>
 
                         <!-- Mobile Number -->
-                        <TextBlock Text="Mobile Number" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBlock Text="Mobile Number" Style="{StaticResource FormLabel}"/>
                         <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="Enter mobile number (optional)"
                                  Style="{StaticResource TextBox.Standard}"

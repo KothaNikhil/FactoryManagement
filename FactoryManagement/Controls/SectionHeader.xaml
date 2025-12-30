@@ -1,0 +1,45 @@
+<UserControl x:Class="FactoryManagement.Controls.SectionHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Border Style="{StaticResource SectionHeader.Prominent}">
+        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
+            <Border Style="{StaticResource IconBadge}" 
+                    Background="{Binding IconBackground, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <Grid>
+                    <!-- Text Icon (Emoji) - shown if Icon property is set -->
+                    <TextBlock Text="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                             FontSize="20" 
+                             Foreground="White" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"
+                             Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+                    <!-- Material Design PackIcon - shown if IconKind is set and Icon is not set -->
+                    <materialDesign:PackIcon Kind="{Binding IconKind, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                           Width="20" Height="20" 
+                                           Foreground="White" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center">
+                        <materialDesign:PackIcon.Style>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringNotEmptyToVisibilityConverter}}" Value="Visible">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+                </Grid>
+            </Border>
+            <StackPanel Style="{StaticResource SectionHeader.Content}">
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         Style="{StaticResource SectionHeader.Title}"/>
+                <TextBlock Text="{Binding Subtitle, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         Style="{StaticResource SectionHeader.Subtitle}"
+                         Visibility="{Binding Subtitle, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

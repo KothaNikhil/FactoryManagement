@@ -341,4 +341,24 @@
         <GradientStop Color="#1A1D29" Offset="1"/>
     </LinearGradientBrush>
 
+    <!-- ============================================ -->
+    <!-- FORM & VALIDATION ENHANCEMENTS              -->
+    <!-- ============================================ -->
+    
+    <!-- Form label semantic color -->
+    <SolidColorBrush x:Key="FormLabelColor" Color="#A0A3BD"/>
+    
+    <!-- Error message colors -->
+    <SolidColorBrush x:Key="ErrorMessageForeground" Color="#E86B6B"/>
+    <SolidColorBrush x:Key="ErrorMessageBackground" Color="#3a2020"/>
+    
+    <!-- Input focus state colors -->
+    <SolidColorBrush x:Key="InputFocusBorderColor" Color="#B8B0FF"/>
+    
+    <!-- Loading overlay color -->
+    <SolidColorBrush x:Key="LoadingOverlayColor" Color="#CC000000"/>
+    
+    <!-- Text emphasis color -->
+    <SolidColorBrush x:Key="TextEmphasisColor" Color="#C4B5FF"/>
+
 </ResourceDictionary>

@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:behaviors="clr-namespace:FactoryManagement.Behaviors"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
     <Grid>
@@ -25,17 +26,11 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                        <Border Background="{StaticResource Button.Info}" Style="{StaticResource IconBadge}">
-                            <TextBlock Text="🔍" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Style="{StaticResource SectionHeader.Content}">
-                            <TextBlock Text="Filter Reports" Style="{StaticResource SectionHeader.Title}"/>
-                            <TextBlock Text="Select criteria to generate custom reports" Style="{StaticResource SectionHeader.Subtitle}"/>
-                        </StackPanel>
-                    </StackPanel>
-                    </Border>
+                    <controls:SectionHeader Grid.Row="0" 
+                                          Title="Filter Reports" 
+                                          Subtitle="Select criteria to generate custom reports" 
+                                          Icon="🔍" 
+                                          IconBackground="{StaticResource Button.Info}" />
 
                     <!-- Filters -->
                     <Grid Grid.Row="1" Margin="0,0,0,16">
@@ -55,7 +50,7 @@
 
                         <!-- Report Type -->
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Report Type" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Report Type" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding ReportTypes}"
                                     SelectedItem="{Binding SelectedReportType, Mode=TwoWay}"
                                     Style="{StaticResource ComboBox.Standard}"/>
@@ -63,7 +58,7 @@
 
                         <!-- Inventory Filters -->
                         <StackPanel Grid.Column="2" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Filter by Item" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Filter by Item" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding Items}"
                                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                     DisplayMemberPath="ItemName"
@@ -75,7 +70,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="4" Visibility="{Binding IsInventoryView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Filter by Party" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding Parties}"
                                     SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
@@ -98,7 +93,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
-                            <TextBlock Text="Filter by Name" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Filter by Name" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding AllNames}"
                                     SelectedItem="{Binding SelectedName, Mode=TwoWay}"
                                     IsEditable="True"
@@ -112,7 +107,7 @@
 
                         <!-- Financial Filters -->
                         <StackPanel Grid.Column="2" Visibility="{Binding IsFinancialView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Filter by Party" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Filter by Party" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding Parties}"
                                     SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
@@ -125,7 +120,7 @@
 
                         <!-- Wages Filters -->
                         <StackPanel Grid.Column="2" Visibility="{Binding IsWagesView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Filter by Worker" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Filter by Name" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding Workers}"
                                     SelectedItem="{Binding SelectedWorker, Mode=TwoWay}"
                                     DisplayMemberPath="Name"
@@ -138,21 +133,21 @@
 
                         <!-- Start Date -->
                         <StackPanel Grid.Column="6">
-                            <TextBlock Text="Start Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Start Date" Style="{StaticResource FormLabel}"/>
                             <DatePicker SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource DatePicker.Standard}"/>
                         </StackPanel>
 
                         <!-- End Date -->
                         <StackPanel Grid.Column="8">
-                            <TextBlock Text="End Date" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="End Date" Style="{StaticResource FormLabel}"/>
                             <DatePicker SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"
                                       Style="{StaticResource DatePicker.Standard}"/>
                         </StackPanel>
 
                         <!-- Entered By User Filter -->
                         <StackPanel Grid.Column="10">
-                            <TextBlock Text="Entered By" Foreground="{StaticResource Text.Label}" FontSize="11" Margin="0,0,0,8"/>
+                            <TextBlock Text="Entered By" Style="{StaticResource FormLabel}"/>
                             <ComboBox ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                     DisplayMemberPath="Username"
@@ -212,16 +207,10 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                        <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                            <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                <TextBlock Text="Report Results" Style="{StaticResource SectionHeader.Title}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
+                    <controls:SectionHeader Grid.Row="0" 
+                                          Title="Report Results" 
+                                          Icon="📋" 
+                                          IconBackground="{StaticResource Card.Success}" />
 
                     <!-- All Categories DataGrid -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedAllTransactions}" Style="{StaticResource Section.DataGrid}" 

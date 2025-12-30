@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:FactoryManagement.Behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <i:Interaction.Triggers>
@@ -143,17 +144,11 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="➕" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Create New Loan" Style="{StaticResource SectionHeader.Title}"/>
-                                    <TextBlock Text="Record a new loan transaction" Style="{StaticResource SectionHeader.Subtitle}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+                        <controls:SectionHeader Grid.Row="0" 
+                                              Title="Create New Loan" 
+                                              Subtitle="Record a new loan transaction" 
+                                              Icon="➕" 
+                                              IconBackground="{StaticResource Card.Info}" />
 
                         <!-- Row 1: Party, Type, Amount, Rate, Payment Mode -->
                         <Grid Grid.Row="1" Margin="0,0,0,16">
@@ -318,17 +313,11 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}">
-                            <StackPanel Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="💳" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Record Payment" Style="{StaticResource SectionHeader.Title}"/>
-                                    <TextBlock Text="Apply payment to selected loan" Style="{StaticResource SectionHeader.Subtitle}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+                        <controls:SectionHeader Grid.Row="0" 
+                                              Title="Record Payment" 
+                                              Subtitle="Apply payment to selected loan" 
+                                              Icon="💳" 
+                                              IconBackground="{StaticResource Card.Success}" />
 
                         <!-- Row 1: Selected Loan and Outstanding -->
                         <Grid Grid.Row="1" Margin="0,0,0,16">

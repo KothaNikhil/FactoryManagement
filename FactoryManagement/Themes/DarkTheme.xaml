@@ -517,4 +517,58 @@
     <Setter Property="Padding" Value="14"/>
   </Style>
 
+  <!-- ============================================ -->
+  <!-- FORM & INPUT ENHANCEMENTS                    -->
+  <!-- ============================================ -->
+  
+  <!-- FORM LABEL STYLE -->
+  <!-- Use for all form field labels instead of inline styling -->
+  <Style x:Key="FormLabel" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource Text.Label}"/>
+    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="Margin" Value="0,0,0,8"/>
+  </Style>
+  
+  <!-- ERROR MESSAGE BOX STYLE -->
+  <!-- Use for validation errors and error messages in forms -->
+  <Style x:Key="ErrorMessageBox" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource ErrorMessageBackground}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource ErrorColor}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Padding" Value="12"/>
+    <Setter Property="Margin" Value="0,16,0,0"/>
+  </Style>
+  
+  <!-- ERROR MESSAGE TEXT STYLE -->
+  <!-- Use for error message text inside ErrorMessageBox -->
+  <Style x:Key="ErrorMessageText" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
+    <Setter Property="TextWrapping" Value="Wrap"/>
+    <Setter Property="LineHeight" Value="16"/>
+  </Style>
+  
+  <!-- LOADING OVERLAY STYLE -->
+  <!-- Use in views with async operations (like "IsBusy" visibility binding) -->
+  <Style x:Key="LoadingOverlay" TargetType="Grid">
+    <Setter Property="Background" Value="{StaticResource LoadingOverlayColor}"/>
+  </Style>
+  
+  <!-- DIALOG HEADER STYLE -->
+  <!-- Use for dialog/modal headers -->
+  <Style x:Key="DialogHeader" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Card.Header}"/>
+    <Setter Property="Padding" Value="24,20"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="BorderBrush" Value="{StaticResource BorderPrimary}"/>
+  </Style>
+  
+  <!-- DIALOG ACTION BUTTONS -->
+  <!-- Use for buttons in dialog footers -->
+  <Style x:Key="DialogActionButton" TargetType="Button" BasedOn="{StaticResource Button.Primary}">
+    <Setter Property="MinWidth" Value="100"/>
+    <Setter Property="Margin" Value="8,0"/>
+  </Style>
+
 </ResourceDictionary>
