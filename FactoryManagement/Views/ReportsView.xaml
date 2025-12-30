@@ -402,7 +402,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <!-- Pagination Controls -->
+                    <!-- Pagination Controls with Totals Display -->
                     <Border Grid.Row="2" Background="{StaticResource Card.Background}" 
                             BorderBrush="{StaticResource Border.Default}" 
                             BorderThickness="0,1,0,0" 
@@ -414,23 +414,18 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Record Count Info -->
+                            <!-- Record Count Info (Left) -->
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Showing " Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
-                                <TextBlock FontWeight="SemiBold" Foreground="{StaticResource Text.Primary}" FontSize="13" Margin="0,0,4,0">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}-{1}">
-                                            <Binding Path="CurrentPage"/>
-                                            <Binding Path="TotalPages"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Text=" of " Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
-                                <TextBlock Text="{Binding TotalRecords}" FontWeight="SemiBold" Foreground="{StaticResource Text.Primary}" FontSize="13" Margin="0,0,4,0"/>
+                                <TextBlock Text="{Binding TotalRecords}" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="{StaticResource Text.Primary}" 
+                                           FontSize="13" 
+                                           Margin="0,0,4,0"/>
                                 <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
                             </StackPanel>
 
-                            <!-- Totals Display -->
+                            <!-- Totals Display (Center) -->
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Border Background="{StaticResource Card.Warning}" CornerRadius="4" Padding="10,6" Margin="0,0,8,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -438,13 +433,13 @@
                                         <TextBlock Text="{Binding TotalDebit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
-                                <Border Background="{StaticResource Card.Success}" CornerRadius="4" Padding="10,6">
+                                <Border Background="{StaticResource Card.Success}" CornerRadius="4" Padding="10,6" Margin="0,0,8,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="Total Credit: " Foreground="White" FontSize="13"/>
                                         <TextBlock Text="{Binding TotalCredit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
-                                <Border Background="{Binding TotalDifference, Converter={StaticResource AmountToBrushConverter}}" CornerRadius="4" Padding="10,6" Margin="8,0,0,0">
+                                <Border Background="{Binding TotalDifference, Converter={StaticResource AmountToBrushConverter}}" CornerRadius="4" Padding="10,6">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="Difference: " Foreground="White" FontSize="13"/>
                                         <TextBlock Text="{Binding TotalDifference, StringFormat=₹{0:N2}}" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
@@ -452,14 +447,15 @@
                                 </Border>
                             </StackPanel>
 
-                            <!-- Page Navigation -->
+                            <!-- Page Navigation (Right) -->
                             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <!-- First Page Button -->
                                 <Button Command="{Binding GoToFirstPageCommand}"
                                         IsEnabled="{Binding CanGoToPreviousPage}"
                                         Style="{StaticResource Button.Icon}"
+                                        Foreground="{StaticResource Text.Primary}"
                                         ToolTip="First Page"
-                                        Width="36" Height="36"
+                                        Width="32" Height="32"
                                         Margin="0,0,4,0">
                                     <materialDesign:PackIcon Kind="PageFirst" Width="18" Height="18"/>
                                 </Button>
@@ -468,23 +464,25 @@
                                 <Button Command="{Binding GoToPreviousPageCommand}"
                                         IsEnabled="{Binding CanGoToPreviousPage}"
                                         Style="{StaticResource Button.Icon}"
+                                        Foreground="{StaticResource Text.Primary}"
                                         ToolTip="Previous Page"
-                                        Width="36" Height="36"
-                                        Margin="0,0,8,0">
+                                        Width="32" Height="32"
+                                        Margin="0,0,4,0">
                                     <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"/>
                                 </Button>
 
                                 <!-- Page Number Display -->
-                                <Border Background="{StaticResource Card.Info}" 
+                                <Border Background="{StaticResource SecondaryBackground}" 
+                                        BorderBrush="{StaticResource Border.Default}"
+                                        BorderThickness="1"
                                         CornerRadius="4"
-                                        Padding="12,8"
-                                        Margin="0,0,8,0"
-                                        VerticalAlignment="Center">
-                                    <TextBlock Foreground="White" FontWeight="SemiBold" FontSize="13">
+                                        Padding="12,6"
+                                        Margin="0,0,4,0">
+                                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource Text.Primary}" FontSize="13">
                                         <Run Text="Page "/>
-                                        <Run Text="{Binding CurrentPage, Mode=OneWay}"/>
+                                        <Run Text="{Binding CurrentPage, Mode=OneWay}" FontWeight="SemiBold"/>
                                         <Run Text=" of "/>
-                                        <Run Text="{Binding TotalPages, Mode=OneWay}"/>
+                                        <Run Text="{Binding TotalPages, Mode=OneWay}" FontWeight="SemiBold"/>
                                     </TextBlock>
                                 </Border>
 
@@ -492,8 +490,9 @@
                                 <Button Command="{Binding GoToNextPageCommand}"
                                         IsEnabled="{Binding CanGoToNextPage}"
                                         Style="{StaticResource Button.Icon}"
+                                        Foreground="{StaticResource Text.Primary}"
                                         ToolTip="Next Page"
-                                        Width="36" Height="36"
+                                        Width="32" Height="32"
                                         Margin="0,0,4,0">
                                     <materialDesign:PackIcon Kind="ChevronRight" Width="18" Height="18"/>
                                 </Button>
@@ -502,8 +501,9 @@
                                 <Button Command="{Binding GoToLastPageCommand}"
                                         IsEnabled="{Binding CanGoToNextPage}"
                                         Style="{StaticResource Button.Icon}"
+                                        Foreground="{StaticResource Text.Primary}"
                                         ToolTip="Last Page"
-                                        Width="36" Height="36">
+                                        Width="32" Height="32">
                                     <materialDesign:PackIcon Kind="PageLast" Width="18" Height="18"/>
                                 </Button>
                             </StackPanel>
