@@ -68,9 +68,10 @@ namespace FactoryManagement.ViewModels
 
         protected override void UpdatePaginatedData()
         {
-            CalculatePagination(Parties);
+            const int PageSizeParties = 15;
+            CalculatePagination(Parties, PageSizeParties);
             PaginatedParties.Clear();
-            foreach (var party in GetPagedItems(Parties))
+            foreach (var party in GetPagedItems(Parties, PageSizeParties))
             {
                 PaginatedParties.Add(party);
             }
