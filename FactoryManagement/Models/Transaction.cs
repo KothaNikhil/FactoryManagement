@@ -18,16 +18,21 @@ namespace FactoryManagement.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TransactionId { get; set; }
 
-        [Required]
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
 
         [ForeignKey(nameof(ItemId))]
         public virtual Item? Item { get; set; }
+
+        [MaxLength(200)]
+        public string ItemName { get; set; } = string.Empty;
 
         public int? PartyId { get; set; }
 
         [ForeignKey(nameof(PartyId))]
         public virtual Party? Party { get; set; }
+
+        [MaxLength(200)]
+        public string PartyName { get; set; } = string.Empty;
 
         [Required]
         public TransactionType TransactionType { get; set; }

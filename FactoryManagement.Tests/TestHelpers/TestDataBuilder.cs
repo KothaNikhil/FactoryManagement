@@ -127,6 +127,12 @@ namespace FactoryManagement.Tests.TestHelpers
             return this;
         }
 
+        public TransactionBuilder WithPartyName(string partyName)
+        {
+            _transaction.PartyName = partyName;
+            return this;
+        }
+
         public TransactionBuilder WithType(TransactionType type)
         {
             _transaction.TransactionType = type;

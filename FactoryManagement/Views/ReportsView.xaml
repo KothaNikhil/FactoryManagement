@@ -271,8 +271,8 @@
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                             <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
-                            <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
-                            <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="*"/>
+                            <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                             <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
@@ -319,7 +319,7 @@
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
                             <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
-                            <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
                             <DataGridTextColumn Header="Interest Rate" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="110"/>
                             <DataGridTextColumn Header="Interest Amt" Binding="{Binding InterestAmount, StringFormat='₹{0:N2}'}" Width="120"/>
                             <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat='dd-MMM-yyyy'}" Width="110"/>

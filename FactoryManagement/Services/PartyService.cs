@@ -1,7 +1,10 @@
 using FactoryManagement.Models;
 using FactoryManagement.Data.Repositories;
+using FactoryManagement.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FactoryManagement.Services
@@ -19,10 +22,12 @@ namespace FactoryManagement.Services
     public class PartyService : IPartyService
     {
         private readonly IRepository<Party> _partyRepository;
+        private readonly FactoryDbContext _context;
 
-        public PartyService(IRepository<Party> partyRepository)
+        public PartyService(IRepository<Party> partyRepository, FactoryDbContext context)
         {
             _partyRepository = partyRepository;
+            _context = context;
         }
 
         public async Task<IEnumerable<Party>> GetAllPartiesAsync()
@@ -56,13 +61,36 @@ namespace FactoryManagement.Services
 
         public async Task DeletePartyAsync(int id)
         {
-            var party = await _partyRepository.GetByIdAsync(id);
-            if (party != null)
+            try
             {
-                // Soft delete party to preserve dependent transactions
-                party.IsActive = false;
-                party.ModifiedDate = DateTime.Now;
-                await _partyRepository.UpdateAsync(party);
+                var party = await _partyRepository.GetByIdAsync(id);
+                if (party == null)
+                    throw new InvalidOperationException("Party not found");
+
+                // Check for active/open loan accounts
+                var hasActiveLoans = await _context.LoanAccounts
+                    .AnyAsync(l => l.PartyId == id && l.Status == LoanStatus.Active);
+
+                if (hasActiveLoans)
+                {
+                    throw new InvalidOperationException($"Cannot delete '{party.Name}'. This party has active loan accounts. Please close all loans before deleting the party.");
+                }
+
+                // Allow deletion - PartyId will be set to NULL in related records, PartyName is preserved
+                await _partyRepository.DeleteAsync(party);
+                await _context.SaveChangesAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                throw; // Re-throw business logic exceptions
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new InvalidOperationException($"Cannot delete the party due to database constraints. The party may still have related records. Inner error: {ex.InnerException?.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error deleting party: {ex.Message}");
             }
         }
     }

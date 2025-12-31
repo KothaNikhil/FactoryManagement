@@ -287,18 +287,49 @@ namespace FactoryManagement.ViewModels
             {
                 IsBusy = true;
 
-                var items = await _itemService.GetAllItemsAsync();
+                // Load all transactions to get distinct values (including deleted items/parties)
+                var allTransactions = await _transactionService.GetAllTransactionsAsync();
+                var allFinancial = await _financialService.GetAllFinancialTransactionsAsync();
+                var allWages = await _wageService.GetTransactionsByDateRangeAsync(DateTime.MinValue, DateTime.MaxValue);
+
+                // Load active items and parties from master tables
+                var activeItems = await _itemService.GetAllItemsAsync();
+                var activeParties = await _partyService.GetAllPartiesAsync();
+
+                // Populate Items dropdown: active items + historical deleted items from transactions
                 Items.Clear();
                 Items.Add(new Item { ItemId = 0, ItemName = "All Items" });
-                foreach (var item in items)
-                    Items.Add(item);
+                
+                // Combine active item names with historical item names from transactions
+                var activeItemNames = activeItems.Select(i => i.ItemName);
+                var historicalItemNames = allTransactions
+                    .Where(t => !string.IsNullOrEmpty(t.ItemName))
+                    .Select(t => t.ItemName);
+                var allItemNames = activeItemNames.Concat(historicalItemNames)
+                    .Distinct()
+                    .OrderBy(name => name);
+                
+                foreach (var itemName in allItemNames)
+                    Items.Add(new Item { ItemId = 0, ItemName = itemName });
 
-                var parties = await _partyService.GetAllPartiesAsync();
+                // Populate Parties dropdown: active parties + historical deleted parties from transactions
                 Parties.Clear();
                 Parties.Add(new Party { PartyId = 0, Name = "All Parties" });
-                foreach (var party in parties)
-                    Parties.Add(party);
+                
+                // Combine active party names with historical party names from transactions and financial records
+                var activePartyNames = activeParties.Select(p => p.Name);
+                var historicalPartyNames = allTransactions
+                    .Where(t => !string.IsNullOrEmpty(t.PartyName))
+                    .Select(t => t.PartyName)
+                    .Concat(allFinancial.Where(f => !string.IsNullOrEmpty(f.PartyName)).Select(f => f.PartyName));
+                var allPartyNames = activePartyNames.Concat(historicalPartyNames)
+                    .Distinct()
+                    .OrderBy(name => name);
+                
+                foreach (var partyName in allPartyNames)
+                    Parties.Add(new Party { PartyId = 0, Name = partyName });
 
+                // Populate Workers dropdown from Workers table (keeping original behavior)
                 var workers = await _wageService.GetAllWorkersAsync();
                 Workers.Clear();
                 Workers.Add(new Worker { WorkerId = 0, Name = "All Workers" });
@@ -312,12 +343,11 @@ namespace FactoryManagement.ViewModels
                 foreach (var user in users)
                     Users.Add(user);
 
-                // Populate unified names collection
+                // Populate unified names collection from all party and worker names
                 AllNames.Clear();
                 AllNames.Add("All Names"); // Default option
-                foreach (var party in parties)
-                    if (!string.IsNullOrEmpty(party.Name))
-                        AllNames.Add(party.Name);
+                foreach (var name in allPartyNames)
+                    AllNames.Add(name);
                 foreach (var worker in workers)
                     if (!string.IsNullOrEmpty(worker.Name))
                         AllNames.Add(worker.Name);
@@ -457,15 +487,15 @@ namespace FactoryManagement.ViewModels
             IEnumerable<Transaction> transactions = await _transactionService.GetAllTransactionsAsync();
 
             // Apply item filter (skip if "All Items" is selected)
-            if (SelectedItem != null && SelectedItem.ItemId != 0)
+            if (SelectedItem != null && SelectedItem.ItemName != "All Items")
             {
-                transactions = transactions.Where(t => t.ItemId == SelectedItem.ItemId);
+                transactions = transactions.Where(t => t.ItemName == SelectedItem.ItemName);
             }
 
             // Apply party filter (skip if "All Parties" is selected)
-            if (SelectedParty != null && SelectedParty.PartyId != 0)
+            if (SelectedParty != null && SelectedParty.Name != "All Parties")
             {
-                transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
+                transactions = transactions.Where(t => t.PartyName == SelectedParty.Name);
             }
 
             // Apply user filter (skip if "All Users" is selected)
@@ -491,9 +521,9 @@ namespace FactoryManagement.ViewModels
             IEnumerable<FinancialTransaction> transactions = await _financialService.GetAllFinancialTransactionsAsync();
 
             // Apply party filter (skip if "All Parties" is selected)
-            if (SelectedParty != null && SelectedParty.PartyId != 0)
+            if (SelectedParty != null && SelectedParty.Name != "All Parties")
             {
-                transactions = transactions.Where(t => t.PartyId == SelectedParty.PartyId);
+                transactions = transactions.Where(t => t.PartyName == SelectedParty.Name);
             }
 
             // Apply user filter (skip if "All Users" is selected)

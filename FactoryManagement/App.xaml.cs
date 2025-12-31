@@ -178,6 +178,53 @@ namespace FactoryManagement
                 TryAddColumn(context, "Transactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
                 TryAddColumn(context, "FinancialTransactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
                 TryAddColumn(context, "WageTransactions", "PaymentMode", "INTEGER NOT NULL DEFAULT 0");
+                
+                // Add PartyName columns to preserve party names after deletion
+                TryAddColumn(context, "Transactions", "PartyName", "TEXT DEFAULT ''");
+                TryAddColumn(context, "FinancialTransactions", "PartyName", "TEXT DEFAULT ''");
+                TryAddColumn(context, "LoanAccounts", "PartyName", "TEXT DEFAULT ''");
+                TryAddColumn(context, "FinancialTransactions", "ModifiedDate", "DATETIME");
+                
+                // Add ItemName column to preserve item names after deletion
+                TryAddColumn(context, "Transactions", "ItemName", "TEXT DEFAULT ''");
+                
+                // Update NULL values to empty string and populate from related tables
+                try
+                {
+#pragma warning disable EF1002
+                    // Update NULL values to empty string
+                    context.Database.ExecuteSqlRaw("UPDATE Transactions SET PartyName = '' WHERE PartyName IS NULL");
+                    context.Database.ExecuteSqlRaw("UPDATE FinancialTransactions SET PartyName = '' WHERE PartyName IS NULL");
+                    context.Database.ExecuteSqlRaw("UPDATE LoanAccounts SET PartyName = '' WHERE PartyName IS NULL");
+                    
+                    // Populate PartyName from Party table for existing records where PartyName is empty
+                    context.Database.ExecuteSqlRaw(@"
+                        UPDATE Transactions 
+                        SET PartyName = (SELECT Name FROM Parties WHERE Parties.PartyId = Transactions.PartyId) 
+                        WHERE PartyId IS NOT NULL AND (PartyName IS NULL OR PartyName = '')");
+                    
+                    context.Database.ExecuteSqlRaw(@"
+                        UPDATE FinancialTransactions 
+                        SET PartyName = (SELECT Name FROM Parties WHERE Parties.PartyId = FinancialTransactions.PartyId) 
+                        WHERE PartyId IS NOT NULL AND (PartyName IS NULL OR PartyName = '')");
+                    
+                    context.Database.ExecuteSqlRaw(@"
+                        UPDATE LoanAccounts 
+                        SET PartyName = (SELECT Name FROM Parties WHERE Parties.PartyId = LoanAccounts.PartyId) 
+                        WHERE PartyId IS NOT NULL AND (PartyName IS NULL OR PartyName = '')");
+                    
+                    // Populate ItemName from Items table for existing records where ItemName is empty
+                    context.Database.ExecuteSqlRaw(@"
+                        UPDATE Transactions 
+                        SET ItemName = (SELECT ItemName FROM Items WHERE Items.ItemId = Transactions.ItemId) 
+                        WHERE ItemId IS NOT NULL AND (ItemName IS NULL OR ItemName = '')");
+#pragma warning restore EF1002
+                    Log.Information("Updated PartyName and ItemName values from related tables");
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug(ex, "PartyName update (may already be handled)");
+                }
 
                 // Add missing columns on AppSettings for UI preferences
                 TryAddColumn(context, "AppSettings", "IsMenuPinned", "INTEGER NOT NULL DEFAULT 1");
@@ -187,8 +234,6 @@ namespace FactoryManagement
                 TryAddColumn(context, "Items", "ModifiedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Parties", "CreatedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Parties", "ModifiedByUserId", "INTEGER NULL");
-                // Soft-delete flag for Parties to preserve transactions on delete
-                TryAddColumn(context, "Parties", "IsActive", "INTEGER NOT NULL DEFAULT 1");
                 TryAddColumn(context, "Workers", "CreatedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "Workers", "ModifiedByUserId", "INTEGER NULL");
                 TryAddColumn(context, "WageTransactions", "EnteredBy", "INTEGER NOT NULL DEFAULT 1");

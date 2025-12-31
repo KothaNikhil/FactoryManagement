@@ -54,8 +54,8 @@ namespace FactoryManagement.Services
                     {
                         Category = "Inventory",
                         TransactionId = t.TransactionId.ToString(),
-                        ItemName = t.Item?.ItemName ?? string.Empty,
-                        PartyName = t.Party?.Name ?? string.Empty,
+                        ItemName = t.ItemName ?? string.Empty,
+                        PartyName = t.PartyName ?? string.Empty,
                         TransactionType = t.TransactionType.ToString(),
                         Quantity = t.Quantity,
                         Rate = t.PricePerUnit,

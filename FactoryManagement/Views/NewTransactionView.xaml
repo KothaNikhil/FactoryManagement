@@ -496,8 +496,8 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd/MM/yyyy HH:mm'}" Width="130"/>
                         <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="100"/>
-                        <DataGridTextColumn Header="Item" Binding="{Binding Item.ItemName}" Width="*"/>
-                        <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="*"/>
+                        <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="*"/>
+                        <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                         <DataGridTextColumn Header="Amount" Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}" Width="130"/>
                         <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="90"/>

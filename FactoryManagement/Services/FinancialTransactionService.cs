@@ -46,6 +46,10 @@ namespace FactoryManagement.Services
         // Loan Account Operations
         public async Task<LoanAccount> CreateLoanAsync(LoanAccount loan, PaymentMode paymentMode)
         {
+            // Fetch party to capture name
+            var party = await _context.Parties.FindAsync(loan.PartyId);
+            loan.PartyName = party?.Name ?? string.Empty;
+            
             // Initialize outstanding amounts
             loan.OutstandingPrincipal = loan.OriginalAmount;
             loan.OutstandingInterest = 0;
@@ -60,6 +64,7 @@ namespace FactoryManagement.Services
             var initialTransaction = new FinancialTransaction
             {
                 PartyId = loan.PartyId,
+                PartyName = party?.Name ?? string.Empty,
                 TransactionType = loan.LoanType == LoanType.Given ? FinancialTransactionType.LoanGiven : FinancialTransactionType.LoanTaken,
                 Amount = loan.OriginalAmount,
                 InterestRate = loan.InterestRate,
@@ -111,9 +116,11 @@ namespace FactoryManagement.Services
                 ? FinancialTransactionType.LoanRepayment
                 : FinancialTransactionType.LoanPayment;
 
+            var paymentParty = loanAccount.Party ?? await _context.Parties.FindAsync(loanAccount.PartyId);
             var transaction = new FinancialTransaction
             {
                 PartyId = loanAccount.PartyId,
+                PartyName = paymentParty?.Name ?? string.Empty,
                 TransactionType = transactionType,
                 Amount = paymentAmount,
                 TransactionDate = DateTime.Now,
@@ -230,9 +237,11 @@ namespace FactoryManagement.Services
                 ? FinancialTransactionType.InterestReceived
                 : FinancialTransactionType.InterestPaid;
 
+            var interestParty = loanAccount.Party ?? await _context.Parties.FindAsync(loanAccount.PartyId);
             var interestTransaction = new FinancialTransaction
             {
                 PartyId = loanAccount.PartyId,
+                PartyName = interestParty?.Name ?? string.Empty,
                 TransactionType = transactionType,
                 Amount = 0, // Interest doesn't involve cash flow yet
                 InterestAmount = interestAccrued,
@@ -436,6 +445,7 @@ namespace FactoryManagement.Services
             var loan = new LoanAccount
             {
                 PartyId = snapshot.PartyId,
+                PartyName = snapshot.PartyName,
                 LoanType = snapshot.LoanType,
                 OriginalAmount = snapshot.OriginalAmount,
                 InterestRate = snapshot.InterestRate,
@@ -459,6 +469,7 @@ namespace FactoryManagement.Services
                 var newTx = new FinancialTransaction
                 {
                     PartyId = tx.PartyId,
+                    PartyName = tx.PartyName,
                     TransactionType = tx.TransactionType,
                     Amount = tx.Amount,
                     InterestRate = tx.InterestRate,

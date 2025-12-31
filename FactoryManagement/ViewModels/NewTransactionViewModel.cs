@@ -242,7 +242,9 @@ namespace FactoryManagement.ViewModels
 
                     // Update transaction properties
                     transaction.ItemId = SelectedItem!.ItemId;
+                    transaction.ItemName = SelectedItem!.ItemName;
                     transaction.PartyId = SelectedParty?.PartyId;
+                    transaction.PartyName = SelectedParty?.Name ?? string.Empty;
                     transaction.TransactionType = SelectedTransactionType;
                     transaction.Quantity = Quantity;
                     transaction.PricePerUnit = PricePerUnit;
@@ -262,7 +264,9 @@ namespace FactoryManagement.ViewModels
                     var transaction = new Transaction
                     {
                         ItemId = SelectedItem!.ItemId,
+                        ItemName = SelectedItem!.ItemName,
                         PartyId = SelectedParty?.PartyId,
+                        PartyName = SelectedParty?.Name ?? string.Empty,
                         TransactionType = SelectedTransactionType,
                         Quantity = Quantity,
                         PricePerUnit = PricePerUnit,

@@ -28,11 +28,13 @@ namespace FactoryManagement.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FinancialTransactionId { get; set; }
 
-        [Required]
-        public int PartyId { get; set; }
+        public int? PartyId { get; set; }
 
         [ForeignKey(nameof(PartyId))]
         public virtual Party? Party { get; set; }
+
+        [MaxLength(200)]
+        public string PartyName { get; set; } = string.Empty;
 
         [Required]
         public FinancialTransactionType TransactionType { get; set; }

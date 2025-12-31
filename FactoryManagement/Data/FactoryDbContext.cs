@@ -131,7 +131,7 @@ namespace FactoryManagement.Data
                 .HasOne(t => t.Item)
                 .WithMany()
                 .HasForeignKey(t => t.ItemId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.Party)
@@ -150,19 +150,19 @@ namespace FactoryManagement.Data
                 .HasOne(ft => ft.Party)
                 .WithMany()
                 .HasForeignKey(ft => ft.PartyId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<FinancialTransaction>()
                 .HasOne(ft => ft.LinkedLoanAccount)
                 .WithMany(l => l.Transactions)
                 .HasForeignKey(ft => ft.LinkedLoanAccountId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LoanAccount>()
                 .HasOne(l => l.Party)
                 .WithMany()
                 .HasForeignKey(l => l.PartyId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<LoanAccount>()
                 .HasOne(l => l.User)

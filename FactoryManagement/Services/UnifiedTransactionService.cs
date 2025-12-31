@@ -76,8 +76,8 @@ namespace FactoryManagement.Services
             foreach (var t in inventoryTransactions)
             {
                 var description = t.TransactionType == TransactionType.Processing
-                    ? $"{t.InputItem?.ItemName ?? "N/A"} → {t.Item?.ItemName ?? "N/A"} ({t.Party?.Name ?? "N/A"})"
-                    : $"{t.Item?.ItemName ?? "N/A"} - {t.Party?.Name ?? "N/A"}";
+                    ? $"{t.ItemName ?? "N/A"} (Input: {t.InputQuantity:N2}) ({t.PartyName ?? "N/A"})"
+                    : $"{t.ItemName ?? "N/A"} - {t.PartyName ?? "N/A"}";
                 
                 var additionalInfo = t.TransactionType == TransactionType.Processing
                     ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2}"
@@ -94,10 +94,10 @@ namespace FactoryManagement.Services
                     TransactionType = t.TransactionType.ToString(),
                     DebitCredit = debitCredit,
                     Description = description,
-                    Item = t.Item?.ItemName,
-                    Name = t.Party?.Name,
-                    ItemName = t.Item?.ItemName,
-                    PartyName = t.Party?.Name,
+                    Item = t.ItemName,
+                    Name = t.PartyName,
+                    ItemName = t.ItemName,
+                    PartyName = t.PartyName,
                     WorkerName = null,
                     Quantity = t.Quantity,
                     Rate = t.PricePerUnit,
@@ -106,7 +106,7 @@ namespace FactoryManagement.Services
                     Notes = t.Notes,
                     EnteredBy = t.User?.Username,
                     PaymentMode = t.PaymentMode,
-                    InputItemName = t.InputItem?.ItemName,
+                    InputItemName = t.ItemName,
                     InputQuantity = t.InputQuantity,
                     ConversionRate = null
                 });
@@ -129,11 +129,11 @@ namespace FactoryManagement.Services
                     TransactionDate = t.TransactionDate,
                     TransactionType = t.TransactionType.ToString(),
                     DebitCredit = debitCredit,
-                    Description = t.Party?.Name ?? "N/A",
+                    Description = t.PartyName ?? "N/A",
                     Item = null,
-                    Name = t.Party?.Name,
+                    Name = t.PartyName,
                     ItemName = null,
-                    PartyName = t.Party?.Name,
+                    PartyName = t.PartyName,
                     WorkerName = null,
                     Quantity = null,
                     Rate = t.InterestRate > 0 ? t.InterestRate : null,

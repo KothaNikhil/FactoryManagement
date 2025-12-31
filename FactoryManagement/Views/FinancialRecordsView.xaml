@@ -538,7 +538,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Party" Binding="{Binding Party.Name}" Width="150"/>
+                                <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="150"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding LoanType}" Width="80"/>
                                 <DataGridTextColumn Header="Original Amount" Binding="{Binding OriginalAmount, StringFormat=₹{0:N2}}" Width="130"/>
                                 <DataGridTextColumn Header="Rate %" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="80"/>
@@ -632,6 +632,7 @@
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM HH:mm'}" Width="100"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="140"/>
+                                <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="120"/>
                                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N0}}" Width="90"/>
                                 <DataGridTextColumn Header="Interest" Binding="{Binding InterestAmount, StringFormat=₹{0:N0}}" Width="80"/>
                                 <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>

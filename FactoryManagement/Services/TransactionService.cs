@@ -50,10 +50,10 @@ namespace FactoryManagement.Services
             
             var result = await _transactionRepository.AddAsync(transaction);
 
-            // Stock updates: processing is service-only, no inventory changes
-            if (transaction.TransactionType != TransactionType.Processing)
+            // Stock updates: processing is service-only, no inventory changes; also skip if ItemId is null
+            if (transaction.TransactionType != TransactionType.Processing && transaction.ItemId.HasValue)
             {
-                await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, transaction.TransactionType);
+                await _itemService.UpdateStockAsync(transaction.ItemId.Value, transaction.Quantity, transaction.TransactionType);
             }
             
             return result;
@@ -74,7 +74,7 @@ namespace FactoryManagement.Services
             }
 
             // Reverse stock from existing transaction when applicable
-            if (existing.TransactionType != TransactionType.Processing)
+            if (existing.TransactionType != TransactionType.Processing && existing.ItemId.HasValue)
             {
                 var reverseType = existing.TransactionType switch
                 {
@@ -83,7 +83,7 @@ namespace FactoryManagement.Services
                     TransactionType.Wastage => TransactionType.Buy,
                     _ => TransactionType.Buy
                 };
-                await _itemService.UpdateStockAsync(existing.ItemId, existing.Quantity, reverseType);
+                await _itemService.UpdateStockAsync(existing.ItemId.Value, existing.Quantity, reverseType);
             }
 
             // Persist updated values and compute total
@@ -91,9 +91,9 @@ namespace FactoryManagement.Services
             await _transactionRepository.UpdateAsync(updated);
 
             // Apply stock from updated transaction when applicable
-            if (updated.TransactionType != TransactionType.Processing)
+            if (updated.TransactionType != TransactionType.Processing && updated.ItemId.HasValue)
             {
-                await _itemService.UpdateStockAsync(updated.ItemId, updated.Quantity, updated.TransactionType);
+                await _itemService.UpdateStockAsync(updated.ItemId.Value, updated.Quantity, updated.TransactionType);
             }
         }
 
@@ -103,7 +103,7 @@ namespace FactoryManagement.Services
             if (transaction != null)
             {
                 // Reverse stock update based on transaction type
-                if (transaction.TransactionType != TransactionType.Processing)
+                if (transaction.TransactionType != TransactionType.Processing && transaction.ItemId.HasValue)
                 {
                     // Reverse regular transaction
                     var reverseType = transaction.TransactionType switch
@@ -113,7 +113,7 @@ namespace FactoryManagement.Services
                         TransactionType.Wastage => TransactionType.Buy, // wastage had reduced stock; reversal increases
                         _ => TransactionType.Buy
                     };
-                    await _itemService.UpdateStockAsync(transaction.ItemId, transaction.Quantity, reverseType);
+                    await _itemService.UpdateStockAsync(transaction.ItemId.Value, transaction.Quantity, reverseType);
                 }
                 
                 await _transactionRepository.DeleteAsync(transaction);

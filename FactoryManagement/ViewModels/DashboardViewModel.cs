@@ -181,8 +181,8 @@ namespace FactoryManagement.ViewModels
                         Date = t.TransactionDate,
                         Category = "Transaction",
                         Type = t.TransactionType.ToString(),
-                        Description = t.Item?.ItemName ?? "Unknown Item",
-                        Party = t.Party?.Name,
+                        Description = t.ItemName ?? "Unknown Item",
+                        Party = t.PartyName,
                         Amount = t.TotalAmount
                     });
                 }

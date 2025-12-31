@@ -53,11 +53,11 @@ namespace FactoryManagement.Services
         public async Task DeleteItemAsync(int id)
         {
             var item = await _itemRepository.GetByIdAsync(id);
-            if (item != null)
-            {
-                // Prevent deleting items to avoid cascading or orphaning references
-                throw new InvalidOperationException("Items cannot be deleted to preserve transaction history. Consider marking as inactive or renaming.");
-            }
+            if (item == null)
+                throw new InvalidOperationException("Item not found");
+
+            // Allow deletion - ItemId will be set to NULL in related records, ItemName is preserved
+            await _itemRepository.DeleteAsync(item);
         }
 
         public async Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType)
