@@ -17,6 +17,7 @@ namespace FactoryManagement.ViewModels
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
+        private readonly IStockPackageService _packageService;
         private Transaction? _lastDeletedTransaction;
 
         private ISnackbarMessageQueue? _snackbarMessageQueue;
@@ -45,6 +46,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private string _remainingStockText = string.Empty;
+
+        [ObservableProperty]
+        private string _packageBreakdownText = string.Empty;
 
         [ObservableProperty]
         private string _selectedTransactionTypeString = "Buy";
@@ -127,11 +131,13 @@ namespace FactoryManagement.ViewModels
         public NewTransactionViewModel(
             ITransactionService transactionService,
             IItemService itemService,
-            IPartyService partyService)
+            IPartyService partyService,
+            IStockPackageService packageService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _partyService = partyService;
+            _packageService = packageService;
         }
 
         protected override void UpdatePaginatedData()
@@ -174,7 +180,7 @@ namespace FactoryManagement.ViewModels
 
         partial void OnSelectedItemChanged(Item? value)
         {
-            UpdateRemainingStockDisplay();
+            _ = UpdateRemainingStockDisplayAsync();
         }
 
         partial void OnInputItemChanged(Item? value)
@@ -193,26 +199,43 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(SelectedTransactionType));
             OnPropertyChanged(nameof(ItemLabelText));
             OnPropertyChanged(nameof(QuantityLabelText));
-            UpdateRemainingStockDisplay();
+            _ = UpdateRemainingStockDisplayAsync();
         }
 
-        private void UpdateRemainingStockDisplay()
+        private async Task UpdateRemainingStockDisplayAsync()
         {
-            if (SelectedItem != null && !IsProcessingMode)
+            try
             {
-                IsItemSelected = true;
-                RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
+                if (SelectedItem != null && !IsProcessingMode)
+                {
+                    IsItemSelected = true;
+                    RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
+                    
+                    // Get package breakdown if item has packages
+                    var breakdown = await _packageService.GetPackageBreakdownAsync(SelectedItem.ItemId);
+                    PackageBreakdownText = breakdown != "Loose stock" ? breakdown : string.Empty;
+                }
+                else if (SelectedItem != null && IsProcessingMode)
+                {
+                    // For processing mode, show output item stock
+                    IsItemSelected = true;
+                    RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
+                    
+                    // Get package breakdown if item has packages
+                    var breakdown = await _packageService.GetPackageBreakdownAsync(SelectedItem.ItemId);
+                    PackageBreakdownText = breakdown != "Loose stock" ? breakdown : string.Empty;
+                }
+                else
+                {
+                    IsItemSelected = false;
+                    RemainingStockText = string.Empty;
+                    PackageBreakdownText = string.Empty;
+                }
             }
-            else if (SelectedItem != null && IsProcessingMode)
+            catch (Exception ex)
             {
-                // For processing mode, show output item stock
-                IsItemSelected = true;
-                RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
-            }
-            else
-            {
-                IsItemSelected = false;
-                RemainingStockText = string.Empty;
+                // Log error but don't interrupt UI - packages are optional display info
+                System.Diagnostics.Debug.WriteLine($"Error fetching package breakdown: {ex.Message}");
             }
         }
 

@@ -10,6 +10,7 @@ namespace FactoryManagement.Models
         public string TransactionType { get; set; } = string.Empty;
 
         public string ItemName { get; set; } = string.Empty;
+        public string PackageBreakdown { get; set; } = string.Empty;
         public string PartyName { get; set; } = string.Empty;
         public string WorkerName { get; set; } = string.Empty;
 

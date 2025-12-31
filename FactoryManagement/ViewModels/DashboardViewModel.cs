@@ -14,6 +14,7 @@ namespace FactoryManagement.ViewModels
     {
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
+        private readonly IStockPackageService _packageService;
         private readonly IFinancialTransactionService? _financialTransactionService;
         private readonly IWageService? _wageService;
         private readonly IUnifiedTransactionService? _unifiedTransactionService;
@@ -69,6 +70,12 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<RecentActivity> _paginatedRecentActivities = new();
 
         [ObservableProperty]
+        private int _packagedItemsCount;
+
+        [ObservableProperty]
+        private int _looseItemsCount;
+
+        [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
 
         [ObservableProperty]
@@ -77,12 +84,14 @@ namespace FactoryManagement.ViewModels
         public DashboardViewModel(
             ITransactionService transactionService, 
             IItemService itemService,
+            IStockPackageService packageService,
             IFinancialTransactionService? financialTransactionService = null,
             IWageService? wageService = null,
             IUnifiedTransactionService? unifiedTransactionService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
+            _packageService = packageService;
             _financialTransactionService = financialTransactionService;
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
@@ -237,6 +246,10 @@ namespace FactoryManagement.ViewModels
                     .OrderBy(i => i.CurrentStock)
                     .ToList();
                 SetCollection(LowStockItems, lowStockList);
+
+                // Calculate package statistics
+                PackagedItemsCount = allItems.Count(i => i.IsPackaged);
+                LooseItemsCount = allItems.Count(i => !i.IsPackaged);
 
                 // Load all items for stock chart (top 10 by lowest stock)
                 var chartItems = allItems

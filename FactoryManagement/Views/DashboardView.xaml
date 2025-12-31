@@ -12,6 +12,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -114,8 +115,59 @@
                 </Border>
             </Grid>
 
+            <!-- Inventory Statistics Row -->
+            <Grid Grid.Row="1" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Packaged Items Card -->
+                <Border Grid.Column="0" Background="{StaticResource SummaryCardInfo}" CornerRadius="8" Padding="16">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="📦" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Packaged Items" Foreground="{StaticResource LabelInfo}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PackagedItemsCount}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Loose Items Card -->
+                <Border Grid.Column="2" Background="{StaticResource SummaryCardSuccess}" CornerRadius="8" Padding="16">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="🛢️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Loose Items" Foreground="{StaticResource LabelSuccess}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding LooseItemsCount}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
             <!-- Main Content Area -->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="15"/>

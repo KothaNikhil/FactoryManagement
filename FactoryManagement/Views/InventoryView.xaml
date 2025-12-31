@@ -23,6 +23,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Total Items Card -->
@@ -56,13 +58,21 @@
                                 Icon="📂" 
                                 CardBackground="{StaticResource Card.Danger}" 
                                 LabelForeground="{StaticResource Card.Danger.Label}" />
+
+            <!-- Packaged Items Card -->
+            <controls:SummaryCard Grid.Column="8" 
+                                Label="Packaged" 
+                                Value="{Binding PackagedItemsCount}" 
+                                Icon="📫" 
+                                CardBackground="{StaticResource Card.Info}" 
+                                LabelForeground="{StaticResource Card.Info.Label}" />
         </Grid>
 
         <!-- Main Content -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="450"/>
+                <ColumnDefinition Width="480"/>
             </Grid.ColumnDefinitions>
 
             <!-- Items List -->
@@ -75,7 +85,7 @@
                                           IconBackground="{StaticResource Card.Success}" />
 
                     <!-- Search Box -->
-                    <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search items by name..." />
+                    <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search items by name or unit..." />
 
                     <!-- Pagination Control -->
                     <controls:PaginationControl DockPanel.Dock="Bottom"
@@ -98,9 +108,10 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding ItemId}" Width="70"></DataGridTextColumn>
                             <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="130"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90"></DataGridTextColumn>
-                            <DataGridTemplateColumn Header="Actions" Width="120">
+                            <DataGridTextColumn Header="Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Type" Binding="{Binding StockDisplayText}" Width="140"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Actions" Width="100">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -174,39 +185,204 @@
                             <TextBlock Text="Item Name *" 
                                      Foreground="{StaticResource Text.Label}"
                                      FontSize="11"
+                                     FontWeight="SemiBold"
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter item name"
+                                   materialDesign:HintAssist.Hint="Enter item name (e.g., Rice, Wheat)"
                                    Style="{StaticResource TextBox.Standard}"
                                    Margin="0,0,0,20"/>
 
-                            <!-- Current Stock -->
-                            <TextBlock Text="Current Stock *" 
+                            <!-- Unit Selection (FIRST) -->
+                            <TextBlock Text="Measurement Unit *" 
                                      Foreground="{StaticResource Text.Label}"
                                      FontSize="11"
+                                     FontWeight="SemiBold"
                                      Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"
-                                   GotFocus="NumericTextBox_GotFocus"/>
-
-                            <!-- Unit -->
-                            <TextBlock Text="Unit *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="11"
-                                     Margin="0,0,0,8"/>
-                            <ComboBox Text="{Binding Unit}"
+                            <ComboBox Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged}"
                                     IsEditable="True"
-                                    materialDesign:HintAssist.Hint="Select or enter unit"
+                                    materialDesign:HintAssist.Hint="Select measurement unit"
                                     Style="{StaticResource ComboBox.Standard}"
                                     Margin="0,0,0,20">
-                                <ComboBoxItem Content="Kg"/>
-                                <ComboBoxItem Content="Quintal"/>
-                                <ComboBoxItem Content="Ton"/>
-                                <ComboBoxItem Content="Bag"/>
-                                <ComboBoxItem Content="Piece"/>
-                                <ComboBoxItem Content="Liter"/>
+                                <ComboBoxItem Content="kg"/>
+                                <ComboBoxItem Content="quintal"/>
+                                <ComboBoxItem Content="ton"/>
+                                <ComboBoxItem Content="bag"/>
+                                <ComboBoxItem Content="pcs"/>
+                                <ComboBoxItem Content="lbs"/>
                             </ComboBox>
+
+                            <!-- Stock Entry Method Selection -->
+                            <TextBlock Text="Stock Entry Method *" 
+                                     Foreground="{StaticResource Text.Label}"
+                                     FontSize="11"
+                                     FontWeight="SemiBold"
+                                     Margin="0,0,0,12"/>
+                            <Border Background="{StaticResource CardBackground}" BorderBrush="{StaticResource Card.Border}" BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,0,0,20">
+                                <StackPanel>
+                                    <RadioButton Content="Loose Stock (Direct Entry)" 
+                                               IsChecked="{Binding IsLooseStock}"
+                                               Margin="0,0,0,10"
+                                               Foreground="{StaticResource Text.Primary}"
+                                               FontSize="12"/>
+                                    <RadioButton Content="Packaged Stock (Bags/Containers)" 
+                                               IsChecked="{Binding IsPackagedStock}"
+                                               Foreground="{StaticResource Text.Primary}"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Loose Stock Entry -->
+                            <StackPanel Visibility="{Binding IsLooseStock, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="Enter Quantity *" 
+                                         Foreground="{StaticResource Text.Label}"
+                                         FontSize="11"
+                                         FontWeight="SemiBold"
+                                         Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0"
+                                           Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
+                                           materialDesign:HintAssist.Hint="Enter total quantity"
+                                           Style="{StaticResource TextBox.Standard}"
+                                           GotFocus="NumericTextBox_GotFocus"/>
+                                    <TextBlock Grid.Column="1" 
+                                             Text="{Binding Unit}" 
+                                             VerticalAlignment="Center" 
+                                             Margin="8,0,0,0"
+                                             Foreground="{StaticResource Text.Secondary}"
+                                             FontSize="12"
+                                             FontWeight="SemiBold"/>
+                                </Grid>
+                                <TextBlock Text="{Binding CurrentStock, StringFormat='Total: {0:N2} kg'}" 
+                                         Foreground="{StaticResource InfoColor}" 
+                                         FontSize="12" 
+                                         FontWeight="SemiBold"
+                                         Margin="0,8,0,20"/>
+                            </StackPanel>
+
+                            <!-- Packaged Stock Entry -->
+                            <StackPanel Visibility="{Binding IsPackagedStock, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="Package Distribution" 
+                                         Foreground="{StaticResource Text.Label}"
+                                         FontSize="11"
+                                         FontWeight="SemiBold"
+                                         Margin="0,0,0,12"/>
+
+                                <!-- Package Entries List -->
+                                <DataGrid ItemsSource="{Binding PackageEntries}" 
+                                         AutoGenerateColumns="False"
+                                         CanUserAddRows="False"
+                                         Background="{StaticResource CardBackground}"
+                                         Margin="0,0,0,12"
+                                         BorderBrush="{StaticResource Card.Border}"
+                                         BorderThickness="1"
+                                         RowHeight="40"
+                                         MinHeight="60">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Size (kg)" 
+                                                          Binding="{Binding PackageSize, UpdateSourceTrigger=PropertyChanged}"
+                                                          Width="80">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Margin" Value="4"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="Padding" Value="4"/>
+                                                    <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Count" 
+                                                          Binding="{Binding PackageCount, UpdateSourceTrigger=PropertyChanged}"
+                                                          Width="70">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Margin" Value="4"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                            <DataGridTextColumn.EditingElementStyle>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="Padding" Value="4"/>
+                                                    <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+                                                    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+                                                </Style>
+                                            </DataGridTextColumn.EditingElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Total" 
+                                                          Binding="{Binding TotalQuantity, StringFormat='{}{0:N2}'}"
+                                                          IsReadOnly="True"
+                                                          Width="80">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Margin" Value="4"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource InfoColor}"/>
+                                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTemplateColumn Header="Actions" Width="50">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="✖" 
+                                                          Command="{Binding DataContext.RemovePackageEntryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          CommandParameter="{Binding}"
+                                                          Width="30" Height="24"
+                                                          FontSize="11"
+                                                          Padding="0"
+                                                          Style="{StaticResource Button.Danger}"
+                                                          VerticalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <!-- Add Package Button -->
+                                <Button Content="+ Add Package Type" 
+                                       Command="{Binding AddPackageEntryCommand}"
+                                       Style="{StaticResource MaterialDesignFlatButton}"
+                                       Foreground="{StaticResource InfoColor}"
+                                       HorizontalAlignment="Left"
+                                       Height="30"
+                                       Padding="12,0"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Margin="0,0,0,16"/>
+
+                                <!-- Total Stock Display -->
+                                <Border Background="{StaticResource ElevatedBackground}" BorderBrush="{StaticResource InfoColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,20">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" 
+                                                 Text="Total Stock:" 
+                                                 FontWeight="SemiBold" 
+                                                 FontSize="13"
+                                                 Foreground="{StaticResource InfoColor}"/>
+                                        <TextBlock Grid.Column="1" 
+                                                 Text="{Binding CalculatedTotalStock, StringFormat='{}{0:N2} kg'}" 
+                                                 FontWeight="SemiBold" 
+                                                 FontSize="13"
+                                                 Foreground="{StaticResource InfoColor}"
+                                                 HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
 
                             <!-- Error Message -->
                             <Border Style="{StaticResource InfoBox}" 
@@ -215,7 +391,7 @@
                                     Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
                                     Margin="0,0,0,16">
                                 <TextBlock Text="{Binding ErrorMessage}"
-                                         Foreground="#EF5350"
+                                         Foreground="{StaticResource ErrorColor}"
                                          TextWrapping="Wrap"/>
                             </Border>
 
@@ -227,7 +403,7 @@
                                   Height="44"
                                   FontSize="13"
                                   FontWeight="SemiBold"
-                                  ToolTip="Save this item to the inventory database. All fields marked with * are required"/>
+                                  ToolTip="Save item with stock distribution"/>
                     </StackPanel>
                 </ScrollViewer>
                 </Grid>
@@ -243,4 +419,3 @@
         </Grid>
     </Grid>
 </UserControl>
-

@@ -16,6 +16,7 @@ namespace FactoryManagement.Data
         public DbSet<LoanAccount> LoanAccounts { get; set; }
         public DbSet<Worker> Workers { get; set; }
         public DbSet<WageTransaction> WageTransactions { get; set; }
+        public DbSet<StockPackage> StockPackages { get; set; }
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
@@ -218,6 +219,21 @@ namespace FactoryManagement.Data
                 .WithMany()
                 .HasForeignKey(wt => wt.EnteredBy)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure StockPackage relationships
+            modelBuilder.Entity<StockPackage>()
+                .HasOne(sp => sp.Item)
+                .WithMany(i => i.StockPackages)
+                .HasForeignKey(sp => sp.ItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<StockPackage>()
+                .HasIndex(sp => sp.ItemId);
+
+            // Configure decimal precision for StockPackage
+            modelBuilder.Entity<StockPackage>()
+                .Property(sp => sp.PackageSize)
+                .HasPrecision(18, 2);
 
             // Seed initial data
             SeedData(modelBuilder);

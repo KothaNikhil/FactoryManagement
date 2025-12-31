@@ -42,7 +42,7 @@ namespace FactoryManagement.ViewModels
         private readonly IFinancialTransactionService _financialService;
         private readonly IWageService _wageService;
         private readonly IUnifiedTransactionService _unifiedTransactionService;
-        private readonly IReportExportBuilder _reportExportBuilder;
+        private readonly IReportExportBuilder? _reportExportBuilder;
         private readonly IUserService _userService;
 
         // Full collections (all data)
@@ -175,7 +175,7 @@ namespace FactoryManagement.ViewModels
             IWageService wageService,
             IUnifiedTransactionService unifiedTransactionService,
             IUserService userService,
-            IReportExportBuilder reportExportBuilder)
+            IReportExportBuilder? reportExportBuilder = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -207,7 +207,7 @@ namespace FactoryManagement.ViewModels
                 wageService,
                 unifiedTransactionService,
                 userService,
-                new Services.ReportExportBuilder())
+                null)
         {
         }
 
@@ -770,6 +770,13 @@ namespace FactoryManagement.ViewModels
             try
             {
                 System.Diagnostics.Debug.WriteLine($"[ReportsViewModel] Starting Excel export for {SelectedReportType}");
+                
+                if (_reportExportBuilder == null)
+                {
+                    ErrorMessage = "Report export service is not available.";
+                    return;
+                }
+
                 var dialog = new SaveFileDialog
                 {
                     Filter = "Excel Files (*.xlsx)|*.xlsx",
@@ -808,6 +815,12 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (_reportExportBuilder == null)
+                {
+                    ErrorMessage = "Report export service is not available.";
+                    return;
+                }
+
                 var dialog = new SaveFileDialog
                 {
                     Filter = "CSV Files (*.csv)|*.csv",

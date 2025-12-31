@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace FactoryManagement.Models
 {
@@ -34,6 +36,35 @@ namespace FactoryManagement.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         
         public DateTime? ModifiedDate { get; set; }
+
+        /// <summary>
+        /// Collection of package distributions for this item
+        /// </summary>
+        public virtual ICollection<StockPackage> StockPackages { get; set; } = new List<StockPackage>();
+
+        /// <summary>
+        /// Indicates if this item has package distribution
+        /// </summary>
+        [NotMapped]
+        public bool IsPackaged => StockPackages?.Any() ?? false;
+
+        /// <summary>
+        /// Display text showing total stock and package breakdown
+        /// </summary>
+        [NotMapped]
+        public string StockDisplayText
+        {
+            get
+            {
+                var packages = StockPackages?.Where(p => p.PackageCount > 0).ToList();
+                if (!packages?.Any() ?? true)
+                    return $"{CurrentStock:N2} kg (Loose)";
+                
+                var breakdown = string.Join(", ", 
+                    packages.OrderBy(p => p.PackageSize).Select(p => $"{p.PackageCount}×{p.PackageSize}kg"));
+                return $"{CurrentStock:N2} kg ({breakdown})";
+            }
+        }
 
         public override string ToString()
         {

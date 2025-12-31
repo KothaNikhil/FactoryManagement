@@ -111,6 +111,7 @@ namespace FactoryManagement
 
             // Services
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IStockPackageService, StockPackageService>();
             services.AddScoped<IPartyService, PartyService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IExportService, ExportService>();

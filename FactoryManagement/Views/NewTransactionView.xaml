@@ -305,6 +305,40 @@
                             </StackPanel>
                         </Grid>
                     </Border>
+                    
+                    <!-- Package Breakdown Display -->
+                    <Border Visibility="{Binding PackageBreakdownText, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+                            Background="{StaticResource Bg.Card}"
+                            BorderBrush="{StaticResource InfoColor}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="8,6"
+                            Margin="0,4,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" 
+                                                   Kind="PackageVariant" 
+                                                   Width="14" 
+                                                   Height="14"
+                                                   Foreground="{StaticResource InfoColor}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Packages: "
+                                         FontSize="10"
+                                         Foreground="{StaticResource Text.Secondary}"
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding PackageBreakdownText}"
+                                         FontSize="10"
+                                         FontWeight="Bold"
+                                         Foreground="{StaticResource InfoColor}"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
                 <!-- Output Quantity (visible only for Processing) -->

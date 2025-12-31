@@ -18,7 +18,14 @@ namespace FactoryManagement.Services
 
     public class ReportExportBuilder : IReportExportBuilder
     {
-        public Task<List<ReportExportRow>> BuildExportRowsAsync(
+        private readonly IStockPackageService _packageService;
+
+        public ReportExportBuilder(IStockPackageService packageService)
+        {
+            _packageService = packageService;
+        }
+
+        public async Task<List<ReportExportRow>> BuildExportRowsAsync(
             ViewModels.ReportType selectedType,
             IEnumerable<Transaction> inventory,
             IEnumerable<FinancialTransaction> financial,
@@ -35,6 +42,7 @@ namespace FactoryManagement.Services
                         Category = t.Category,
                         TransactionId = t.TransactionId,
                         ItemName = t.ItemName ?? string.Empty,
+                        PackageBreakdown = string.Empty,
                         PartyName = t.PartyName ?? string.Empty,
                         WorkerName = t.WorkerName ?? string.Empty,
                         TransactionType = t.TransactionType,
@@ -50,22 +58,46 @@ namespace FactoryManagement.Services
                     break;
 
                 case ViewModels.ReportType.Inventory:
-                    rows = inventory.Select(t => new ReportExportRow
+                    var inventoryList = inventory.ToList();
+                    rows = new List<ReportExportRow>();
+                    
+                    foreach (var t in inventoryList)
                     {
-                        Category = "Inventory",
-                        TransactionId = t.TransactionId.ToString(),
-                        ItemName = t.ItemName ?? string.Empty,
-                        PartyName = t.PartyName ?? string.Empty,
-                        TransactionType = t.TransactionType.ToString(),
-                        Quantity = t.Quantity,
-                        Rate = t.PricePerUnit,
-                        Amount = t.TotalAmount,
-                        DebitAmount = t.DebitCredit == "Debit" ? t.TotalAmount : null,
-                        CreditAmount = t.DebitCredit == "Credit" ? t.TotalAmount : null,
-                        TransactionDate = t.TransactionDate,
-                        Notes = t.Notes ?? string.Empty,
-                        EnteredBy = t.User?.Username ?? string.Empty
-                    }).OrderByDescending(r => r.TransactionDate).ToList();
+                        // Fetch package breakdown for this item asynchronously
+                        string packageBreakdown = string.Empty;
+                        if (t.ItemId.HasValue && t.ItemId.Value > 0)
+                        {
+                            try
+                            {
+                                packageBreakdown = await _packageService.GetPackageBreakdownAsync(t.ItemId.Value);
+                                if (packageBreakdown == "Loose stock")
+                                    packageBreakdown = string.Empty;
+                            }
+                            catch
+                            {
+                                packageBreakdown = string.Empty;
+                            }
+                        }
+                        
+                        rows.Add(new ReportExportRow
+                        {
+                            Category = "Inventory",
+                            TransactionId = t.TransactionId.ToString(),
+                            ItemName = t.ItemName ?? string.Empty,
+                            PackageBreakdown = packageBreakdown,
+                            PartyName = t.PartyName ?? string.Empty,
+                            TransactionType = t.TransactionType.ToString(),
+                            Quantity = t.Quantity,
+                            Rate = t.PricePerUnit,
+                            Amount = t.TotalAmount,
+                            DebitAmount = t.DebitCredit == "Debit" ? t.TotalAmount : null,
+                            CreditAmount = t.DebitCredit == "Credit" ? t.TotalAmount : null,
+                            TransactionDate = t.TransactionDate,
+                            Notes = t.Notes ?? string.Empty,
+                            EnteredBy = t.User?.Username ?? string.Empty
+                        });
+                    }
+                    rows = rows.OrderByDescending(r => r.TransactionDate).ToList();
                     break;
 
                 case ViewModels.ReportType.Financial:
@@ -76,6 +108,7 @@ namespace FactoryManagement.Services
                         PartyName = t.Party?.Name ?? string.Empty,
                         TransactionType = t.TransactionType.ToString(),
                         Amount = t.Amount,
+                        PackageBreakdown = string.Empty,
                         DebitAmount = t.DebitCredit == "Debit" ? t.Amount : null,
                         CreditAmount = t.DebitCredit == "Credit" ? t.Amount : null,
                         InterestRate = t.InterestRate,
@@ -98,6 +131,7 @@ namespace FactoryManagement.Services
                         Quantity = t.DaysWorked ?? t.HoursWorked,
                         Rate = t.Rate,
                         Amount = t.NetAmount,
+                        PackageBreakdown = string.Empty,
                         DebitAmount = t.DebitCredit == "Debit" ? t.NetAmount : null,
                         CreditAmount = t.DebitCredit == "Credit" ? t.NetAmount : null,
                         TransactionDate = t.TransactionDate,
@@ -107,7 +141,7 @@ namespace FactoryManagement.Services
                     break;
             }
 
-            return Task.FromResult(rows);
+            return rows;
         }
     }
 }

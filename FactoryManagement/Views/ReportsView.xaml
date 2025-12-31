@@ -272,6 +272,14 @@
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
                             <!-- Dr/Cr column removed; colors applied directly to Debit/Credit columns -->
                             <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="*"/>
+                            <DataGridTextColumn Header="Package Breakdown" Binding="{Binding PackageBreakdown}" Width="150">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource InfoColor}"/>
+                                        <Setter Property="FontSize" Value="11"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
                             <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
