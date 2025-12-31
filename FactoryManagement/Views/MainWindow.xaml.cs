@@ -153,19 +153,39 @@ namespace FactoryManagement.Views
                 bool goToNext = (Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.Shift;
                 
                 int currentIndex = MenuListBox.SelectedIndex;
-                int nextIndex = goToNext ? currentIndex + 1 : currentIndex - 1;
+                int nextIndex = currentIndex;
+                int itemCount = MenuListBox.Items.Count;
                 
-                // Wrap around: if at end, go to beginning; if at beginning, go to end
-                if (nextIndex >= MenuListBox.Items.Count)
+                // Find next selectable item (skip separators)
+                do
                 {
-                    nextIndex = 0;
-                }
-                else if (nextIndex < 0)
-                {
-                    nextIndex = MenuListBox.Items.Count - 1;
-                }
+                    nextIndex = goToNext ? nextIndex + 1 : nextIndex - 1;
+                    
+                    // Wrap around: if at end, go to beginning; if at beginning, go to end
+                    if (nextIndex >= itemCount)
+                    {
+                        nextIndex = 0;
+                    }
+                    else if (nextIndex < 0)
+                    {
+                        nextIndex = itemCount - 1;
+                    }
+                    
+                    // Check if item is selectable (not a separator)
+                    if (MenuListBox.Items[nextIndex] is ListBoxItem item && item.Tag != null)
+                    {
+                        MenuListBox.SelectedIndex = nextIndex;
+                        break;
+                    }
+                    
+                    // Prevent infinite loop if all items are separators
+                    if (nextIndex == currentIndex)
+                    {
+                        break;
+                    }
+                    
+                } while (true);
                 
-                MenuListBox.SelectedIndex = nextIndex;
                 e.Handled = true;
                 return;
             }
