@@ -41,6 +41,12 @@ namespace FactoryManagement.ViewModels
         private Party? _selectedParty;
 
         [ObservableProperty]
+        private bool _isItemSelected;
+
+        [ObservableProperty]
+        private string _remainingStockText = string.Empty;
+
+        [ObservableProperty]
         private string _selectedTransactionTypeString = "Buy";
 
         public TransactionType SelectedTransactionType
@@ -166,6 +172,20 @@ namespace FactoryManagement.ViewModels
             // No conversion tracking
         }
 
+        partial void OnSelectedItemChanged(Item? value)
+        {
+            UpdateRemainingStockDisplay();
+        }
+
+        partial void OnInputItemChanged(Item? value)
+        {
+            // Update stock display for input item in processing mode
+            if (IsProcessingMode)
+            {
+                UpdateInputItemStockDisplay();
+            }
+        }
+
         partial void OnSelectedTransactionTypeStringChanged(string value)
         {
             IsPartyRequired = SelectedTransactionType != TransactionType.Wastage;
@@ -173,6 +193,32 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(SelectedTransactionType));
             OnPropertyChanged(nameof(ItemLabelText));
             OnPropertyChanged(nameof(QuantityLabelText));
+            UpdateRemainingStockDisplay();
+        }
+
+        private void UpdateRemainingStockDisplay()
+        {
+            if (SelectedItem != null && !IsProcessingMode)
+            {
+                IsItemSelected = true;
+                RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
+            }
+            else if (SelectedItem != null && IsProcessingMode)
+            {
+                // For processing mode, show output item stock
+                IsItemSelected = true;
+                RemainingStockText = $"{SelectedItem.CurrentStock:N2} {SelectedItem.Unit}";
+            }
+            else
+            {
+                IsItemSelected = false;
+                RemainingStockText = string.Empty;
+            }
+        }
+
+        private void UpdateInputItemStockDisplay()
+        {
+            // This can be used if we want to show input item stock separately
         }
 
         public string ItemLabelText => IsProcessingMode ? "Output Item (Processed):" : "Item:";

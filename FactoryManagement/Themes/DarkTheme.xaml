@@ -374,13 +374,13 @@
   <Style x:Key="DataGrid.Dark" TargetType="DataGrid" BasedOn="{StaticResource DataGrid.Standard}"/>
   
   <Style x:Key="DataGrid.Header.Standard" TargetType="DataGridColumnHeader">
-    <Setter Property="Background" Value="{StaticResource Grid.Header}"/>
-    <Setter Property="Foreground" Value="{StaticResource Grid.HeaderText}"/>
+    <Setter Property="Background" Value="{StaticResource SecondaryBackground}"/>
+    <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
     <Setter Property="FontWeight" Value="Bold"/>
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="Padding" Value="10"/>
     <Setter Property="BorderThickness" Value="0,0,1,1"/>
-    <Setter Property="BorderBrush" Value="{StaticResource Grid.Border}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource BorderPrimary}"/>
   </Style>
   
   <Style x:Key="DataGrid.Dark.Header" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>

@@ -198,6 +198,45 @@
                            Style="{StaticResource TextBox.Dark}"
                            GotFocus="NumericTextBox_GotFocus"
                            TabIndex="7"/>
+                    <!-- Input Item Stock Display -->
+                    <Border Visibility="{Binding InputItem, Converter={StaticResource NotNullToVisibilityConverter}}"
+                            Background="{StaticResource Bg.Card}"
+                            BorderBrush="{StaticResource AccentGlowOrange}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="8,6"
+                            Margin="0,8,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" 
+                                                   Kind="Package" 
+                                                   Width="14" 
+                                                   Height="14"
+                                                   Foreground="{StaticResource AccentGlowOrange}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="Stock: "
+                                         FontSize="11"
+                                         Foreground="{StaticResource Text.Secondary}"
+                                         VerticalAlignment="Center"/>
+                                <TextBlock FontSize="11"
+                                         FontWeight="Bold"
+                                         Foreground="{StaticResource AccentGlowOrange}"
+                                         VerticalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0:N2} {1}">
+                                            <Binding Path="InputItem.CurrentStock"/>
+                                            <Binding Path="InputItem.Unit"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
                 <!-- Output Item (visible only for Processing) -->
@@ -233,6 +272,39 @@
                            Style="{StaticResource TextBox.Dark}"
                            GotFocus="NumericTextBox_GotFocus"
                            TabIndex="7"/>
+                    <!-- Remaining Stock Display -->
+                    <Border Visibility="{Binding IsItemSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Background="{StaticResource Bg.Card}"
+                            BorderBrush="{StaticResource AccentCyan}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="8,6"
+                            Margin="0,8,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" 
+                                                   Kind="Package" 
+                                                   Width="14" 
+                                                   Height="14"
+                                                   Foreground="{StaticResource AccentCyan}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="Stock: "
+                                         FontSize="11"
+                                         Foreground="{StaticResource Text.Secondary}"
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding RemainingStockText}"
+                                         FontSize="11"
+                                         FontWeight="Bold"
+                                         Foreground="{StaticResource AccentCyan}"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
                 <!-- Output Quantity (visible only for Processing) -->
@@ -255,6 +327,39 @@
                                    Foreground="{StaticResource AccentCyan}"
                                    IsHitTestVisible="False"/>
                     </Grid>
+                    <!-- Output Item Stock Display -->
+                    <Border Visibility="{Binding IsItemSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Background="{StaticResource Bg.Card}"
+                            BorderBrush="{StaticResource AccentCyan}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="8,6"
+                            Margin="0,8,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" 
+                                                   Kind="Package" 
+                                                   Width="14" 
+                                                   Height="14"
+                                                   Foreground="{StaticResource AccentCyan}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="Stock: "
+                                         FontSize="11"
+                                         Foreground="{StaticResource Text.Secondary}"
+                                         VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding RemainingStockText}"
+                                         FontSize="11"
+                                         FontWeight="Bold"
+                                         Foreground="{StaticResource AccentCyan}"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
                 <!-- Price Per Unit (label changes for Processing) -->
