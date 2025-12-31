@@ -210,8 +210,11 @@ namespace FactoryManagement.Converters
                 else if (values[0] is int intValue)
                     stock = intValue;
 
-                // Maximum stock value for reference (adjust based on your needs)
-                double maxStock = 200;
+                // Maximum stock value (use parameter if provided, otherwise default to 10000)
+                double maxStock = 10000;
+                if (parameter != null && double.TryParse(parameter.ToString(), out double paramMax))
+                    maxStock = paramMax;
+
                 double percentage = Math.Min(stock / maxStock, 1.0);
                 return containerWidth * percentage;
             }

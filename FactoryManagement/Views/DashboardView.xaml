@@ -117,9 +117,9 @@
             <!-- Main Content Area -->
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="15"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.2*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Recent Entries Table -->
@@ -191,57 +191,65 @@
                                               Icon="📦" 
                                               IconBackground="{StaticResource Card.Info}" />
 
-                        <!-- Stock List -->
+                        <!-- Stock Chart -->
                         <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
                             <ItemsControl ItemsSource="{Binding AllItems}" Style="{StaticResource Section.ItemsControl}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Padding="0,12" BorderBrush="{StaticResource Card.Border}" BorderThickness="0,0,0,1">
+                                        <Border Padding="0,8" BorderBrush="{StaticResource Card.Border}" BorderThickness="0,0,0,1">
                                             <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="60"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="60"/>
+                                                </Grid.ColumnDefinitions>
                                                 
-                                                <!-- Item Name and Stock Value -->
-                                                <DockPanel Grid.Row="0" Margin="0,0,0,8">
-                                                    <TextBlock DockPanel.Dock="Left"
-                                                             Text="{Binding ItemName}" 
-                                                             FontWeight="SemiBold"
-                                                             FontSize="13"
-                                                             Foreground="{StaticResource Text.Primary}"
-                                                             VerticalAlignment="Center"/>
-                                                    <TextBlock DockPanel.Dock="Right"
-                                                             HorizontalAlignment="Right"
-                                                             VerticalAlignment="Center">
-                                                        <Run Text="{Binding CurrentStock, StringFormat=N0, Mode=OneWay}" 
-                                                             FontWeight="Bold"
-                                                             FontSize="13"
-                                                             Foreground="{StaticResource Card.Info}"/>
-                                                        <Run Text=" " />
-                                                        <Run Text="{Binding Unit, Mode=OneWay}" 
-                                                             Foreground="{StaticResource Text.Secondary}"
-                                                             FontSize="11"/>
-                                                    </TextBlock>
-                                                </DockPanel>
+                                                <!-- Item Name -->
+                                                <TextBlock Grid.Column="0"
+                                                         Text="{Binding ItemName}" 
+                                                         FontWeight="SemiBold"
+                                                         FontSize="11"
+                                                         Foreground="{StaticResource Text.Primary}"
+                                                         VerticalAlignment="Center"
+                                                         TextTrimming="CharacterEllipsis"
+                                                         ToolTip="{Binding ItemName}"/>
                                                 
-                                                <!-- Visual Stock Bar -->
-                                                <Border Grid.Row="1" 
-                                                       Background="{StaticResource Card.Header}" 
-                                                       CornerRadius="4"
-                                                       Height="8">
-                                                    <Border HorizontalAlignment="Left" CornerRadius="4">
+                                                <!-- Horizontal Bar Chart (0-10000 scale) -->
+                                                <Grid Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                                                    <!-- Background bar (0-10000) -->
+                                                    <Border Background="{StaticResource Card.Header}" 
+                                                           CornerRadius="3"
+                                                           Height="20"/>
+                                                    <!-- Filled bar (based on percentage) -->
+                                                    <Border HorizontalAlignment="Left" 
+                                                           CornerRadius="3"
+                                                           Height="20">
                                                         <Border.Width>
-                                                            <MultiBinding Converter="{StaticResource StockBarWidthConverter}">
+                                                            <MultiBinding Converter="{StaticResource StockBarWidthConverter}" ConverterParameter="10000">
                                                                 <Binding Path="CurrentStock"/>
-                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Grid}"/>
                                                             </MultiBinding>
                                                         </Border.Width>
                                                         <Border.Background>
-                                                            <Binding Path="CurrentStock" Converter="{StaticResource StockLevelPercentConverter}" ConverterParameter="1000"/>
+                                                            <Binding Path="CurrentStock" Converter="{StaticResource StockLevelPercentConverter}" ConverterParameter="10000"/>
                                                         </Border.Background>
                                                     </Border>
-                                                </Border>
+                                                </Grid>
+                                                
+                                                <!-- Stock Value and Unit -->
+                                                <StackPanel Grid.Column="2"
+                                                         HorizontalAlignment="Right"
+                                                         VerticalAlignment="Center">
+                                                    <TextBlock FontWeight="Bold"
+                                                             FontSize="11"
+                                                             Foreground="{StaticResource TextPrimary}">
+                                                        <Run Text="{Binding CurrentStock, StringFormat=N0, Mode=OneWay}"/>
+                                                        <Run Text=" "/>
+                                                        <Run Text="{Binding Unit, Mode=OneWay}" 
+                                                             FontSize="9"
+                                                             Foreground="{StaticResource Text.Secondary}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
