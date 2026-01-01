@@ -87,8 +87,8 @@ namespace FactoryManagement.Services
                     ? $"Input: {t.InputQuantity:N2} → Output: {t.Quantity:N2}"
                     : (t.Quantity > 0 ? $"{t.Quantity:N2} units @ ₹{t.PricePerUnit:N2}" : null);
 
-                // Buy/Wastage = Debit (money out), Sell/Processing = Credit (money in)
-                var debitCredit = (t.TransactionType == TransactionType.Sell || t.TransactionType == TransactionType.Processing) ? "Credit" : "Debit";
+                // Use the Transaction model's DebitCredit property which handles Loan transactions
+                var debitCredit = t.DebitCredit;
 
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {

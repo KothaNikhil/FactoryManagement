@@ -76,6 +76,21 @@ namespace FactoryManagement.Models
 
         // Computed property for Debit/Credit indicator
         [NotMapped]
-        public string DebitCredit => (TransactionType == TransactionType.Sell || TransactionType == TransactionType.Processing) ? "Credit" : "Debit";
+        public string DebitCredit
+        {
+            get
+            {
+                // Loan transactions don't create cash debit/credit in the transaction ledger
+                // The financial loan entry handles the accounting
+                if (PaymentMode == PaymentMode.Loan)
+                {
+                    return "-"; // No cash impact for any loan-based transaction
+                }
+
+                // Normal cash/bank transactions
+                return (TransactionType == TransactionType.Sell || TransactionType == TransactionType.Processing)
+                    ? "Credit" : "Debit";
+            }
+        }
     }
 }
