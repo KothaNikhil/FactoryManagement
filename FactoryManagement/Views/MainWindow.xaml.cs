@@ -268,6 +268,9 @@ namespace FactoryManagement.Views
                     case Key.O:
                         tag = "OperationalExpenses";
                         break;
+                    case Key.E:
+                        tag = "ExpenseCategories";
+                        break;
                 }
                 
                 if (tag != null)

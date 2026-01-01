@@ -358,6 +358,7 @@ namespace FactoryManagement.ViewModels
             await LoadExpensesAsync();
         }
 
+        [RelayCommand]
         private void ClearForm()
         {
             IsEditMode = false;

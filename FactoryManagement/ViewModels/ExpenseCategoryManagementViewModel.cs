@@ -207,6 +207,7 @@ namespace FactoryManagement.ViewModels
             ClearForm();
         }
 
+        [RelayCommand]
         private void ClearForm()
         {
             IsEditMode = false;

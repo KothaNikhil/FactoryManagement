@@ -1,127 +1,170 @@
 <UserControl x:Class="FactoryManagement.Views.ExpenseCategoryManagementView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             mc:Ignorable="d"
+             d:DesignHeight="800"
+        d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Page Header -->
-        <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="20" Margin="0,0,0,20" CornerRadius="8">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Width="48" Height="48" CornerRadius="24">
-                    <TextBlock Text="📋" FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0">
-                    <TextBlock Text="Expense Categories" FontSize="24" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Manage operational expense categories" FontSize="14" Foreground="{StaticResource Text.Secondary}" Margin="0,4,0,0"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
         <!-- Main Content -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="400"/>
-                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- LEFT: Add/Edit Form -->
-            <Border Grid.Column="0" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <!-- Form Title -->
-                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="Add New Category"/>
+            <!-- Form Section -->
+            <Border Grid.Column="0"
+                    Style="{StaticResource FormCard}">
+                <StackPanel>
+                    <!-- Form Title -->
+                    <controls:SectionHeader Margin="0,0,0,20">
+                        <controls:SectionHeader.Style>
+                            <Style TargetType="controls:SectionHeader">
+                                <Setter Property="Title"
+                                        Value="Add Category"/>
+                                <Setter Property="Subtitle"
+                                        Value="Create a new expense category"/>
+                                <Setter Property="Icon"
+                                        Value="➕"/>
+                                <Setter Property="IconBackground"
+                                        Value="{StaticResource Card.Success}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditMode}"
+                                            Value="True">
+                                        <Setter Property="Title"
+                                                Value="Edit Category"/>
+                                        <Setter Property="Subtitle"
+                                                Value="Update category details"/>
+                                        <Setter Property="Icon"
+                                                Value="✏️"/>
+                                        <Setter Property="IconBackground"
+                                                Value="{StaticResource Card.Warning}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:SectionHeader.Style>
+                    </controls:SectionHeader>
+
+                    <!-- Category Name -->
+                    <TextBlock Text="Category Name *"
+                            Foreground="{StaticResource Text.Secondary}"
+                            FontSize="11"
+                            Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding CategoryName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource TextBox.Standard}"
+                            Margin="0,0,0,15"/>
+
+                    <!-- Description -->
+                    <TextBlock Text="Description"
+                            Foreground="{StaticResource Text.Secondary}"
+                            FontSize="11"
+                            Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource TextBox.Standard}"
+                             TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                             Height="60"
+                            Margin="0,0,0,15"/>
+
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                        <Button Command="{Binding SaveCategoryCommand}"
+                                Width="120"
+                                Margin="0,0,10,0">
+                            <Button.Style>
+                                <Style TargetType="Button"
+                                        BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                    <Setter Property="Content"
+                                            Value="Add Category"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEditMode}" Value="True">
-                                            <Setter Property="Text" Value="Edit Category"/>
+                                        <DataTrigger Binding="{Binding IsEditMode}"
+                                                Value="True">
+                                            <Setter Property="Content"
+                                                    Value="Update"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-
-                        <!-- Category Name -->
-                        <TextBlock Text="Category Name *" Foreground="{StaticResource Text.Secondary}" FontSize="11" Margin="0,0,0,5"/>
-                        <TextBox Text="{Binding CategoryName, UpdateSourceTrigger=PropertyChanged}" 
-                                 Style="{StaticResource MaterialDesignTextBox}" Margin="0,0,0,15"/>
-
-                        <!-- Description -->
-                        <TextBlock Text="Description" Foreground="{StaticResource Text.Secondary}" FontSize="11" Margin="0,0,0,5"/>
-                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
-                                 Style="{StaticResource MaterialDesignTextBox}"
-                                 TextWrapping="Wrap" AcceptsReturn="True" 
-                                 Height="60" Margin="0,0,0,15"/>
-
-                        <!-- Buttons -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Command="{Binding SaveCategoryCommand}" Width="120" Margin="0,0,10,0">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                        <Setter Property="Content" Value="Add Category"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditMode}" Value="True">
-                                                <Setter Property="Content" Value="Update"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                            <Button Content="Clear" Command="{Binding ClearFormCommand}"
-                                    Style="{StaticResource Button.Secondary}" Width="80"/>
-                        </StackPanel>
-
-                        <!-- Error Message -->
-                        <TextBlock Text="{Binding ErrorMessage}" Foreground="#f44336" TextWrapping="Wrap" 
-                                   Margin="0,10,0,0" Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+                            </Button.Style>
+                        </Button>
+                        <Button Content="Clear"
+                                Command="{Binding ClearFormCommand}"
+                                Style="{StaticResource Button.Secondary}"
+                                Width="80"/>
                     </StackPanel>
-                </ScrollViewer>
+
+                    <!-- Error Message -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="{StaticResource ErrorColor}"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+                </StackPanel>
             </Border>
 
-            <!-- RIGHT: Categories List -->
-            <Border Grid.Column="2" BorderBrush="#444" BorderThickness="1" CornerRadius="8" Background="#2a2a2a" Padding="15">
+            <!-- Categories List Section -->
+            <Border Grid.Column="2"
+                    Style="{StaticResource FormCard}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Search and Filter -->
-                    <Grid Grid.Row="0" Margin="0,0,0,15">
-                        <controls:SearchBox PlaceholderText="Search categories..."/>
-                    </Grid>
+                    <!-- Header with Search -->
+                    <Border Grid.Row="0" Background="{StaticResource SecondaryBackground}" Padding="15" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="0,0,0,1" Margin="-24,-24,-24,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Total Count -->
-                    <TextBlock Grid.Row="1" Text="{Binding PaginatedCategories.Count, StringFormat='{}{0} categories'}"
-                               Foreground="{StaticResource Text.Secondary}" FontSize="12" Margin="0,0,0,10"/>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
+                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Margin="0,0,12,0">
+                                    <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Expense Categories" Style="{StaticResource SectionHeader.Title}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <controls:SearchBox Grid.Column="2" 
+                                              PlaceholderText="Search categories..." 
+                                              Width="300"
+                                              Margin="0"
+                                              VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
 
                     <!-- Categories List -->
-                    <DataGrid Grid.Row="2" ItemsSource="{Binding PaginatedCategories}"
+                    <DataGrid Grid.Row="1"
+                            ItemsSource="{Binding PaginatedCategories}"
                               SelectedItem="{Binding SelectedCategory}"
-                              Style="{StaticResource MaterialDesignDataGrid}"
-                              AutoGenerateColumns="False" IsReadOnly="True"
-                              CanUserAddRows="False" CanUserDeleteRows="False">
+                              Style="{StaticResource DataGrid.Standard}"
+                              ColumnHeaderStyle="{StaticResource DataGrid.Header.Standard}"
+                              Margin="0,10,0,10">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="*" MinWidth="150"/>
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*" MinWidth="200"/>
-                            <DataGridTemplateColumn Header="Actions" Width="150">
+                            <DataGridTextColumn Header="Category"
+                                    Binding="{Binding CategoryName}"
+                                    Width="*"
+                                    MinWidth="150"/>
+                            <DataGridTextColumn Header="Description"
+                                    Binding="{Binding Description}"
+                                    Width="2*"
+                                    MinWidth="200"/>
+                            <DataGridTemplateColumn Header="Actions"
+                                    Width="150">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -129,15 +172,19 @@
                                                     Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                     CommandParameter="{Binding}"
                                                     ToolTip="Edit">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Pencil"
+                                                        Width="16"
+                                                        Height="16"/>
                                             </Button>
                                             <Button Style="{StaticResource DataGrid.EditButton}"
                                                     Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                    CommandParameter="{Binding}" 
+                                                    CommandParameter="{Binding}"
                                                     ToolTip="Delete"
                                                     Margin="4,0,0,0"
                                                     Foreground="{StaticResource ErrorColor}">
-                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Delete"
+                                                        Width="16"
+                                                        Height="16"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -147,16 +194,28 @@
                     </DataGrid>
 
                     <!-- Pagination -->
-                    <controls:PaginationControl Grid.Row="3" DataContext="{Binding}" Margin="0,15,0,0"/>
+                    <controls:PaginationControl Grid.Row="2"
+                            DataContext="{Binding}"
+                            Margin="0,15,0,0"/>
                 </Grid>
             </Border>
         </Grid>
 
         <!-- Loading Overlay -->
-        <Border Grid.RowSpan="2" Background="#80000000" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ProgressBar IsIndeterminate="True" Width="100" Height="100" Style="{StaticResource MaterialDesignCircularProgressBar}"/>
-                <TextBlock Text="Loading..." Foreground="White" FontSize="16" Margin="0,20,0,0" HorizontalAlignment="Center"/>
+        <Border Grid.RowSpan="2"
+                Background="#80000000"
+                Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <ProgressBar IsIndeterminate="True"
+                        Width="100"
+                        Height="100"
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"/>
+                <TextBlock Text="Loading..."
+                        Foreground="White"
+                        FontSize="16"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
     </Grid>
