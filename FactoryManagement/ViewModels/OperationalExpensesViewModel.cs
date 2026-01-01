@@ -92,6 +92,9 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private int _expenseCount;
 
+        // Flag to prevent filter handlers from triggering during load
+        private bool _isLoadingData = false;
+
         public int CurrentUserId { get; set; } = 1; // Will be set from MainWindow
 
         public Array PaymentModes => Enum.GetValues(typeof(PaymentMode));
@@ -108,6 +111,31 @@ namespace FactoryManagement.ViewModels
             _userService = userService;
         }
 
+        // Handle filter changes to automatically reload data
+        partial void OnFilterStartDateChanged(DateTime? value)
+        {
+            if (!_isLoadingData)
+                _ = LoadExpensesAsync();
+        }
+
+        partial void OnFilterEndDateChanged(DateTime? value)
+        {
+            if (!_isLoadingData)
+                _ = LoadExpensesAsync();
+        }
+
+        partial void OnFilterCategoryChanged(ExpenseCategory? value)
+        {
+            if (!_isLoadingData)
+                _ = LoadExpensesAsync();
+        }
+
+        partial void OnFilterPaymentModeChanged(PaymentMode? value)
+        {
+            if (!_isLoadingData)
+                _ = LoadExpensesAsync();
+        }
+
         public async Task InitializeAsync()
         {
             await LoadDataAsync();
@@ -119,6 +147,7 @@ namespace FactoryManagement.ViewModels
             if (IsBusy) return;
 
             IsBusy = true;
+            _isLoadingData = true;
             ErrorMessage = string.Empty;
 
             try
@@ -141,6 +170,7 @@ namespace FactoryManagement.ViewModels
             }
             finally
             {
+                _isLoadingData = false;
                 IsBusy = false;
             }
         }
@@ -164,7 +194,13 @@ namespace FactoryManagement.ViewModels
             if (FilterPaymentMode.HasValue)
                 filtered = filtered.Where(e => e.PaymentMode == FilterPaymentMode.Value);
 
-            AllExpenses = new ObservableCollection<OperationalExpense>(filtered);
+            // Clear and refill the existing collection instead of creating a new one
+            AllExpenses.Clear();
+            foreach (var expense in filtered)
+            {
+                AllExpenses.Add(expense);
+            }
+            
             ExpenseCount = AllExpenses.Count;
             UpdatePaginatedData();
         }
@@ -202,11 +238,16 @@ namespace FactoryManagement.ViewModels
         protected override void UpdatePaginatedData()
         {
             CalculatePagination(AllExpenses, DefaultPageSize);
+            
+            // Use UI thread dispatcher to ensure collection update is visible
             PaginatedExpenses.Clear();
             foreach (var expense in GetPagedItems(AllExpenses, DefaultPageSize))
             {
                 PaginatedExpenses.Add(expense);
             }
+            
+            // Explicitly notify collection changed
+            OnPropertyChanged(nameof(PaginatedExpenses));
         }
 
         [RelayCommand]
@@ -232,6 +273,8 @@ namespace FactoryManagement.ViewModels
 
             try
             {
+                var wasEditMode = IsEditMode;
+                
                 if (IsEditMode)
                 {
                     // Update existing expense
@@ -252,9 +295,16 @@ namespace FactoryManagement.ViewModels
                     await _expenseService.CreateExpenseAsync(expense);
                 }
 
-                // Reset form and reload
+                // Reload expenses and summary first, then clear form
+                _isLoadingData = true;
+                await LoadExpensesAsync();
+                await LoadSummaryMetricsAsync();
+                _isLoadingData = false;
+                
                 ClearForm();
-                await LoadDataAsync();
+                
+                // Success message
+                ErrorMessage = wasEditMode ? "✓ Expense updated successfully!" : "✓ Expense added successfully!";
             }
             catch (Exception ex)
             {
@@ -313,7 +363,14 @@ namespace FactoryManagement.ViewModels
             try
             {
                 await _expenseService.DeleteExpenseAsync(expense.OperationalExpenseId);
-                await LoadDataAsync();
+                
+                // Reload expenses and summary
+                _isLoadingData = true;
+                await LoadExpensesAsync();
+                await LoadSummaryMetricsAsync();
+                _isLoadingData = false;
+                
+                ErrorMessage = "✓ Expense deleted successfully!";
             }
             catch (Exception ex)
             {
