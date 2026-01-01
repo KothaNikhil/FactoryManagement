@@ -48,6 +48,8 @@ namespace FactoryManagement.ViewModels
         private readonly PayrollManagementViewModel _wagesManagementViewModel;
         private readonly WorkersManagementViewModel _workersManagementViewModel;
         private readonly UsersViewModel _usersViewModel;
+        private readonly OperationalExpensesViewModel _operationalExpensesViewModel;
+        private readonly ExpenseCategoryManagementViewModel _expenseCategoryManagementViewModel;
 
         private readonly FactoryDbContext _dbContext;
         private readonly IUserService _userService;
@@ -63,6 +65,8 @@ namespace FactoryManagement.ViewModels
             PayrollManagementViewModel wagesManagementViewModel,
             WorkersManagementViewModel workersManagementViewModel,
             UsersViewModel usersViewModel,
+            OperationalExpensesViewModel operationalExpensesViewModel,
+            ExpenseCategoryManagementViewModel expenseCategoryManagementViewModel,
             FactoryDbContext dbContext,
             IUserService userService)
         {
@@ -76,6 +80,8 @@ namespace FactoryManagement.ViewModels
             _wagesManagementViewModel = wagesManagementViewModel;
             _workersManagementViewModel = workersManagementViewModel;
             _usersViewModel = usersViewModel;
+            _operationalExpensesViewModel = operationalExpensesViewModel;
+            _expenseCategoryManagementViewModel = expenseCategoryManagementViewModel;
             _dbContext = dbContext;
             _userService = userService;
 
@@ -183,6 +189,28 @@ namespace FactoryManagement.ViewModels
             CurrentViewSubtitle = "Manage users, roles, and permissions.";
             _usersViewModel.UserListChangedCallback = LoadActiveUsersAsync;
             await _usersViewModel.InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToOperationalExpensesAsync()
+        {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
+            CurrentView = _operationalExpensesViewModel;
+            CurrentViewTitle = "Operational Expenses";
+            CurrentViewSubtitle = "Track fuel, repairs, utilities, and other operational costs.";
+            _operationalExpensesViewModel.CurrentUserId = SelectedUser?.UserId ?? 1;
+            await _operationalExpensesViewModel.InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToExpenseCategoriesAsync()
+        {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
+            CurrentView = _expenseCategoryManagementViewModel;
+            CurrentViewTitle = "Expense Categories";
+            CurrentViewSubtitle = "Manage operational expense categories.";
+            _expenseCategoryManagementViewModel.CurrentUserId = SelectedUser?.UserId ?? 1;
+            await _expenseCategoryManagementViewModel.InitializeAsync();
         }
 
         [RelayCommand]

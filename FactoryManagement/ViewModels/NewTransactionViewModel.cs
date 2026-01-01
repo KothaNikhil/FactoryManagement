@@ -17,6 +17,7 @@ namespace FactoryManagement.ViewModels
         private readonly ITransactionService _transactionService;
         private readonly IItemService _itemService;
         private readonly IPartyService _partyService;
+        private readonly IFinancialTransactionService _financialTransactionService;
         private Transaction? _lastDeletedTransaction;
 
         private ISnackbarMessageQueue? _snackbarMessageQueue;
@@ -109,7 +110,7 @@ namespace FactoryManagement.ViewModels
         // Payment mode options
         public ObservableCollection<string> PaymentModes { get; } = new()
         {
-            "Cash", "Bank"
+            "Cash", "Bank", "Loan"
         };
 
         [ObservableProperty]
@@ -127,11 +128,13 @@ namespace FactoryManagement.ViewModels
         public NewTransactionViewModel(
             ITransactionService transactionService,
             IItemService itemService,
-            IPartyService partyService)
+            IPartyService partyService,
+            IFinancialTransactionService financialTransactionService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _partyService = partyService;
+            _financialTransactionService = financialTransactionService;
         }
 
         protected override void UpdatePaginatedData()
@@ -332,6 +335,29 @@ namespace FactoryManagement.ViewModels
                     }
 
                     await _transactionService.AddTransactionAsync(transaction);
+                    
+                    // Create loan transaction in financial section if payment mode is Loan
+                    if (SelectedPaymentMode == PaymentMode.Loan && SelectedParty != null)
+                    {
+                        var loanType = SelectedTransactionType == TransactionType.Buy 
+                            ? LoanType.Taken 
+                            : LoanType.Given;
+                        
+                        var loan = new LoanAccount
+                        {
+                            PartyId = SelectedParty.PartyId,
+                            LoanType = loanType,
+                            OriginalAmount = TotalAmount,
+                            InterestRate = 0, // Interest rate is 0 as per requirement
+                            StartDate = CombineDateAndTime(TransactionDate, TransactionTime),
+                            Status = LoanStatus.Active,
+                            CreatedBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
+                            Notes = $"Auto-created from {SelectedTransactionType} transaction for {SelectedItem?.ItemName} - {Notes}"
+                        };
+                        
+                        await _financialTransactionService.CreateLoanAsync(loan, PaymentMode.Loan);
+                    }
+                    
                     ErrorMessage = "✓ Transaction saved successfully!";
                 }
                 

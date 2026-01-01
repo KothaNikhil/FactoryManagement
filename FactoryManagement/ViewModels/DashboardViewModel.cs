@@ -17,6 +17,7 @@ namespace FactoryManagement.ViewModels
         private readonly IFinancialTransactionService? _financialTransactionService;
         private readonly IWageService? _wageService;
         private readonly IUnifiedTransactionService? _unifiedTransactionService;
+        private readonly IOperationalExpenseService? _operationalExpenseService;
 
         private const int LowStockThreshold = 100;
         private const int StockChartTopCount = 10;
@@ -54,6 +55,12 @@ namespace FactoryManagement.ViewModels
         private decimal _totalAdvancesGiven;
 
         [ObservableProperty]
+        private decimal _totalOperationalExpenses;
+
+        [ObservableProperty]
+        private decimal _monthlyOperationalExpenses;
+
+        [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
 
         [ObservableProperty]
@@ -79,13 +86,15 @@ namespace FactoryManagement.ViewModels
             IItemService itemService,
             IFinancialTransactionService? financialTransactionService = null,
             IWageService? wageService = null,
-            IUnifiedTransactionService? unifiedTransactionService = null)
+            IUnifiedTransactionService? unifiedTransactionService = null,
+            IOperationalExpenseService? operationalExpenseService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
             _financialTransactionService = financialTransactionService;
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
+            _operationalExpenseService = operationalExpenseService;
         }
 
         protected override void UpdatePaginatedData()
@@ -134,6 +143,15 @@ namespace FactoryManagement.ViewModels
                 if (_unifiedTransactionService != null)
                 {
                     unifiedTask = _unifiedTransactionService.GetAllUnifiedTransactionsAsync(limit: 20);
+                }
+
+                Task<decimal>? opExpensesTotalTask = null;
+                Task<decimal>? opExpensesMonthlyTask = null;
+                if (_operationalExpenseService != null)
+                {
+                    opExpensesTotalTask = _operationalExpenseService.GetTotalExpensesAsync();
+                    var now = DateTime.Now;
+                    opExpensesMonthlyTask = _operationalExpenseService.GetMonthlyExpensesAsync(now.Year, now.Month);
                 }
 
                 // Await the minimum required first
@@ -223,6 +241,24 @@ namespace FactoryManagement.ViewModels
                     }
                 }
 
+                // Add operational expenses if available
+                if (_operationalExpenseService != null)
+                {
+                    var opExpenses = await _operationalExpenseService.GetAllExpensesAsync();
+                    foreach (var oe in opExpenses.OrderByDescending(x => x.ExpenseDate).Take(RecentActivitiesPerSource))
+                    {
+                        activities.Add(new RecentActivity
+                        {
+                            Date = oe.ExpenseDate,
+                            Category = "Expense",
+                            Type = oe.CategoryDisplay,
+                            Description = oe.CategoryDisplay,
+                            Party = oe.VendorDisplay,
+                            Amount = oe.Amount
+                        });
+                    }
+                }
+
                 // Sort all activities by date and take top 15
                 var recentActivities = activities
                     .OrderByDescending(a => a.Date)
@@ -250,6 +286,13 @@ namespace FactoryManagement.ViewModels
                 {
                     TotalLoansGiven = loansGivenTask != null ? await loansGivenTask : 0m;
                     TotalLoansTaken = loansTakenTask != null ? await loansTakenTask : 0m;
+                }
+
+                // Load operational expense data if service is available
+                if (_operationalExpenseService != null)
+                {
+                    TotalOperationalExpenses = opExpensesTotalTask != null ? await opExpensesTotalTask : 0m;
+                    MonthlyOperationalExpenses = opExpensesMonthlyTask != null ? await opExpensesMonthlyTask : 0m;
                 }
 
                 // Load wage data if service is available

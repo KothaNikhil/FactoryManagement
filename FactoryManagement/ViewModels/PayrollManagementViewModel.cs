@@ -95,7 +95,7 @@ namespace FactoryManagement.ViewModels
         private string _notes = string.Empty;
 
         // Payment mode selection
-        public ObservableCollection<string> PaymentModes { get; } = new() { "Cash", "Bank" };
+        public ObservableCollection<string> PaymentModes { get; } = new() { "Cash", "Bank", "Loan" };
 
         [ObservableProperty]
         private string _selectedPaymentModeString = "Cash";

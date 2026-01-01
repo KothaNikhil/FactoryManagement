@@ -16,6 +16,8 @@ namespace FactoryManagement.Data
         public DbSet<LoanAccount> LoanAccounts { get; set; }
         public DbSet<Worker> Workers { get; set; }
         public DbSet<WageTransaction> WageTransactions { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public DbSet<OperationalExpense> OperationalExpenses { get; set; }
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
@@ -119,6 +121,31 @@ namespace FactoryManagement.Data
             modelBuilder.Entity<WageTransaction>()
                 .HasIndex(wt => wt.TransactionType);
 
+            // Configure ExpenseCategory indexes
+            modelBuilder.Entity<ExpenseCategory>()
+                .HasIndex(ec => ec.CategoryName)
+                .IsUnique();
+
+            modelBuilder.Entity<ExpenseCategory>()
+                .HasIndex(ec => ec.IsDeleted);
+
+            // Configure OperationalExpense indexes
+            modelBuilder.Entity<OperationalExpense>()
+                .HasIndex(oe => oe.ExpenseDate);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasIndex(oe => oe.ExpenseCategoryId);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasIndex(oe => oe.SpentBy);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasIndex(oe => oe.IsApproved);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .Property(oe => oe.Amount)
+                .HasPrecision(18, 2);
+
             // Configure relationships
             // Transactions: prevent cascades
             modelBuilder.Entity<Transaction>()
@@ -219,6 +246,44 @@ namespace FactoryManagement.Data
                 .HasForeignKey(wt => wt.EnteredBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // OperationalExpense relationships
+            modelBuilder.Entity<OperationalExpense>()
+                .HasOne(oe => oe.ExpenseCategory)
+                .WithMany(ec => ec.OperationalExpenses)
+                .HasForeignKey(oe => oe.ExpenseCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasOne(oe => oe.SpentByUser)
+                .WithMany()
+                .HasForeignKey(oe => oe.SpentBy)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasOne(oe => oe.Item)
+                .WithMany()
+                .HasForeignKey(oe => oe.ItemId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasOne(oe => oe.User)
+                .WithMany()
+                .HasForeignKey(oe => oe.EnteredBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OperationalExpense>()
+                .HasOne(oe => oe.Approver)
+                .WithMany()
+                .HasForeignKey(oe => oe.ApprovedBy)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // ExpenseCategory relationships
+            modelBuilder.Entity<ExpenseCategory>()
+                .HasOne(ec => ec.Creator)
+                .WithMany()
+                .HasForeignKey(ec => ec.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Seed initial data
             SeedData(modelBuilder);
         }
@@ -252,6 +317,47 @@ namespace FactoryManagement.Data
             // Seed AppSettings
             modelBuilder.Entity<AppSettings>().HasData(
                 new AppSettings { SettingId = 1, CompanyName = "Factory Management System", CurrencySymbol = "₹", Address = "123 Industrial Area" }
+            );
+
+            // Seed ExpenseCategories
+            modelBuilder.Entity<ExpenseCategory>().HasData(
+                // Transportation & Logistics
+                new ExpenseCategory { ExpenseCategoryId = 1, CategoryName = "Cab Charges", Description = "Transportation and cab expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 2, CategoryName = "Transportation Fees", Description = "General transportation costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 3, CategoryName = "Freight Charges", Description = "Shipping and freight costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                
+                // Utilities
+                new ExpenseCategory { ExpenseCategoryId = 4, CategoryName = "Electricity", Description = "Electricity bills and charges", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 5, CategoryName = "Water", Description = "Water bills and charges", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 6, CategoryName = "Internet & Phone", Description = "Communication expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                
+                // Machinery & Equipment
+                new ExpenseCategory { ExpenseCategoryId = 7, CategoryName = "Machinery Purchase", Description = "New machinery and equipment purchases", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 8, CategoryName = "Machinery Repair", Description = "Machine repair and servicing costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 9, CategoryName = "Machinery Maintenance", Description = "Regular maintenance costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                
+                // Fuel & Energy
+                new ExpenseCategory { ExpenseCategoryId = 10, CategoryName = "Fuel", Description = "Fuel and petroleum expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                new ExpenseCategory { ExpenseCategoryId = 11, CategoryName = "Generator Diesel", Description = "Diesel for generators", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
+                
+                // Facility Costs
+                new ExpenseCategory { ExpenseCategoryId = 12, CategoryName = "Rent", Description = "Facility and equipment rent", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new ExpenseCategory { ExpenseCategoryId = 13, CategoryName = "Insurance", Description = "Insurance premiums", CreatedBy = 1, CreatedDate = DateTime.Now },
+                
+                // Office & Admin
+                new ExpenseCategory { ExpenseCategoryId = 14, CategoryName = "Stationery", Description = "Office supplies and stationery", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new ExpenseCategory { ExpenseCategoryId = 15, CategoryName = "Printing", Description = "Printing and documentation costs", CreatedBy = 1, CreatedDate = DateTime.Now },
+                
+                // Professional Services
+                new ExpenseCategory { ExpenseCategoryId = 16, CategoryName = "Legal Fees", Description = "Legal and compliance costs", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new ExpenseCategory { ExpenseCategoryId = 17, CategoryName = "Accounting Fees", Description = "Accounting and auditing fees", CreatedBy = 1, CreatedDate = DateTime.Now },
+                
+                // Maintenance & Repairs
+                new ExpenseCategory { ExpenseCategoryId = 18, CategoryName = "Building Maintenance", Description = "Building and facility maintenance", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new ExpenseCategory { ExpenseCategoryId = 19, CategoryName = "Repairs", Description = "General repair expenses", CreatedBy = 1, CreatedDate = DateTime.Now },
+                
+                // Other
+                new ExpenseCategory { ExpenseCategoryId = 20, CategoryName = "Miscellaneous", Description = "Other miscellaneous expenses", CreatedBy = 1, CreatedDate = DateTime.Now }
             );
         }
     }

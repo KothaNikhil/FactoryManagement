@@ -303,7 +303,7 @@ namespace FactoryManagement.ViewModels
             }
         }
 
-        public ObservableCollection<string> PaymentModes { get; } = new ObservableCollection<string> { "Cash", "Bank" };
+        public ObservableCollection<string> PaymentModes { get; } = new ObservableCollection<string> { "Cash", "Bank", "Loan" };
 
         public string SelectedPaymentModeString
         {

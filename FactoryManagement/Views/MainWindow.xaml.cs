@@ -136,6 +136,12 @@ namespace FactoryManagement.Views
                     case "Users":
                         await ViewModel.NavigateToUsersCommand.ExecuteAsync(null);
                         break;
+                    case "OperationalExpenses":
+                        await ViewModel.NavigateToOperationalExpensesCommand.ExecuteAsync(null);
+                        break;
+                    case "ExpenseCategories":
+                        await ViewModel.NavigateToExpenseCategoriesCommand.ExecuteAsync(null);
+                        break;
                     case "Exit":
                         ViewModel.ExitCommand.Execute(null);
                         break;
@@ -258,6 +264,9 @@ namespace FactoryManagement.Views
                         break;
                     case Key.W:
                         tag = "Workers";
+                        break;
+                    case Key.O:
+                        tag = "OperationalExpenses";
                         break;
                 }
                 
