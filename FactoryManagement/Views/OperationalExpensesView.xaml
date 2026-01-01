@@ -106,11 +106,30 @@
                             Foreground="{StaticResource Text.Secondary}"
                             FontSize="11"
                             Margin="0,0,0,5"/>
-                    <ComboBox ItemsSource="{Binding ActiveCategories}"
-                              SelectedItem="{Binding SelectedCategory}"
-                              DisplayMemberPath="CategoryName"
-                              Style="{StaticResource ComboBox.Standard}"
-                              Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0"
+                                  ItemsSource="{Binding ActiveCategories}"
+                                  SelectedItem="{Binding SelectedCategory}"
+                                  DisplayMemberPath="CategoryName"
+                                  Style="{StaticResource ComboBox.Standard}"
+                                  Margin="0,0,8,0"/>
+                        <Button Grid.Column="1"
+                                Style="{StaticResource Button.Secondary}"
+                                ToolTip="Quickly add a new category"
+                                Click="QuickAddCategoryButton_Click"
+                                Padding="12,0"
+                                Height="40"
+                                MinWidth="90">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,4,0"/>
+                                <TextBlock Text="New" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
 
                     <!-- Amount -->
                     <TextBlock Text="Amount *"

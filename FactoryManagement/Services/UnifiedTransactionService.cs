@@ -47,15 +47,18 @@ namespace FactoryManagement.Services
         private readonly ITransactionService _transactionService;
         private readonly IFinancialTransactionService _financialService;
         private readonly IWageService _wageService;
+        private readonly IOperationalExpenseService _operationalExpenseService;
 
         public UnifiedTransactionService(
             ITransactionService transactionService,
             IFinancialTransactionService financialService,
-            IWageService wageService)
+            IWageService wageService,
+            IOperationalExpenseService operationalExpenseService)
         {
             _transactionService = transactionService;
             _financialService = financialService;
             _wageService = wageService;
+            _operationalExpenseService = operationalExpenseService;
         }
 
         /// <summary>
@@ -71,6 +74,7 @@ namespace FactoryManagement.Services
             var inventoryTransactions = await _transactionService.GetAllTransactionsAsync();
             var financialTransactions = await _financialService.GetAllFinancialTransactionsAsync();
             var wageTransactions = await _wageService.GetTransactionsByDateRangeAsync(DateTime.MinValue, DateTime.MaxValue);
+            var operationalExpenses = await _operationalExpenseService.GetAllExpensesAsync();
 
             // Add inventory transactions
             foreach (var t in inventoryTransactions)
@@ -176,6 +180,33 @@ namespace FactoryManagement.Services
                     Notes = t.Notes,
                     EnteredBy = t.User?.Username,
                     PaymentMode = t.PaymentMode
+                });
+            }
+
+            // Add operational expenses
+            foreach (var e in operationalExpenses)
+            {
+                // All operational expenses are debits (money out)
+                unifiedTransactions.Add(new UnifiedTransactionViewModel
+                {
+                    Category = "Expense",
+                    TransactionId = e.OperationalExpenseId.ToString(),
+                    TransactionDate = e.ExpenseDate,
+                    TransactionType = e.CategoryDisplay,
+                    DebitCredit = "Debit",
+                    Description = e.CategoryDisplay,
+                    Item = e.Item?.ItemName,
+                    Name = e.SpentByDisplay,
+                    ItemName = e.Item?.ItemName,
+                    PartyName = null,
+                    WorkerName = e.SpentByUser?.Username,
+                    Quantity = null,
+                    Rate = null,
+                    Amount = e.Amount,
+                    AdditionalInfo = e.Notes,
+                    Notes = e.Notes,
+                    EnteredBy = e.User?.Username,
+                    PaymentMode = e.PaymentMode
                 });
             }
 

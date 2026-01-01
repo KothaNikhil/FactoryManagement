@@ -16,7 +16,8 @@ namespace FactoryManagement.ViewModels
         All,
         Inventory,
         Financial,
-        Wages
+        Wages,
+        OperationalExpenses
     }
 
     public partial class ReportsViewModel : ViewModelBase
@@ -31,6 +32,7 @@ namespace FactoryManagement.ViewModels
                         ReportType.Inventory => PaginatedTransactions,
                         ReportType.Financial => PaginatedFinancialTransactions,
                         ReportType.Wages => PaginatedWageTransactions,
+                        ReportType.OperationalExpenses => PaginatedOperationalExpenses,
                         _ => PaginatedTransactions
                     };
                 }
@@ -44,11 +46,14 @@ namespace FactoryManagement.ViewModels
         private readonly IUnifiedTransactionService _unifiedTransactionService;
         private readonly IReportExportBuilder _reportExportBuilder;
         private readonly IUserService _userService;
+        private readonly IOperationalExpenseService _operationalExpenseService;
+        private readonly IExpenseCategoryService _expenseCategoryService;
 
         // Full collections (all data)
         private ObservableCollection<Transaction> _allInventoryTransactions = new();
         private ObservableCollection<FinancialTransaction> _allFinancialTransactions = new();
         private ObservableCollection<WageTransaction> _allWageTransactions = new();
+        private ObservableCollection<OperationalExpense> _allOperationalExpenses = new();
         private ObservableCollection<Services.UnifiedTransactionViewModel> _allUnifiedTransactions = new();
 
         // Paginated collections (displayed data)
@@ -62,12 +67,16 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<WageTransaction> _paginatedWageTransactions = new();
 
         [ObservableProperty]
+        private ObservableCollection<OperationalExpense> _paginatedOperationalExpenses = new();
+
+        [ObservableProperty]
         private ObservableCollection<Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
 
         // Legacy properties for backward compatibility with exports
         public ObservableCollection<Transaction> Transactions => _allInventoryTransactions;
         public ObservableCollection<FinancialTransaction> FinancialTransactions => _allFinancialTransactions;
         public ObservableCollection<WageTransaction> WageTransactions => _allWageTransactions;
+        public ObservableCollection<OperationalExpense> OperationalExpenses => _allOperationalExpenses;
         public ObservableCollection<Services.UnifiedTransactionViewModel> AllTransactions => _allUnifiedTransactions;
 
         // Pagination properties
@@ -95,6 +104,9 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Worker> _workers = new();
 
         [ObservableProperty]
+        private ObservableCollection<ExpenseCategory> _expenseCategories = new();
+
+        [ObservableProperty]
         private ObservableCollection<User> _users = new();
 
         // Unified names collection for searchable filter (contains all parties and workers)
@@ -109,6 +121,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private Worker? _selectedWorker;
+
+        [ObservableProperty]
+        private ExpenseCategory? _selectedExpenseCategory;
 
         [ObservableProperty]
         private string? _selectedName;
@@ -130,6 +145,7 @@ namespace FactoryManagement.ViewModels
         public bool IsInventoryView => SelectedReportType == ReportType.Inventory;
         public bool IsFinancialView => SelectedReportType == ReportType.Financial;
         public bool IsWagesView => SelectedReportType == ReportType.Wages;
+        public bool IsOperationalExpensesView => SelectedReportType == ReportType.OperationalExpenses;
 
         [ObservableProperty]
         private decimal _totalAmount;
@@ -163,7 +179,8 @@ namespace FactoryManagement.ViewModels
             ReportType.All,
             ReportType.Inventory,
             ReportType.Financial,
-            ReportType.Wages
+            ReportType.Wages,
+            ReportType.OperationalExpenses
         };
 
         public ReportsViewModel(
@@ -175,7 +192,9 @@ namespace FactoryManagement.ViewModels
             IWageService wageService,
             IUnifiedTransactionService unifiedTransactionService,
             IUserService userService,
-            IReportExportBuilder reportExportBuilder)
+            IReportExportBuilder reportExportBuilder,
+            IOperationalExpenseService operationalExpenseService,
+            IExpenseCategoryService expenseCategoryService)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -186,30 +205,11 @@ namespace FactoryManagement.ViewModels
             _unifiedTransactionService = unifiedTransactionService;
             _userService = userService;
             _reportExportBuilder = reportExportBuilder;
+            _operationalExpenseService = operationalExpenseService;
+            _expenseCategoryService = expenseCategoryService;
         }
 
-        // Back-compat ctor for tests and callers not yet updated
-        public ReportsViewModel(
-            ITransactionService transactionService,
-            IItemService itemService,
-            IPartyService partyService,
-            IExportService exportService,
-            IFinancialTransactionService financialService,
-            IWageService wageService,
-            IUnifiedTransactionService unifiedTransactionService,
-            IUserService userService)
-            : this(
-                transactionService,
-                itemService,
-                partyService,
-                exportService,
-                financialService,
-                wageService,
-                unifiedTransactionService,
-                userService,
-                new Services.ReportExportBuilder())
-        {
-        }
+
 
         partial void OnSelectedReportTypeChanged(ReportType value)
         {
@@ -217,6 +217,7 @@ namespace FactoryManagement.ViewModels
             SelectedItem = null;
             SelectedParty = null;
             SelectedWorker = null;
+            SelectedExpenseCategory = null;
             CurrentPage = 1;
             
             _ = LoadReportDataAsync();
@@ -225,6 +226,7 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(IsInventoryView));
             OnPropertyChanged(nameof(IsFinancialView));
             OnPropertyChanged(nameof(IsWagesView));
+            OnPropertyChanged(nameof(IsOperationalExpensesView));
         }
 
         partial void OnCurrentPageChanged(int value)
@@ -255,6 +257,14 @@ namespace FactoryManagement.ViewModels
         partial void OnSelectedWorkerChanged(Worker? value)
         {
             if (SelectedReportType == ReportType.Wages)
+            {
+                _ = ApplyFiltersAsync();
+            }
+        }
+
+        partial void OnSelectedExpenseCategoryChanged(ExpenseCategory? value)
+        {
+            if (SelectedReportType == ReportType.OperationalExpenses)
             {
                 _ = ApplyFiltersAsync();
             }
@@ -336,6 +346,13 @@ namespace FactoryManagement.ViewModels
                 foreach (var worker in workers)
                     Workers.Add(worker);
 
+                // Populate Expense Categories dropdown
+                var expenseCategories = await _expenseCategoryService.GetAllCategoriesAsync();
+                ExpenseCategories.Clear();
+                ExpenseCategories.Add(new ExpenseCategory { ExpenseCategoryId = 0, CategoryName = "All Categories" });
+                foreach (var category in expenseCategories)
+                    ExpenseCategories.Add(category);
+
                 var users = await _userService.GetAllUsersAsync();
                 Users.Clear();
                 // Add "All Users" option
@@ -356,6 +373,7 @@ namespace FactoryManagement.ViewModels
                 SelectedItem = Items.Count > 0 ? Items[0] : null;
                 SelectedParty = Parties.Count > 0 ? Parties[0] : null;
                 SelectedWorker = Workers.Count > 0 ? Workers[0] : null;
+                SelectedExpenseCategory = ExpenseCategories.Count > 0 ? ExpenseCategories[0] : null;
                 SelectedUser = Users.Count > 0 ? Users[0] : null;
                 SelectedName = AllNames.Count > 0 ? AllNames[0] : null;
 
@@ -387,6 +405,9 @@ namespace FactoryManagement.ViewModels
                     break;
                 case ReportType.Wages:
                     await LoadAllWageTransactionsAsync();
+                    break;
+                case ReportType.OperationalExpenses:
+                    await LoadAllOperationalExpensesAsync();
                     break;
             }
         }
@@ -439,6 +460,9 @@ namespace FactoryManagement.ViewModels
                         break;
                     case ReportType.Wages:
                         await ApplyWageFiltersAsync();
+                        break;
+                    case ReportType.OperationalExpenses:
+                        await ApplyOperationalExpensesFiltersAsync();
                         break;
                 }
 
@@ -569,6 +593,34 @@ namespace FactoryManagement.ViewModels
             UpdateReportTitle();
         }
 
+        private async Task ApplyOperationalExpensesFiltersAsync()
+        {
+            IEnumerable<OperationalExpense> expenses = await _operationalExpenseService.GetAllExpensesAsync();
+
+            // Apply date range filter
+            expenses = expenses.Where(e => e.ExpenseDate >= StartDate && e.ExpenseDate <= EndDate);
+
+            // Apply category filter (skip if "All Categories" is selected)
+            if (SelectedExpenseCategory != null && SelectedExpenseCategory.ExpenseCategoryId != 0)
+            {
+                expenses = expenses.Where(e => e.ExpenseCategoryId == SelectedExpenseCategory.ExpenseCategoryId);
+            }
+
+            // Apply user filter (skip if "All Users" is selected)
+            if (SelectedUser != null && SelectedUser.UserId != 0)
+            {
+                expenses = expenses.Where(e => e.EnteredBy == SelectedUser.UserId);
+            }
+
+            _allOperationalExpenses.Clear();
+            foreach (var e in expenses)
+                _allOperationalExpenses.Add(e);
+
+            CurrentPage = 1;
+            UpdatePaginatedData();
+            UpdateReportTitle();
+        }
+
         private void UpdateReportTitle()
         {
             var filters = new List<string>();
@@ -675,6 +727,31 @@ namespace FactoryManagement.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Error loading wage transactions: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task LoadAllOperationalExpensesAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                var expenses = await _operationalExpenseService.GetAllExpensesAsync();
+                var expensesList = expenses.ToList();
+                _allOperationalExpenses.Clear();
+                foreach (var e in expensesList)
+                    _allOperationalExpenses.Add(e);
+                CurrentPage = 1;
+                UpdatePaginatedData();
+                CalculateTotals();
+                ReportTitle = "Operational Expenses";
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error loading operational expenses: {ex.Message}";
             }
             finally
             {
@@ -845,13 +922,15 @@ namespace FactoryManagement.ViewModels
             TotalInventoryAmount = _allInventoryTransactions.Sum(t => t.TotalAmount);
             TotalFinancialAmount = _allFinancialTransactions.Sum(t => t.Amount);
             TotalWagesAmount = _allWageTransactions.Sum(t => t.NetAmount);
+            var totalOperationalExpenses = _allOperationalExpenses.Sum(e => e.Amount);
             
             TotalAmount = SelectedReportType switch
             {
-                ReportType.All => TotalInventoryAmount + TotalFinancialAmount + TotalWagesAmount,
+                ReportType.All => TotalInventoryAmount + TotalFinancialAmount + TotalWagesAmount + totalOperationalExpenses,
                 ReportType.Inventory => TotalInventoryAmount,
                 ReportType.Financial => TotalFinancialAmount,
                 ReportType.Wages => TotalWagesAmount,
+                ReportType.OperationalExpenses => totalOperationalExpenses,
                 _ => 0
             };
 
@@ -877,6 +956,11 @@ namespace FactoryManagement.ViewModels
                     debit = _allWageTransactions.Where(t => t.DebitCredit == "Debit").Sum(t => t.NetAmount);
                     credit = _allWageTransactions.Where(t => t.DebitCredit == "Credit").Sum(t => t.NetAmount);
                     break;
+                case ReportType.OperationalExpenses:
+                    // All operational expenses are debits
+                    debit = _allOperationalExpenses.Sum(e => e.Amount);
+                    credit = 0m;
+                    break;
             }
 
             TotalDebit = debit;
@@ -889,6 +973,7 @@ namespace FactoryManagement.ViewModels
                 ReportType.Inventory => _allInventoryTransactions.Count,
                 ReportType.Financial => _allFinancialTransactions.Count,
                 ReportType.Wages => _allWageTransactions.Count,
+                ReportType.OperationalExpenses => _allOperationalExpenses.Count,
                 _ => 0
             };
         }
@@ -947,6 +1032,19 @@ namespace FactoryManagement.ViewModels
                         .Take(PageSize);
                     foreach (var item in wagePageData)
                         PaginatedWageTransactions.Add(item);
+                    break;
+
+                case ReportType.OperationalExpenses:
+                    TotalRecords = _allOperationalExpenses.Count;
+                    TotalPages = (int)Math.Ceiling((double)TotalRecords / PageSize);
+                    if (TotalPages == 0) TotalPages = 1;
+                    
+                    PaginatedOperationalExpenses.Clear();
+                    var opExpensesPageData = _allOperationalExpenses
+                        .Skip((CurrentPage - 1) * PageSize)
+                        .Take(PageSize);
+                    foreach (var item in opExpensesPageData)
+                        PaginatedOperationalExpenses.Add(item);
                     break;
             }
 

@@ -131,6 +131,19 @@
                             </ComboBox>
                         </StackPanel>
 
+                        <!-- Operational Expenses Filters -->
+                        <StackPanel Grid.Column="2" Visibility="{Binding IsOperationalExpensesView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Filter by Category" Style="{StaticResource FormLabel}"/>
+                            <ComboBox ItemsSource="{Binding ExpenseCategories}"
+                                    SelectedItem="{Binding SelectedExpenseCategory, Mode=TwoWay}"
+                                    DisplayMemberPath="CategoryName"
+                                    Style="{StaticResource ComboBox.Standard}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:SearchableComboBoxBehavior DisplayMemberPath="CategoryName"/>
+                                </i:Interaction.Behaviors>
+                            </ComboBox>
+                        </StackPanel>
+
                         <!-- Start Date -->
                         <StackPanel Grid.Column="6">
                             <TextBlock Text="Start Date" Style="{StaticResource FormLabel}"/>
@@ -395,6 +408,31 @@
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="Bold"/>
                                         <Setter Property="Foreground" Value="#388E3C"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Operational Expenses DataGrid -->
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedOperationalExpenses}" Style="{StaticResource Section.DataGrid}" 
+                              Visibility="{Binding IsOperationalExpensesView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              KeyboardNavigation.TabNavigation="Once">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date" Binding="{Binding ExpenseDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryDisplay}" Width="150"/>
+                            <DataGridTextColumn Header="Spent By" Binding="{Binding SpentByDisplay}" Width="120"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="100"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding EnteredBy}" Width="100"/>
+                            <DataGridTextColumn Header="Amount (₹)" Binding="{Binding Amount, StringFormat=₹{0:N2}}" Width="130">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#D32F2F"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
