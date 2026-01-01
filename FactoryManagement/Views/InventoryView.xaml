@@ -112,7 +112,6 @@
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ItemId}" Width="70"></DataGridTextColumn>
                             <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="130"></DataGridTextColumn>
                             <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90"></DataGridTextColumn>
