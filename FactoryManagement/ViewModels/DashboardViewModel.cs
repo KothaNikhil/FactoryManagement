@@ -253,7 +253,7 @@ namespace FactoryManagement.ViewModels
                             Category = "Expense",
                             Type = oe.CategoryDisplay,
                             Description = oe.CategoryDisplay,
-                            Party = oe.VendorDisplay,
+                            Party = oe.SpentByDisplay,
                             Amount = oe.Amount
                         });
                     }

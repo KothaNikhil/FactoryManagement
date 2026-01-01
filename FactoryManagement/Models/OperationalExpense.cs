@@ -27,12 +27,6 @@ namespace FactoryManagement.Models
         public DateTime ExpenseDate { get; set; } = DateTime.Now;
 
         /// <summary>
-        /// Vendor/Service provider name (free text, optional)
-        /// </summary>
-        [MaxLength(200)]
-        public string? VendorName { get; set; }
-
-        /// <summary>
         /// User who spent the money (e.g., for fuel, cab charges)
         /// </summary>
         public int? SpentBy { get; set; }
@@ -89,12 +83,6 @@ namespace FactoryManagement.Models
         /// </summary>
         [NotMapped]
         public string CategoryDisplay => ExpenseCategory?.CategoryName ?? $"Category ID: {ExpenseCategoryId}";
-
-        /// <summary>
-        /// Computed property for display
-        /// </summary>
-        [NotMapped]
-        public string VendorDisplay => VendorName ?? "N/A";
 
         /// <summary>
         /// Computed property for spent by user display

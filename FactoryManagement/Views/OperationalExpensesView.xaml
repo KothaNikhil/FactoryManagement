@@ -130,16 +130,6 @@
                                 Style="{StaticResource DatePicker.Standard}"
                                 Margin="0,0,0,15"/>
 
-                    <!-- Vendor Name -->
-                    <TextBlock Text="Vendor Name"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding VendorName, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource TextBox.Standard}"
-                             materialDesign:HintAssist.Hint="Service provider/vendor (optional)"
-                             Margin="0,0,0,15"/>
-
                     <!-- Spent By -->
                     <TextBlock Text="Spent By"
                             Foreground="{StaticResource Text.Secondary}"

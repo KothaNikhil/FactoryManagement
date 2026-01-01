@@ -55,9 +55,6 @@ namespace FactoryManagement.ViewModels
         private DateTime _expenseDate = DateTime.Now;
 
         [ObservableProperty]
-        private string _vendorName = string.Empty;
-
-        [ObservableProperty]
         private PaymentMode _selectedPaymentMode = PaymentMode.Cash;
 
         [ObservableProperty]
@@ -275,7 +272,6 @@ namespace FactoryManagement.ViewModels
             expense.Amount = Amount;
             expense.ExpenseDate = ExpenseDate;
             expense.SpentBy = SelectedSpentByUser?.UserId;
-            expense.VendorName = string.IsNullOrWhiteSpace(VendorName) ? null : VendorName;
             expense.ItemId = SelectedItem?.ItemId;
             expense.PaymentMode = SelectedPaymentMode;
             expense.Notes = Notes;
@@ -292,7 +288,6 @@ namespace FactoryManagement.ViewModels
             Amount = expense.Amount;
             ExpenseDate = expense.ExpenseDate;
             SelectedSpentByUser = AllUsers.FirstOrDefault(u => u.UserId == expense.SpentBy);
-            VendorName = expense.VendorName ?? string.Empty;
             SelectedItem = AllItems.FirstOrDefault(i => i.ItemId == expense.ItemId);
             SelectedPaymentMode = expense.PaymentMode;
             Notes = expense.Notes;
@@ -367,7 +362,6 @@ namespace FactoryManagement.ViewModels
             Amount = 0;
             ExpenseDate = DateTime.Now;
             SelectedSpentByUser = null;
-            VendorName = string.Empty;
             SelectedItem = null;
             SelectedPaymentMode = PaymentMode.Cash;
             Notes = string.Empty;
