@@ -12,6 +12,7 @@ namespace FactoryManagement.ViewModels
     public partial class InventoryViewModel : PaginationViewModel
     {
         private readonly IItemService _itemService;
+        private readonly ITransactionService _transactionService;
 
         [ObservableProperty]
         private ObservableCollection<Item> _items = new();
@@ -21,6 +22,26 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private Item? _selectedItem;
+
+        [ObservableProperty]
+        private ObservableCollection<Transaction> _itemTransactions = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Transaction> _paginatedItemTransactions = new();
+
+        private const int TransactionPageSize = 13;
+
+        [ObservableProperty]
+        private int _transactionCurrentPage = 1;
+
+        [ObservableProperty]
+        private int _transactionTotalPages = 1;
+
+        [ObservableProperty]
+        private int _transactionTotalRecords = 0;
+
+        public bool CanGoToTransactionPreviousPage => TransactionCurrentPage > 1;
+        public bool CanGoToTransactionNextPage => TransactionCurrentPage < TransactionTotalPages;
 
         public int TotalItems => Items.Count;
         
@@ -47,15 +68,38 @@ namespace FactoryManagement.ViewModels
 
         private ObservableCollection<Item> _allItems = new();
 
-        public InventoryViewModel(IItemService itemService)
+        public InventoryViewModel(IItemService itemService, ITransactionService transactionService)
         {
             _itemService = itemService;
+            _transactionService = transactionService;
         }
 
         partial void OnSearchTextChanged(string value)
         {
             FilterItems();
             UpdatePaginatedData();
+        }
+
+        partial void OnSelectedItemChanged(Item? value)
+        {
+            if (value != null)
+            {
+                _ = LoadItemTransactionsAsync();
+            }
+            else
+            {
+                ItemTransactions.Clear();
+                PaginatedItemTransactions.Clear();
+            }
+        }
+
+        partial void OnTransactionCurrentPageChanged(int value)
+        {
+            UpdateTransactionPaginatedData();
+            OnPropertyChanged(nameof(CanGoToTransactionPreviousPage));
+            OnPropertyChanged(nameof(CanGoToTransactionNextPage));
+            GoToTransactionPreviousPageCommand.NotifyCanExecuteChanged();
+            GoToTransactionNextPageCommand.NotifyCanExecuteChanged();
         }
 
         protected override void UpdatePaginatedData()
@@ -65,6 +109,29 @@ namespace FactoryManagement.ViewModels
             foreach (var item in GetPagedItems(Items))
             {
                 PaginatedItems.Add(item);
+            }
+        }
+
+        private void UpdateTransactionPaginatedData()
+        {
+            int totalRecords = ItemTransactions.Count;
+            TransactionTotalRecords = totalRecords;
+            TransactionTotalPages = (totalRecords + TransactionPageSize - 1) / TransactionPageSize;
+
+            if (TransactionCurrentPage > TransactionTotalPages && TransactionTotalPages > 0)
+            {
+                TransactionCurrentPage = TransactionTotalPages;
+                return;
+            }
+
+            PaginatedItemTransactions.Clear();
+            var paginatedItems = ItemTransactions
+                .Skip((TransactionCurrentPage - 1) * TransactionPageSize)
+                .Take(TransactionPageSize);
+
+            foreach (var item in paginatedItems)
+            {
+                PaginatedItemTransactions.Add(item);
             }
         }
 
@@ -84,10 +151,44 @@ namespace FactoryManagement.ViewModels
                 }
                 UpdateSummaryProperties();
                 UpdatePaginatedData();
+                
+                // Select first item by default
+                if (Items.Count > 0)
+                {
+                    SelectedItem = Items[0];
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Error loading items: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task LoadItemTransactionsAsync()
+        {
+            try
+            {
+                if (SelectedItem == null || SelectedItem.ItemId <= 0) return;
+
+                IsBusy = true;
+                var transactions = await _transactionService.GetTransactionsByItemAsync(SelectedItem.ItemId);
+                
+                ItemTransactions.Clear();
+                foreach (var transaction in transactions.OrderByDescending(t => t.TransactionDate))
+                {
+                    ItemTransactions.Add(transaction);
+                }
+
+                TransactionCurrentPage = 1;
+                UpdateTransactionPaginatedData();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error loading item transactions: {ex.Message}";
             }
             finally
             {
@@ -234,6 +335,32 @@ namespace FactoryManagement.ViewModels
             OnPropertyChanged(nameof(TotalStockValue));
             OnPropertyChanged(nameof(LowStockCount));
             OnPropertyChanged(nameof(CategoryCount));
+        }
+
+        [RelayCommand]
+        private void GoToTransactionFirstPage()
+        {
+            TransactionCurrentPage = 1;
+        }
+
+        [RelayCommand]
+        private void GoToTransactionPreviousPage()
+        {
+            if (CanGoToTransactionPreviousPage)
+                TransactionCurrentPage--;
+        }
+
+        [RelayCommand]
+        private void GoToTransactionNextPage()
+        {
+            if (CanGoToTransactionNextPage)
+                TransactionCurrentPage++;
+        }
+
+        [RelayCommand]
+        private void GoToTransactionLastPage()
+        {
+            TransactionCurrentPage = TransactionTotalPages;
         }
 
         public async Task InitializeAsync()

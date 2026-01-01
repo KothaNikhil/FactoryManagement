@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Summary Cards -->
@@ -58,7 +59,7 @@
                                 LabelForeground="{StaticResource Card.Danger.Label}" />
         </Grid>
 
-        <!-- Main Content -->
+        <!-- Main Content - Items and Form (2 columns) -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -67,31 +68,46 @@
 
             <!-- Items List -->
             <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
-                <DockPanel>
-                    <!-- Header -->
-                    <controls:SectionHeader DockPanel.Dock="Top" 
-                                          Title="All Items" 
-                                          IconKind="PackageVariant" 
-                                          IconBackground="{StaticResource Card.Success}" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- Search Box -->
-                    <controls:SearchBox DockPanel.Dock="Top" PlaceholderText="Search items by name..." />
+                    <!-- Header with Search -->
+                    <Border Grid.Row="0" Background="{StaticResource SecondaryBackground}" Padding="15" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="0,0,0,1" Margin="-24,-24,-24,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Pagination Control -->
-                    <controls:PaginationControl DockPanel.Dock="Bottom"
-                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
-                        TotalPages="{Binding TotalPages}"
-                        TotalRecords="{Binding TotalRecords}"
-                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
-                        CanGoToNextPage="{Binding CanGoToNextPage}"
-                        FirstPageCommand="{Binding GoToFirstPageCommand}"
-                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
-                        NextPageCommand="{Binding GoToNextPageCommand}"
-                        LastPageCommand="{Binding GoToLastPageCommand}"
-                        Margin="0,16,0,0"/>
+                            <!-- Header -->
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                    <materialDesign:PackIcon Kind="PackageVariant" Width="20" Height="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock Text="All Items" Style="{StaticResource SectionHeader.Title}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Search Box -->
+                            <TextBox Grid.Column="2" 
+                                   materialDesign:HintAssist.Hint="Search items..." 
+                                   Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                   Style="{StaticResource TextBox.Standard}"
+                                   VerticalAlignment="Center"
+                                   Padding="10,5"
+                                   Height="35"/>
+                        </Grid>
+                    </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid ItemsSource="{Binding PaginatedItems}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedItems}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once" Margin="0,16,0,0">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
@@ -124,7 +140,20 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </DockPanel>
+
+                    <!-- Pagination Control -->
+                    <controls:PaginationControl Grid.Row="2"
+                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                        TotalPages="{Binding TotalPages}"
+                        TotalRecords="{Binding TotalRecords}"
+                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                        CanGoToNextPage="{Binding CanGoToNextPage}"
+                        FirstPageCommand="{Binding GoToFirstPageCommand}"
+                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                        NextPageCommand="{Binding GoToNextPageCommand}"
+                        LastPageCommand="{Binding GoToLastPageCommand}"
+                        Margin="0,16,0,0"/>
+                </Grid>
             </Border>
 
             <!-- Item Form -->
@@ -241,6 +270,80 @@
                            Width="50" Height="50"/>
             </Grid>
         </Grid>
+
+        <!-- Transactions Grid Section (Full Width) -->
+        <Border Grid.Row="2" Style="{StaticResource FormCard}" Margin="0,20,0,0" Visibility="{Binding SelectedItem, Converter={StaticResource NotNullToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <controls:SectionHeader Grid.Row="0" 
+                                      Title="Item Transactions" 
+                                      IconKind="SwapHorizontal" 
+                                      IconBackground="{StaticResource Card.Info}" />
+
+                <!-- Transactions DataGrid -->
+                <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedItemTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
+                        <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="150"/>
+                        <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
+                        <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
+                        <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
+                        <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
+                        <DataGridTextColumn Header="Debit (₹)" Width="130">
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                    <Binding Path="TotalAmount"/>
+                                    <Binding Path="DebitCredit"/>
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="#D32F2F"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Credit (₹)" Width="130">
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                    <Binding Path="TotalAmount"/>
+                                    <Binding Path="DebitCredit"/>
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="#388E3C"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Pagination Control -->
+                <controls:PaginationControl Grid.Row="2"
+                    CurrentPage="{Binding TransactionCurrentPage, Mode=TwoWay}"
+                    TotalPages="{Binding TransactionTotalPages}"
+                    TotalRecords="{Binding TransactionTotalRecords}"
+                    CanGoToPreviousPage="{Binding CanGoToTransactionPreviousPage}"
+                    CanGoToNextPage="{Binding CanGoToTransactionNextPage}"
+                    FirstPageCommand="{Binding GoToTransactionFirstPageCommand}"
+                    PreviousPageCommand="{Binding GoToTransactionPreviousPageCommand}"
+                    NextPageCommand="{Binding GoToTransactionNextPageCommand}"
+                    LastPageCommand="{Binding GoToTransactionLastPageCommand}"
+                    Margin="0,16,0,0"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
-
