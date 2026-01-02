@@ -40,8 +40,15 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private int _transactionTotalRecords = 0;
 
+        // Date navigation for item transactions
+        [ObservableProperty]
+        private DateTime _currentItemTransactionDate = DateTime.Today;
+
         public bool CanGoToTransactionPreviousPage => TransactionCurrentPage > 1;
         public bool CanGoToTransactionNextPage => TransactionCurrentPage < TransactionTotalPages;
+
+        public bool CanGoToNextItemTransactionDay => CurrentItemTransactionDate < DateTime.Today;
+        public bool CanGoToPreviousItemTransactionDay => true;
 
         public int TotalItems => Items.Count;
         
@@ -114,25 +121,46 @@ namespace FactoryManagement.ViewModels
 
         private void UpdateTransactionPaginatedData()
         {
-            int totalRecords = ItemTransactions.Count;
-            TransactionTotalRecords = totalRecords;
-            TransactionTotalPages = (totalRecords + TransactionPageSize - 1) / TransactionPageSize;
-
-            if (TransactionCurrentPage > TransactionTotalPages && TransactionTotalPages > 0)
-            {
-                TransactionCurrentPage = TransactionTotalPages;
-                return;
-            }
+            // Filter transactions by current date
+            var transactionsForDate = ItemTransactions
+                .Where(t => t.TransactionDate.Date == CurrentItemTransactionDate.Date)
+                .OrderByDescending(t => t.TransactionDate)
+                .ToList();
 
             PaginatedItemTransactions.Clear();
-            var paginatedItems = ItemTransactions
-                .Skip((TransactionCurrentPage - 1) * TransactionPageSize)
-                .Take(TransactionPageSize);
-
-            foreach (var item in paginatedItems)
+            foreach (var transaction in transactionsForDate)
             {
-                PaginatedItemTransactions.Add(item);
+                PaginatedItemTransactions.Add(transaction);
             }
+
+            TransactionTotalRecords = transactionsForDate.Count;
+        }
+
+        partial void OnCurrentItemTransactionDateChanged(DateTime value)
+        {
+            UpdateTransactionPaginatedData();
+            OnPropertyChanged(nameof(CanGoToNextItemTransactionDay));
+            OnPropertyChanged(nameof(CanGoToPreviousItemTransactionDay));
+            GoToNextItemTransactionDayCommand.NotifyCanExecuteChanged();
+            GoToPreviousItemTransactionDayCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousItemTransactionDay))]
+        private void GoToPreviousItemTransactionDay()
+        {
+            CurrentItemTransactionDate = CurrentItemTransactionDate.AddDays(-1);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextItemTransactionDay))]
+        private void GoToNextItemTransactionDay()
+        {
+            CurrentItemTransactionDate = CurrentItemTransactionDate.AddDays(1);
+        }
+
+        [RelayCommand]
+        private void GoToTodayItemTransaction()
+        {
+            CurrentItemTransactionDate = DateTime.Today;
         }
 
         [RelayCommand]

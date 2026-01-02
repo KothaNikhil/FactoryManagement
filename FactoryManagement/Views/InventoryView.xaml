@@ -330,18 +330,63 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <!-- Pagination Control -->
-                <controls:PaginationControl Grid.Row="2"
-                    CurrentPage="{Binding TransactionCurrentPage, Mode=TwoWay}"
-                    TotalPages="{Binding TransactionTotalPages}"
-                    TotalRecords="{Binding TransactionTotalRecords}"
-                    CanGoToPreviousPage="{Binding CanGoToTransactionPreviousPage}"
-                    CanGoToNextPage="{Binding CanGoToTransactionNextPage}"
-                    FirstPageCommand="{Binding GoToTransactionFirstPageCommand}"
-                    PreviousPageCommand="{Binding GoToTransactionPreviousPageCommand}"
-                    NextPageCommand="{Binding GoToTransactionNextPageCommand}"
-                    LastPageCommand="{Binding GoToTransactionLastPageCommand}"
-                    Margin="0,16,0,0"/>
+                <!-- Date Navigation Control -->
+                <Border Grid.Row="2" Margin="0,16,0,0"
+                        Background="{DynamicResource Card.Primary}" 
+                        CornerRadius="8" 
+                        Padding="16,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Previous Day Button -->
+                        <Button Grid.Column="0" 
+                                Command="{Binding GoToPreviousItemTransactionDayCommand}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Previous Day"
+                                Margin="0,0,8,0">
+                            <materialDesign:PackIcon Kind="ChevronLeft" Width="24" Height="24"/>
+                        </Button>
+
+                        <!-- Current Date Display -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Calendar" 
+                                                   Width="20" Height="20" 
+                                                   Foreground="{DynamicResource Text.Secondary}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding CurrentItemTransactionDate, StringFormat='MMM dd, yyyy (ddd)'}"
+                                     FontSize="14"
+                                     FontWeight="Medium"
+                                     Foreground="{DynamicResource Text.Primary}"
+                                     VerticalAlignment="Center"
+                                     Margin="0,0,16,0"/>
+                            <Button Content="Today" 
+                                    Command="{Binding GoToTodayItemTransactionCommand}"
+                                    Style="{StaticResource Button.Secondary}"
+                                    Padding="12,4"
+                                    Height="28"
+                                    FontSize="12"/>
+                            <TextBlock Text="{Binding TransactionTotalRecords, StringFormat='({0} transactions)'}"
+                                     FontSize="12"
+                                     Foreground="{DynamicResource Text.Secondary}"
+                                     VerticalAlignment="Center"
+                                     Margin="12,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Next Day Button -->
+                        <Button Grid.Column="2" 
+                                Command="{Binding GoToNextItemTransactionDayCommand}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Next Day"
+                                Margin="8,0,0,0">
+                            <materialDesign:PackIcon Kind="ChevronRight" Width="24" Height="24"/>
+                        </Button>
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
     </Grid>

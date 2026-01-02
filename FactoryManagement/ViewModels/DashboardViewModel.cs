@@ -21,7 +21,7 @@ namespace FactoryManagement.ViewModels
 
         private const int LowStockThreshold = 100;
         private const int StockChartTopCount = 10;
-        private const int RecentActivitiesPerSource = 20;
+        private const int RecentActivitiesPerSource = 100; // Increased to support date navigation
         private const int RecentActivitiesDisplayCount = 10;
 
         [ObservableProperty]
@@ -75,6 +75,13 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<RecentActivity> _paginatedRecentActivities = new();
 
+        // Date navigation properties for recent activities
+        [ObservableProperty]
+        private DateTime _currentActivityDate = DateTime.Today;
+
+        public bool CanGoToNextActivityDay => CurrentActivityDate < DateTime.Today;
+        public bool CanGoToPreviousActivityDay => true; // Can always go to previous days
+
         [ObservableProperty]
         private ObservableCollection<Item> _lowStockItems = new();
 
@@ -105,6 +112,50 @@ namespace FactoryManagement.ViewModels
             {
                 PaginatedAllTransactions.Add(transaction);
             }
+        }
+
+        private void UpdatePaginatedActivities()
+        {
+            // Filter recent activities by the current activity date
+            var activitiesForDate = RecentActivities
+                .Where(a => a.Date.Date == CurrentActivityDate.Date)
+                .OrderByDescending(a => a.Date)
+                .ToList();
+
+            PaginatedRecentActivities.Clear();
+            foreach (var activity in activitiesForDate)
+            {
+                PaginatedRecentActivities.Add(activity);
+            }
+
+            TotalRecords = activitiesForDate.Count;
+        }
+
+        partial void OnCurrentActivityDateChanged(DateTime value)
+        {
+            UpdatePaginatedActivities();
+            OnPropertyChanged(nameof(CanGoToNextActivityDay));
+            OnPropertyChanged(nameof(CanGoToPreviousActivityDay));
+            GoToNextActivityDayCommand.NotifyCanExecuteChanged();
+            GoToPreviousActivityDayCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousActivityDay))]
+        private void GoToPreviousActivityDay()
+        {
+            CurrentActivityDate = CurrentActivityDate.AddDays(-1);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextActivityDay))]
+        private void GoToNextActivityDay()
+        {
+            CurrentActivityDate = CurrentActivityDate.AddDays(1);
+        }
+
+        [RelayCommand]
+        private void GoToTodayActivity()
+        {
+            CurrentActivityDate = DateTime.Today;
         }
 
         [RelayCommand]
@@ -259,13 +310,12 @@ namespace FactoryManagement.ViewModels
                     }
                 }
 
-                // Sort all activities by date and take top 15
+                // Sort all activities by date (don't limit here - we need all for date navigation)
                 var recentActivities = activities
                     .OrderByDescending(a => a.Date)
-                    .Take(RecentActivitiesDisplayCount)
                     .ToList();
                 SetCollection(RecentActivities, recentActivities);
-                UpdatePaginatedData();
+                UpdatePaginatedActivities();
 
                 var allItems = await itemsTask;
                 var lowStockList = allItems

@@ -28,6 +28,13 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<WageTransaction> _allTransactions = new();
 
+        // Date navigation properties
+        [ObservableProperty]
+        private DateTime _currentTransactionDate = DateTime.Today;
+
+        public bool CanGoToNextTransactionDay => CurrentTransactionDate < DateTime.Today;
+        public bool CanGoToPreviousTransactionDay => true;
+
         [ObservableProperty]
         private Worker? _selectedWorker;
 
@@ -143,12 +150,46 @@ namespace FactoryManagement.ViewModels
 
         protected override void UpdatePaginatedData()
         {
-            CalculatePagination(AllTransactions);
+            // Filter transactions by current date
+            var transactionsForDate = AllTransactions
+                .Where(t => t.TransactionDate.Date == CurrentTransactionDate.Date)
+                .OrderByDescending(t => t.TransactionDate)
+                .ToList();
+
             PaginatedTransactions.Clear();
-            foreach (var transaction in GetPagedItems(AllTransactions))
+            foreach (var transaction in transactionsForDate)
             {
                 PaginatedTransactions.Add(transaction);
             }
+
+            TotalRecords = transactionsForDate.Count;
+        }
+
+        partial void OnCurrentTransactionDateChanged(DateTime value)
+        {
+            UpdatePaginatedData();
+            OnPropertyChanged(nameof(CanGoToNextTransactionDay));
+            OnPropertyChanged(nameof(CanGoToPreviousTransactionDay));
+            GoToNextTransactionDayCommand.NotifyCanExecuteChanged();
+            GoToPreviousTransactionDayCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousTransactionDay))]
+        private void GoToPreviousTransactionDay()
+        {
+            CurrentTransactionDate = CurrentTransactionDate.AddDays(-1);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextTransactionDay))]
+        private void GoToNextTransactionDay()
+        {
+            CurrentTransactionDate = CurrentTransactionDate.AddDays(1);
+        }
+
+        [RelayCommand]
+        private void GoToTodayTransaction()
+        {
+            CurrentTransactionDate = DateTime.Today;
         }
 
         private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()

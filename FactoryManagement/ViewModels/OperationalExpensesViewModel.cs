@@ -26,6 +26,13 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<OperationalExpense> _paginatedExpenses = new();
 
+        // Date navigation properties
+        [ObservableProperty]
+        private DateTime _currentExpenseDate = DateTime.Today;
+
+        public bool CanGoToNextExpenseDay => CurrentExpenseDate < DateTime.Today;
+        public bool CanGoToPreviousExpenseDay => true;
+
         [ObservableProperty]
         private ObservableCollection<ExpenseCategory> _activeCategories = new();
 
@@ -237,17 +244,47 @@ namespace FactoryManagement.ViewModels
 
         protected override void UpdatePaginatedData()
         {
-            CalculatePagination(AllExpenses, DefaultPageSize);
-            
-            // Use UI thread dispatcher to ensure collection update is visible
+            // Filter expenses by current date
+            var expensesForDate = AllExpenses
+                .Where(e => e.ExpenseDate.Date == CurrentExpenseDate.Date)
+                .OrderByDescending(e => e.ExpenseDate)
+                .ToList();
+
             PaginatedExpenses.Clear();
-            foreach (var expense in GetPagedItems(AllExpenses, DefaultPageSize))
+            foreach (var expense in expensesForDate)
             {
                 PaginatedExpenses.Add(expense);
             }
-            
-            // Explicitly notify collection changed
+
+            TotalRecords = expensesForDate.Count;
             OnPropertyChanged(nameof(PaginatedExpenses));
+        }
+
+        partial void OnCurrentExpenseDateChanged(DateTime value)
+        {
+            UpdatePaginatedData();
+            OnPropertyChanged(nameof(CanGoToNextExpenseDay));
+            OnPropertyChanged(nameof(CanGoToPreviousExpenseDay));
+            GoToNextExpenseDayCommand.NotifyCanExecuteChanged();
+            GoToPreviousExpenseDayCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousExpenseDay))]
+        private void GoToPreviousExpenseDay()
+        {
+            CurrentExpenseDate = CurrentExpenseDate.AddDays(-1);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextExpenseDay))]
+        private void GoToNextExpenseDay()
+        {
+            CurrentExpenseDate = CurrentExpenseDate.AddDays(1);
+        }
+
+        [RelayCommand]
+        private void GoToTodayExpense()
+        {
+            CurrentExpenseDate = DateTime.Today;
         }
 
         [RelayCommand]

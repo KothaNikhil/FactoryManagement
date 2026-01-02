@@ -19,9 +19,13 @@ namespace FactoryManagement.ViewModels
 
         private ObservableCollection<LoanAccount> _loans;
         private ObservableCollection<LoanAccount> _paginatedLoans;
+        private DateTime _currentLoanDate = DateTime.Today;
         private ObservableCollection<FinancialTransaction> _transactions;
         private ObservableCollection<FinancialTransaction> _paginatedTransactions;
         private FinancialTransaction? _selectedTransaction;
+        
+        // Date navigation for transactions
+        private DateTime _currentTransactionDate = DateTime.Today;
         private ObservableCollection<Party> _parties;
         private ObservableCollection<Party> _partiesForFilter;
         private LoanAccount? _selectedLoan;
@@ -417,6 +421,24 @@ namespace FactoryManagement.ViewModels
         
         public bool CanGoToPreviousPageLoans => CurrentPageLoans > 1;
         public bool CanGoToNextPageLoans => CurrentPageLoans < TotalPagesLoans;
+
+        // Date navigation for loans
+        public DateTime CurrentLoanDate
+        {
+            get => _currentLoanDate;
+            set
+            {
+                _currentLoanDate = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToNextLoanDay));
+                OnPropertyChanged(nameof(CanGoToPreviousLoanDay));
+                UpdatePaginatedLoans();
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
+        public bool CanGoToNextLoanDay => CurrentLoanDate < DateTime.Today;
+        public bool CanGoToPreviousLoanDay => true;
         
         // Transactions Pagination Properties
         public int CurrentPageTransactions
@@ -456,6 +478,24 @@ namespace FactoryManagement.ViewModels
         public bool CanGoToPreviousPageTransactions => CurrentPageTransactions > 1;
         public bool CanGoToNextPageTransactions => CurrentPageTransactions < TotalPagesTransactions;
 
+        // Date navigation properties
+        public DateTime CurrentTransactionDate
+        {
+            get => _currentTransactionDate;
+            set
+            {
+                _currentTransactionDate = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanGoToNextTransactionDay));
+                OnPropertyChanged(nameof(CanGoToPreviousTransactionDay));
+                UpdatePaginatedTransactions();
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
+        public bool CanGoToNextTransactionDay => CurrentTransactionDate < DateTime.Today;
+        public bool CanGoToPreviousTransactionDay => true;
+
         #endregion
 
         #region Commands
@@ -475,12 +515,22 @@ namespace FactoryManagement.ViewModels
         public ICommand GoToPreviousPageLoansCommand => new RelayCommand(GoToPreviousPageLoans, () => CanGoToPreviousPageLoans);
         public ICommand GoToNextPageLoansCommand => new RelayCommand(GoToNextPageLoans, () => CanGoToNextPageLoans);
         public ICommand GoToLastPageLoansCommand => new RelayCommand(GoToLastPageLoans, () => CanGoToNextPageLoans);
+
+        // Date navigation commands for loans
+        public ICommand GoToPreviousLoanDayCommand => new RelayCommand(GoToPreviousLoanDay, () => CanGoToPreviousLoanDay);
+        public ICommand GoToNextLoanDayCommand => new RelayCommand(GoToNextLoanDay, () => CanGoToNextLoanDay);
+        public ICommand GoToTodayLoanCommand => new RelayCommand(GoToTodayLoan);
         
         // Transactions Pagination Commands
         public ICommand GoToFirstPageTransactionsCommand => new RelayCommand(GoToFirstPageTransactions, () => CanGoToPreviousPageTransactions);
         public ICommand GoToPreviousPageTransactionsCommand => new RelayCommand(GoToPreviousPageTransactions, () => CanGoToPreviousPageTransactions);
         public ICommand GoToNextPageTransactionsCommand => new RelayCommand(GoToNextPageTransactions, () => CanGoToNextPageTransactions);
         public ICommand GoToLastPageTransactionsCommand => new RelayCommand(GoToLastPageTransactions, () => CanGoToNextPageTransactions);
+
+        // Date navigation commands for transactions
+        public ICommand GoToPreviousTransactionDayCommand => new RelayCommand(GoToPreviousTransactionDay, () => CanGoToPreviousTransactionDay);
+        public ICommand GoToNextTransactionDayCommand => new RelayCommand(GoToNextTransactionDay, () => CanGoToNextTransactionDay);
+        public ICommand GoToTodayTransactionCommand => new RelayCommand(GoToTodayTransaction);
 
         #endregion
 
@@ -876,42 +926,32 @@ namespace FactoryManagement.ViewModels
         
         private void UpdatePaginatedLoans()
         {
-            TotalRecordsLoans = Loans.Count;
-            TotalPagesLoans = TotalRecordsLoans > 0 ? (int)Math.Ceiling((double)TotalRecordsLoans / PageSizeLoans) : 1;
-            
-            if (CurrentPageLoans > TotalPagesLoans)
-                CurrentPageLoans = TotalPagesLoans;
-            if (CurrentPageLoans < 1)
-                CurrentPageLoans = 1;
-            
-            var pagedLoans = Loans
-                .Skip((CurrentPageLoans - 1) * PageSizeLoans)
-                .Take(PageSizeLoans)
+            // Filter loans by current date (using CreatedDate)
+            var loansForDate = Loans
+                .Where(l => l.CreatedDate.Date == CurrentLoanDate.Date)
+                .OrderByDescending(l => l.CreatedDate)
                 .ToList();
             
             PaginatedLoans.Clear();
-            foreach (var loan in pagedLoans)
+            foreach (var loan in loansForDate)
                 PaginatedLoans.Add(loan);
+
+            TotalRecordsLoans = loansForDate.Count;
         }
         
         private void UpdatePaginatedTransactions()
         {
-            TotalRecordsTransactions = Transactions.Count;
-            TotalPagesTransactions = TotalRecordsTransactions > 0 ? (int)Math.Ceiling((double)TotalRecordsTransactions / PageSizeTransactions) : 1;
-            
-            if (CurrentPageTransactions > TotalPagesTransactions)
-                CurrentPageTransactions = TotalPagesTransactions;
-            if (CurrentPageTransactions < 1)
-                CurrentPageTransactions = 1;
-            
-            var pagedTransactions = Transactions
-                .Skip((CurrentPageTransactions - 1) * PageSizeTransactions)
-                .Take(PageSizeTransactions)
+            // Filter transactions by current date
+            var transactionsForDate = Transactions
+                .Where(t => t.TransactionDate.Date == CurrentTransactionDate.Date)
+                .OrderByDescending(t => t.TransactionDate)
                 .ToList();
             
             PaginatedTransactions.Clear();
-            foreach (var transaction in pagedTransactions)
+            foreach (var transaction in transactionsForDate)
                 PaginatedTransactions.Add(transaction);
+
+            TotalRecordsTransactions = transactionsForDate.Count;
         }
         
         private void GoToFirstPageLoans()
@@ -935,6 +975,21 @@ namespace FactoryManagement.ViewModels
         {
             CurrentPageLoans = TotalPagesLoans;
         }
+
+        private void GoToPreviousLoanDay()
+        {
+            CurrentLoanDate = CurrentLoanDate.AddDays(-1);
+        }
+
+        private void GoToNextLoanDay()
+        {
+            CurrentLoanDate = CurrentLoanDate.AddDays(1);
+        }
+
+        private void GoToTodayLoan()
+        {
+            CurrentLoanDate = DateTime.Today;
+        }
         
         private void GoToFirstPageTransactions()
         {
@@ -956,6 +1011,21 @@ namespace FactoryManagement.ViewModels
         private void GoToLastPageTransactions()
         {
             CurrentPageTransactions = TotalPagesTransactions;
+        }
+
+        private void GoToPreviousTransactionDay()
+        {
+            CurrentTransactionDate = CurrentTransactionDate.AddDays(-1);
+        }
+
+        private void GoToNextTransactionDay()
+        {
+            CurrentTransactionDate = CurrentTransactionDate.AddDays(1);
+        }
+
+        private void GoToTodayTransaction()
+        {
+            CurrentTransactionDate = DateTime.Today;
         }
         
         #endregion

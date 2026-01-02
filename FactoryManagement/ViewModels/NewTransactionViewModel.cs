@@ -35,6 +35,13 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<Transaction> _paginatedRecentTransactions = new();
 
+        // Date navigation properties
+        [ObservableProperty]
+        private DateTime _currentDisplayDate = DateTime.Today;
+
+        public bool CanGoToNextDay => CurrentDisplayDate < DateTime.Today;
+        public bool CanGoToPreviousDay => true; // Can always go to previous days
+
         [ObservableProperty]
         private Item? _selectedItem;
 
@@ -139,12 +146,47 @@ namespace FactoryManagement.ViewModels
 
         protected override void UpdatePaginatedData()
         {
-            CalculatePagination(RecentTransactions);
+            // Filter transactions for the current display date
+            var transactionsForDate = RecentTransactions
+                .Where(t => t.TransactionDate.Date == CurrentDisplayDate.Date)
+                .OrderByDescending(t => t.TransactionDate)
+                .ToList();
+
             PaginatedRecentTransactions.Clear();
-            foreach (var transaction in GetPagedItems(RecentTransactions))
+            foreach (var transaction in transactionsForDate)
             {
                 PaginatedRecentTransactions.Add(transaction);
             }
+
+            // Update total records to show count for current date
+            TotalRecords = transactionsForDate.Count;
+        }
+
+        partial void OnCurrentDisplayDateChanged(DateTime value)
+        {
+            UpdatePaginatedData();
+            OnPropertyChanged(nameof(CanGoToNextDay));
+            OnPropertyChanged(nameof(CanGoToPreviousDay));
+            GoToNextDayCommand.NotifyCanExecuteChanged();
+            GoToPreviousDayCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToPreviousDay))]
+        private void GoToPreviousDay()
+        {
+            CurrentDisplayDate = CurrentDisplayDate.AddDays(-1);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoToNextDay))]
+        private void GoToNextDay()
+        {
+            CurrentDisplayDate = CurrentDisplayDate.AddDays(1);
+        }
+
+        [RelayCommand]
+        private void GoToToday()
+        {
+            CurrentDisplayDate = DateTime.Today;
         }
 
         private static ISnackbarMessageQueue? CreateSnackbarIfUiThread()
