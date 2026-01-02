@@ -305,6 +305,29 @@ namespace FactoryManagement.ViewModels
 
                     // Delegate stock reversal/apply to service for consistency
                     await _transactionService.UpdateTransactionWithStockAsync(transaction);
+                    
+                    // Create loan transaction in financial section if payment mode is Loan
+                    if (SelectedPaymentMode == PaymentMode.Loan && SelectedParty != null)
+                    {
+                        var loanType = SelectedTransactionType == TransactionType.Buy 
+                            ? LoanType.Taken 
+                            : LoanType.Given;
+                        
+                        var loan = new LoanAccount
+                        {
+                            PartyId = SelectedParty.PartyId,
+                            LoanType = loanType,
+                            OriginalAmount = TotalAmount,
+                            InterestRate = 0, // Interest rate is 0 as per requirement
+                            StartDate = CombineDateAndTime(TransactionDate, TransactionTime),
+                            Status = LoanStatus.Active,
+                            CreatedBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1,
+                            Notes = $"Auto-created from edited {SelectedTransactionType} transaction for {SelectedItem?.ItemName} - {Notes}"
+                        };
+                        
+                        await _financialTransactionService.CreateLoanAsync(loan, PaymentMode.Loan);
+                    }
+                    
                     ErrorMessage = "✓ Transaction updated successfully!";
                 }
                 else
