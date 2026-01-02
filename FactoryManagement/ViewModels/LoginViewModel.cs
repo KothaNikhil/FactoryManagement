@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FactoryManagement.Models;
 using FactoryManagement.Services;
+using FactoryManagement.Helpers;
+using FactoryManagement.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -67,7 +69,7 @@ namespace FactoryManagement.ViewModels
         }
 
         [RelayCommand]
-        private void Login()
+        private async Task LoginAsync()
         {
             ErrorMessage = string.Empty;
 
@@ -77,9 +79,58 @@ namespace FactoryManagement.ViewModels
                 return;
             }
 
-            LoggedInUser = SelectedUser;
-            _window.DialogResult = true;
-            _window.Close();
+            // Check if this is an admin user and requires password
+            if (PasswordHelper.IsAdminRole(SelectedUser.Role))
+            {
+                // Check if password is set for admin
+                if (string.IsNullOrEmpty(SelectedUser.PasswordHash))
+                {
+                    // First time setup - ask to set password
+                    var setupDialog = new PasswordDialog();
+                    var setupViewModel = new PasswordDialogViewModel(setupDialog, isSetupMode: true);
+                    setupDialog.DataContext = setupViewModel;
+
+                    if (setupDialog.ShowDialog() == true && setupViewModel.IsConfirmed)
+                    {
+                        var password = setupDialog.Password;
+                        SelectedUser.PasswordHash = PasswordHelper.HashPassword(password);
+                        await _userService.UpdateUserAsync(SelectedUser);
+                        
+                        LoggedInUser = SelectedUser;
+                        _window.DialogResult = true;
+                        _window.Close();
+                    }
+                    return;
+                }
+
+                // Verify password
+                var passwordDialog = new PasswordDialog();
+                var passwordViewModel = new PasswordDialogViewModel(passwordDialog, isSetupMode: false);
+                passwordViewModel.Message = $"Enter password for {SelectedUser.Username}";
+                passwordDialog.DataContext = passwordViewModel;
+
+                if (passwordDialog.ShowDialog() == true && passwordViewModel.IsConfirmed)
+                {
+                    var enteredPassword = passwordDialog.Password;
+                    
+                    if (!PasswordHelper.VerifyPassword(enteredPassword, SelectedUser.PasswordHash))
+                    {
+                        ErrorMessage = "Incorrect password. Please try again.";
+                        return;
+                    }
+
+                    LoggedInUser = SelectedUser;
+                    _window.DialogResult = true;
+                    _window.Close();
+                }
+            }
+            else
+            {
+                // Non-admin users don't need password
+                LoggedInUser = SelectedUser;
+                _window.DialogResult = true;
+                _window.Close();
+            }
         }
 
         [RelayCommand]

@@ -290,11 +290,9 @@ namespace FactoryManagement.Data
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            // Seed Users
+            // Seed only Admin user - additional users can be created as needed
             modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, Username = "Admin", Role = "Administrator", IsActive = true },
-                new User { UserId = 2, Username = "Manager", Role = "Manager", IsActive = true },
-                new User { UserId = 3, Username = "Operator", Role = "Operator", IsActive = true }
+                new User { UserId = 1, Username = "Admin", Role = "Administrator", IsActive = true }
             );
 
             // Seed Items

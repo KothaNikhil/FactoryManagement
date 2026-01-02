@@ -12,6 +12,7 @@ using FactoryManagement.Models;
 using FactoryManagement.Services;
 using FactoryManagement.ViewModels;
 using FactoryManagement.Views;
+using FactoryManagement.Helpers;
 using Serilog;
 
 namespace FactoryManagement
@@ -71,18 +72,27 @@ namespace FactoryManagement
                 var mainViewModel = _serviceProvider.GetRequiredService<MainWindowViewModel>();
                 mainWindow.DataContext = mainViewModel;
                 
-                // Store the logged in user ID to set after initialization
+                // Store the logged in user ID
                 var loggedInUserId = loginViewModel.LoggedInUser.UserId;
+                
+                // Mark the logged in user as authenticated BEFORE initialization (if admin)
+                if (PasswordHelper.IsAdminRole(loginViewModel.LoggedInUser.Role))
+                {
+                    mainViewModel.SetAuthenticatedUser(loggedInUserId);
+                }
+                
+                // Set the selected user first (before loading users) so LoadActiveUsersAsync can preserve it
+                mainViewModel.SelectedUser = loginViewModel.LoggedInUser;
+                
+                // Load active users and restore the selected user
+                await mainViewModel.LoadActiveUsersAsync();
                 
                 // Set as main application window and show
                 MainWindow = mainWindow;
                 mainWindow.Show();
                 
-                // Initialize the dashboard and load data
+                // Initialize the dashboard and load data (this won't change SelectedUser now)
                 await mainViewModel.InitializeAsync();
-                
-                // Set the logged in user as the selected user (from the loaded ActiveUsers collection)
-                mainViewModel.SelectedUser = mainViewModel.ActiveUsers.FirstOrDefault(u => u.UserId == loggedInUserId);
             }
             else
             {
@@ -158,9 +168,6 @@ namespace FactoryManagement
                 // Apply lightweight schema upgrades for newly added columns
                 ApplySchemaUpgrades(context);
                 Log.Information("Database initialized successfully");
-                
-                // Seed initial data if needed
-                SeedData(context);
             }
             catch (Exception ex)
             {
@@ -369,57 +376,6 @@ namespace FactoryManagement
                 {
                     throw;
                 }
-            }
-        }
-        
-        private void SeedData(FactoryDbContext context)
-        {
-            // Check if data already exists
-            if (context.Items.Any() || context.Parties.Any() || context.Users.Any())
-                return;
-                
-            try
-            {
-                // Seed Users - Guest user is required and cannot be deleted
-                var guestUser = new User
-                {
-                    Username = "Guest",
-                    Role = "Guest",
-                    IsActive = true
-                };
-                var adminUser = new User
-                {
-                    Username = "Admin",
-                    Role = "Admin",
-                    IsActive = true
-                };
-                context.Users.AddRange(guestUser, adminUser);
-                context.SaveChanges();
-                
-                // Seed Items
-                var items = new[]
-                {
-                    new Item { ItemName = "Rice", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Husk", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Paddy", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Broken Rice", Unit = "Kg", CurrentStock = 0 }
-                };
-                context.Items.AddRange(items);
-                
-                // Seed Parties
-                var parties = new[]
-                {
-                    new Party { Name = "Sample Supplier", MobileNumber = "9876543210", Place = "City A", PartyType = PartyType.Seller },
-                    new Party { Name = "Sample Buyer", MobileNumber = "9876543211", Place = "City B", PartyType = PartyType.Buyer }
-                };
-                context.Parties.AddRange(parties);
-                
-                context.SaveChanges();
-                Log.Information("Seed data created successfully");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error seeding data");
             }
         }
 

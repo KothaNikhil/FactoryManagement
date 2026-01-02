@@ -20,6 +20,12 @@ namespace FactoryManagement.Models
 
         public bool IsActive { get; set; } = true;
 
+        /// <summary>
+        /// SHA256 hash of the password. Only required for Admin users.
+        /// </summary>
+        [MaxLength(256)]
+        public string? PasswordHash { get; set; }
+
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         
         public DateTime? ModifiedDate { get; set; }
