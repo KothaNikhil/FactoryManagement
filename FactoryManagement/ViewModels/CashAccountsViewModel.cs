@@ -57,6 +57,14 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private decimal _totalCombinedBalance = 0;
 
+        // Admin check property - observable so it updates when user changes
+        [ObservableProperty]
+        private bool _isAdmin;
+
+        // Property to track if opening balance can be edited
+        [ObservableProperty]
+        private bool _canEditOpeningBalance = false;
+
         private int? _editingAccountId;
 
         public CashAccountsViewModel(ICashAccountService cashAccountService)
@@ -64,6 +72,29 @@ namespace FactoryManagement.ViewModels
             _cashAccountService = cashAccountService;
             // In a real app, get from logged-in user context
             _currentUserId = 1;
+
+            // Initialize IsAdmin based on current user
+            UpdateIsAdminStatus();
+
+            // Subscribe to MainWindowViewModel user changes
+            if (MainWindowViewModel.Instance != null)
+            {
+                MainWindowViewModel.Instance.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(MainWindowViewModel.SelectedUser))
+                    {
+                        UpdateIsAdminStatus();
+                    }
+                };
+            }
+        }
+
+        private void UpdateIsAdminStatus()
+        {
+            IsAdmin = MainWindowViewModel.Instance?.CurrentUser?.Role == "Admin";
+            // Also update CanEditOpeningBalance
+            // Opening balance is editable when: NOT editing (new account) OR user is admin
+            CanEditOpeningBalance = !IsEditing || IsAdmin;
         }
 
         public async Task InitializeAsync()
@@ -177,12 +208,12 @@ namespace FactoryManagement.ViewModels
                     {
                         account.AccountName = AccountName.Trim();
                         account.AccountType = AccountType;
+                        account.OpeningBalance = OpeningBalance;
                         account.Description = Description.Trim();
                         account.IsActive = IsActive;
-                        // Note: OpeningBalance cannot be changed once created
                         // CurrentBalance is managed automatically by transactions
 
-                        await _cashAccountService.UpdateAccountAsync(account);
+                        await _cashAccountService.UpdateAccountAsync(account, MainWindowViewModel.Instance?.CurrentUser?.Role);
                         MessageBox.Show("Account updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
@@ -278,6 +309,20 @@ namespace FactoryManagement.ViewModels
                 // When account is selected, load its balance history
                 LoadBalanceHistoryCommand.Execute(value);
             }
+        }
+
+        partial void OnIsEditingChanged(bool value)
+        {
+            // Update CanEditOpeningBalance when IsEditing changes
+            // Opening balance is editable when: NOT editing (new account) OR user is admin
+            CanEditOpeningBalance = !value || IsAdmin;
+        }
+
+        partial void OnIsAdminChanged(bool value)
+        {
+            // Update CanEditOpeningBalance when IsAdmin changes
+            // Opening balance is editable when: NOT editing (new account) OR user is admin
+            CanEditOpeningBalance = !IsEditing || value;
         }
     }
 }

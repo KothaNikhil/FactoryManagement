@@ -12,7 +12,7 @@ namespace FactoryManagement.Services
         Task<CashAccount?> GetAccountByIdAsync(int accountId);
         Task<CashAccount?> GetAccountByTypeAsync(AccountType accountType);
         Task<List<CashAccount>> GetAllActiveAccountsAsync();
-        Task<CashAccount> UpdateAccountAsync(CashAccount account);
+        Task<CashAccount> UpdateAccountAsync(CashAccount account, string? userRole = null);
         
         // Balance Operations
         Task<decimal> GetCurrentBalanceAsync(AccountType accountType);

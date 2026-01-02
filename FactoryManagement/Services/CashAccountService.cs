@@ -67,8 +67,16 @@ namespace FactoryManagement.Services
             return accounts.OrderBy(a => a.AccountName).ToList();
         }
 
-        public async Task<CashAccount> UpdateAccountAsync(CashAccount account)
+        public async Task<CashAccount> UpdateAccountAsync(CashAccount account, string? userRole = null)
         {
+            var existingAccount = await _cashAccountRepository.GetByIdAsync(account.AccountId);
+            if (existingAccount == null)
+                throw new InvalidOperationException("Account not found");
+
+            // Admin-only check: Prevent non-admins from changing opening balance
+            if (existingAccount.OpeningBalance != account.OpeningBalance && userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can edit opening balances.");
+
             account.ModifiedDate = DateTime.Now;
             await _cashAccountRepository.UpdateAsync(account);
             return account;

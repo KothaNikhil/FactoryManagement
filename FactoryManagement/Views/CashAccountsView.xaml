@@ -226,8 +226,18 @@
                                                                Foreground="White" 
                                                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Border>
-                                    <TextBlock Text="{Binding IsEditing, StringFormat='Edit Account|New Account'}"
-                                             Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="New Account"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                        <Setter Property="Text" Value="Edit Account"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
 
@@ -261,7 +271,7 @@
                                            Style="{StaticResource TextBox.Standard}"
                                            Padding="10,8"
                                            Foreground="{StaticResource TextPrimary}"
-                                           IsEnabled="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"/>
+                                           IsEnabled="{Binding CanEditOpeningBalance, Mode=OneWay}"/>
                                 </StackPanel>
 
                                 <!-- Description -->
