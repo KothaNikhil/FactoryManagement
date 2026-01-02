@@ -18,6 +18,7 @@ namespace FactoryManagement.Data
         public DbSet<WageTransaction> WageTransactions { get; set; }
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public DbSet<OperationalExpense> OperationalExpenses { get; set; }
+        public DbSet<CashBalance> CashBalances { get; set; }
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
@@ -145,6 +146,17 @@ namespace FactoryManagement.Data
             modelBuilder.Entity<OperationalExpense>()
                 .Property(oe => oe.Amount)
                 .HasPrecision(18, 2);
+
+            // Configure CashBalance indexes
+            modelBuilder.Entity<CashBalance>()
+                .HasIndex(cb => cb.Date)
+                .IsUnique();
+
+            modelBuilder.Entity<CashBalance>()
+                .HasIndex(cb => cb.IsReconciled);
+
+            modelBuilder.Entity<CashBalance>()
+                .HasIndex(cb => cb.ReconciledBy);
 
             // Configure relationships
             // Transactions: prevent cascades

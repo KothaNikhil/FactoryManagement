@@ -18,6 +18,7 @@ namespace FactoryManagement.ViewModels
         private readonly IWageService? _wageService;
         private readonly IUnifiedTransactionService? _unifiedTransactionService;
         private readonly IOperationalExpenseService? _operationalExpenseService;
+        private readonly ICashBookService? _cashBookService;
 
         private const int LowStockThreshold = 100;
         private const int StockChartTopCount = 10;
@@ -43,6 +44,9 @@ namespace FactoryManagement.ViewModels
         private int _transactionCount;
 
         [ObservableProperty]
+        private decimal _totalAmountTransacted;
+
+        [ObservableProperty]
         private decimal _totalLoansGiven;
 
         [ObservableProperty]
@@ -59,6 +63,9 @@ namespace FactoryManagement.ViewModels
 
         [ObservableProperty]
         private decimal _monthlyOperationalExpenses;
+
+        [ObservableProperty]
+        private decimal _currentCashInHand;
 
         [ObservableProperty]
         private ObservableCollection<Transaction> _recentTransactions = new();
@@ -94,7 +101,8 @@ namespace FactoryManagement.ViewModels
             IFinancialTransactionService? financialTransactionService = null,
             IWageService? wageService = null,
             IUnifiedTransactionService? unifiedTransactionService = null,
-            IOperationalExpenseService? operationalExpenseService = null)
+            IOperationalExpenseService? operationalExpenseService = null,
+            ICashBookService? cashBookService = null)
         {
             _transactionService = transactionService;
             _itemService = itemService;
@@ -102,6 +110,7 @@ namespace FactoryManagement.ViewModels
             _wageService = wageService;
             _unifiedTransactionService = unifiedTransactionService;
             _operationalExpenseService = operationalExpenseService;
+            _cashBookService = cashBookService;
         }
 
         protected override void UpdatePaginatedData()
@@ -233,6 +242,9 @@ namespace FactoryManagement.ViewModels
 
                 TransactionCount = transactions.Count;
 
+                // Calculate total amount transacted (sum of all transaction amounts)
+                TotalAmountTransacted = transactions.Sum(t => t.TotalAmount);
+
                 var recentList = transactions
                     .OrderByDescending(t => t.TransactionDate)
                     .Take(10)
@@ -343,6 +355,12 @@ namespace FactoryManagement.ViewModels
                 {
                     TotalOperationalExpenses = opExpensesTotalTask != null ? await opExpensesTotalTask : 0m;
                     MonthlyOperationalExpenses = opExpensesMonthlyTask != null ? await opExpensesMonthlyTask : 0m;
+                }
+
+                // Load cash in hand if service is available
+                if (_cashBookService != null)
+                {
+                    CurrentCashInHand = await _cashBookService.GetCurrentCashInHandAsync();
                 }
 
                 // Load wage data if service is available

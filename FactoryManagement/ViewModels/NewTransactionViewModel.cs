@@ -35,6 +35,19 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private ObservableCollection<Transaction> _paginatedRecentTransactions = new();
 
+        // Summary card properties
+        [ObservableProperty]
+        private decimal _totalPurchases;
+
+        [ObservableProperty]
+        private decimal _totalSales;
+
+        [ObservableProperty]
+        private decimal _totalProcessingFees;
+
+        [ObservableProperty]
+        private decimal _totalWastage;
+
         // Date navigation properties
         [ObservableProperty]
         private DateTime _currentDisplayDate = DateTime.Today;
@@ -299,6 +312,23 @@ namespace FactoryManagement.ViewModels
                 foreach (var trans in recentTrans)
                     RecentTransactions.Add(trans);
                 UpdatePaginatedData();
+
+                // Calculate summary card totals from recent transactions
+                TotalPurchases = recentTrans
+                    .Where(t => t.TransactionType == TransactionType.Buy)
+                    .Sum(t => t.TotalAmount);
+
+                TotalSales = recentTrans
+                    .Where(t => t.TransactionType == TransactionType.Sell)
+                    .Sum(t => t.TotalAmount);
+
+                TotalProcessingFees = recentTrans
+                    .Where(t => t.TransactionType == TransactionType.Processing)
+                    .Sum(t => t.TotalAmount);
+
+                TotalWastage = recentTrans
+                    .Where(t => t.TransactionType == TransactionType.Wastage)
+                    .Sum(t => t.TotalAmount);
             }
             catch (Exception ex)
             {

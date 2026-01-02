@@ -124,6 +124,8 @@
             <converters:WageBarHeightConverter x:Key="WageBarHeightConverter"/>
             <converters:WageBarHeightConverter2 x:Key="WageBarHeightConverter2"/>
             <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+            <converters:IsPositiveConverter x:Key="IsPositiveConverter"/>
+            <converters:IsNegativeConverter x:Key="IsNegativeConverter"/>
             
             <!-- Enhanced DataGrid Styles aligned with dark theme suggestions -->
             <Style x:Key="EnhancedDataGrid" TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">

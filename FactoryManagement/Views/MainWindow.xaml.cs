@@ -139,6 +139,9 @@ namespace FactoryManagement.Views
                     case "OperationalExpenses":
                         await ViewModel.NavigateToOperationalExpensesCommand.ExecuteAsync(null);
                         break;
+                    case "CashBook":
+                        await ViewModel.NavigateToCashBookCommand.ExecuteAsync(null);
+                        break;
                     case "ExpenseCategories":
                         await ViewModel.NavigateToExpenseCategoriesCommand.ExecuteAsync(null);
                         break;
@@ -260,7 +263,7 @@ namespace FactoryManagement.Views
                         tag = "Users";
                         break;
                     case Key.B:
-                        tag = "Backup";
+                        tag = "CashBook";
                         break;
                     case Key.W:
                         tag = "Workers";

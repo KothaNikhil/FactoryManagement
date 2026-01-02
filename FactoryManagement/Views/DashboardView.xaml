@@ -12,10 +12,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Summary Cards (Top Row) -->
+            <!-- Summary Cards (Top Row) - Simplified to 3 cards -->
             <Grid Grid.Row="0" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -23,96 +24,34 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Total Purchases Card -->
-                <Border Grid.Column="0" Background="{StaticResource SummaryCardSuccess}" CornerRadius="8" Padding="16">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="🛒" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Total Purchases" Foreground="{StaticResource LabelSuccess}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding TotalPurchases, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                <!-- Total Transactions Today Card -->
+                <controls:SummaryCard Grid.Column="0"
+                                      Label="Transactions Today"
+                                      Value="{Binding TransactionCount}"
+                                      Icon="📊"
+                                      CardBackground="{StaticResource Card.Info}"
+                                      LabelForeground="{StaticResource Card.Info.Label}"/>
 
-                <!-- Total Sales Card -->
-                <Border Grid.Column="2" Background="{StaticResource SummaryCardInfo}" CornerRadius="8" Padding="16">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Total Sales" Foreground="{StaticResource LabelInfo}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding TotalSales, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                <!-- Total Amount Transacted Card -->
+                <controls:SummaryCard Grid.Column="2"
+                                      Label="Total Amount"
+                                      Value="{Binding TotalAmountTransacted, StringFormat='₹{0:N2}'}"
+                                      Icon="💵"
+                                      CardBackground="{StaticResource Card.Success}"
+                                      LabelForeground="{StaticResource Card.Success.Label}"/>
 
-                <!-- Processing Fees Card -->
-                <Border Grid.Column="4" Background="{StaticResource SummaryCardWarning}" CornerRadius="8" Padding="16">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="⚙️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Processing Fees" Foreground="{StaticResource LabelWarning}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding TotalProcessingFees, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding ProcessingTransactionCount, StringFormat='{}{0} transactions'}" 
-                                       Foreground="{StaticResource LabelWarning}" FontSize="9" Margin="0,2,0,0"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Total Wastage Card -->
-                <Border Grid.Column="6" Background="{StaticResource SummaryCardDanger}" CornerRadius="8" Padding="16">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
-                    </Border.Effect>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Grid.Column="0" Text="🗑️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Total Wastage" Foreground="{StaticResource LabelDanger}" FontSize="11" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding TotalWastage, StringFormat='₹{0:N2}'}" 
-                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                <!-- Cash in Hand Card -->
+                <controls:SummaryCard Grid.Column="4"
+                                      Label="Cash in Hand"
+                                      Value="{Binding CurrentCashInHand, StringFormat='₹{0:N2}'}"
+                                      Icon="💰"
+                                      CardBackground="{StaticResource Card.Warning}"
+                                      LabelForeground="{StaticResource Card.Warning.Label}"/>
             </Grid>
+
+            <!-- Row 1 removed - simplified -->
 
             <!-- Main Content Area -->
             <Grid Grid.Row="2">

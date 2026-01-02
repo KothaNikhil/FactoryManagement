@@ -72,6 +72,7 @@ namespace FactoryManagement.ViewModels
         private readonly UsersViewModel _usersViewModel;
         private readonly OperationalExpensesViewModel _operationalExpensesViewModel;
         private readonly ExpenseCategoryManagementViewModel _expenseCategoryManagementViewModel;
+        private readonly CashBookViewModel _cashBookViewModel;
 
         private readonly FactoryDbContext _dbContext;
         private readonly IUserService _userService;
@@ -89,6 +90,7 @@ namespace FactoryManagement.ViewModels
             UsersViewModel usersViewModel,
             OperationalExpensesViewModel operationalExpensesViewModel,
             ExpenseCategoryManagementViewModel expenseCategoryManagementViewModel,
+            CashBookViewModel cashBookViewModel,
             FactoryDbContext dbContext,
             IUserService userService)
         {
@@ -104,6 +106,7 @@ namespace FactoryManagement.ViewModels
             _usersViewModel = usersViewModel;
             _operationalExpensesViewModel = operationalExpensesViewModel;
             _expenseCategoryManagementViewModel = expenseCategoryManagementViewModel;
+            _cashBookViewModel = cashBookViewModel;
             _dbContext = dbContext;
             _userService = userService;
 
@@ -223,7 +226,16 @@ namespace FactoryManagement.ViewModels
             _operationalExpensesViewModel.CurrentUserId = SelectedUser?.UserId ?? 1;
             await _operationalExpensesViewModel.InitializeAsync();
         }
-
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToCashBookAsync()
+        {
+            await LoadActiveUsersAsync(); // Refresh user dropdown
+            CurrentView = _cashBookViewModel;
+            CurrentViewTitle = "Cash Book";
+            CurrentViewSubtitle = "Daily cash tracking and reconciliation.";
+            _cashBookViewModel.CurrentUserId = SelectedUser?.UserId ?? 1;
+            await _cashBookViewModel.InitializeAsync();
+        }
         [RelayCommand]
         private async System.Threading.Tasks.Task NavigateToExpenseCategoriesAsync()
         {

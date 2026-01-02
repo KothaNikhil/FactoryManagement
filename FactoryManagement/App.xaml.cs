@@ -120,6 +120,7 @@ namespace FactoryManagement
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
             services.AddScoped<IOperationalExpenseRepository, OperationalExpenseRepository>();
+            services.AddScoped<ICashBalanceRepository, CashBalanceRepository>();
 
             // Services
             services.AddScoped<IItemService, ItemService>();
@@ -134,6 +135,7 @@ namespace FactoryManagement
             services.AddScoped<IReportExportBuilder, ReportExportBuilder>();
             services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             services.AddScoped<IOperationalExpenseService, OperationalExpenseService>();
+            services.AddScoped<ICashBookService, CashBookService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();
@@ -150,6 +152,7 @@ namespace FactoryManagement
             services.AddTransient<LoginViewModel>();
             services.AddTransient<OperationalExpensesViewModel>();
             services.AddTransient<ExpenseCategoryManagementViewModel>();
+            services.AddTransient<CashBookViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();
@@ -197,6 +200,9 @@ namespace FactoryManagement
                 TryAddColumn(context, "FinancialTransactions", "PartyName", "TEXT DEFAULT ''");
                 TryAddColumn(context, "LoanAccounts", "PartyName", "TEXT DEFAULT ''");
                 TryAddColumn(context, "FinancialTransactions", "ModifiedDate", "DATETIME");
+                
+                // Cash Balance table columns (will auto-create if new install)
+                TryAddColumn(context, "CashBalances", "DiscrepancyReason", "TEXT NULL");
                 
                 // Add ItemName column to preserve item names after deletion
                 TryAddColumn(context, "Transactions", "ItemName", "TEXT DEFAULT ''");
