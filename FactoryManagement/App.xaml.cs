@@ -53,10 +53,38 @@ namespace FactoryManagement
             ConfigureServices(services);
             _serviceProvider = services.BuildServiceProvider();
 
-            // Initialize database
+            // Check if database exists and has data before initializing
+            bool isFirstLaunch = false;
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<FactoryDbContext>();
+                try
+                {
+                    // Check if database is empty (no users at all)
+                    isFirstLaunch = !context.Users.Any();
+                    Log.Information($"Database check - IsFirstLaunch: {isFirstLaunch}, UserCount: {context.Users.Count()}");
+                }
+                catch
+                {
+                    // Database doesn't exist yet
+                    isFirstLaunch = true;
+                }
+            }
+
+            // Initialize database (creates tables if needed)
             InitializeDatabase();
 
-            // Show login window first
+            // Show setup wizard on first launch
+            if (isFirstLaunch)
+            {
+                Log.Information("Showing setup wizard for first launch");
+                var setupViewModel = _serviceProvider.GetRequiredService<SetupWizardViewModel>();
+                var setupWizard = new SetupWizard(setupViewModel);
+                var wizardResult = setupWizard.ShowDialog();
+                Log.Information($"Setup wizard completed with result: {wizardResult}");
+            }
+
+            // Show login window
             var loginWindow = _serviceProvider.GetRequiredService<LoginWindow>();
             var userService = _serviceProvider.GetRequiredService<IUserService>();
             var loginViewModel = new LoginViewModel(userService, loginWindow);
@@ -110,6 +138,8 @@ namespace FactoryManagement
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
             services.AddScoped<IOperationalExpenseRepository, OperationalExpenseRepository>();
+            services.AddScoped<ICashAccountRepository, CashAccountRepository>();
+            services.AddScoped<IBalanceHistoryRepository, BalanceHistoryRepository>();
 
             // Services
             services.AddScoped<IItemService, ItemService>();
@@ -124,6 +154,7 @@ namespace FactoryManagement
             services.AddScoped<IReportExportBuilder, ReportExportBuilder>();
             services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             services.AddScoped<IOperationalExpenseService, OperationalExpenseService>();
+            services.AddScoped<ICashAccountService, CashAccountService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();
@@ -140,10 +171,13 @@ namespace FactoryManagement
             services.AddTransient<LoginViewModel>();
             services.AddTransient<OperationalExpensesViewModel>();
             services.AddTransient<ExpenseCategoryManagementViewModel>();
+            services.AddTransient<CashAccountsViewModel>();
+            services.AddTransient<SetupWizardViewModel>();
 
             // Views
             services.AddTransient<MainWindow>();
             services.AddTransient<LoginWindow>();
+            services.AddTransient<SetupWizard>();
         }
 
         private void InitializeDatabase()
@@ -247,6 +281,9 @@ namespace FactoryManagement
                 // Add Operational Expenses tables if they don't exist
                 CreateOperationalExpenseTablesIfNeeded(context);
 
+                // Add Cash Balance Management tables if they don't exist
+                CreateCashBalanceTablesIfNeeded(context);
+
                 // Add IsDeleted column to existing ExpenseCategories table
                 TryAddColumn(context, "ExpenseCategories", "IsDeleted", "INTEGER NOT NULL DEFAULT 0");
 
@@ -348,6 +385,174 @@ namespace FactoryManagement
             }
         }
 
+        private void CreateCashBalanceTablesIfNeeded(FactoryDbContext context)
+        {
+            try
+            {
+                // Check if CashAccounts table exists
+                var cashAccountsExists = false;
+                try
+                {
+                    context.Database.ExecuteSqlRaw("SELECT 1 FROM CashAccounts LIMIT 1");
+                    cashAccountsExists = true;
+                }
+                catch
+                {
+                    cashAccountsExists = false;
+                }
+
+                // If tables don't exist, create them
+                if (!cashAccountsExists)
+                {
+                    Log.Information("Creating Cash Balance Management tables...");
+
+                    // Create CashAccounts table
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE TABLE IF NOT EXISTS CashAccounts (
+                            AccountId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            AccountName TEXT NOT NULL,
+                            AccountType INTEGER NOT NULL,
+                            OpeningBalance NUMERIC NOT NULL,
+                            CurrentBalance NUMERIC NOT NULL,
+                            OpeningDate DATETIME NOT NULL,
+                            Description TEXT NOT NULL DEFAULT '',
+                            IsActive INTEGER NOT NULL DEFAULT 1,
+                            CreatedBy INTEGER NOT NULL,
+                            CreatedDate DATETIME NOT NULL,
+                            ModifiedDate DATETIME NULL,
+                            CONSTRAINT FK_CashAccounts_Users_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES Users (UserId) ON DELETE RESTRICT
+                        )
+                    ");
+
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE INDEX IX_CashAccounts_AccountType ON CashAccounts (AccountType)
+                    ");
+
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE INDEX IX_CashAccounts_IsActive ON CashAccounts (IsActive)
+                    ");
+
+                    // Create BalanceHistories table
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE TABLE IF NOT EXISTS BalanceHistories (
+                            BalanceHistoryId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            AccountId INTEGER NOT NULL,
+                            ChangeType INTEGER NOT NULL,
+                            PreviousBalance NUMERIC NOT NULL,
+                            ChangeAmount NUMERIC NOT NULL,
+                            NewBalance NUMERIC NOT NULL,
+                            TransactionDate DATETIME NOT NULL,
+                            Notes TEXT NOT NULL DEFAULT '',
+                            EnteredBy INTEGER NOT NULL,
+                            CreatedDate DATETIME NOT NULL,
+                            TransactionId INTEGER NULL,
+                            FinancialTransactionId INTEGER NULL,
+                            WageTransactionId INTEGER NULL,
+                            OperationalExpenseId INTEGER NULL,
+                            CONSTRAINT FK_BalanceHistories_CashAccounts_AccountId FOREIGN KEY (AccountId) REFERENCES CashAccounts (AccountId) ON DELETE CASCADE,
+                            CONSTRAINT FK_BalanceHistories_Users_EnteredBy FOREIGN KEY (EnteredBy) REFERENCES Users (UserId) ON DELETE RESTRICT,
+                            CONSTRAINT FK_BalanceHistories_Transactions_TransactionId FOREIGN KEY (TransactionId) REFERENCES Transactions (TransactionId) ON DELETE SET NULL,
+                            CONSTRAINT FK_BalanceHistories_FinancialTransactions_FinancialTransactionId FOREIGN KEY (FinancialTransactionId) REFERENCES FinancialTransactions (FinancialTransactionId) ON DELETE SET NULL,
+                            CONSTRAINT FK_BalanceHistories_WageTransactions_WageTransactionId FOREIGN KEY (WageTransactionId) REFERENCES WageTransactions (WageTransactionId) ON DELETE SET NULL,
+                            CONSTRAINT FK_BalanceHistories_OperationalExpenses_OperationalExpenseId FOREIGN KEY (OperationalExpenseId) REFERENCES OperationalExpenses (OperationalExpenseId) ON DELETE SET NULL
+                        )
+                    ");
+
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE INDEX IX_BalanceHistories_AccountId ON BalanceHistories (AccountId)
+                    ");
+
+                    context.Database.ExecuteSqlRaw(@"
+                        CREATE INDEX IX_BalanceHistories_TransactionDate ON BalanceHistories (TransactionDate)
+                    ");
+
+                    Log.Information("Cash Balance Management tables created successfully");
+
+                    // Seed default cash accounts
+                    SeedDefaultCashAccounts(context);
+                }
+                else
+                {
+                    Log.Debug("Cash Balance Management tables already exist");
+                    
+                    // Check if default accounts exist, if not seed them
+                    var hasAccounts = false;
+                    try
+                    {
+                        hasAccounts = context.CashAccounts.Any();
+                    }
+                    catch { }
+                    
+                    if (!hasAccounts)
+                    {
+                        SeedDefaultCashAccounts(context);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Error creating Cash Balance Management tables (they may already exist)");
+            }
+        }
+
+        private void SeedDefaultCashAccounts(FactoryDbContext context)
+        {
+            try
+            {
+                // Get admin user ID (should be 2, guest is 1)
+                var adminUser = context.Users.FirstOrDefault(u => u.Role == "Admin");
+                if (adminUser == null)
+                {
+                    Log.Warning("Admin user not found, skipping cash account seeding");
+                    return;
+                }
+
+                Log.Information("Seeding default cash accounts...");
+
+                // Insert Main Cash Account
+                context.Database.ExecuteSqlRaw(@"
+                    INSERT INTO CashAccounts (AccountName, AccountType, OpeningBalance, CurrentBalance, OpeningDate, Description, IsActive, CreatedBy, CreatedDate)
+                    VALUES ('Main Cash Account', 0, 0, 0, datetime('now'), 'Default cash account for daily operations', 1, {0}, datetime('now'))
+                ", adminUser.UserId);
+
+                var cashAccountId = context.Database.ExecuteSqlRaw("SELECT last_insert_rowid()");
+
+                // Insert Main Bank Account
+                context.Database.ExecuteSqlRaw(@"
+                    INSERT INTO CashAccounts (AccountName, AccountType, OpeningBalance, CurrentBalance, OpeningDate, Description, IsActive, CreatedBy, CreatedDate)
+                    VALUES ('Main Bank Account', 1, 0, 0, datetime('now'), 'Default bank account for business transactions', 1, {0}, datetime('now'))
+                ", adminUser.UserId);
+
+                var bankAccountId = context.Database.ExecuteSqlRaw("SELECT last_insert_rowid()");
+
+                // Create opening balance history entries
+                var cashAccount = context.CashAccounts.FirstOrDefault(a => a.AccountName == "Main Cash Account");
+                var bankAccount = context.CashAccounts.FirstOrDefault(a => a.AccountName == "Main Bank Account");
+
+                if (cashAccount != null)
+                {
+                    context.Database.ExecuteSqlRaw(@"
+                        INSERT INTO BalanceHistories (AccountId, ChangeType, PreviousBalance, ChangeAmount, NewBalance, TransactionDate, Notes, EnteredBy, CreatedDate)
+                        VALUES ({0}, 0, 0, 0, 0, datetime('now'), 'Opening balance', {1}, datetime('now'))
+                    ", cashAccount.AccountId, adminUser.UserId);
+                }
+
+                if (bankAccount != null)
+                {
+                    context.Database.ExecuteSqlRaw(@"
+                        INSERT INTO BalanceHistories (AccountId, ChangeType, PreviousBalance, ChangeAmount, NewBalance, TransactionDate, Notes, EnteredBy, CreatedDate)
+                        VALUES ({0}, 0, 0, 0, 0, datetime('now'), 'Opening balance', {1}, datetime('now'))
+                    ", bankAccount.AccountId, adminUser.UserId);
+                }
+
+                Log.Information("Default cash accounts seeded successfully");
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Error seeding default cash accounts (they may already exist)");
+            }
+        }
+
         private void TryAddColumn(FactoryDbContext context, string table, string column, string sqliteType)
         {
             try
@@ -374,52 +579,27 @@ namespace FactoryManagement
         
         private void SeedData(FactoryDbContext context)
         {
-            // Check if data already exists
-            if (context.Items.Any() || context.Parties.Any() || context.Users.Any())
-                return;
-                
             try
             {
-                // Seed Users - Guest user is required and cannot be deleted
-                var guestUser = new User
+                // Only seed Admin user on first launch - everything else comes from wizard
+                if (!context.Users.Any())
                 {
-                    Username = "Guest",
-                    Role = "Guest",
-                    IsActive = true
-                };
-                var adminUser = new User
-                {
-                    Username = "Admin",
-                    Role = "Admin",
-                    IsActive = true
-                };
-                context.Users.AddRange(guestUser, adminUser);
-                context.SaveChanges();
-                
-                // Seed Items
-                var items = new[]
-                {
-                    new Item { ItemName = "Rice", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Husk", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Paddy", Unit = "Kg", CurrentStock = 0 },
-                    new Item { ItemName = "Broken Rice", Unit = "Kg", CurrentStock = 0 }
-                };
-                context.Items.AddRange(items);
-                
-                // Seed Parties
-                var parties = new[]
-                {
-                    new Party { Name = "Sample Supplier", MobileNumber = "9876543210", Place = "City A", PartyType = PartyType.Seller },
-                    new Party { Name = "Sample Buyer", MobileNumber = "9876543211", Place = "City B", PartyType = PartyType.Buyer }
-                };
-                context.Parties.AddRange(parties);
-                
-                context.SaveChanges();
-                Log.Information("Seed data created successfully");
+                    var adminUser = new User
+                    {
+                        Username = "Admin",
+                        Role = "Admin",
+                        IsActive = true
+                    };
+                    context.Users.Add(adminUser);
+                    context.SaveChanges();
+                    Log.Information("Admin user created successfully");
+                }
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error seeding data");
+                MessageBox.Show($"Error seeding initial data: {ex.Message}\n\nPlease check the log file for details.", 
+                    "Seeding Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

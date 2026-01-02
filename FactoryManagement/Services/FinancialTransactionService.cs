@@ -31,15 +31,18 @@ namespace FactoryManagement.Services
     {
         private readonly IFinancialTransactionRepository _financialTransactionRepository;
         private readonly ILoanAccountRepository _loanAccountRepository;
+        private readonly ICashAccountService _cashAccountService;
         private readonly FactoryDbContext _context;
 
         public FinancialTransactionService(
             IFinancialTransactionRepository financialTransactionRepository,
             ILoanAccountRepository loanAccountRepository,
+            ICashAccountService cashAccountService,
             FactoryDbContext context)
         {
             _financialTransactionRepository = financialTransactionRepository;
             _loanAccountRepository = loanAccountRepository;
+            _cashAccountService = cashAccountService;
             _context = context;
         }
 
@@ -139,6 +142,9 @@ namespace FactoryManagement.Services
             loanAccount.ModifiedDate = DateTime.Now;
             await _loanAccountRepository.UpdateAsync(loanAccount);
             await _context.SaveChangesAsync();
+
+            // Update cash balance for the payment
+            await UpdateBalanceForPaymentAsync(transaction, paymentAmount, paymentMode);
 
             return transaction;
         }
@@ -399,6 +405,9 @@ namespace FactoryManagement.Services
                 }
             }
 
+            // Reverse cash balance for the transaction
+            await ReverseBalanceForPaymentAsync(tx);
+
             await _financialTransactionRepository.DeleteAsync(tx);
             await _context.SaveChangesAsync();
         }
@@ -525,6 +534,147 @@ namespace FactoryManagement.Services
 
             await _financialTransactionRepository.AddAsync(tx);
             await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Updates cash balance based on payment type and mode
+        /// </summary>
+        private async Task UpdateBalanceForPaymentAsync(FinancialTransaction transaction, decimal paymentAmount, PaymentMode paymentMode)
+        {
+            try
+            {
+                // Only track cash/bank payments
+                if (paymentMode == PaymentMode.Loan)
+                    return;
+
+                // Determine account type based on payment mode
+                var accountType = paymentMode == PaymentMode.Cash 
+                    ? AccountType.Cash 
+                    : AccountType.Bank;
+
+                var account = await _cashAccountService.GetAccountByTypeAsync(accountType);
+                if (account == null)
+                    return; // No balance tracking if account not set up
+
+                // Calculate balance change based on transaction type
+                decimal balanceChange = 0;
+                string notes = "";
+
+                switch (transaction.TransactionType)
+                {
+                    case FinancialTransactionType.LoanGiven:
+                        balanceChange = -paymentAmount; // Money out (loan given)
+                        notes = $"Loan given to {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanTaken:
+                        balanceChange = paymentAmount; // Money in (loan taken)
+                        notes = $"Loan taken from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanRepayment:
+                        balanceChange = paymentAmount; // Money in (loan repayment received)
+                        notes = $"Loan repayment from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanPayment:
+                        balanceChange = -paymentAmount; // Money out (loan payment made)
+                        notes = $"Loan payment to {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.InterestReceived:
+                        balanceChange = transaction.InterestAmount.HasValue ? transaction.InterestAmount.Value : 0;
+                        notes = $"Interest received from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.InterestPaid:
+                        balanceChange = transaction.InterestAmount.HasValue ? -transaction.InterestAmount.Value : 0;
+                        notes = $"Interest paid to {transaction.PartyName}";
+                        break;
+                }
+
+                // Only update balance if there's a change
+                if (balanceChange != 0)
+                {
+                    await _cashAccountService.UpdateBalanceAsync(
+                        account.AccountId,
+                        balanceChange,
+                        BalanceChangeType.Transaction,
+                        notes,
+                        transaction.EnteredBy,
+                        null); // No TransactionId reference for financial transactions
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't fail payment
+                System.Diagnostics.Debug.WriteLine($"Error updating balance for financial transaction: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Reverses the cash balance for a deleted financial transaction
+        /// </summary>
+        private async Task ReverseBalanceForPaymentAsync(FinancialTransaction transaction)
+        {
+            try
+            {
+                // Only track cash/bank payments
+                if (transaction.PaymentMode == PaymentMode.Loan)
+                    return;
+
+                // Determine account type
+                var accountType = transaction.PaymentMode == PaymentMode.Cash 
+                    ? AccountType.Cash 
+                    : AccountType.Bank;
+
+                var account = await _cashAccountService.GetAccountByTypeAsync(accountType);
+                if (account == null)
+                    return;
+
+                // Reverse the balance change
+                decimal reverseAmount = 0;
+                string notes = "";
+
+                switch (transaction.TransactionType)
+                {
+                    case FinancialTransactionType.LoanGiven:
+                        reverseAmount = transaction.Amount; // Reverse the deduction
+                        notes = $"Reversed: Loan given to {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanTaken:
+                        reverseAmount = -transaction.Amount; // Reverse the addition
+                        notes = $"Reversed: Loan taken from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanRepayment:
+                        reverseAmount = -transaction.Amount; // Reverse the addition
+                        notes = $"Reversed: Loan repayment from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.LoanPayment:
+                        reverseAmount = transaction.Amount; // Reverse the deduction
+                        notes = $"Reversed: Loan payment to {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.InterestReceived:
+                        reverseAmount = transaction.InterestAmount.HasValue ? -transaction.InterestAmount.Value : 0;
+                        notes = $"Reversed: Interest received from {transaction.PartyName}";
+                        break;
+                    case FinancialTransactionType.InterestPaid:
+                        reverseAmount = transaction.InterestAmount.HasValue ? transaction.InterestAmount.Value : 0;
+                        notes = $"Reversed: Interest paid to {transaction.PartyName}";
+                        break;
+                }
+
+                // Apply reversal if there's a change
+                if (reverseAmount != 0)
+                {
+                    await _cashAccountService.UpdateBalanceAsync(
+                        account.AccountId,
+                        reverseAmount,
+                        BalanceChangeType.ManualAdjustment,
+                        notes,
+                        transaction.EnteredBy,
+                        null);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error reversing balance for financial transaction: {ex.Message}");
+            }
         }
     }
 }

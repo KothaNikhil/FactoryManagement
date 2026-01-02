@@ -290,6 +290,17 @@
   <!-- Alias for backward compatibility -->
   <Style x:Key="TextBox.Dark" TargetType="TextBox" BasedOn="{StaticResource TextBox.Standard}"/>
   
+  <!-- PASSWORDBOX STYLES -->
+  <!-- Standard PasswordBox style matching TextBox.Standard appearance -->
+  <Style x:Key="PasswordBox.Standard" TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignOutlinedPasswordBox}">
+    <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="MinHeight" Value="40"/>
+  </Style>
+  
   <!-- DATEPICKER STYLES -->
   <!-- Standard DatePicker style for consistent appearance across all screens -->
   <Style x:Key="DatePicker.Standard" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">

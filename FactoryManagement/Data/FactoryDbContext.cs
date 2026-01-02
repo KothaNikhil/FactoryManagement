@@ -18,6 +18,8 @@ namespace FactoryManagement.Data
         public DbSet<WageTransaction> WageTransactions { get; set; }
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
         public DbSet<OperationalExpense> OperationalExpenses { get; set; }
+        public DbSet<CashAccount> CashAccounts { get; set; }
+        public DbSet<BalanceHistory> BalanceHistories { get; set; }
 
         public FactoryDbContext(DbContextOptions<FactoryDbContext> options) : base(options)
         {
@@ -284,81 +286,6 @@ namespace FactoryManagement.Data
                 .HasForeignKey(ec => ec.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Seed initial data
-            SeedData(modelBuilder);
-        }
-
-        private void SeedData(ModelBuilder modelBuilder)
-        {
-            // Seed Users
-            modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, Username = "Admin", Role = "Administrator", IsActive = true },
-                new User { UserId = 2, Username = "Manager", Role = "Manager", IsActive = true },
-                new User { UserId = 3, Username = "Operator", Role = "Operator", IsActive = true }
-            );
-
-            // Seed Items
-            modelBuilder.Entity<Item>().HasData(
-                new Item { ItemId = 1, ItemName = "Rice", CurrentStock = 1000, Unit = "Kg" },
-                new Item { ItemId = 2, ItemName = "Husk", CurrentStock = 500, Unit = "Kg" },
-                new Item { ItemId = 3, ItemName = "Paddy", CurrentStock = 2000, Unit = "Kg" },
-                new Item { ItemId = 4, ItemName = "Broken Rice", CurrentStock = 300, Unit = "Kg" },
-                new Item { ItemId = 5, ItemName = "Bran", CurrentStock = 150, Unit = "Kg" }
-            );
-
-            // Seed Parties
-            modelBuilder.Entity<Party>().HasData(
-                new Party { PartyId = 1, Name = "ABC Traders", MobileNumber = "9876543210", Place = "Mumbai", PartyType = PartyType.Both },
-                new Party { PartyId = 2, Name = "XYZ Suppliers", MobileNumber = "9876543211", Place = "Delhi", PartyType = PartyType.Seller },
-                new Party { PartyId = 3, Name = "PQR Distributors", MobileNumber = "9876543212", Place = "Bangalore", PartyType = PartyType.Buyer },
-                new Party { PartyId = 4, Name = "LMN Enterprises", MobileNumber = "9876543213", Place = "Chennai", PartyType = PartyType.Both }
-            );
-
-            // Seed AppSettings
-            modelBuilder.Entity<AppSettings>().HasData(
-                new AppSettings { SettingId = 1, CompanyName = "Factory Management System", CurrencySymbol = "₹", Address = "123 Industrial Area" }
-            );
-
-            // Seed ExpenseCategories
-            modelBuilder.Entity<ExpenseCategory>().HasData(
-                // Transportation & Logistics
-                new ExpenseCategory { ExpenseCategoryId = 1, CategoryName = "Cab Charges", Description = "Transportation and cab expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 2, CategoryName = "Transportation Fees", Description = "General transportation costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 3, CategoryName = "Freight Charges", Description = "Shipping and freight costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                
-                // Utilities
-                new ExpenseCategory { ExpenseCategoryId = 4, CategoryName = "Electricity", Description = "Electricity bills and charges", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 5, CategoryName = "Water", Description = "Water bills and charges", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 6, CategoryName = "Internet & Phone", Description = "Communication expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                
-                // Machinery & Equipment
-                new ExpenseCategory { ExpenseCategoryId = 7, CategoryName = "Machinery Purchase", Description = "New machinery and equipment purchases", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 8, CategoryName = "Machinery Repair", Description = "Machine repair and servicing costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 9, CategoryName = "Machinery Maintenance", Description = "Regular maintenance costs", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                
-                // Fuel & Energy
-                new ExpenseCategory { ExpenseCategoryId = 10, CategoryName = "Fuel", Description = "Fuel and petroleum expenses", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                new ExpenseCategory { ExpenseCategoryId = 11, CategoryName = "Generator Diesel", Description = "Diesel for generators", CreatedBy = 1, CreatedDate = new DateTime(2026, 1, 1) },
-                
-                // Facility Costs
-                new ExpenseCategory { ExpenseCategoryId = 12, CategoryName = "Rent", Description = "Facility and equipment rent", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new ExpenseCategory { ExpenseCategoryId = 13, CategoryName = "Insurance", Description = "Insurance premiums", CreatedBy = 1, CreatedDate = DateTime.Now },
-                
-                // Office & Admin
-                new ExpenseCategory { ExpenseCategoryId = 14, CategoryName = "Stationery", Description = "Office supplies and stationery", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new ExpenseCategory { ExpenseCategoryId = 15, CategoryName = "Printing", Description = "Printing and documentation costs", CreatedBy = 1, CreatedDate = DateTime.Now },
-                
-                // Professional Services
-                new ExpenseCategory { ExpenseCategoryId = 16, CategoryName = "Legal Fees", Description = "Legal and compliance costs", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new ExpenseCategory { ExpenseCategoryId = 17, CategoryName = "Accounting Fees", Description = "Accounting and auditing fees", CreatedBy = 1, CreatedDate = DateTime.Now },
-                
-                // Maintenance & Repairs
-                new ExpenseCategory { ExpenseCategoryId = 18, CategoryName = "Building Maintenance", Description = "Building and facility maintenance", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new ExpenseCategory { ExpenseCategoryId = 19, CategoryName = "Repairs", Description = "General repair expenses", CreatedBy = 1, CreatedDate = DateTime.Now },
-                
-                // Other
-                new ExpenseCategory { ExpenseCategoryId = 20, CategoryName = "Miscellaneous", Description = "Other miscellaneous expenses", CreatedBy = 1, CreatedDate = DateTime.Now }
-            );
         }
     }
 }

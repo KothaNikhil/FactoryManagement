@@ -124,6 +124,10 @@
             <converters:WageBarHeightConverter x:Key="WageBarHeightConverter"/>
             <converters:WageBarHeightConverter2 x:Key="WageBarHeightConverter2"/>
             <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+            <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+            <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
+            <converters:IntLessThanConverter x:Key="IntLessThanConverter"/>
+            <converters:IntEqualConverter x:Key="IntEqualConverter"/>
             
             <!-- Enhanced DataGrid Styles aligned with dark theme suggestions -->
             <Style x:Key="EnhancedDataGrid" TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">

@@ -1,0 +1,387 @@
+<UserControl x:Class="FactoryManagement.Views.CashAccountsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:FactoryManagement.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1400">
+
+
+    <Grid>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Summary Cards Row -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Total Cash Balance Card -->
+                <Border Grid.Column="0" Background="{StaticResource Card.Success}" CornerRadius="8" Padding="16">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="💵" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Cash Balance" Foreground="{StaticResource LabelSuccess}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalCashBalance, StringFormat='₹{0:N2}'}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Total Bank Balance Card -->
+                <Border Grid.Column="2" Background="{StaticResource Card.Info}" CornerRadius="8" Padding="16">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="🏦" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Bank Balance" Foreground="{StaticResource LabelInfo}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalBankBalance, StringFormat='₹{0:N2}'}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Total Combined Balance Card -->
+                <Border Grid.Column="4" Background="{StaticResource Card.Warning}" CornerRadius="8" Padding="16">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Total Balance" Foreground="{StaticResource LabelWarning}" FontSize="11" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalCombinedBalance, StringFormat='₹{0:N2}'}" 
+                                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Content Area -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="500"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Panel: Accounts List -->
+                <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
+                    <DockPanel>
+                        <!-- Header -->
+                        <controls:SectionHeader DockPanel.Dock="Top" 
+                                              Title="Cash Accounts" 
+                                              IconKind="CreditCard" 
+                                              IconBackground="{StaticResource Card.Info}" />
+
+                        <!-- Pagination Control -->
+                        <controls:PaginationControl DockPanel.Dock="Bottom"
+                            CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                            TotalPages="{Binding TotalPages}"
+                            TotalRecords="{Binding TotalRecords}"
+                            CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                            CanGoToNextPage="{Binding CanGoToNextPage}"
+                            FirstPageCommand="{Binding GoToFirstPageCommand}"
+                            PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                            NextPageCommand="{Binding GoToNextPageCommand}"
+                            LastPageCommand="{Binding GoToLastPageCommand}"
+                            Margin="0,16,0,0"/>
+
+                        <!-- Accounts DataGrid -->
+                        <DataGrid ItemsSource="{Binding PaginatedAccounts}" 
+                                  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}" 
+                                  Style="{StaticResource Section.DataGrid}"
+                                  KeyboardNavigation.TabNavigation="Once">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                            </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Account Name" Binding="{Binding AccountName}" Width="*" MinWidth="150"/>
+                                
+                                <DataGridTemplateColumn Header="Type" Width="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccountType}" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Header="Current Balance" Width="140">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding CurrentBalance, StringFormat='₹{0:N2}'}" 
+                                                       Foreground="{StaticResource SuccessColor}" 
+                                                       FontSize="12" 
+                                                       TextAlignment="Right"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Status" Width="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="4" Padding="8,4" HorizontalAlignment="Center" BorderThickness="1">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="#1A3DAA8F"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                                                <Setter Property="Background" Value="#1AE86B6B"/>
+                                                                <Setter Property="BorderBrush" Value="{StaticResource ErrorColor}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock FontSize="11" FontWeight="Medium">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="Active"/>
+                                                            <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                                                    <Setter Property="Text" Value="Inactive"/>
+                                                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Actions" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource DataGrid.EditButton}"
+                                                  Command="{Binding DataContext.EditAccountCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                  CommandParameter="{Binding}"
+                                                  ToolTip="Edit">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </Border>
+
+                <!-- Right Panel: Account Form & History -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Account Form -->
+                    <Border Grid.Row="0" Style="{StaticResource FormCard}" Margin="0,0,0,12">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <!-- Header -->
+                            <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Info}" Width="40" Height="40" CornerRadius="4">
+                                        <materialDesign:PackIcon Kind="CreditCard" Width="20" Height="20" 
+                                                               Foreground="White" 
+                                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding IsEditing, StringFormat='Edit Account|New Account'}"
+                                             Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Form Fields -->
+                            <StackPanel Grid.Row="1">
+                                <!-- Account Name -->
+                                <StackPanel Margin="0,0,0,12">
+                                    <TextBlock Text="Account Name" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
+                                           Style="{StaticResource TextBox.Standard}"
+                                           Padding="10,8"
+                                           Foreground="{StaticResource TextPrimary}"/>
+                                </StackPanel>
+
+                                <!-- Account Type -->
+                                <StackPanel Margin="0,0,0,12">
+                                    <TextBlock Text="Account Type" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,0,0,4"/>
+                                    <ComboBox SelectedItem="{Binding AccountType}"
+                                            Style="{StaticResource ComboBox.Standard}"
+                                            Padding="10,8">
+                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Cash</System:String>
+                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Bank</System:String>
+                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Combined</System:String>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- Opening Balance -->
+                                <StackPanel Margin="0,0,0,12">
+                                    <TextBlock Text="Opening Balance" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding OpeningBalance, UpdateSourceTrigger=PropertyChanged}"
+                                           Style="{StaticResource TextBox.Standard}"
+                                           Padding="10,8"
+                                           Foreground="{StaticResource TextPrimary}"
+                                           IsEnabled="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"/>
+                                </StackPanel>
+
+                                <!-- Description -->
+                                <StackPanel Margin="0,0,0,12">
+                                    <TextBlock Text="Description" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                           Style="{StaticResource TextBox.Standard}"
+                                           Padding="10,8"
+                                           Foreground="{StaticResource TextPrimary}"
+                                           Height="60"
+                                           VerticalAlignment="Top"
+                                           TextWrapping="Wrap"
+                                           AcceptsReturn="True"/>
+                                </StackPanel>
+
+                                <!-- Active Checkbox -->
+                                <CheckBox Content="Active" IsChecked="{Binding IsActive}" 
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Margin="0,0,0,16"/>
+
+                                <!-- Action Buttons -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                    <Button Content="Save" 
+                                          Command="{Binding SaveAccountCommand}"
+                                          Style="{StaticResource Button.Success}"
+                                          Padding="16,8"
+                                          Foreground="White"
+                                          FontWeight="SemiBold"
+                                          Margin="0,0,8,0"/>
+                                    <Button Content="Cancel" 
+                                          Command="{Binding CancelEditCommand}"
+                                          Style="{StaticResource Button.Secondary}"
+                                          Padding="16,8"
+                                          Margin="0,0,8,0"/>
+                                    <Button Content="New" 
+                                          Command="{Binding NewAccountCommand}"
+                                          Style="{StaticResource Button.Primary}"
+                                          Padding="16,8"
+                                          Foreground="White"
+                                          FontWeight="SemiBold"
+                                          Visibility="{Binding IsEditing, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Balance History -->
+                    <Border Grid.Row="1" Style="{StaticResource FormCard}">
+                        <DockPanel>
+                            <!-- Header -->
+                            <TextBlock DockPanel.Dock="Top" 
+                                     Text="Balance History" 
+                                     Foreground="White" 
+                                     FontSize="14" 
+                                     FontWeight="SemiBold"
+                                     Margin="0,0,0,12"/>
+
+                            <!-- History DataGrid -->
+                            <DataGrid ItemsSource="{Binding BalanceHistory}"
+                                    Style="{StaticResource Section.DataGrid}"
+                                    MaxHeight="300">
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                                </DataGrid.ColumnHeaderStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Date" 
+                                                      Binding="{Binding TransactionDate, StringFormat='dd/MM/yyyy HH:mm'}" 
+                                                      Width="120">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                                                <Setter Property="FontSize" Value="11"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn Header="Type" 
+                                                      Binding="{Binding ChangeType}" 
+                                                      Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+                                                <Setter Property="FontSize" Value="11"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTemplateColumn Header="Amount" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ChangeAmount, StringFormat='₹{0:N2}'}" 
+                                                         FontSize="11"
+                                                         TextAlignment="Right">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Balance" 
+                                                      Binding="{Binding NewBalance, StringFormat='₹{0:N2}'}" 
+                                                      Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
+                                                <Setter Property="FontSize" Value="11"/>
+                                                <Setter Property="TextAlignment" Value="Right"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

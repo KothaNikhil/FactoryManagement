@@ -139,6 +139,9 @@ namespace FactoryManagement.Views
                     case "OperationalExpenses":
                         await ViewModel.NavigateToOperationalExpensesCommand.ExecuteAsync(null);
                         break;
+                    case "CashAccounts":
+                        await ViewModel.NavigateToCashAccountsCommand.ExecuteAsync(null);
+                        break;
                     case "ExpenseCategories":
                         await ViewModel.NavigateToExpenseCategoriesCommand.ExecuteAsync(null);
                         break;

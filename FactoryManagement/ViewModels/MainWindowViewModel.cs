@@ -50,6 +50,7 @@ namespace FactoryManagement.ViewModels
         private readonly UsersViewModel _usersViewModel;
         private readonly OperationalExpensesViewModel _operationalExpensesViewModel;
         private readonly ExpenseCategoryManagementViewModel _expenseCategoryManagementViewModel;
+        private readonly CashAccountsViewModel _cashAccountsViewModel;
 
         private readonly FactoryDbContext _dbContext;
         private readonly IUserService _userService;
@@ -67,6 +68,7 @@ namespace FactoryManagement.ViewModels
             UsersViewModel usersViewModel,
             OperationalExpensesViewModel operationalExpensesViewModel,
             ExpenseCategoryManagementViewModel expenseCategoryManagementViewModel,
+            CashAccountsViewModel cashAccountsViewModel,
             FactoryDbContext dbContext,
             IUserService userService)
         {
@@ -82,6 +84,7 @@ namespace FactoryManagement.ViewModels
             _usersViewModel = usersViewModel;
             _operationalExpensesViewModel = operationalExpensesViewModel;
             _expenseCategoryManagementViewModel = expenseCategoryManagementViewModel;
+            _cashAccountsViewModel = cashAccountsViewModel;
             _dbContext = dbContext;
             _userService = userService;
 
@@ -200,6 +203,15 @@ namespace FactoryManagement.ViewModels
             CurrentViewSubtitle = "Track fuel, repairs, utilities, and other operational costs.";
             _operationalExpensesViewModel.CurrentUserId = SelectedUser?.UserId ?? 1;
             await _operationalExpensesViewModel.InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async System.Threading.Tasks.Task NavigateToCashAccountsAsync()
+        {
+            CurrentView = _cashAccountsViewModel;
+            CurrentViewTitle = "Cash Accounts Management";
+            CurrentViewSubtitle = "Monitor cash and bank account balances with transaction history.";
+            await _cashAccountsViewModel.InitializeAsync();
         }
 
         [RelayCommand]
