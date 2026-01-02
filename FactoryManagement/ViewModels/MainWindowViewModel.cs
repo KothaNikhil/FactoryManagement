@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using FactoryManagement.Services;
 using System.Threading.Tasks;
 
+
 namespace FactoryManagement.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
@@ -41,9 +42,12 @@ namespace FactoryManagement.ViewModels
 
         // Track authenticated admin user for the session to avoid repeated password prompts
         private int? _authenticatedAdminUserId;
-        
+
         // Flag to prevent recursive property changes when reverting selection
         private bool _isRevertingUserSelection;
+        
+        // Flag to prevent user selection changes while password dialog is open
+        private bool _isAuthenticationInProgress;
 
         public User? CurrentUser => SelectedUser;
 
@@ -310,12 +314,39 @@ namespace FactoryManagement.ViewModels
 
         partial void OnSelectedUserChanged(User? oldValue, User? newValue)
         {
-            // Skip processing if we're reverting a selection
-            if (_isRevertingUserSelection)
+            // Skip processing if we're reverting a selection or authentication is in progress
+            if (_isRevertingUserSelection || _isAuthenticationInProgress)
             {
-                // Still notify property changes for UI binding
-                OnPropertyChanged(nameof(IsAdminMode));
-                OnPropertyChanged(nameof(CurrentUser));
+                return;
+            }
+
+            // If switching to an unauthenticated admin, handle authentication
+            if (newValue != null && PasswordHelper.IsAdminRole(newValue.Role) && _authenticatedAdminUserId != newValue.UserId)
+            {
+                // Store the previous user ID (not object reference)
+                int? previousUserId = oldValue?.UserId;
+                
+                // Find the previous user in the current ActiveUsers collection
+                User? previousUserFromCollection = null;
+                if (previousUserId.HasValue)
+                {
+                    previousUserFromCollection = ActiveUsers.FirstOrDefault(u => u.UserId == previousUserId.Value);
+                }
+                
+                // If we can't find the previous user, select the first non-admin
+                if (previousUserFromCollection == null)
+                {
+                    previousUserFromCollection = ActiveUsers.FirstOrDefault(u => !PasswordHelper.IsAdminRole(u.Role));
+                }
+                
+                // Immediately revert the UI to the previous user
+                _isRevertingUserSelection = true;
+                SelectedUser = previousUserFromCollection;
+                _isRevertingUserSelection = false;
+
+                // Now show the authentication dialog
+                // Pass the admin user ID, not the object reference
+                AuthenticateAndSwitchToAdmin(newValue.UserId, newValue.Username, string.IsNullOrEmpty(newValue.PasswordHash));
                 return;
             }
 
@@ -326,123 +357,118 @@ namespace FactoryManagement.ViewModels
                 _authenticatedAdminUserId = null;
             }
 
-            // Don't prompt if switching to the same user
-            if (newValue == null || newValue.UserId == oldValue?.UserId)
+            OnPropertyChanged(nameof(IsAdminMode));
+            OnPropertyChanged(nameof(CurrentUser));
+        }
+
+        private void AuthenticateAndSwitchToAdmin(int adminUserId, string adminUsername, bool needsPasswordSetup)
+        {
+            _isAuthenticationInProgress = true;
+            
+            if (needsPasswordSetup)
             {
-                OnPropertyChanged(nameof(IsAdminMode));
-                OnPropertyChanged(nameof(CurrentUser));
-                return;
-            }
-
-            // If switching to admin user, verify password (unless already authenticated this session)
-            if (PasswordHelper.IsAdminRole(newValue.Role))
-            {
-                // Check if this admin user is already authenticated in the current session (prevents repeated prompts during data loading)
-                if (_authenticatedAdminUserId == newValue.UserId)
-                {
-                    OnPropertyChanged(nameof(IsAdminMode));
-                    OnPropertyChanged(nameof(CurrentUser));
-                    return;
-                }
-
-                // Check if password is set
-                if (string.IsNullOrEmpty(newValue.PasswordHash))
-                {
-                    // First time setup - ask to set password
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        var setupDialog = new PasswordDialog();
-                        var setupViewModel = new PasswordDialogViewModel(setupDialog, isSetupMode: true);
-                        setupDialog.DataContext = setupViewModel;
-
-                        if (setupDialog.ShowDialog() == true && setupViewModel.IsConfirmed)
-                        {
-                            var password = setupDialog.Password;
-                            newValue.PasswordHash = PasswordHelper.HashPassword(password);
-                            _userService.UpdateUserAsync(newValue).Wait();
-                            
-                            // Mark as authenticated for this session
-                            _authenticatedAdminUserId = newValue.UserId;
-                            
-                            OnPropertyChanged(nameof(IsAdminMode));
-                            OnPropertyChanged(nameof(CurrentUser));
-                        }
-                        else
-                        {
-                            // User cancelled, revert to previous user
-                            _isRevertingUserSelection = true;
-                            if (oldValue != null)
-                            {
-                                var previousUser = ActiveUsers.FirstOrDefault(u => u.UserId == oldValue.UserId);
-                                SelectedUser = previousUser;
-                            }
-                            else
-                            {
-                                SelectedUser = ActiveUsers.FirstOrDefault(u => !PasswordHelper.IsAdminRole(u.Role));
-                            }
-                            _isRevertingUserSelection = false;
-                        }
-                    });
-                    return;
-                }
-
-                // Verify password
+                // First-time password setup
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var passwordDialog = new PasswordDialog();
-                    var passwordViewModel = new PasswordDialogViewModel(passwordDialog, isSetupMode: false);
-                    passwordViewModel.Message = $"Enter password for {newValue.Username}";
-                    passwordDialog.DataContext = passwordViewModel;
+                    var setupDialog = new PasswordDialog();
+                    var setupViewModel = new PasswordDialogViewModel(setupDialog, isSetupMode: true);
+                    setupDialog.DataContext = setupViewModel;
 
-                    if (passwordDialog.ShowDialog() == true && passwordViewModel.IsConfirmed)
+                    var dialogResult = setupDialog.ShowDialog();
+
+                    if (dialogResult == true && setupViewModel.IsConfirmed)
                     {
-                        var enteredPassword = passwordDialog.Password;
+                        // SUCCESS: Save password and authenticate
+                        var password = setupDialog.Password;
                         
-                        if (!PasswordHelper.VerifyPassword(enteredPassword, newValue.PasswordHash))
+                        // Get the admin user from ActiveUsers collection
+                        var adminUser = ActiveUsers.FirstOrDefault(u => u.UserId == adminUserId);
+                        
+                        if (adminUser != null)
                         {
-                            MessageBox.Show("Incorrect password.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            // Revert to previous user
-                            _isRevertingUserSelection = true;
-                            if (oldValue != null)
-                            {
-                                var previousUser = ActiveUsers.FirstOrDefault(u => u.UserId == oldValue.UserId);
-                                SelectedUser = previousUser;
-                            }
-                            else
-                            {
-                                SelectedUser = ActiveUsers.FirstOrDefault(u => !PasswordHelper.IsAdminRole(u.Role));
-                            }
-                            _isRevertingUserSelection = false;
-                            return;
+                            adminUser.PasswordHash = PasswordHelper.HashPassword(password);
+                            _userService.UpdateUserAsync(adminUser).Wait();
+                            
+                            _authenticatedAdminUserId = adminUserId;
+                            
+                            // Now switch to admin user
+                            SelectedUser = adminUser;
                         }
-
-                        // Mark as authenticated for this session
-                        _authenticatedAdminUserId = newValue.UserId;
-
-                        OnPropertyChanged(nameof(IsAdminMode));
-                        OnPropertyChanged(nameof(CurrentUser));
                     }
                     else
                     {
-                        // User cancelled, revert to previous user
+                        // CRITICAL: Force ComboBox binding refresh
+                        // The ComboBox might cache its selection, so we force it to update
+                        var tempUser = SelectedUser;
                         _isRevertingUserSelection = true;
-                        if (oldValue != null)
-                        {
-                            var previousUser = ActiveUsers.FirstOrDefault(u => u.UserId == oldValue.UserId);
-                            SelectedUser = previousUser;
-                        }
-                        else
-                        {
-                            SelectedUser = ActiveUsers.FirstOrDefault(u => !PasswordHelper.IsAdminRole(u.Role));
-                        }
+                        SelectedUser = null;  // Clear first
                         _isRevertingUserSelection = false;
+                        
+                        System.Threading.Tasks.Task.Delay(50).ContinueWith(_ =>
+                        {
+                            SelectedUser = tempUser;
+                        });
                     }
+                    
+                    // CRITICAL: Delay clearing the flag to prevent race conditions with binding updates
+                    System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
+                    {
+                        _isAuthenticationInProgress = false;
+                    });
                 });
             }
             else
             {
-                OnPropertyChanged(nameof(IsAdminMode));
-                OnPropertyChanged(nameof(CurrentUser));
+                // Standard password verification
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var passwordDialog = new PasswordDialog();
+                    var passwordViewModel = new PasswordDialogViewModel(passwordDialog, isSetupMode: false);
+                    passwordViewModel.Message = $"Enter password for {adminUsername}";
+                    passwordDialog.DataContext = passwordViewModel;
+
+                    var dialogResult = passwordDialog.ShowDialog();
+
+                    if (dialogResult == true && passwordViewModel.IsConfirmed)
+                    {
+                        var enteredPassword = passwordDialog.Password;
+                        
+                        // Get the admin user from ActiveUsers collection
+                        var adminUser = ActiveUsers.FirstOrDefault(u => u.UserId == adminUserId);
+                        
+                        if (adminUser != null && PasswordHelper.VerifyPassword(enteredPassword, adminUser.PasswordHash))
+                        {
+                            // SUCCESS: Authenticate and switch
+                            _authenticatedAdminUserId = adminUserId;
+                            SelectedUser = adminUser;
+                        }
+                        else
+                        {
+                            // Wrong password
+                            MessageBox.Show("Incorrect password.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    }
+                    else
+                    {
+                        // CRITICAL: Force ComboBox binding refresh
+                        // The ComboBox might cache its selection, so we force it to update
+                        var tempUser = SelectedUser;
+                        _isRevertingUserSelection = true;
+                        SelectedUser = null;  // Clear first
+                        _isRevertingUserSelection = false;
+                        
+                        System.Threading.Tasks.Task.Delay(50).ContinueWith(_ =>
+                        {
+                            SelectedUser = tempUser;
+                        });
+                    }
+                    
+                    // CRITICAL: Delay clearing the flag to prevent race conditions with binding updates
+                    System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
+                    {
+                        _isAuthenticationInProgress = false;
+                    });
+                });
             }
         }
     }
