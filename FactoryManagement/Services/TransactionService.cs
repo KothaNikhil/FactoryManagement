@@ -12,9 +12,9 @@ namespace FactoryManagement.Services
         Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
         Task<Transaction?> GetTransactionByIdAsync(int id);
         Task<Transaction> AddTransactionAsync(Transaction transaction);
-        Task UpdateTransactionAsync(Transaction transaction);
-        Task UpdateTransactionWithStockAsync(Transaction updated);
-        Task DeleteTransactionAsync(int id);
+        Task UpdateTransactionAsync(Transaction transaction, string? userRole = null);
+        Task UpdateTransactionWithStockAsync(Transaction updated, string? userRole = null);
+        Task DeleteTransactionAsync(int id, string? userRole = null);
         Task<IEnumerable<Transaction>> GetTransactionsByItemAsync(int itemId);
         Task<IEnumerable<Transaction>> GetTransactionsByPartyAsync(int partyId);
         Task<IEnumerable<Transaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate);
@@ -67,14 +67,22 @@ namespace FactoryManagement.Services
             return result;
         }
 
-        public async Task UpdateTransactionAsync(Transaction transaction)
+        public async Task UpdateTransactionAsync(Transaction transaction, string? userRole = null)
         {
+            // Admin-only authorization
+            if (userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can update transactions.");
+
             transaction.TotalAmount = transaction.Quantity * transaction.PricePerUnit;
             await _transactionRepository.UpdateAsync(transaction);
         }
 
-        public async Task UpdateTransactionWithStockAsync(Transaction updated)
+        public async Task UpdateTransactionWithStockAsync(Transaction updated, string? userRole = null)
         {
+            // Admin-only authorization
+            if (userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can update transactions.");
+
             var existing = await _transactionRepository.GetByIdAsync(updated.TransactionId);
             if (existing == null)
             {
@@ -105,8 +113,12 @@ namespace FactoryManagement.Services
             }
         }
 
-        public async Task DeleteTransactionAsync(int id)
+        public async Task DeleteTransactionAsync(int id, string? userRole = null)
         {
+            // Admin-only authorization
+            if (userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can delete transactions.");
+
             var transaction = await _transactionRepository.GetByIdAsync(id);
             if (transaction != null)
             {

@@ -11,8 +11,8 @@ namespace FactoryManagement.Services
         Task<IEnumerable<Item>> GetAllItemsAsync();
         Task<Item?> GetItemByIdAsync(int id);
         Task<Item> AddItemAsync(Item item, int? userId = null);
-        Task UpdateItemAsync(Item item, int? userId = null);
-        Task DeleteItemAsync(int id);
+        Task UpdateItemAsync(Item item, int? userId = null, string? userRole = null);
+        Task DeleteItemAsync(int id, string? userRole = null);
         Task UpdateStockAsync(int itemId, decimal quantityChange, TransactionType transactionType);
         Task UpdateStockForProcessingAsync(int inputItemId, decimal inputQuantity, int outputItemId, decimal outputQuantity);
     }
@@ -43,15 +43,23 @@ namespace FactoryManagement.Services
             return await _itemRepository.AddAsync(item);
         }
 
-        public async Task UpdateItemAsync(Item item, int? userId = null)
+        public async Task UpdateItemAsync(Item item, int? userId = null, string? userRole = null)
         {
+            // Admin-only authorization
+            if (userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can update items.");
+
             item.ModifiedDate = DateTime.Now;
             item.ModifiedByUserId = userId;
             await _itemRepository.UpdateAsync(item);
         }
 
-        public async Task DeleteItemAsync(int id)
+        public async Task DeleteItemAsync(int id, string? userRole = null)
         {
+            // Admin-only authorization
+            if (userRole != "Admin")
+                throw new UnauthorizedAccessException("Only Admin users can delete items.");
+
             var item = await _itemRepository.GetByIdAsync(id);
             if (item == null)
                 throw new InvalidOperationException("Item not found");

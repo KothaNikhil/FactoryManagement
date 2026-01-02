@@ -122,12 +122,14 @@
                                             <Button Style="{StaticResource DataGrid.EditButton}"
                                                   Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   ToolTip="Edit">
                                                 <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
                                             </Button>
                                             <Button Style="{StaticResource DataGrid.EditButton}"
                                                   Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   ToolTip="Delete"
                                                   Margin="4,0,0,0"
                                                   Foreground="{StaticResource DeleteButtonForeground}">

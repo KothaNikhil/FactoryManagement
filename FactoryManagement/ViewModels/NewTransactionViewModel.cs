@@ -102,6 +102,10 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private bool _isProcessingMode;
 
+        // Admin check property - observable so it updates when user changes
+        [ObservableProperty]
+        private bool _isAdmin;
+
         public ObservableCollection<string> TransactionTypes { get; } = new()
         {
             "Buy", "Sell", "Wastage", "Processing"
@@ -135,6 +139,26 @@ namespace FactoryManagement.ViewModels
             _itemService = itemService;
             _partyService = partyService;
             _financialTransactionService = financialTransactionService;
+
+            // Initialize IsAdmin based on current user
+            UpdateIsAdminStatus();
+
+            // Subscribe to MainWindowViewModel user changes
+            if (MainWindowViewModel.Instance != null)
+            {
+                MainWindowViewModel.Instance.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(MainWindowViewModel.SelectedUser))
+                    {
+                        UpdateIsAdminStatus();
+                    }
+                };
+            }
+        }
+
+        private void UpdateIsAdminStatus()
+        {
+            IsAdmin = MainWindowViewModel.Instance?.CurrentUser?.Role == "Admin";
         }
 
         protected override void UpdatePaginatedData()
@@ -304,7 +328,7 @@ namespace FactoryManagement.ViewModels
                     transaction.Notes = Notes;
 
                     // Delegate stock reversal/apply to service for consistency
-                    await _transactionService.UpdateTransactionWithStockAsync(transaction);
+                    await _transactionService.UpdateTransactionWithStockAsync(transaction, MainWindowViewModel.Instance?.CurrentUser?.Role);
                     ErrorMessage = "✓ Transaction updated successfully!";
                 }
                 else
@@ -412,6 +436,13 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async Task EditTransactionAsync(Transaction transaction)
         {
+            // Admin-only check
+            if (MainWindowViewModel.Instance?.CurrentUser?.Role != "Admin")
+            {
+                ErrorMessage = "Only Admin users can edit transactions.";
+                return;
+            }
+
             try
             {
                 IsEditMode = true;
@@ -454,6 +485,17 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async Task DeleteTransactionAsync(Transaction transaction)
         {
+            // Admin-only check
+            if (MainWindowViewModel.Instance?.CurrentUser?.Role != "Admin")
+            {
+                System.Windows.MessageBox.Show(
+                    "Only Admin users can delete transactions.",
+                    "Access Denied",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 // Confirm delete
@@ -471,7 +513,7 @@ namespace FactoryManagement.ViewModels
                 // Store for potential undo
                 _lastDeletedTransaction = transaction;
 
-                await _transactionService.DeleteTransactionAsync(transaction.TransactionId);
+                await _transactionService.DeleteTransactionAsync(transaction.TransactionId, MainWindowViewModel.Instance?.CurrentUser?.Role);
 
                 // Refresh recent transactions and stocks
                 await LoadDataAsync();

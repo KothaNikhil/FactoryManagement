@@ -580,6 +580,7 @@
                                 <DataTemplate>
                                     <Button Style="{StaticResource DataGrid.EditButton}"
                                             ToolTip="Delete Transaction"
+                                            IsEnabled="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             Command="{Binding DataContext.DeleteTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="DeleteForever" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -592,6 +593,7 @@
                                 <DataTemplate>
                                     <Button Style="{StaticResource DataGrid.EditButton}"
                                             ToolTip="Edit Transaction"
+                                            IsEnabled="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>

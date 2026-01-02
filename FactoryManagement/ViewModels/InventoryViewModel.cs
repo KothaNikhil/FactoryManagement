@@ -66,12 +66,36 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private string _searchText = string.Empty;
 
+        // Admin check property - observable so it updates when user changes
+        [ObservableProperty]
+        private bool _isAdmin;
+
         private ObservableCollection<Item> _allItems = new();
 
         public InventoryViewModel(IItemService itemService, ITransactionService transactionService)
         {
             _itemService = itemService;
             _transactionService = transactionService;
+
+            // Initialize IsAdmin based on current user
+            UpdateIsAdminStatus();
+
+            // Subscribe to MainWindowViewModel user changes
+            if (MainWindowViewModel.Instance != null)
+            {
+                MainWindowViewModel.Instance.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(MainWindowViewModel.SelectedUser))
+                    {
+                        UpdateIsAdminStatus();
+                    }
+                };
+            }
+        }
+
+        private void UpdateIsAdminStatus()
+        {
+            IsAdmin = MainWindowViewModel.Instance?.CurrentUser?.Role == "Admin";
         }
 
         partial void OnSearchTextChanged(string value)
@@ -210,6 +234,13 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private void EditItem(Item? item)
         {
+            // Admin-only check
+            if (MainWindowViewModel.Instance?.CurrentUser?.Role != "Admin")
+            {
+                ErrorMessage = "Only Admin users can edit items.";
+                return;
+            }
+
             if (item == null) return;
 
             IsEditMode = true;
@@ -225,6 +256,13 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                // Admin-only check for edit mode
+                if (IsEditMode && MainWindowViewModel.Instance?.CurrentUser?.Role != "Admin")
+                {
+                    ErrorMessage = "Only Admin users can edit items.";
+                    return;
+                }
+
                 if (!ValidateItem())
                     return;
 
@@ -235,7 +273,7 @@ namespace FactoryManagement.ViewModels
                     SelectedItem.ItemName = ItemName;
                     SelectedItem.CurrentStock = CurrentStock;
                     SelectedItem.Unit = Unit;
-                    await _itemService.UpdateItemAsync(SelectedItem, MainWindowViewModel.Instance?.CurrentUser?.UserId);
+                    await _itemService.UpdateItemAsync(SelectedItem, MainWindowViewModel.Instance?.CurrentUser?.UserId, MainWindowViewModel.Instance?.CurrentUser?.Role);
                     ErrorMessage = "Item updated successfully!";
                 }
                 else
@@ -266,12 +304,23 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async Task DeleteItemAsync(Item? item)
         {
+            // Admin-only check
+            if (MainWindowViewModel.Instance?.CurrentUser?.Role != "Admin")
+            {
+                System.Windows.MessageBox.Show(
+                    "Only Admin users can delete items.",
+                    "Access Denied",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
             if (item == null) return;
 
             try
             {
                 IsBusy = true;
-                await _itemService.DeleteItemAsync(item.ItemId);
+                await _itemService.DeleteItemAsync(item.ItemId, MainWindowViewModel.Instance?.CurrentUser?.Role);
                 await LoadItemsAsync();
                 ErrorMessage = "Item deleted successfully!";
                 NewItem();
