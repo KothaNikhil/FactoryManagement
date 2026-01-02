@@ -262,7 +262,6 @@ namespace FactoryManagement.ViewModels
         {
             // Remember the currently selected user ID before doing anything
             var previousUserId = SelectedUser?.UserId;
-            FileLogger.Log($"[LoadActiveUsersAsync] Starting - PreviousUserID: {previousUserId}, PreviousSelectedUser: {SelectedUser?.Username}");
             
             // Store authentication state
             var wasAuthenticatedAdmin = _authenticatedAdminUserId;
@@ -271,7 +270,6 @@ namespace FactoryManagement.ViewModels
             ActiveUsers.Clear();
             foreach (var user in users)
             {
-                FileLogger.Log($"[LoadActiveUsersAsync] Adding user: {user.Username} (Role: {user.Role})");
                 ActiveUsers.Add(user);
             }
 
@@ -284,13 +282,11 @@ namespace FactoryManagement.ViewModels
                 var restoredUser = ActiveUsers.FirstOrDefault(u => u.UserId == previousUserId.Value);
                 if (restoredUser != null)
                 {
-                    FileLogger.Log($"[LoadActiveUsersAsync] Restoring previously selected user: {restoredUser.Username}");
                     SelectedUser = restoredUser;
                     return;
                 }
                 else
                 {
-                    FileLogger.Log($"[LoadActiveUsersAsync] Previously selected user (ID: {previousUserId}) not found in collection");
                 }
             }
 
@@ -300,7 +296,6 @@ namespace FactoryManagement.ViewModels
                 // Default to first non-admin user if available, otherwise first user
                 var defaultUser = ActiveUsers.FirstOrDefault(u => !PasswordHelper.IsAdminRole(u.Role)) 
                                 ?? ActiveUsers.First();
-                FileLogger.Log($"[LoadActiveUsersAsync] No user was selected, defaulting to: {defaultUser.Username}");
                 SelectedUser = defaultUser;
             }
         }
@@ -324,19 +319,16 @@ namespace FactoryManagement.ViewModels
 
         partial void OnSelectedUserChanged(User? oldValue, User? newValue)
         {
-            FileLogger.Log($"[OnSelectedUserChanged] Old: {oldValue?.Username} ({oldValue?.Role}), New: {newValue?.Username} ({newValue?.Role})");
             
             // Skip processing if we're reverting a selection or authentication is in progress
             if (_isRevertingUserSelection || _isAuthenticationInProgress)
             {
-                FileLogger.Log($"[OnSelectedUserChanged] Skipping - reverting: {_isRevertingUserSelection}, auth: {_isAuthenticationInProgress}");
                 return;
             }
 
             // If switching to an unauthenticated admin, handle authentication
             if (newValue != null && PasswordHelper.IsAdminRole(newValue.Role) && _authenticatedAdminUserId != newValue.UserId)
             {
-                FileLogger.Log($"[OnSelectedUserChanged] Admin detected, needs auth, showing password dialog");
                 // Store the previous user ID (not object reference)
                 int? previousUserId = oldValue?.UserId;
                 
@@ -377,13 +369,11 @@ namespace FactoryManagement.ViewModels
 
         private void AuthenticateAndSwitchToAdmin(int adminUserId, string adminUsername, bool needsPasswordSetup)
         {
-            FileLogger.Log($"[AuthenticateAndSwitchToAdmin] Called - AdminUserId: {adminUserId}, Username: {adminUsername}, NeedsSetup: {needsPasswordSetup}");
             _isAuthenticationInProgress = true;
             
             if (needsPasswordSetup)
             {
                 // First-time password setup
-                FileLogger.Log($"[AuthenticateAndSwitchToAdmin] Showing password setup dialog");
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     var setupDialog = new PasswordDialog();
@@ -436,7 +426,6 @@ namespace FactoryManagement.ViewModels
             else
             {
                 // Standard password verification
-                FileLogger.Log($"[AuthenticateAndSwitchToAdmin] Showing password verification dialog");
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     var passwordDialog = new PasswordDialog();

@@ -71,7 +71,6 @@ namespace FactoryManagement.ViewModels
         [RelayCommand]
         private async Task LoginAsync()
         {
-            FileLogger.Log($"[LoginAsync] Started with SelectedUser: {SelectedUser?.Username} (Role: {SelectedUser?.Role})");
             ErrorMessage = string.Empty;
 
             if (SelectedUser == null)
@@ -83,11 +82,9 @@ namespace FactoryManagement.ViewModels
             // Check if this is an admin user and requires password
             if (PasswordHelper.IsAdminRole(SelectedUser.Role))
             {
-                FileLogger.Log($"[LoginAsync] Admin user selected: {SelectedUser.Username}");
                 // Check if password is set for admin
                 if (string.IsNullOrEmpty(SelectedUser.PasswordHash))
                 {
-                    FileLogger.Log($"[LoginAsync] Admin has no password, showing setup dialog");
                     // First time setup - ask to set password
                     var setupDialog = new PasswordDialog();
                     var setupViewModel = new PasswordDialogViewModel(setupDialog, isSetupMode: true);
@@ -99,7 +96,6 @@ namespace FactoryManagement.ViewModels
                         SelectedUser.PasswordHash = PasswordHelper.HashPassword(password);
                         await _userService.UpdateUserAsync(SelectedUser);
                         
-                        FileLogger.Log($"[LoginAsync] Admin password setup complete, logging in");
                         LoggedInUser = SelectedUser;
                         _window.DialogResult = true;
                         _window.Close();
@@ -108,7 +104,6 @@ namespace FactoryManagement.ViewModels
                 }
 
                 // Verify password
-                FileLogger.Log($"[LoginAsync] Admin has password, showing verification dialog");
                 var passwordDialog = new PasswordDialog();
                 var passwordViewModel = new PasswordDialogViewModel(passwordDialog, isSetupMode: false);
                 passwordViewModel.Message = $"Enter password for {SelectedUser.Username}";
@@ -121,11 +116,9 @@ namespace FactoryManagement.ViewModels
                     if (!PasswordHelper.VerifyPassword(enteredPassword, SelectedUser.PasswordHash))
                     {
                         ErrorMessage = "Incorrect password. Please try again.";
-                        FileLogger.Log($"[LoginAsync] Admin password incorrect");
                         return;
                     }
 
-                    FileLogger.Log($"[LoginAsync] Admin password verified, logging in");
                     LoggedInUser = SelectedUser;
                     _window.DialogResult = true;
                     _window.Close();
@@ -134,7 +127,6 @@ namespace FactoryManagement.ViewModels
             else
             {
                 // Non-admin users don't need password
-                FileLogger.Log($"[LoginAsync] Non-admin user selected: {SelectedUser.Username}, no password needed");
                 LoggedInUser = SelectedUser;
                 _window.DialogResult = true;
                 _window.Close();

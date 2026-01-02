@@ -67,7 +67,6 @@ namespace FactoryManagement
             
             if (result == true && loginViewModel.LoggedInUser != null)
             {
-                FileLogger.Log($"[App.OnStartup] Login successful - User: {loginViewModel.LoggedInUser.Username} (Role: {loginViewModel.LoggedInUser.Role})");
                 // User logged in successfully, show main window
                 var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
                 var mainViewModel = _serviceProvider.GetRequiredService<MainWindowViewModel>();
@@ -79,16 +78,13 @@ namespace FactoryManagement
                 // Mark the logged in user as authenticated BEFORE initialization (if admin)
                 if (PasswordHelper.IsAdminRole(loginViewModel.LoggedInUser.Role))
                 {
-                    FileLogger.Log($"[App.OnStartup] Admin user, setting authenticated user");
                     mainViewModel.SetAuthenticatedUser(loggedInUserId);
                 }
                 
                 // Set the selected user first (before loading users) so LoadActiveUsersAsync can preserve it
-                FileLogger.Log($"[App.OnStartup] Setting SelectedUser to: {loginViewModel.LoggedInUser.Username}");
                 mainViewModel.SelectedUser = loginViewModel.LoggedInUser;
                 
                 // Load active users and restore the selected user
-                FileLogger.Log($"[App.OnStartup] Calling LoadActiveUsersAsync");
                 await mainViewModel.LoadActiveUsersAsync();
                 
                 // Set as main application window and show
