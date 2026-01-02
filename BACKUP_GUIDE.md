@@ -118,6 +118,24 @@ C:\Users\[YourUsername]\Documents\FactoryManagement\Backups\
 - Check backup folder location manually
 - Verify files have not been moved or deleted
 
+---
+
+## Technical Implementation Notes
+
+### Race Condition Fix (GetAvailableBackups)
+The backup enumeration was improved to handle files that become inaccessible during the reading process. The implementation now:
+- Checks if backup directory exists before enumeration
+- Enumerates files in a loop with individual error handling per file
+- Skips files that become unavailable during enumeration
+- Only adds successfully-readable files to the result list
+
+**Why This Matters:** Previously, if a file was deleted or locked between reading the file list and reading file properties, an exception would be thrown, causing the entire backup list to appear empty. This fix ensures robust file enumeration even in edge cases.
+
+### Deletion & Restore Safety
+- **DeleteBackup()** method validates file existence before deletion and handles specific exceptions (FileNotFoundException, IOException, UnauthorizedAccessException)
+- **GetBackupDetailsAsync()** distinguishes between different error types (missing file, corrupted JSON, etc.) for better error reporting
+- Restore operations are atomic - either all data is restored or none (transaction-based for consistency)
+
 ## Navigation
 Access the Data Backup feature from the main menu:
 - Menu Item: "Data Backup"
