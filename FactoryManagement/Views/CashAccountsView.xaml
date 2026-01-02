@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
+             xmlns:local="clr-namespace:FactoryManagement.Models"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1400">
 
@@ -255,12 +256,12 @@
                                 <!-- Account Type -->
                                 <StackPanel Margin="0,0,0,12">
                                     <TextBlock Text="Account Type" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,0,0,4"/>
-                                    <ComboBox SelectedItem="{Binding AccountType}"
+                                    <ComboBox SelectedItem="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}"
                                             Style="{StaticResource ComboBox.Standard}"
                                             Padding="10,8">
-                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Cash</System:String>
-                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Bank</System:String>
-                                        <System:String xmlns:System="clr-namespace:System;assembly=mscorlib">Combined</System:String>
+                                        <local:AccountType>Cash</local:AccountType>
+                                        <local:AccountType>Bank</local:AccountType>
+                                        <local:AccountType>Combined</local:AccountType>
                                     </ComboBox>
                                 </StackPanel>
 
@@ -270,8 +271,7 @@
                                     <TextBox Text="{Binding OpeningBalance, UpdateSourceTrigger=PropertyChanged}"
                                            Style="{StaticResource TextBox.Standard}"
                                            Padding="10,8"
-                                           Foreground="{StaticResource TextPrimary}"
-                                           IsEnabled="{Binding CanEditOpeningBalance, Mode=OneWay}"/>
+                                           Foreground="{StaticResource TextPrimary}"/>
                                 </StackPanel>
 
                                 <!-- Description -->

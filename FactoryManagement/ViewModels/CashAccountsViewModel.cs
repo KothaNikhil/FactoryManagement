@@ -61,10 +61,6 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private bool _isAdmin;
 
-        // Property to track if opening balance can be edited
-        [ObservableProperty]
-        private bool _canEditOpeningBalance = false;
-
         private int? _editingAccountId;
 
         public CashAccountsViewModel(ICashAccountService cashAccountService)
@@ -92,9 +88,6 @@ namespace FactoryManagement.ViewModels
         private void UpdateIsAdminStatus()
         {
             IsAdmin = MainWindowViewModel.Instance?.CurrentUser?.Role == "Admin";
-            // Also update CanEditOpeningBalance
-            // Opening balance is editable when: NOT editing (new account) OR user is admin
-            CanEditOpeningBalance = !IsEditing || IsAdmin;
         }
 
         public async Task InitializeAsync()
@@ -206,12 +199,18 @@ namespace FactoryManagement.ViewModels
                     var account = await _cashAccountService.GetAccountByIdAsync(_editingAccountId.Value);
                     if (account != null)
                     {
+                        var oldOpeningBalance = account.OpeningBalance;
+                        
                         account.AccountName = AccountName.Trim();
                         account.AccountType = AccountType;
                         account.OpeningBalance = OpeningBalance;
                         account.Description = Description.Trim();
                         account.IsActive = IsActive;
-                        // CurrentBalance is managed automatically by transactions
+                        
+                        // Adjust current balance when opening balance changes
+                        // NewCurrentBalance = OldCurrentBalance + (NewOpeningBalance - OldOpeningBalance)
+                        var balanceDifference = OpeningBalance - oldOpeningBalance;
+                        account.CurrentBalance += balanceDifference;
 
                         await _cashAccountService.UpdateAccountAsync(account, MainWindowViewModel.Instance?.CurrentUser?.Role);
                         MessageBox.Show("Account updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -240,6 +239,17 @@ namespace FactoryManagement.ViewModels
                 await LoadAccountsAsync();
                 await LoadBalanceSummaryAsync();
                 ClearForm();
+                
+                // Reload and select the updated account if we were editing
+                if (_editingAccountId.HasValue)
+                {
+                    var updatedAccount = Accounts.FirstOrDefault(a => a.AccountId == _editingAccountId.Value);
+                    if (updatedAccount != null)
+                    {
+                        SelectedAccount = updatedAccount;
+                        await LoadBalanceHistoryAsync(updatedAccount);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -313,16 +323,10 @@ namespace FactoryManagement.ViewModels
 
         partial void OnIsEditingChanged(bool value)
         {
-            // Update CanEditOpeningBalance when IsEditing changes
-            // Opening balance is editable when: NOT editing (new account) OR user is admin
-            CanEditOpeningBalance = !value || IsAdmin;
         }
 
         partial void OnIsAdminChanged(bool value)
         {
-            // Update CanEditOpeningBalance when IsAdmin changes
-            // Opening balance is editable when: NOT editing (new account) OR user is admin
-            CanEditOpeningBalance = !IsEditing || value;
         }
     }
 }
