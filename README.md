@@ -22,7 +22,29 @@ A comprehensive WPF application for managing factory inventory and transactions 
   - Global user selection in header
   - Automatic tracking of who entered each transaction
   - User-based filtering in reports
+- **Financial Records**: Comprehensive loan management
+  - Track loans given and taken
+  - Automatic interest calculation
+  - Payment and repayment tracking
+  - Interest accrual monitoring
+- **Wages Management**: Complete payroll system
+  - Monthly wage tracking
+  - Advance management
+  - Bonus and deduction handling
+  - Worker-wise reports
+- **Operational Expenses**: Overhead cost tracking
+  - 20+ pre-configured expense categories
+  - Custom category creation with quick-add dialog
+  - Category-wise expense analysis
+  - Payment mode tracking (Cash/Bank/UPI/Cheque)
+  - Auto-refresh on add/edit/delete
+  - Real-time filtering by date, category, and payment mode
 - **Reports & Analytics**: Comprehensive reporting with filtering by item, party, date range, and user
+  - All Transactions (unified view)
+  - Inventory Transactions
+  - Financial Transactions
+  - Wages Transactions
+  - Operational Expenses (NEW)
 - **Data Export**: Export reports to Excel (.xlsx) and CSV formats
 
 ### Technical Features
@@ -86,7 +108,23 @@ dotnet run --project FactoryManagement\FactoryManagement.csproj
 4. **Transactions**: All business transactions
    - TransactionId, ItemId, PartyId, TransactionType, Quantity, PricePerUnit, TotalAmount, TransactionDate, EnteredBy, Notes
 
-5. **AppSettings**: Application configuration
+5. **FinancialTransactions**: Loan and payment tracking
+   - TransactionId, PartyId, TransactionType, Amount, InterestRate, DueDate, EnteredBy, Notes
+
+6. **WageTransactions**: Employee payroll records
+   - TransactionId, WorkerId, TransactionType, DaysWorked, HoursWorked, Rate, NetAmount, EnteredBy, Notes
+
+7. **OperationalExpenses**: Overhead and operational costs
+   - OperationalExpenseId, ExpenseCategoryId, Amount, ExpenseDate, SpentBy, PaymentMode, ItemId, Notes, EnteredBy
+
+8. **ExpenseCategories**: Expense classification
+   - ExpenseCategoryId, CategoryName, Description, CreatedBy, CreatedDate
+   - 20+ pre-seeded categories (Cab Charges, Electricity, Machinery, etc.)
+
+9. **Workers**: Employee master data
+   - WorkerId, Name, MobileNumber, Address, JoinDate
+
+10. **AppSettings**: Application configuration
    - CompanyName, CurrencySymbol, Address
 
 ## Usage Guide

@@ -127,7 +127,9 @@ The **New Transaction** page is your central hub for recording all inventory mov
 3. Choose the **item** you're purchasing (searchable dropdown)
 4. Select the **party** (supplier)
 5. Enter **quantity** and **price per unit** (total auto-calculated)
-6. Select **payment mode** (Cash or Bank)
+6. Select **payment mode** (Cash, Bank, or Loan)
+   - **Cash/Bank**: Immediate payment - affects cash flow
+   - **Loan**: Credit purchase - auto-creates loan in Financial Records
 7. Verify **transaction date** (defaults to today)
 8. (Optional) Add **notes**
 9. Click **"SAVE TRANSACTION"**
@@ -197,8 +199,10 @@ The Financial Records module manages loans, payments, interest accrual, and loan
    - **Interest Rate**: Annual % (e.g., 5 for 5%; can be 0)
    - **Start Date**: When loan begins
    - **Due Date** (optional): When loan should be repaid
-   - **Payment Mode**: Cash or Bank
+   - **Payment Mode**: Cash, Bank, or Loan
 3. Click **"CREATE LOAN"**
+
+**Note**: Loans can also be created automatically when you buy/sell items using "Loan" payment mode in New Transaction.
 
 **Result**: Loan account created with status "Active"
 
@@ -300,6 +304,61 @@ Click **"Show All"** to return to viewing all transactions
 ---
 
 ## Master Data Management
+
+### Operational Expenses
+
+#### Managing Expense Categories
+1. Go to **Operational Expenses**
+2. View existing categories in the form dropdown
+3. To add a new category:
+   - Click the **"New"** button next to the Category dropdown
+   - Enter **Category Name** (required, must be unique)
+   - Enter **Description** (optional)
+   - Click **"Add Category"**
+   - New category is automatically selected in the form
+
+**Pre-configured Categories Include:**
+- Cab Charges, Transportation Fees, Freight Charges
+- Electricity, Water, Internet & Phone
+- Machinery Purchase/Repair/Maintenance
+- Fuel, Generator Diesel
+- Rent, Insurance
+- Stationery, Printing
+- Legal Fees, Accounting Fees
+- Building Maintenance, Repairs
+- Miscellaneous
+
+#### Adding an Expense
+1. Select **Category** (or quick-add a new one)
+2. Enter **Amount** (required, must be greater than zero)
+3. Select **Expense Date**
+4. Select **Spent By** (user who made the expense)
+5. Select **Item** (if expense relates to specific item - optional)
+6. Select **Payment Mode** (Cash/Bank/UPI/Cheque)
+7. Enter **Notes** (optional)
+8. Click **"ADD EXPENSE"**
+
+**Auto-Refresh**: Grid updates immediately after adding/editing/deleting expenses
+
+#### Editing an Expense
+1. Find the expense in the grid
+2. Click the **pencil icon** in the Actions column
+3. Modify the details in the form
+4. Click **"UPDATE EXPENSE"**
+5. Grid refreshes automatically
+
+#### Deleting an Expense
+1. Click the **delete icon** next to the expense
+2. Confirm deletion in the dialog
+3. Grid updates automatically
+4. Success message: "✓ Expense deleted successfully!"
+
+#### Filtering Expenses
+Filters update the grid automatically:
+- **From Date / To Date**: Filter by date range
+- **Category**: Filter by specific expense category
+- **Payment Mode**: Filter by payment method
+- **Clear**: Reset all filters
 
 ### Inventory
 

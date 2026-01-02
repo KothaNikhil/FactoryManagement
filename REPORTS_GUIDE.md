@@ -58,8 +58,15 @@ The Reports module provides comprehensive reporting capabilities for Factory Man
 - Entered By
 
 **Calculated Fields**:
-- **Debit Amount**: Amount for Buy/Processing transactions
-- **Credit Amount**: Amount for Sell transactions
+- **Debit Amount**: Amount for Buy/Processing transactions (Cash/Bank only)
+- **Credit Amount**: Amount for Sell transactions (Cash/Bank only)
+- **Loan Transactions**: Displayed with "-" in Debit/Credit columns (no cash impact)
+
+**Payment Mode Impact**:
+- **Cash/Bank**: Transactions show in Debit/Credit amounts (affects cash flow)
+- **Loan**: Transactions show "-" (inventory tracked, no cash impact)
+  - Creates linked loan in Financial Records
+  - Actual financial impact tracked separately as LoanTaken/LoanGiven
 
 **Use Case**:
 - Inventory flow tracking
@@ -107,6 +114,11 @@ The Reports module provides comprehensive reporting capabilities for Factory Man
 - InterestPaid: Debit
 - InterestReceived: Credit
 
+**Auto-Created Loans**:
+- Loans created from Buy/Sell transactions (Payment Mode = Loan) appear here
+- Notes include reference to originating transaction
+- Linked to inventory transaction for full traceability
+
 ---
 
 ### 4. Wages Report
@@ -139,6 +151,42 @@ The Reports module provides comprehensive reporting capabilities for Factory Man
 - Worker attendance tracking
 - Advance balance monitoring
 - Labor cost analysis
+
+---
+
+### 5. Operational Expenses Report
+**Purpose**: Tracking and categorization of all operational/overhead expenses.
+
+**Available Filters**:
+- **Date Range**: Filter by expense date (Start Date - End Date)
+- **Category**: Filter by expense category (dropdown, "All Categories" = no filter, searchable)
+- **User**: Filter by who entered the expense (dropdown, "All Users" = no filter)
+
+**Fields Displayed**:
+- Expense Date
+- Category (e.g., Cab Charges, Electricity, Machinery Purchase)
+- Spent By (User who made the expense)
+- Payment Mode (Cash/Bank/UPI/Cheque)
+- Entered By (User who recorded the expense)
+- Amount (₹) - Displayed in red as debit
+- Notes
+
+**Calculated Fields**:
+- **Total Debit**: Sum of all expense amounts (all expenses are debits)
+- **Total Credit**: Always 0 (expenses have no credit side)
+- **Total Amount**: Sum of all filtered expenses
+
+**Use Case**:
+- Overhead cost tracking
+- Budget monitoring
+- Category-wise expense analysis
+- Payment mode reconciliation
+- Audit trail for operational costs
+
+**Quick Add Category**:
+- Click **"New"** button next to Category dropdown
+- Add categories on-the-fly without leaving the form
+- Newly created category is auto-selected
 
 ---
 

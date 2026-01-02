@@ -27,7 +27,7 @@ The Financial Records module manages loans, payments, interest accrual, and loan
    - **Start Date**: When the loan begins
    - **Start Time** (optional): Specific time of loan creation
    - **Due Date** (optional): When the loan should be fully repaid
-   - **Payment Mode**: Cash or Bank
+   - **Payment Mode**: Cash, Bank, or Loan
    - **Notes** (optional): Additional details
 3. Click **CREATE LOAN**
 4. System confirms: "✓ Loan created successfully"
@@ -39,6 +39,21 @@ The Financial Records module manages loans, payments, interest accrual, and loan
 - Initial financial transaction recorded
 - Loan ready for payments and interest accrual
 
+#### Auto-Created Loans from Transactions
+
+**When you create a Buy/Sell transaction with Payment Mode = "Loan"**:
+- System automatically creates a loan in Financial Records
+- **Buy on Loan**: Creates "LoanTaken" (you owe money)
+- **Sell on Loan**: Creates "LoanGiven" (you're owed money)
+- Interest rate defaults to 0%
+- Both transactions are linked together for traceability
+- Notes include reference to the original transaction
+
+**Benefits**:
+- No need to manually create loans for credit purchases/sales
+- Automatic linking between inventory and financial records
+- Clear audit trail from purchase to loan
+
 #### Viewing Loans
 
 **List Display**:
@@ -48,6 +63,7 @@ The Financial Records module manages loans, payments, interest accrual, and loan
 
 **Loan Details**:
 - Click loan to view related transactions
+- Auto-created loans show transaction reference in notes
 - Right panel shows transaction history
 - All payments and interest accruals visible
 
