@@ -348,6 +348,18 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteWageTransactionAsync(WageTransaction? transaction)
         {
             if (transaction == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete wage transactions.";
+                MessageBox.Show(
+                    "Only administrators can delete wage transactions.",
+                    "Access Denied",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 IsBusy = true;

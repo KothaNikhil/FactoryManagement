@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Windows;
 using FactoryManagement.Data;
 using FactoryManagement.Models;
+using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 using FactoryManagement.Services;
@@ -37,6 +38,9 @@ namespace FactoryManagement.ViewModels
         private User? _selectedUser;
 
         public User? CurrentUser => SelectedUser;
+
+        public bool IsAdminMode => SelectedUser?.Role?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true || 
+                                    SelectedUser?.Role?.Equals("Administrator", StringComparison.OrdinalIgnoreCase) == true;
 
         private readonly DashboardViewModel _dashboardViewModel;
         private readonly NewTransactionViewModel _transactionEntryViewModel;
@@ -281,6 +285,12 @@ namespace FactoryManagement.ViewModels
 
             // Keep menu expanded when pinned; collapse when unpinned
             IsMenuExpanded = value ? true : false;
+        }
+
+        partial void OnSelectedUserChanged(User? value)
+        {
+            OnPropertyChanged(nameof(IsAdminMode));
+            OnPropertyChanged(nameof(CurrentUser));
         }
     }
 }

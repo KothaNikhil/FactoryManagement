@@ -212,6 +212,12 @@ namespace FactoryManagement.ViewModels
         {
             if (item == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can edit items.";
+                return;
+            }
+
             IsEditMode = true;
             SelectedItem = item;
             ItemName = item.ItemName;
@@ -225,6 +231,12 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    ErrorMessage = "Only administrators can add or edit items.";
+                    return;
+                }
+
                 if (!ValidateItem())
                     return;
 
@@ -267,6 +279,12 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteItemAsync(Item? item)
         {
             if (item == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete items.";
+                return;
+            }
 
             try
             {

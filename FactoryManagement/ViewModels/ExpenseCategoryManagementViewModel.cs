@@ -100,6 +100,12 @@ namespace FactoryManagement.ViewModels
         {
             if (IsBusy) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can add or edit expense categories.";
+                return;
+            }
+
             // Validation
             if (string.IsNullOrWhiteSpace(CategoryName))
             {
@@ -156,6 +162,12 @@ namespace FactoryManagement.ViewModels
         {
             if (category == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can edit expense categories.";
+                return;
+            }
+
             IsEditMode = true;
             EditingCategoryId = category.ExpenseCategoryId;
             CategoryName = category.CategoryName;
@@ -167,6 +179,17 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteCategoryAsync(ExpenseCategory? category)
         {
             if (category == null || IsBusy) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete expense categories.";
+                System.Windows.MessageBox.Show(
+                    "Only administrators can delete expense categories.",
+                    "Access Denied",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
 
             // Confirm deletion
             var result = System.Windows.MessageBox.Show(

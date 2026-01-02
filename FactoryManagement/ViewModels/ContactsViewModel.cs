@@ -121,6 +121,12 @@ namespace FactoryManagement.ViewModels
         {
             if (party == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can edit contacts.";
+                return;
+            }
+
             IsEditMode = true;
             SelectedParty = party;
             Name = party.Name;
@@ -135,6 +141,12 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    ErrorMessage = "Only administrators can add or edit contacts.";
+                    return;
+                }
+
                 if (!ValidateParty())
                     return;
 
@@ -179,6 +191,12 @@ namespace FactoryManagement.ViewModels
         private async Task DeletePartyAsync(Party? party)
         {
             if (party == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete contacts.";
+                return;
+            }
 
             try
             {

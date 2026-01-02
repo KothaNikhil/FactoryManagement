@@ -101,6 +101,16 @@ namespace FactoryManagement.ViewModels
         {
             if (user == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                MessageBox.Show(
+                    "Only administrators can edit users.",
+                    "Access Denied",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             _editingUserId = user.UserId;
             Username = user.Username;
             Role = user.Role;
@@ -113,6 +123,16 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    MessageBox.Show(
+                        "Only administrators can add or edit users.",
+                        "Access Denied",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
                 // Validation
                 if (string.IsNullOrWhiteSpace(Username))
                 {
@@ -201,6 +221,16 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteUserAsync(User? user)
         {
             if (user == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                MessageBox.Show(
+                    "Only administrators can delete users.",
+                    "Access Denied",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
             // Prevent deletion of Admin user - system critical role
             if (user.Role != null && (user.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase) || user.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)))

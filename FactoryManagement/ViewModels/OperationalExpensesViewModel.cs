@@ -255,6 +255,12 @@ namespace FactoryManagement.ViewModels
         {
             if (IsBusy) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can add or edit operational expenses.";
+                return;
+            }
+
             // Validation
             if (SelectedCategory == null)
             {
@@ -332,6 +338,12 @@ namespace FactoryManagement.ViewModels
         {
             if (expense == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can edit operational expenses.";
+                return;
+            }
+
             IsEditMode = true;
             EditingExpenseId = expense.OperationalExpenseId;
             SelectedCategory = ActiveCategories.FirstOrDefault(c => c.ExpenseCategoryId == expense.ExpenseCategoryId);
@@ -348,6 +360,17 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteExpenseAsync(OperationalExpense? expense)
         {
             if (expense == null || IsBusy) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete operational expenses.";
+                System.Windows.MessageBox.Show(
+                    "Only administrators can delete operational expenses.",
+                    "Access Denied",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
 
             var result = System.Windows.MessageBox.Show(
                 $"Are you sure you want to delete this expense of ₹{expense.Amount:N2}?",

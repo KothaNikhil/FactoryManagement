@@ -729,6 +729,17 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteLoanAsync(LoanAccount? loan)
         {
             if (loan == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                MessageBox.Show(
+                    "Only administrators can delete loans.",
+                    "Access Denied",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 IsLoading = true;
@@ -763,6 +774,17 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteFinancialTransactionAsync(FinancialTransaction? transaction)
         {
             if (transaction == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                MessageBox.Show(
+                    "Only administrators can delete financial transactions.",
+                    "Access Denied",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 IsLoading = true;

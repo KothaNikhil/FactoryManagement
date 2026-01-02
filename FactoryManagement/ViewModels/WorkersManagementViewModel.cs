@@ -122,6 +122,12 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    ErrorMessage = "Only administrators can add or edit workers.";
+                    return;
+                }
+
                 ErrorMessage = string.Empty;
 
                 if (string.IsNullOrWhiteSpace(WorkerName))
@@ -189,6 +195,12 @@ namespace FactoryManagement.ViewModels
         {
             if (worker == null) return;
 
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can edit workers.";
+                return;
+            }
+
             try
             {
                 IsEditMode = true;
@@ -210,6 +222,13 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteWorkerAsync(Worker? worker)
         {
             if (worker == null) return;
+
+            if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+            {
+                ErrorMessage = "Only administrators can delete workers.";
+                return;
+            }
+
             try
             {
                 IsBusy = true;

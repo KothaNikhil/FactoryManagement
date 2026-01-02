@@ -414,6 +414,17 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    ErrorMessage = "Only administrators can edit transactions.";
+                    System.Windows.MessageBox.Show(
+                        "Only administrators can edit transactions.",
+                        "Access Denied",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
                 IsEditMode = true;
                 EditingTransactionId = transaction.TransactionId;
                 OriginalQuantity = transaction.Quantity;
@@ -456,6 +467,17 @@ namespace FactoryManagement.ViewModels
         {
             try
             {
+                if (!MainWindowViewModel.Instance?.IsAdminMode ?? false)
+                {
+                    ErrorMessage = "Only administrators can delete transactions.";
+                    System.Windows.MessageBox.Show(
+                        "Only administrators can delete transactions.",
+                        "Access Denied",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
                 // Confirm delete
                 var result = System.Windows.MessageBox.Show(
                     $"Delete this transaction dated {transaction.TransactionDate:dd-MMM-yyyy}?",
