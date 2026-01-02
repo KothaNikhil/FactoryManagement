@@ -68,12 +68,26 @@ namespace FactoryManagement.ViewModels
         private string _remainingStockText = string.Empty;
 
         [ObservableProperty]
-        private string _selectedTransactionTypeString = "Buy";
+        private string _selectedTransactionTypeString = "Purchase";
 
         public TransactionType SelectedTransactionType
         {
-            get => Enum.Parse<TransactionType>(SelectedTransactionTypeString);
-            set => SelectedTransactionTypeString = value.ToString();
+            get => SelectedTransactionTypeString switch
+            {
+                "Purchase" => TransactionType.Buy,
+                "Sales" => TransactionType.Sell,
+                "Wastage" => TransactionType.Wastage,
+                "Processing" => TransactionType.Processing,
+                _ => TransactionType.Buy
+            };
+            set => SelectedTransactionTypeString = value switch
+            {
+                TransactionType.Buy => "Purchase",
+                TransactionType.Sell => "Sales",
+                TransactionType.Wastage => "Wastage",
+                TransactionType.Processing => "Processing",
+                _ => "Purchase"
+            };
         }
 
         [ObservableProperty]
@@ -124,7 +138,7 @@ namespace FactoryManagement.ViewModels
 
         public ObservableCollection<string> TransactionTypes { get; } = new()
         {
-            "Buy", "Sell", "Wastage", "Processing"
+            "Purchase", "Sales", "Wastage", "Processing"
         };
 
         // Payment mode options

@@ -240,7 +240,8 @@ namespace FactoryManagement.ViewModels
                 ProcessingTransactionCount = transactions
                     .Count(t => t.TransactionType == TransactionType.Processing);
 
-                TransactionCount = transactions.Count;
+                // Count all transactions (will be updated after loading all transaction types)
+                int transactionTypeCount = transactions.Count;
 
                 // Calculate total amount transacted (sum of all transaction amounts)
                 TotalAmountTransacted = transactions.Sum(t => t.TotalAmount);
@@ -356,6 +357,31 @@ namespace FactoryManagement.ViewModels
                     TotalOperationalExpenses = opExpensesTotalTask != null ? await opExpensesTotalTask : 0m;
                     MonthlyOperationalExpenses = opExpensesMonthlyTask != null ? await opExpensesMonthlyTask : 0m;
                 }
+
+                // Calculate total transaction count from all sources
+                int financialCount = 0;
+                int wageCount = 0;
+                int opExpenseCount = 0;
+
+                if (_financialTransactionService != null && financialAllTask != null)
+                {
+                    var financialTrans = await financialAllTask;
+                    financialCount = financialTrans.Count();
+                }
+
+                if (_wageService != null && wageAllTask != null)
+                {
+                    var wageTrans = await wageAllTask;
+                    wageCount = wageTrans.Count();
+                }
+
+                if (_operationalExpenseService != null)
+                {
+                    var opExpenses = await _operationalExpenseService.GetAllExpensesAsync();
+                    opExpenseCount = opExpenses.Count();
+                }
+
+                TransactionCount = transactionTypeCount + financialCount + wageCount + opExpenseCount;
 
                 // Load cash in hand if service is available
                 if (_cashBookService != null)
