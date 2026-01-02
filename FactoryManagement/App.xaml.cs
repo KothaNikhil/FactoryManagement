@@ -390,7 +390,7 @@ namespace FactoryManagement
                 var adminUser = new User
                 {
                     Username = "Admin",
-                    Role = "Administrator",
+                    Role = "Admin",
                     IsActive = true
                 };
                 context.Users.AddRange(guestUser, adminUser);

@@ -57,14 +57,27 @@ namespace FactoryManagement.Services
         public async Task UpdateUserAsync(User user)
         {
             user.ModifiedDate = DateTime.Now;
-            // Prevent deactivating the last active user
+            
+            // Prevent deactivating the Admin user
             var existing = await _userRepository.GetByIdAsync(user.UserId);
-            if (existing != null && existing.IsActive && !user.IsActive)
+            if (existing != null)
             {
-                var activeCount = await _userRepository.CountAsync(u => u.IsActive && u.UserId != user.UserId);
-                if (activeCount == 0)
+                // Check if trying to deactivate an Admin user
+                if (existing.IsActive && !user.IsActive && 
+                    (existing.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase) || 
+                     existing.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)))
                 {
-                    throw new InvalidOperationException("At least one active user must remain in the system.");
+                    throw new InvalidOperationException("The Admin user cannot be deactivated. The system must have at least one active Admin user to function properly.");
+                }
+                
+                // Prevent deactivating the last active user
+                if (existing.IsActive && !user.IsActive)
+                {
+                    var activeCount = await _userRepository.CountAsync(u => u.IsActive && u.UserId != user.UserId);
+                    if (activeCount == 0)
+                    {
+                        throw new InvalidOperationException("At least one active user must remain in the system.");
+                    }
                 }
             }
 
@@ -76,6 +89,12 @@ namespace FactoryManagement.Services
             var user = await _userRepository.GetByIdAsync(userId);
             if (user != null)
             {
+                // CRITICAL: Prevent deletion of Admin user (system cannot function without an admin)
+                if (user.Role != null && (user.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase) || user.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)))
+                {
+                    throw new InvalidOperationException("The Admin user cannot be deleted. The system must have at least one Admin user to function properly.");
+                }
+
                 // Do not allow deleting (deactivating) the last active user
                 if (user.IsActive)
                 {

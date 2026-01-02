@@ -142,6 +142,21 @@ namespace FactoryManagement.ViewModels
                     var user = await _userService.GetUserByIdAsync(_editingUserId.Value);
                     if (user != null)
                     {
+                        // Prevent deactivating Admin user
+                        if (user.IsActive && !IsActive &&
+                            (user.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                             user.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            MessageBox.Show(
+                                "The Admin user cannot be deactivated.\n\n" +
+                                "The system must have at least one active Admin user to function properly.",
+                                "Cannot Deactivate Admin User",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+                            IsBusy = false;
+                            return;
+                        }
+                        
                         user.Username = Username.Trim();
                         user.Role = Role.Trim();
                         user.IsActive = IsActive;
@@ -186,6 +201,19 @@ namespace FactoryManagement.ViewModels
         private async Task DeleteUserAsync(User? user)
         {
             if (user == null) return;
+
+            // Prevent deletion of Admin user - system critical role
+            if (user.Role != null && (user.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase) || user.Role.Equals("Administrator", StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show(
+                    "The Admin user cannot be deleted.\n\n" +
+                    "The system must have at least one Admin user to function properly.\n\n" +
+                    "Consider deactivating instead if the user is no longer needed.",
+                    "Cannot Delete Admin User",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
             // Prevent deletion of Guest user
             if (user.Username.Equals("Guest", StringComparison.OrdinalIgnoreCase))
