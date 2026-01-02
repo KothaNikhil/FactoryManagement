@@ -15,7 +15,8 @@
         </Grid.RowDefinitions>
 
         <!-- Summary Cards -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0"
+              Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -120,7 +121,7 @@
                                Margin="0,15,0,0"
                                HorizontalAlignment="Center"
                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
-                    
+
                     <TextBlock Text="{Binding SuccessMessage}"
                                Foreground="{StaticResource SuccessColor}"
                                TextWrapping="Wrap"
@@ -139,7 +140,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Left Panel - Reconciliation Form / Actions -->
-                <Border Grid.Column="0" Style="{StaticResource FormCard}">
+                <Border Grid.Column="0"
+                        Style="{StaticResource FormCard}">
                     <StackPanel>
                         <controls:SectionHeader Title="Reconcile Cash"
                                                 Subtitle="End-of-day cash counting"
@@ -236,198 +238,303 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Right Panel - Cash Records List -->
-                <Border Grid.Column="2" Style="{StaticResource FormCard}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                <!-- Middle Panel - Today's Cash Transactions -->
+                <!-- Right Panel - Transactions and Records (Stacked Vertically) -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <!-- Header with Filters -->
-                        <Border Grid.Row="0"
-                                Background="{StaticResource SecondaryBackground}"
-                                Padding="15"
-                                BorderBrush="{StaticResource BorderPrimary}"
-                                BorderThickness="0,0,0,1"
-                                Margin="-24,-24,-24,0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                    <!-- Today's Cash Transactions Section -->
+                    <Border Grid.Row="0"
+                            Style="{StaticResource FormCard}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Margin="0,0,12,0">
-                                        <TextBlock Text="📖" FontSize="18"/>
-                                    </Border>
-                                    <StackPanel>
-                                        <TextBlock Text="Cash Book Records"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   Foreground="{StaticResource Text.Primary}"/>
-                                        <TextBlock Text="Daily cash balance tracking"
-                                                   FontSize="11"
-                                                   Foreground="{StaticResource Text.Secondary}"/>
+                            <!-- Header -->
+                            <StackPanel Grid.Row="0"
+                                        Margin="0,0,0,15">
+                                <controls:SectionHeader Title="Today's Cash Transactions"
+                                                        Subtitle="All cash movements today"
+                                                        Icon="💵"
+                                                        IconBackground="{StaticResource Card.Info}"/>
+                            </StackPanel>
+
+                            <!-- Transactions DataGrid -->
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding TodayCashTransactions}"
+                                      Style="{StaticResource EnhancedDataGrid}"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      GridLinesVisibility="None">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Type"
+                                                        Binding="{Binding Type}"
+                                                        Width="70"/>
+                                    <DataGridTextColumn Header="Description"
+                                                        Binding="{Binding Description}"
+                                                        Width="*"/>
+                                    <DataGridTextColumn Header="Cash In"
+                                                        Binding="{Binding CashIn, StringFormat='₹{0:N2}'}"
+                                                        Width="80">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource SuccessColor}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Cash Out"
+                                                        Binding="{Binding CashOut, StringFormat='₹{0:N2}'}"
+                                                        Width="80">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource ErrorColor}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Spacer -->
+                    <!-- Cash Records List Section -->
+                    <Border Grid.Row="2"
+                            Style="{StaticResource FormCard}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Header with Filters -->
+                            <Border Grid.Row="0"
+                                    Background="{StaticResource SecondaryBackground}"
+                                    Padding="15"
+                                    BorderBrush="{StaticResource BorderPrimary}"
+                                    BorderThickness="0,0,0,1"
+                                    Margin="-24,-24,-24,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <Border Background="{StaticResource Card.Info}"
+                                                Style="{StaticResource IconBadge}"
+                                                Margin="0,0,12,0">
+                                            <TextBlock Text="📖"
+                                                       FontSize="18"/>
+                                        </Border>
+                                        <StackPanel>
+                                            <TextBlock Text="Cash Book Records"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="{StaticResource Text.Primary}"/>
+                                            <TextBlock Text="Daily cash balance tracking"
+                                                       FontSize="11"
+                                                       Foreground="{StaticResource Text.Secondary}"/>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
 
-                                <!-- Filter Controls -->
-                                <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                    <DatePicker SelectedDate="{Binding FilterStartDate}"
-                                                Style="{StaticResource DatePicker.Standard}"
-                                                Width="130"
-                                                Margin="0,0,8,0"
-                                                materialDesign:HintAssist.Hint="Start Date"/>
-                                    <DatePicker SelectedDate="{Binding FilterEndDate}"
-                                                Style="{StaticResource DatePicker.Standard}"
-                                                Width="130"
-                                                Margin="0,0,8,0"
-                                                materialDesign:HintAssist.Hint="End Date"/>
-                                    <Button Content="Apply"
-                                            Command="{Binding ApplyFiltersCommand}"
-                                            Style="{StaticResource Button.Secondary}"
-                                            Width="70"
-                                            Padding="8,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
+                                    <!-- Filter Controls -->
+                                    <StackPanel Grid.Column="2"
+                                                Orientation="Horizontal">
+                                        <DatePicker SelectedDate="{Binding FilterStartDate}"
+                                                    Style="{StaticResource DatePicker.Standard}"
+                                                    Width="130"
+                                                    Margin="0,0,8,0"
+                                                    materialDesign:HintAssist.Hint="Start Date"/>
+                                        <DatePicker SelectedDate="{Binding FilterEndDate}"
+                                                    Style="{StaticResource DatePicker.Standard}"
+                                                    Width="130"
+                                                    Margin="0,0,8,0"
+                                                    materialDesign:HintAssist.Hint="End Date"/>
+                                        <Button Content="Apply"
+                                                Command="{Binding ApplyFiltersCommand}"
+                                                Style="{StaticResource Button.Secondary}"
+                                                Width="70"
+                                                Padding="8,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
 
-                        <!-- DataGrid -->
-                        <DataGrid Grid.Row="1"
-                                  ItemsSource="{Binding PaginatedCashRecords}"
-                                  SelectedItem="{Binding SelectedRecord}"
-                                  Style="{StaticResource DataGrid.Standard}"
-                                  AutoGenerateColumns="False"
-                                  IsReadOnly="True"
-                                  Margin="0,15,0,0">
-                            <DataGrid.Columns>
-                                <!-- Date -->
-                                <DataGridTextColumn Header="Date"
-                                                    Binding="{Binding Date, StringFormat='dd MMM yyyy'}"
-                                                    Width="110"/>
+                            <!-- DataGrid -->
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding PaginatedCashRecords}"
+                                      SelectedItem="{Binding SelectedRecord}"
+                                      Style="{StaticResource DataGrid.Standard}"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      Margin="0,15,0,0">
+                                <DataGrid.Columns>
+                                    <!-- Date -->
+                                    <DataGridTextColumn Header="Date"
+                                                        Binding="{Binding Date, StringFormat='dd MMM yyyy'}"
+                                                        Width="110"/>
 
-                                <!-- Opening Balance -->
-                                <DataGridTextColumn Header="Opening (₹)"
-                                                    Binding="{Binding OpeningBalance, StringFormat='N2'}"
-                                                    Width="100">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Opening Balance -->
+                                    <DataGridTextColumn Header="Opening (₹)"
+                                                        Binding="{Binding OpeningBalance, StringFormat='N2'}"
+                                                        Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource Text.Primary}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Cash In -->
-                                <DataGridTextColumn Header="Cash In (₹)"
-                                                    Binding="{Binding TotalCashIn, StringFormat='N2'}"
-                                                    Width="100">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Cash In -->
+                                    <DataGridTextColumn Header="Cash In (₹)"
+                                                        Binding="{Binding TotalCashIn, StringFormat='N2'}"
+                                                        Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource SuccessColor}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Cash Out -->
-                                <DataGridTextColumn Header="Cash Out (₹)"
-                                                    Binding="{Binding TotalCashOut, StringFormat='N2'}"
-                                                    Width="100">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Cash Out -->
+                                    <DataGridTextColumn Header="Cash Out (₹)"
+                                                        Binding="{Binding TotalCashOut, StringFormat='N2'}"
+                                                        Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource ErrorColor}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Expected Closing -->
-                                <DataGridTextColumn Header="Expected (₹)"
-                                                    Binding="{Binding ExpectedClosingBalance, StringFormat='N2'}"
-                                                    Width="110">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Expected Closing -->
+                                    <DataGridTextColumn Header="Expected (₹)"
+                                                        Binding="{Binding ExpectedClosingBalance, StringFormat='N2'}"
+                                                        Width="110">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource Text.Primary}"/>
+                                                <Setter Property="FontWeight"
+                                                        Value="Bold"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Actual Cash -->
-                                <DataGridTextColumn Header="Actual (₹)"
-                                                    Binding="{Binding ActualCashCounted, StringFormat='N2'}"
-                                                    Width="100">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Setter Property="Foreground" Value="{StaticResource InfoColor}"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Actual Cash -->
+                                    <DataGridTextColumn Header="Actual (₹)"
+                                                        Binding="{Binding ActualCashCounted, StringFormat='N2'}"
+                                                        Width="100">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Setter Property="Foreground"
+                                                        Value="{StaticResource InfoColor}"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Discrepancy -->
-                                <DataGridTextColumn Header="Diff (₹)"
-                                                    Binding="{Binding Discrepancy, StringFormat='N2'}"
-                                                    Width="90">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Right"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Discrepancy, Converter={StaticResource IsPositiveConverter}}" Value="True">
-                                                    <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Discrepancy, Converter={StaticResource IsNegativeConverter}}" Value="True">
-                                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Discrepancy -->
+                                    <DataGridTextColumn Header="Diff (₹)"
+                                                        Binding="{Binding Discrepancy, StringFormat='N2'}"
+                                                        Width="90">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Right"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Discrepancy, Converter={StaticResource IsPositiveConverter}}"
+                                                                 Value="True">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource SuccessColor}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Discrepancy, Converter={StaticResource IsNegativeConverter}}"
+                                                                 Value="True">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource ErrorColor}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Status -->
-                                <DataGridTextColumn Header="Status"
-                                                    Binding="{Binding Status}"
-                                                    Width="90">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="TextAlignment" Value="Center"/>
-                                            <Setter Property="FontSize" Value="11"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Status}" Value="Balanced">
-                                                    <Setter Property="Foreground" Value="{StaticResource SuccessColor}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Pending">
-                                                    <Setter Property="Foreground" Value="{StaticResource WarningColor}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Shortage">
-                                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Surplus">
-                                                    <Setter Property="Foreground" Value="{StaticResource InfoColor}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- Status -->
+                                    <DataGridTextColumn Header="Status"
+                                                        Binding="{Binding Status}"
+                                                        Width="90">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextAlignment"
+                                                        Value="Center"/>
+                                                <Setter Property="FontSize"
+                                                        Value="11"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Balanced">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource SuccessColor}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Pending">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource WarningColor}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Shortage">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource ErrorColor}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Surplus">
+                                                        <Setter Property="Foreground"
+                                                                Value="{StaticResource InfoColor}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- Notes -->
-                                <DataGridTextColumn Header="Notes"
-                                                    Binding="{Binding Notes}"
-                                                    Width="*"
-                                                    MinWidth="150"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                    <!-- Notes -->
+                                    <DataGridTextColumn Header="Notes"
+                                                        Binding="{Binding Notes}"
+                                                        Width="*"
+                                                        MinWidth="150"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                        <!-- Pagination -->
-                        <controls:PaginationControl Grid.Row="2"
-                                                     Margin="0,15,0,0"/>
-                    </Grid>
-                </Border>
+                            <!-- Pagination -->
+                            <controls:PaginationControl Grid.Row="2"
+                                                        Margin="0,15,0,0"/>
+                        </Grid>
+                    </Border>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FactoryManagement.Data.Repositories;
 using FactoryManagement.Models;
 using FactoryManagement.Services;
 using System;
@@ -10,12 +11,28 @@ using System.Threading.Tasks;
 namespace FactoryManagement.ViewModels
 {
     /// <summary>
+    /// Simple class to represent a cash transaction detail for display
+    /// </summary>
+    public class CashTransactionDetail
+    {
+        public string Type { get; set; } = "";
+        public string Description { get; set; } = "";
+        public decimal CashIn { get; set; }
+        public decimal CashOut { get; set; }
+        public string PaymentMode { get; set; } = "";
+    }
+
+    /// <summary>
     /// ViewModel for Cash Book management - tracking daily cash balances and reconciliation
     /// </summary>
     public partial class CashBookViewModel : PaginationViewModel
     {
         private readonly ICashBookService _cashBookService;
         private readonly IUserService _userService;
+        private readonly ITransactionRepository _transactionRepository;
+        private readonly IFinancialTransactionRepository _financialTransactionRepository;
+        private readonly IWageTransactionRepository _wageTransactionRepository;
+        private readonly IOperationalExpenseRepository _operationalExpenseRepository;
 
         // Collections
         [ObservableProperty]
@@ -107,12 +124,24 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private decimal _selectedDateExpectedClosing;
 
+        // Today's cash transactions
+        [ObservableProperty]
+        private ObservableCollection<CashTransactionDetail> _todayCashTransactions = new();
+
         public CashBookViewModel(
             ICashBookService cashBookService,
-            IUserService userService)
+            IUserService userService,
+            ITransactionRepository transactionRepository,
+            IFinancialTransactionRepository financialTransactionRepository,
+            IWageTransactionRepository wageTransactionRepository,
+            IOperationalExpenseRepository operationalExpenseRepository)
         {
             _cashBookService = cashBookService ?? throw new ArgumentNullException(nameof(cashBookService));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
+            _financialTransactionRepository = financialTransactionRepository ?? throw new ArgumentNullException(nameof(financialTransactionRepository));
+            _wageTransactionRepository = wageTransactionRepository ?? throw new ArgumentNullException(nameof(wageTransactionRepository));
+            _operationalExpenseRepository = operationalExpenseRepository ?? throw new ArgumentNullException(nameof(operationalExpenseRepository));
         }
 
         public async Task InitializeAsync()
@@ -192,6 +221,9 @@ namespace FactoryManagement.ViewModels
 
                 TotalDiscrepancies = await _cashBookService.GetTotalDiscrepancyAsync(
                     DateTime.Today.AddMonths(-1), DateTime.Today);
+                
+                // Load today's cash transactions
+                await LoadTodayCashTransactionsAsync();
             }
             catch (Exception)
             {
@@ -200,6 +232,99 @@ namespace FactoryManagement.ViewModels
                 TodayExpectedClosing = 0;
                 UnreconciledDays = 0;
                 TotalDiscrepancies = 0;
+            }
+        }
+
+        private async Task LoadTodayCashTransactionsAsync()
+        {
+            TodayCashTransactions.Clear();
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            // 1. Inventory Transactions
+            var inventoryTrans = await _transactionRepository.GetTransactionsByDateRangeAsync(today, tomorrow.AddSeconds(-1));
+            foreach (var trans in inventoryTrans.Where(t => t.PaymentMode == PaymentMode.Cash))
+            {
+                var detail = new CashTransactionDetail
+                {
+                    Type = "Inventory",
+                    Description = $"{trans.TransactionType} - {trans.ItemName} ({trans.Quantity} units)",
+                    PaymentMode = "Cash"
+                };
+
+                if (trans.TransactionType == TransactionType.Sell || trans.TransactionType == TransactionType.Processing)
+                {
+                    detail.CashIn = trans.TotalAmount;
+                }
+                else // Buy, Wastage
+                {
+                    detail.CashOut = trans.TotalAmount;
+                }
+
+                TodayCashTransactions.Add(detail);
+            }
+
+            // 2. Financial Transactions
+            var financialTrans = await _financialTransactionRepository.GetByDateRangeAsync(today, tomorrow.AddSeconds(-1));
+            foreach (var trans in financialTrans.Where(t => t.PaymentMode == PaymentMode.Cash))
+            {
+                var detail = new CashTransactionDetail
+                {
+                    Type = "Financial",
+                    Description = $"{trans.TransactionType} - {trans.Party?.Name ?? "Party"}",
+                    PaymentMode = "Cash"
+                };
+
+                if (trans.TransactionType == FinancialTransactionType.LoanTaken ||
+                    trans.TransactionType == FinancialTransactionType.LoanRepayment ||
+                    trans.TransactionType == FinancialTransactionType.InterestReceived)
+                {
+                    detail.CashIn = trans.Amount;
+                }
+                else
+                {
+                    detail.CashOut = trans.Amount;
+                }
+
+                TodayCashTransactions.Add(detail);
+            }
+
+            // 3. Wage Transactions
+            var wageTrans = await _wageTransactionRepository.GetByDateRangeAsync(today, tomorrow.AddSeconds(-1));
+            foreach (var trans in wageTrans.Where(t => t.PaymentMode == PaymentMode.Cash))
+            {
+                var detail = new CashTransactionDetail
+                {
+                    Type = "Wages",
+                    Description = $"{trans.TransactionType} - {trans.Worker?.Name ?? "Worker"}",
+                    PaymentMode = "Cash"
+                };
+
+                if (trans.TransactionType == WageTransactionType.AdvanceAdjustment && trans.Amount < 0)
+                {
+                    detail.CashIn = Math.Abs(trans.Amount);
+                }
+                else
+                {
+                    detail.CashOut = trans.Amount;
+                }
+
+                TodayCashTransactions.Add(detail);
+            }
+
+            // 4. Operational Expenses
+            var expenses = await _operationalExpenseRepository.GetByDateRangeAsync(today, tomorrow.AddSeconds(-1));
+            foreach (var expense in expenses.Where(e => e.PaymentMode == PaymentMode.Cash))
+            {
+                var detail = new CashTransactionDetail
+                {
+                    Type = "Expense",
+                    Description = $"{expense.ExpenseCategory?.CategoryName ?? "Expense"} - {expense.Notes}",
+                    CashOut = expense.Amount,
+                    PaymentMode = "Cash"
+                };
+
+                TodayCashTransactions.Add(detail);
             }
         }
 
