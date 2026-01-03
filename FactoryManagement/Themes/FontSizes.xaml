@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+  <!-- Global Font Size System -->
+  <!-- Based on Material Design 3 typography system -->
+
+  <!-- Extra Small - Used for hints, captions, very small text -->
+  <System:Double x:Key="FontSize.ExtraSmall">9</System:Double>
+
+  <!-- Small - Used for secondary text, labels, helper text -->
+  <System:Double x:Key="FontSize.Small">11</System:Double>
+
+  <!-- SmallMedium - Used for data grid headers, small sections -->
+  <System:Double x:Key="FontSize.SmallMedium">12</System:Double>
+
+  <!-- Regular - Default base size for body text -->
+  <System:Double x:Key="FontSize.Regular">13</System:Double>
+
+  <!-- Medium - Used for slightly emphasis text -->
+  <System:Double x:Key="FontSize.Medium">14</System:Double>
+
+  <!-- Large - Used for form labels, section content -->
+  <System:Double x:Key="FontSize.Large">16</System:Double>
+
+  <!-- Extra Large - Used for card titles, subsection headers -->
+  <System:Double x:Key="FontSize.ExtraLarge">18</System:Double>
+
+  <!-- Heading 1 - Used for page titles, primary headers -->
+  <System:Double x:Key="FontSize.Heading1">24</System:Double>
+
+  <!-- Heading 2 - Used for section titles -->
+  <System:Double x:Key="FontSize.Heading2">20</System:Double>
+
+  <!-- Heading 3 - Used for subsection titles -->
+  <System:Double x:Key="FontSize.Heading3">18</System:Double>
+
+  <!-- Icon Size - Used for icon elements -->
+  <System:Double x:Key="FontSize.Icon.Small">12</System:Double>
+  <System:Double x:Key="FontSize.Icon.Medium">16</System:Double>
+  <System:Double x:Key="FontSize.Icon.Large">20</System:Double>
+  <System:Double x:Key="FontSize.Icon.ExtraLarge">32</System:Double>
+
+  <!-- Numeric/Amount Font Size - For displaying amounts in cards, grids -->
+  <System:Double x:Key="FontSize.Amount">20</System:Double>
+
+  <!-- Button Font Size -->
+  <System:Double x:Key="FontSize.Button">14</System:Double>
+
+  <!-- Grid Header Font Size -->
+  <System:Double x:Key="FontSize.GridHeader">13</System:Double>
+
+  <!-- Grid Cell Font Size -->
+  <System:Double x:Key="FontSize.GridCell">13</System:Double>
+
+  <!-- Input/TextBox Font Size -->
+  <System:Double x:Key="FontSize.Input">13</System:Double>
+
+  <!-- Data Grid Row/Cell Font Size -->
+  <System:Double x:Key="FontSize.DataGridRow">13</System:Double>
+
+</ResourceDictionary>

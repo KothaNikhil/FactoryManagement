@@ -69,7 +69,7 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-                                        <TextBlock FontSize="11" FontWeight="Medium">
+                                        <TextBlock FontSize="{StaticResource FontSize.Small}" FontWeight="Medium">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Text" Value="Active"/>
@@ -172,7 +172,7 @@
                               Foreground="{StaticResource AccentCyan}"
                               Height="28"
                               Padding="12,0"
-                              FontSize="12"
+                              FontSize="{StaticResource FontSize.SmallMedium}"
                               FontWeight="SemiBold"
                               ToolTip="Clear the form to add a new user"/>
                     </Grid>
@@ -183,7 +183,7 @@
                         <!-- Username -->
                         <TextBlock Text="Username *" 
                                  Foreground="{StaticResource Text.Label}"
-                                 FontSize="11"
+                                 FontSize="{StaticResource FontSize.Small}"
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Enter username"
@@ -193,7 +193,7 @@
                         <!-- Role -->
                         <TextBlock Text="Role *" 
                                  Foreground="{StaticResource Text.Label}"
-                                 FontSize="11"
+                                 FontSize="{StaticResource FontSize.Small}"
                                  Margin="0,0,0,8"/>
                         <TextBox Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}"
                                materialDesign:HintAssist.Hint="Enter user role"
@@ -206,7 +206,7 @@
                                   Style="{StaticResource MaterialDesignCheckBox}"
                                   Foreground="{StaticResource Text.Primary}"
                                   Margin="0,0,0,30"
-                                  FontSize="14"/>
+                                  FontSize="{StaticResource FontSize.Medium}"/>
 
                         <!-- Error Message -->
                         <Border Style="{StaticResource InfoBox}" 
@@ -224,7 +224,7 @@
                               Style="{StaticResource Button.Success}"
                               HorizontalAlignment="Stretch"
                               Height="44"
-                              FontSize="13"
+                              FontSize="{StaticResource FontSize.Regular}"
                               FontWeight="SemiBold"
                               IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                               ToolTip="Save this user to the database">

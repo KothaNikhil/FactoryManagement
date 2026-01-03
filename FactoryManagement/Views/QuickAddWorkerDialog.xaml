@@ -22,7 +22,7 @@
             <StackPanel Grid.Row="0" Margin="0,0,0,25">
                 <TextBlock x:Name="TitleTextBlock"
                            Text="👷 Add New Worker" 
-                           FontSize="24" 
+                           FontSize="{StaticResource FontSize.Heading1}" 
                            FontWeight="Bold" 
                            Foreground="White"/>
                 <Border Height="3" Background="{StaticResource SuccessColor}" CornerRadius="2" Margin="0,10,0,0" HorizontalAlignment="Left" Width="100"/>
@@ -71,7 +71,7 @@
                         Foreground="White"
                         BorderBrush="{StaticResource Text.Secondary}"
                         Height="44"
-                        FontSize="14"
+                        FontSize="{StaticResource FontSize.Medium}"
                         FontWeight="SemiBold"/>
                 
                 <Button Grid.Column="2"
@@ -81,7 +81,7 @@
                         Background="{StaticResource ButtonSuccess}"
                         Foreground="White"
                         Height="44"
-                        FontSize="14"
+                        FontSize="{StaticResource FontSize.Medium}"
                         FontWeight="Bold"
                         Style="{StaticResource MaterialDesignRaisedButton}"/>
             </Grid>

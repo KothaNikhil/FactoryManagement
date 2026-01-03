@@ -310,10 +310,10 @@
                                         <StackPanel Grid.Column="1"
                                                     Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        Foreground="{StaticResource Text.Secondary}"
                                                        VerticalAlignment="Center"/>
-                                            <TextBlock FontSize="11"
+                                            <TextBlock FontSize="{StaticResource FontSize.Small}"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource AccentGlowOrange}"
                                                        VerticalAlignment="Center">
@@ -390,11 +390,11 @@
                                         <StackPanel Grid.Column="1"
                                                     Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        Foreground="{StaticResource Text.Secondary}"
                                                        VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding RemainingStockText}"
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource AccentCyan}"
                                                        VerticalAlignment="Center"/>
@@ -421,7 +421,7 @@
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Center"
                                                Margin="0,0,12,0"
-                                               FontSize="11"
+                                               FontSize="{StaticResource FontSize.Small}"
                                                Foreground="{StaticResource AccentCyan}"
                                                IsHitTestVisible="False"/>
                                 </Grid>
@@ -448,11 +448,11 @@
                                         <StackPanel Grid.Column="1"
                                                     Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        Foreground="{StaticResource Text.Secondary}"
                                                        VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding RemainingStockText}"
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource AccentCyan}"
                                                        VerticalAlignment="Center"/>
@@ -523,7 +523,7 @@
                                                                  Margin="0,0,6,0"/>
                                         <TextBlock Grid.Column="1"
                                                    Text="{Binding TotalAmount, StringFormat={}{0:N2}}"
-                                                   FontSize="14"
+                                                   FontSize="{StaticResource FontSize.Medium}"
                                                    FontWeight="Bold"
                                                    Foreground="{StaticResource AccentCyan}"
                                                    VerticalAlignment="Center"/>
@@ -580,7 +580,7 @@
                                                                  Margin="0,0,6,0"/>
                                         <TextBlock Grid.Column="1"
                                                    Text="{Binding TotalAmount, StringFormat={}{0:N2}}"
-                                                   FontSize="14"
+                                                   FontSize="{StaticResource FontSize.Medium}"
                                                    FontWeight="Bold"
                                                    Foreground="{StaticResource AccentCyan}"
                                                    VerticalAlignment="Center"/>
@@ -608,7 +608,7 @@
                                            Foreground="{StaticResource DeleteButtonForeground}"
                                            TextWrapping="Wrap"
                                            Margin="0,12,0,0"
-                                           FontSize="12"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
                                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
                             </StackPanel>
 
@@ -729,7 +729,7 @@
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding CurrentDisplayDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                           FontSize="14"
+                                           FontSize="{StaticResource FontSize.Medium}"
                                            FontWeight="Medium"
                                            Foreground="{DynamicResource Text.Primary}"
                                            VerticalAlignment="Center"
@@ -739,9 +739,9 @@
                                         Style="{StaticResource Button.Secondary}"
                                         Padding="12,4"
                                         Height="28"
-                                        FontSize="12"/>
+                                        FontSize="{StaticResource FontSize.SmallMedium}"/>
                                 <TextBlock Text="{Binding TotalRecords, StringFormat='({0} transactions)'}"
-                                           FontSize="12"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
                                            Foreground="{DynamicResource Text.Secondary}"
                                            VerticalAlignment="Center"
                                            Margin="12,0,0,0"/>

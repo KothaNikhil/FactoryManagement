@@ -454,33 +454,33 @@
 
                             <!-- Record Count Info (Left) -->
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="Showing " Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
+                                <TextBlock Text="Showing " Foreground="{StaticResource Text.Secondary}" FontSize="{StaticResource FontSize.Regular}"/>
                                 <TextBlock Text="{Binding TotalRecords}" 
                                            FontWeight="SemiBold" 
                                            Foreground="{StaticResource Text.Primary}" 
-                                           FontSize="13" 
+                                           FontSize="{StaticResource FontSize.Regular}" 
                                            Margin="0,0,4,0"/>
-                                <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
+                                <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="{StaticResource FontSize.Regular}"/>
                             </StackPanel>
 
                             <!-- Totals Display (Center) -->
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Border Background="{StaticResource Card.Warning}" CornerRadius="4" Padding="10,6" Margin="0,0,8,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="Total Debit: " Foreground="White" FontSize="13"/>
-                                        <TextBlock Text="{Binding TotalDebit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock Text="Total Debit: " Foreground="White" FontSize="{StaticResource FontSize.Regular}"/>
+                                        <TextBlock Text="{Binding TotalDebit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="{StaticResource FontSize.Regular}" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
                                 <Border Background="{StaticResource Card.Success}" CornerRadius="4" Padding="10,6" Margin="0,0,8,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="Total Credit: " Foreground="White" FontSize="13"/>
-                                        <TextBlock Text="{Binding TotalCredit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock Text="Total Credit: " Foreground="White" FontSize="{StaticResource FontSize.Regular}"/>
+                                        <TextBlock Text="{Binding TotalCredit, StringFormat=₹{0:N2}}" Foreground="White" FontSize="{StaticResource FontSize.Regular}" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
                                 <Border Background="{Binding TotalDifference, Converter={StaticResource AmountToBrushConverter}}" CornerRadius="4" Padding="10,6">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="Difference: " Foreground="White" FontSize="13"/>
-                                        <TextBlock Text="{Binding TotalDifference, StringFormat=₹{0:N2}}" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
+                                        <TextBlock Text="Difference: " Foreground="White" FontSize="{StaticResource FontSize.Regular}"/>
+                                        <TextBlock Text="{Binding TotalDifference, StringFormat=₹{0:N2}}" FontSize="{StaticResource FontSize.Regular}" FontWeight="SemiBold" Foreground="White"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -516,7 +516,7 @@
                                         CornerRadius="4"
                                         Padding="12,6"
                                         Margin="0,0,4,0">
-                                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource Text.Primary}" FontSize="13">
+                                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource Text.Primary}" FontSize="{StaticResource FontSize.Regular}">
                                         <Run Text="Page "/>
                                         <Run Text="{Binding CurrentPage, Mode=OneWay}" FontWeight="SemiBold"/>
                                         <Run Text=" of "/>
@@ -555,7 +555,7 @@
                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Width="250" Height="6" Foreground="{StaticResource Card.Info}"/>
-                    <TextBlock Text="Loading..." Foreground="White" FontSize="18" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Loading..." Foreground="White" FontSize="{StaticResource FontSize.ExtraLarge}" Margin="0,15,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </Grid>

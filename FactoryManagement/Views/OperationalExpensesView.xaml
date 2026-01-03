@@ -104,7 +104,7 @@
                     <!-- Category -->
                     <TextBlock Text="Category *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
@@ -138,7 +138,7 @@
                     <!-- Amount -->
                     <TextBlock Text="Amount *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -147,7 +147,7 @@
                     <!-- Expense Date -->
                     <TextBlock Text="Expense Date *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <DatePicker SelectedDate="{Binding ExpenseDate}"
                                 Style="{StaticResource DatePicker.Standard}"
@@ -156,7 +156,7 @@
                     <!-- Spent By -->
                     <TextBlock Text="Spent By"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding AllUsers}"
                               SelectedItem="{Binding SelectedSpentByUser}"
@@ -168,7 +168,7 @@
                     <!-- Payment Mode -->
                     <TextBlock Text="Payment Mode *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding PaymentModes}"
                               SelectedItem="{Binding SelectedPaymentMode}"
@@ -178,7 +178,7 @@
                     <!-- Notes -->
                     <TextBlock Text="Notes"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -263,7 +263,7 @@
                                         Style="{StaticResource IconBadge}"
                                         Margin="0,0,12,0">
                                     <TextBlock Text="📋"
-                                               FontSize="20"
+                                               FontSize="{StaticResource FontSize.Amount}"
                                                Foreground="White"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"/>
@@ -397,7 +397,7 @@
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding CurrentExpenseDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                           FontSize="14"
+                                           FontSize="{StaticResource FontSize.Medium}"
                                            FontWeight="Medium"
                                            Foreground="{DynamicResource Text.Primary}"
                                            VerticalAlignment="Center"
@@ -407,9 +407,9 @@
                                         Style="{StaticResource Button.Secondary}"
                                         Padding="12,4"
                                         Height="28"
-                                        FontSize="12"/>
+                                        FontSize="{StaticResource FontSize.SmallMedium}"/>
                                 <TextBlock Text="{Binding TotalRecords, StringFormat='({0} expenses)'}"
-                                           FontSize="12"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
                                            Foreground="{DynamicResource Text.Secondary}"
                                            VerticalAlignment="Center"
                                            Margin="12,0,0,0"/>
@@ -443,7 +443,7 @@
                              Style="{StaticResource MaterialDesignCircularProgressBar}"/>
                 <TextBlock Text="Loading..."
                            Foreground="White"
-                           FontSize="16"
+                           FontSize="{StaticResource FontSize.Large}"
                            Margin="0,20,0,0"
                            HorizontalAlignment="Center"/>
             </StackPanel>

@@ -21,11 +21,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Width="48" Height="48" CornerRadius="24">
-                    <TextBlock Text="👷" FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="👷" FontSize="{StaticResource FontSize.Heading1}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0">
-                    <TextBlock Text="Workers Management" FontSize="24" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Add, edit, and manage your workers" FontSize="14" Foreground="{StaticResource Text.Secondary}" Margin="0,4,0,0"/>
+                    <TextBlock Text="Workers Management" FontSize="{StaticResource FontSize.Heading1}" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Add, edit, and manage your workers" FontSize="{StaticResource FontSize.Medium}" Foreground="{StaticResource Text.Secondary}" Margin="0,4,0,0"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -59,7 +59,7 @@
                                 
                                 <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
                                     <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                        <TextBlock FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Text" Value="✏️"/>
@@ -111,21 +111,21 @@
                                  Margin="0,0,0,10"/>
 
                         <!-- Address -->
-                        <TextBlock Text="Address" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBlock Text="Address" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="Enter address (optional)"
                                  Style="{StaticResource TextBox.Standard}"
                                  Margin="0,0,0,10"/>
 
                         <!-- Status -->
-                        <TextBlock Text="Status" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBlock Text="Status" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
                         <ComboBox ItemsSource="{Binding WorkerStatuses}"
                                   SelectedItem="{Binding WorkerStatusString, Mode=TwoWay}"
                                   Style="{StaticResource ComboBox.Standard}"
                                   Margin="0,0,0,10"/>
 
                         <!-- Notes -->
-                        <TextBlock Text="Notes" Foreground="#AAA" FontSize="11" Margin="0,0,0,5"/>
+                        <TextBlock Text="Notes" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding WorkerNotes, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="Optional notes"
                                  Style="{StaticResource TextBox.Standard}"
@@ -139,7 +139,7 @@
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                             <TextBlock Text="{Binding ErrorMessage}" 
                                        Foreground="#ff6b6b" 
-                                       FontSize="10"
+                                       FontSize="{StaticResource FontSize.ExtraSmall}"
                                        TextWrapping="Wrap"/>
                         </Border>
                     </StackPanel>
@@ -183,7 +183,7 @@
                             
                             <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="📋" FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="All Workers" Style="{StaticResource SectionHeader.Title}"/>

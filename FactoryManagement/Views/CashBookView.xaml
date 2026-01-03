@@ -78,7 +78,7 @@
                     <!-- Date -->
                     <TextBlock Text="Date *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <DatePicker SelectedDate="{Binding OpeningBalanceDate}"
                                 Style="{StaticResource DatePicker.Standard}"
@@ -87,7 +87,7 @@
                     <!-- Amount -->
                     <TextBlock Text="Opening Cash Balance (₹) *"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <TextBox Text="{Binding OpeningBalanceAmount, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -97,7 +97,7 @@
                     <!-- Notes -->
                     <TextBlock Text="Notes"
                                Foreground="{StaticResource Text.Secondary}"
-                               FontSize="11"
+                               FontSize="{StaticResource FontSize.Small}"
                                Margin="0,0,0,5"/>
                     <TextBox Text="{Binding OpeningBalanceNotes, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -152,7 +152,7 @@
                         <!-- Date -->
                         <TextBlock Text="Date *"
                                    Foreground="{StaticResource Text.Secondary}"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Margin="0,0,0,5"/>
                         <DatePicker SelectedDate="{Binding ReconciliationDate}"
                                     Style="{StaticResource DatePicker.Standard}"
@@ -168,10 +168,10 @@
                             <StackPanel>
                                 <TextBlock Text="Expected Closing Balance"
                                            Foreground="{StaticResource Text.Secondary}"
-                                           FontSize="10"/>
+                                           FontSize="{StaticResource FontSize.ExtraSmall}"/>
                                 <TextBlock Text="{Binding TodayExpectedClosing, StringFormat='₹{0:N2}'}"
                                            Foreground="{StaticResource Text.Primary}"
-                                           FontSize="16"
+                                           FontSize="{StaticResource FontSize.Large}"
                                            FontWeight="Bold"
                                            Margin="0,4,0,0"/>
                             </StackPanel>
@@ -180,7 +180,7 @@
                         <!-- Actual Cash Counted -->
                         <TextBlock Text="Actual Cash Counted (₹) *"
                                    Foreground="{StaticResource Text.Secondary}"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Margin="0,0,0,5"/>
                         <TextBox Text="{Binding ActualCashCounted, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource TextBox.Standard}"
@@ -190,7 +190,7 @@
                         <!-- Discrepancy Reason (conditional) -->
                         <TextBlock Text="Discrepancy Reason"
                                    Foreground="{StaticResource Text.Secondary}"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Margin="0,0,0,5"/>
                         <TextBox Text="{Binding DiscrepancyReason, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource TextBox.Standard}"
@@ -200,7 +200,7 @@
                         <!-- Notes -->
                         <TextBlock Text="Notes"
                                    Foreground="{StaticResource Text.Secondary}"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Margin="0,0,0,5"/>
                         <TextBox Text="{Binding ReconciliationNotes, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource TextBox.Standard}"
@@ -226,14 +226,14 @@
                         <TextBlock Text="{Binding ErrorMessage}"
                                    Foreground="{StaticResource ErrorColor}"
                                    TextWrapping="Wrap"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Margin="0,0,0,5"
                                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
 
                         <TextBlock Text="{Binding SuccessMessage}"
                                    Foreground="{StaticResource SuccessColor}"
                                    TextWrapping="Wrap"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    Visibility="{Binding SuccessMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
                     </StackPanel>
                 </Border>
@@ -279,7 +279,7 @@
                                       BorderThickness="0"
                                       GridLinesVisibility="None"
                                       HeadersVisibility="Column"
-                                      FontSize="13">
+                                      FontSize="{StaticResource FontSize.Regular}">
                                 <DataGrid.ColumnHeaderStyle>
                                     <Style TargetType="DataGridColumnHeader">
                                         <Setter Property="Background"
@@ -365,15 +365,15 @@
                                                 Style="{StaticResource IconBadge}"
                                                 Margin="0,0,12,0">
                                             <TextBlock Text="📖"
-                                                       FontSize="18"/>
+                                                       FontSize="{StaticResource FontSize.ExtraLarge}"/>
                                         </Border>
                                         <StackPanel>
                                             <TextBlock Text="Cash Book Records"
-                                                       FontSize="16"
+                                                       FontSize="{StaticResource FontSize.Large}"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource Text.Primary}"/>
                                             <TextBlock Text="Daily cash balance tracking"
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSize.Small}"
                                                        Foreground="{StaticResource Text.Secondary}"/>
                                         </StackPanel>
                                     </StackPanel>
@@ -413,7 +413,7 @@
                                       BorderThickness="0"
                                       GridLinesVisibility="None"
                                       HeadersVisibility="Column"
-                                      FontSize="13">
+                                      FontSize="{StaticResource FontSize.Regular}">
                                 <DataGrid.ColumnHeaderStyle>
                                     <Style TargetType="DataGridColumnHeader">
                                         <Setter Property="Background"

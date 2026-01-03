@@ -39,11 +39,11 @@
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock Text="Backup Folder Location" 
-                                 FontSize="12" 
+                                 FontSize="{StaticResource FontSize.SmallMedium}" 
                                  Foreground="{StaticResource TextSecondary}"
                                  Margin="0,0,0,6"/>
                         <TextBlock Text="{Binding BackupPath}" 
-                                 FontSize="14" 
+                                 FontSize="{StaticResource FontSize.Medium}" 
                                  FontWeight="Medium"
                                  Foreground="White"
                                  TextTrimming="CharacterEllipsis"
@@ -62,7 +62,7 @@
                         ToolTip="Browse and select a different folder for storing backups">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FolderSearch" Width="20" Height="20" VerticalAlignment="Center"/>
-                        <TextBlock Text="Change Folder" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                        <TextBlock Text="Change Folder" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize.Medium}"/>
                     </StackPanel>
                 </Button>
             </materialDesign:Card>
@@ -170,7 +170,7 @@
                         <DataGridTextColumn Header="File Name" 
                                           Binding="{Binding FileName}" 
                                           Width="*"
-                                          FontSize="14">
+                                          FontSize="{StaticResource FontSize.Medium}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="Medium"/>
@@ -181,12 +181,12 @@
                         <DataGridTextColumn Header="Created Date" 
                                           Binding="{Binding FormattedDate}" 
                                           Width="200"
-                                          FontSize="14"/>
+                                          FontSize="{StaticResource FontSize.Medium}"/>
 
                         <DataGridTextColumn Header="Size" 
                                           Binding="{Binding FormattedSize}" 
                                           Width="120"
-                                          FontSize="14">
+                                          FontSize="{StaticResource FontSize.Medium}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
@@ -212,7 +212,7 @@
                                        Foreground="#64B5F6"/>
                 <TextBlock Text="{Binding StatusMessage}" 
                           VerticalAlignment="Center"
-                          FontSize="14"/>
+                          FontSize="{StaticResource FontSize.Medium}"/>
                 
                 <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                            IsIndeterminate="True"

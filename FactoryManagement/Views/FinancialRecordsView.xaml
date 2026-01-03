@@ -31,7 +31,7 @@
 
             <!-- Title -->
             <!-- <TextBlock Grid.Row="0" Text="Financial Transactions &amp; Loan Management" 
-                       FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/> -->
+                       FontSize="{StaticResource FontSize.Heading1}" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/> -->
 
             <!-- Summary Cards -->
             <Grid Grid.Row="1"
@@ -65,7 +65,7 @@
 
                         <TextBlock Grid.Column="0"
                                    Text="💰"
-                                   FontSize="32"
+                                   FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
                                    VerticalAlignment="Center"
                                    Margin="0,0,12,0"/>
 
@@ -73,11 +73,11 @@
                                     VerticalAlignment="Center">
                             <TextBlock Text="Loans Given"
                                        Foreground="{StaticResource LabelSuccess}"
-                                       FontSize="11"
+                                       FontSize="{StaticResource FontSize.Small}"
                                        Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding TotalLoansGiven, StringFormat='₹{0:N2}'}"
                                        Foreground="White"
-                                       FontSize="20"
+                                       FontSize="{StaticResource FontSize.Amount}"
                                        FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
@@ -102,7 +102,7 @@
 
                         <TextBlock Grid.Column="0"
                                    Text="💸"
-                                   FontSize="32"
+                                   FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
                                    VerticalAlignment="Center"
                                    Margin="0,0,12,0"/>
 
@@ -110,11 +110,11 @@
                                     VerticalAlignment="Center">
                             <TextBlock Text="Loans Taken"
                                        Foreground="{StaticResource LabelDanger}"
-                                       FontSize="11"
+                                       FontSize="{StaticResource FontSize.Small}"
                                        Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding TotalLoansTaken, StringFormat='₹{0:N2}'}"
                                        Foreground="White"
-                                       FontSize="20"
+                                       FontSize="{StaticResource FontSize.Amount}"
                                        FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
@@ -139,7 +139,7 @@
 
                         <TextBlock Grid.Column="0"
                                    Text="📈"
-                                   FontSize="32"
+                                   FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
                                    VerticalAlignment="Center"
                                    Margin="0,0,12,0"/>
 
@@ -147,11 +147,11 @@
                                     VerticalAlignment="Center">
                             <TextBlock Text="Interest Receivable"
                                        Foreground="{StaticResource LabelInfo}"
-                                       FontSize="11"
+                                       FontSize="{StaticResource FontSize.Small}"
                                        Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding TotalInterestReceivable, StringFormat='₹{0:N2}'}"
                                        Foreground="White"
-                                       FontSize="20"
+                                       FontSize="{StaticResource FontSize.Amount}"
                                        FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
@@ -176,7 +176,7 @@
 
                         <TextBlock Grid.Column="0"
                                    Text="📉"
-                                   FontSize="32"
+                                   FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
                                    VerticalAlignment="Center"
                                    Margin="0,0,12,0"/>
 
@@ -184,11 +184,11 @@
                                     VerticalAlignment="Center">
                             <TextBlock Text="Interest Payable"
                                        Foreground="{StaticResource LabelWarning}"
-                                       FontSize="11"
+                                       FontSize="{StaticResource FontSize.Small}"
                                        Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding TotalInterestPayable, StringFormat='₹{0:N2}'}"
                                        Foreground="White"
-                                       FontSize="20"
+                                       FontSize="{StaticResource FontSize.Amount}"
                                        FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
@@ -350,7 +350,7 @@
                                     Foreground="White"
                                     Height="38"
                                     MinWidth="130"
-                                    FontSize="12"
+                                    FontSize="{StaticResource FontSize.SmallMedium}"
                                     FontWeight="SemiBold"
                                     BorderThickness="0"
                                     Cursor="Hand"
@@ -428,7 +428,7 @@
                                     <TextBlock Text="{Binding SelectedLoan.Party.Name, TargetNullValue='No loan selected'}"
                                                FontWeight="SemiBold"
                                                Foreground="White"
-                                               FontSize="14"
+                                               FontSize="{StaticResource FontSize.Medium}"
                                                VerticalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
@@ -443,7 +443,7 @@
                                     <TextBlock Text="{Binding SelectedLoan.TotalOutstanding, StringFormat='{}{0:N2}', TargetNullValue='0.00'}"
                                                Foreground="{StaticResource ErrorColor}"
                                                FontWeight="Bold"
-                                               FontSize="14"
+                                               FontSize="{StaticResource FontSize.Medium}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Right"/>
                                 </Border>
@@ -484,7 +484,7 @@
                                     Foreground="White"
                                     Height="38"
                                     MinWidth="140"
-                                    FontSize="12"
+                                    FontSize="{StaticResource FontSize.SmallMedium}"
                                     FontWeight="SemiBold"
                                     BorderThickness="0"
                                     Cursor="Hand"
@@ -569,7 +569,7 @@
                                     <Border Background="{StaticResource Card.Info}"
                                             Style="{StaticResource IconBadge}">
                                         <TextBlock Text="📋"
-                                                   FontSize="20"
+                                                   FontSize="{StaticResource FontSize.Amount}"
                                                    Foreground="White"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"/>
@@ -640,7 +640,7 @@
                                   BorderThickness="0"
                                   GridLinesVisibility="None"
                                   HeadersVisibility="Column"
-                                  FontSize="13">
+                                  FontSize="{StaticResource FontSize.Regular}">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Background"
@@ -668,7 +668,7 @@
                                                     ToolTip="Delete Loan"
                                                     Command="{Binding DataContext.DeleteLoanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
                                                 <TextBlock Text="🗑"
-                                                           FontSize="14"
+                                                           FontSize="{StaticResource FontSize.Medium}"
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Center"/>
                                             </Button>
@@ -731,7 +731,7 @@
                                                              VerticalAlignment="Center"
                                                              Margin="0,0,8,0"/>
                                     <TextBlock Text="{Binding CurrentLoanDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                               FontSize="14"
+                                               FontSize="{StaticResource FontSize.Medium}"
                                                FontWeight="Medium"
                                                Foreground="{DynamicResource Text.Primary}"
                                                VerticalAlignment="Center"
@@ -741,9 +741,9 @@
                                             Style="{StaticResource Button.Secondary}"
                                             Padding="12,4"
                                             Height="28"
-                                            FontSize="12"/>
+                                            FontSize="{StaticResource FontSize.SmallMedium}"/>
                                     <TextBlock Text="{Binding TotalRecordsLoans, StringFormat='({0} loans)'}"
-                                               FontSize="12"
+                                               FontSize="{StaticResource FontSize.SmallMedium}"
                                                Foreground="{DynamicResource Text.Secondary}"
                                                VerticalAlignment="Center"
                                                Margin="12,0,0,0"/>
@@ -790,7 +790,7 @@
                                 <TextBlock Grid.Column="0"
                                            Text="📜 Transaction History"
                                            FontWeight="Bold"
-                                           FontSize="16"
+                                           FontSize="{StaticResource FontSize.Large}"
                                            Foreground="White"/>
                                 <Button Grid.Column="1"
                                         Content="↩ Undo Delete"
@@ -818,7 +818,7 @@
                                   BorderThickness="0"
                                   GridLinesVisibility="None"
                                   HeadersVisibility="Column"
-                                  FontSize="12">
+                                  FontSize="{StaticResource FontSize.SmallMedium}">
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Background"
@@ -846,7 +846,7 @@
                                                     ToolTip="Delete Entry"
                                                     Command="{Binding DataContext.DeleteFinancialTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
                                                 <TextBlock Text="🗑"
-                                                           FontSize="14"
+                                                           FontSize="{StaticResource FontSize.Medium}"
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Center"/>
                                             </Button>
@@ -913,7 +913,7 @@
                                                              VerticalAlignment="Center"
                                                              Margin="0,0,8,0"/>
                                     <TextBlock Text="{Binding CurrentTransactionDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                               FontSize="14"
+                                               FontSize="{StaticResource FontSize.Medium}"
                                                FontWeight="Medium"
                                                Foreground="{DynamicResource Text.Primary}"
                                                VerticalAlignment="Center"
@@ -923,9 +923,9 @@
                                             Style="{StaticResource Button.Secondary}"
                                             Padding="12,4"
                                             Height="28"
-                                            FontSize="12"/>
+                                            FontSize="{StaticResource FontSize.SmallMedium}"/>
                                     <TextBlock Text="{Binding TotalRecordsTransactions, StringFormat='({0} transactions)'}"
-                                               FontSize="12"
+                                               FontSize="{StaticResource FontSize.SmallMedium}"
                                                Foreground="{DynamicResource Text.Secondary}"
                                                VerticalAlignment="Center"
                                                Margin="12,0,0,0"/>
@@ -959,7 +959,7 @@
                                  Foreground="#0275d8"/>
                     <TextBlock Text="Loading..."
                                Foreground="White"
-                               FontSize="18"
+                               FontSize="{StaticResource FontSize.ExtraLarge}"
                                Margin="0,15,0,0"
                                HorizontalAlignment="Center"/>
                 </StackPanel>

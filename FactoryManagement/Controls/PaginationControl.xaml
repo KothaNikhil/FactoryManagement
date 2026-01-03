@@ -15,13 +15,13 @@
 
             <!-- Record Count Info -->
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Showing " Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
+                <TextBlock Text="Showing " Foreground="{StaticResource Text.Secondary}" FontSize="{StaticResource FontSize.Regular}"/>
                 <TextBlock Text="{Binding TotalRecords, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                            FontWeight="SemiBold" 
                            Foreground="{StaticResource Text.Primary}" 
-                           FontSize="13" 
+                           FontSize="{StaticResource FontSize.Regular}" 
                            Margin="0,0,4,0"/>
-                <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="13"/>
+                <TextBlock Text="records" Foreground="{StaticResource Text.Secondary}" FontSize="{StaticResource FontSize.Regular}"/>
             </StackPanel>
 
             <!-- Page Navigation -->
@@ -55,7 +55,7 @@
                         CornerRadius="4"
                         Padding="12,6"
                         Margin="0,0,4,0">
-                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource Text.Primary}" FontSize="13">
+                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource Text.Primary}" FontSize="{StaticResource FontSize.Regular}">
                         <Run Text="Page "/>
                         <Run Text="{Binding CurrentPage, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" FontWeight="SemiBold"/>
                         <Run Text=" of "/>

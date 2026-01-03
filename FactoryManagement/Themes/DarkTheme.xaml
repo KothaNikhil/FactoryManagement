@@ -116,14 +116,14 @@
   
   <!-- SECTION HEADER TITLE -->
   <Style x:Key="SectionHeader.Title" TargetType="TextBlock">
-    <Setter Property="FontSize" Value="18"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.ExtraLarge}"/>
     <Setter Property="FontWeight" Value="Bold"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
   </Style>
   
   <!-- SECTION HEADER SUBTITLE -->
   <Style x:Key="SectionHeader.Subtitle" TargetType="TextBlock">
-    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.Small}"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
     <Setter Property="Margin" Value="0,2,0,0"/>
   </Style>
@@ -149,7 +149,7 @@
     <Setter Property="Background" Value="{StaticResource Button.Create}"/>
     <Setter Property="Foreground" Value="White"/>
     <Setter Property="Height" Value="38"/>
-    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.Regular}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="16,0"/>
@@ -182,7 +182,7 @@
     <Setter Property="Background" Value="{StaticResource Button.Save}"/>
     <Setter Property="Foreground" Value="White"/>
     <Setter Property="Height" Value="38"/>
-    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.Regular}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="16,0"/>
@@ -215,7 +215,7 @@
     <Setter Property="Foreground" Value="{StaticResource Text.Secondary}"/>
     <Setter Property="BorderBrush" Value="{StaticResource Card.Border}"/>
     <Setter Property="Height" Value="38"/>
-    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.Regular}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Style.Triggers>
       <Trigger Property="IsFocused" Value="True">
@@ -233,7 +233,7 @@
     <Setter Property="Background" Value="{StaticResource Card.Danger}"/>
     <Setter Property="Foreground" Value="White"/>
     <Setter Property="Height" Value="38"/>
-    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontSize" Value="{StaticResource FontSize.Regular}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="16,0"/>

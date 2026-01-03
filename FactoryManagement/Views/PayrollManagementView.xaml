@@ -38,12 +38,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Column="0" Text="💵" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Grid.Column="0" Text="💵" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Wages Paid" Foreground="{StaticResource LabelSuccess}" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Total Wages Paid" Foreground="{StaticResource LabelSuccess}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalWagesPaid, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
+                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -59,12 +59,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Column="0" Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Grid.Column="0" Text="💰" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Advances Given" Foreground="{StaticResource LabelWarning}" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Total Advances Given" Foreground="{StaticResource LabelWarning}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalAdvancesGiven, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
+                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -80,12 +80,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Column="0" Text="👤" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Grid.Column="0" Text="👤" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Worker Total Wages" Foreground="{StaticResource LabelInfo}" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Worker Total Wages" Foreground="{StaticResource LabelInfo}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerTotalWages, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
+                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -101,12 +101,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Column="0" Text="⚠️" FontSize="32" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Grid.Column="0" Text="⚠️" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
                     
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Outstanding Advance" Foreground="{StaticResource LabelDanger}" FontSize="11" Margin="0,0,0,4"/>
+                        <TextBlock Text="Outstanding Advance" Foreground="{StaticResource LabelDanger}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="20" FontWeight="Bold"/>
+                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -163,14 +163,14 @@
                                     Width="38"
                                     Height="38"
                                     Padding="0"
-                                    FontSize="16"
+                                    FontSize="{StaticResource FontSize.Large}"
                                     Style="{StaticResource Button.Success}"/>
                         </Grid>
 
                         <!-- Outstanding Advance Info -->
                         <Border Background="{StaticResource SecondaryBackground}" CornerRadius="4" Padding="10" Margin="0,0,0,10"
                                 Visibility="{Binding WorkerInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Foreground="{StaticResource Text.Secondary}" FontSize="11">
+                            <TextBlock Foreground="{StaticResource Text.Secondary}" FontSize="{StaticResource FontSize.Small}">
                                 <Run Text="Outstanding Advance: "/>
                                 <Run Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat=₹{0:N0}}" Foreground="{StaticResource ErrorColor}" FontWeight="Bold"/>
                             </TextBlock>
@@ -195,7 +195,7 @@
                         <TextBlock Text="Amount *" Style="{StaticResource FormLabel}"/>
                         <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource TextBox.Standard}"
-                                 FontSize="16"
+                                 FontSize="{StaticResource FontSize.Large}"
                                  FontWeight="Bold"
                                  Margin="0,0,0,10"/>
 
@@ -214,7 +214,7 @@
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                             <TextBlock Text="{Binding ErrorMessage}" 
                                        Foreground="{StaticResource ErrorColor}" 
-                                       FontSize="10"
+                                       FontSize="{StaticResource FontSize.ExtraSmall}"
                                        TextWrapping="Wrap"/>
                         </Border>
                     </StackPanel>
@@ -280,7 +280,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="📊" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="📊" FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="Recent Payment History" Style="{StaticResource SectionHeader.Title}"/>
@@ -379,7 +379,7 @@
                                                        VerticalAlignment="Center"
                                                        Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding CurrentTransactionDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                         FontSize="14"
+                                         FontSize="{StaticResource FontSize.Medium}"
                                          FontWeight="Medium"
                                          Foreground="{DynamicResource Text.Primary}"
                                          VerticalAlignment="Center"
@@ -389,9 +389,9 @@
                                         Style="{StaticResource Button.Secondary}"
                                         Padding="12,4"
                                         Height="28"
-                                        FontSize="12"/>
+                                        FontSize="{StaticResource FontSize.SmallMedium}"/>
                                 <TextBlock Text="{Binding TotalRecords, StringFormat='({0} transactions)'}"
-                                         FontSize="12"
+                                         FontSize="{StaticResource FontSize.SmallMedium}"
                                          Foreground="{DynamicResource Text.Secondary}"
                                          VerticalAlignment="Center"
                                          Margin="12,0,0,0"/>

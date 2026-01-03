@@ -33,16 +33,16 @@
                     Padding="30,25">
                 <StackPanel>
                     <TextBlock Text="🏭" 
-                               FontSize="48" 
+                               FontSize="{StaticResource FontSize.Icon.ExtraLarge}" 
                                HorizontalAlignment="Center"
                                Margin="0,0,0,10"/>
                     <TextBlock Text="Factory Management System" 
-                               FontSize="20" 
+                               FontSize="{StaticResource FontSize.Amount}" 
                                FontWeight="SemiBold"
                                Foreground="White"
                                HorizontalAlignment="Center"/>
                     <TextBlock Text="Select your user account to continue" 
-                               FontSize="12" 
+                               FontSize="{StaticResource FontSize.SmallMedium}" 
                                Foreground="{StaticResource TextPrimary}"
                                HorizontalAlignment="Center"
                                Margin="0,8,0,0"/>
@@ -55,7 +55,7 @@
                         VerticalAlignment="Center">
                 <TextBlock Text="Select User" 
                            Foreground="{StaticResource Text.Primary}"
-                           FontSize="14"
+                           FontSize="{StaticResource FontSize.Medium}"
                            FontWeight="Medium"
                            Margin="0,0,0,12"/>
                 
@@ -64,7 +64,7 @@
                           SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                           DisplayMemberPath="Username"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                          FontSize="16"
+                          FontSize="{StaticResource FontSize.Large}"
                           Padding="16,12"
                           Foreground="White"
                           materialDesign:HintAssist.Hint="Choose your username"
@@ -81,7 +81,7 @@
                 <!-- Error Message -->
                 <TextBlock Text="{Binding ErrorMessage}"
                            Foreground="{StaticResource ErrorColor}"
-                           FontSize="12"
+                           FontSize="{StaticResource FontSize.SmallMedium}"
                            Margin="4,8,0,0"
                            TextWrapping="Wrap"
                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
@@ -102,7 +102,7 @@
                                                Margin="0,0,8,0"/>
                         <TextBlock Text="You must select a user to access the system. Your username will be recorded with all transactions."
                                    Foreground="{StaticResource Text.Secondary}"
-                                   FontSize="11"
+                                   FontSize="{StaticResource FontSize.Small}"
                                    TextWrapping="Wrap"
                                    LineHeight="16"/>
                     </StackPanel>
@@ -123,7 +123,7 @@
                         Command="{Binding CancelCommand}"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Height="44"
-                        FontSize="14"
+                        FontSize="{StaticResource FontSize.Medium}"
                         FontWeight="SemiBold"
                         BorderBrush="{StaticResource Text.Secondary}"
                         Foreground="{StaticResource Text.Secondary}">
@@ -147,7 +147,7 @@
                         Background="{StaticResource ButtonPrimary}"
                         BorderBrush="{StaticResource ButtonPrimary}"
                         Height="44"
-                        FontSize="14"
+                        FontSize="{StaticResource FontSize.Medium}"
                         FontWeight="SemiBold">
                     <Button.FocusVisualStyle>
                         <Style>
@@ -177,7 +177,7 @@
                                  Foreground="{StaticResource ButtonPrimary}"/>
                     <TextBlock Text="Loading users..." 
                                Foreground="White" 
-                               FontSize="14" 
+                               FontSize="{StaticResource FontSize.Medium}" 
                                Margin="0,16,0,0"
                                HorizontalAlignment="Center"/>
                 </StackPanel>

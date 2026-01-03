@@ -147,7 +147,7 @@
                                                 <TextBlock Grid.Column="0"
                                                          Text="{Binding ItemName}" 
                                                          FontWeight="SemiBold"
-                                                         FontSize="11"
+                                                         FontSize="{StaticResource FontSize.Small}"
                                                          Foreground="{StaticResource Text.Primary}"
                                                          VerticalAlignment="Center"
                                                          TextTrimming="CharacterEllipsis"
@@ -180,12 +180,12 @@
                                                          HorizontalAlignment="Right"
                                                          VerticalAlignment="Center">
                                                     <TextBlock FontWeight="Bold"
-                                                             FontSize="11"
+                                                             FontSize="{StaticResource FontSize.Small}"
                                                              Foreground="{StaticResource TextPrimary}">
                                                         <Run Text="{Binding CurrentStock, StringFormat=N0, Mode=OneWay}"/>
                                                         <Run Text=" "/>
                                                         <Run Text="{Binding Unit, Mode=OneWay}" 
-                                                             FontSize="9"
+                                                             FontSize="{StaticResource FontSize.ExtraSmall}"
                                                              Foreground="{StaticResource Text.Secondary}"/>
                                                     </TextBlock>
                                                 </StackPanel>
@@ -204,7 +204,7 @@
                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Width="250" Height="6" Foreground="{StaticResource ButtonPrimary}"/>
-                    <TextBlock Text="Loading..." Foreground="White" FontSize="18" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Loading..." Foreground="White" FontSize="{StaticResource FontSize.ExtraLarge}" Margin="0,15,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </Grid>

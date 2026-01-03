@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="DeepPurple" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="Themes/FontSizes.xaml" />
                 <ResourceDictionary Source="Themes/DarkColors.xaml" />
                 <ResourceDictionary Source="Themes/DarkTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -90,7 +91,7 @@
             <Style x:Key="ModernButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                 <Setter Property="Height" Value="44"/>
                 <Setter Property="Padding" Value="24,0"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize.Medium}"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="Background" Value="{StaticResource PrimaryGradient}"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -144,7 +145,7 @@
                 <Setter Property="Background" Value="{StaticResource ElevatedBackground}"/>
                 <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize.GridHeader}"/>
                 <Setter Property="Padding" Value="10,8"/>
                 <Setter Property="BorderThickness" Value="0,0,0,1"/>
                 <Setter Property="BorderBrush" Value="{StaticResource BorderPrimary}"/>

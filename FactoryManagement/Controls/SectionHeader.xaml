@@ -9,7 +9,7 @@
                 <Grid>
                     <!-- Text Icon (Emoji) - shown if Icon property is set -->
                     <TextBlock Text="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                             FontSize="20" 
+                             FontSize="{StaticResource FontSize.Amount}" 
                              Foreground="White" 
                              HorizontalAlignment="Center" 
                              VerticalAlignment="Center"

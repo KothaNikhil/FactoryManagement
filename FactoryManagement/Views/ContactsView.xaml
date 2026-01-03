@@ -185,7 +185,7 @@
                                   Foreground="{StaticResource AccentCyan}"
                                   Height="28"
                                   Padding="12,0"
-                                  FontSize="12"
+                                  FontSize="{StaticResource FontSize.SmallMedium}"
                                   FontWeight="SemiBold"
                                   ToolTip="Clear the form to add a new party"/>
                         </Grid>
@@ -196,7 +196,7 @@
                             <!-- Party Name -->
                             <TextBlock Text="Party Name *" 
                                      Foreground="{StaticResource Text.Label}"
-                                     FontSize="11"
+                                     FontSize="{StaticResource FontSize.Small}"
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter party name"
@@ -206,7 +206,7 @@
                             <!-- Mobile Number -->
                             <TextBlock Text="Mobile Number" 
                                      Foreground="{StaticResource Text.Label}"
-                                     FontSize="11"
+                                     FontSize="{StaticResource FontSize.Small}"
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter mobile number"
@@ -216,7 +216,7 @@
                             <!-- Place -->
                             <TextBlock Text="Place" 
                                      Foreground="{StaticResource Text.Label}"
-                                     FontSize="11"
+                                     FontSize="{StaticResource FontSize.Small}"
                                      Margin="0,0,0,8"/>
                             <TextBox Text="{Binding Place, UpdateSourceTrigger=PropertyChanged}"
                                    materialDesign:HintAssist.Hint="Enter place/location"
@@ -226,7 +226,7 @@
                             <!-- Party Type -->
                             <TextBlock Text="Party Type *" 
                                      Foreground="{StaticResource Text.Label}"
-                                     FontSize="11"
+                                     FontSize="{StaticResource FontSize.Small}"
                                      Margin="0,0,0,8"/>
                             <ComboBox SelectedIndex="{Binding PartyType}"
                                     materialDesign:HintAssist.Hint="Select party type"
@@ -254,7 +254,7 @@
                                   Style="{StaticResource Button.Success}"
                                   HorizontalAlignment="Stretch"
                                   Height="44"
-                                  FontSize="13"
+                                  FontSize="{StaticResource FontSize.Regular}"
                                   FontWeight="SemiBold"
                                   ToolTip="Save this party to the database. Name and Party Type are required fields"/>
                     </StackPanel>

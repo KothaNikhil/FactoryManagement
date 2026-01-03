@@ -57,7 +57,7 @@
                     <!-- Category Name -->
                     <TextBlock Text="Category Name *"
                             Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
+                            FontSize="{StaticResource FontSize.Small}"
                             Margin="0,0,0,5"/>
                     <TextBox Text="{Binding CategoryName, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -66,7 +66,7 @@
                     <!-- Description -->
                     <TextBlock Text="Description"
                             Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
+                            FontSize="{StaticResource FontSize.Small}"
                             Margin="0,0,0,5"/>
                     <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
@@ -132,7 +132,7 @@
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
                                 <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Margin="0,0,12,0">
-                                    <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="📋" FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
                                     <TextBlock Text="Expense Categories" Style="{StaticResource SectionHeader.Title}"/>
@@ -213,7 +213,7 @@
                         Style="{StaticResource MaterialDesignCircularProgressBar}"/>
                 <TextBlock Text="Loading..."
                         Foreground="White"
-                        FontSize="16"
+                        FontSize="{StaticResource FontSize.Large}"
                         Margin="0,20,0,0"
                         HorizontalAlignment="Center"/>
             </StackPanel>
