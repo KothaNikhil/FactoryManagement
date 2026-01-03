@@ -319,7 +319,7 @@
     <Setter Property="FontSize" Value="13"/>
     <Setter Property="Foreground" Value="{StaticResource Text.Primary}"/>
     <Setter Property="ColumnWidth" Value="Auto"/>
-    <Setter Property="MaxColumnWidth" Value="200"/>
+    <!-- <Setter Property="MaxColumnWidth" Value="200"/> -->
     <Setter Property="CellStyle">
       <Setter.Value>
         <Style TargetType="DataGridCell">
