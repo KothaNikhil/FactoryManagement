@@ -341,7 +341,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
-                            <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}"/>
+                            <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
                             <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
                             <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>

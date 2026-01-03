@@ -302,9 +302,11 @@
                                     <DataGridTextColumn Header="Type"
                                                         Binding="{Binding Type}"/>
                                     <DataGridTextColumn Header="Description"
-                                                        Binding="{Binding Description}"/>
+                                                        Binding="{Binding Description}"
+                                                        Width="*"/>
                                     <DataGridTextColumn Header="Cash In"
-                                                        Binding="{Binding CashIn, StringFormat='₹{0:N2}'}">
+                                                        Binding="{Binding CashIn, StringFormat='₹{0:N2}'}"
+                                                        Width="*">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -315,7 +317,8 @@
                                         </DataGridTextColumn.ElementStyle>
                                     </DataGridTextColumn>
                                     <DataGridTextColumn Header="Cash Out"
-                                                        Binding="{Binding CashOut, StringFormat='₹{0:N2}'}">
+                                                        Binding="{Binding CashOut, StringFormat='₹{0:N2}'}"
+                                                        Width="*">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -432,7 +435,7 @@
                                 <DataGrid.Columns>
                                     <!-- Date -->
                                     <DataGridTextColumn Header="Date"
-                                                        Binding="{Binding Date, StringFormat='dd MMM yyyy'}"/>
+                                                        Binding="{Binding Date, StringFormat='dd MMM yyyy hh:mm tt'}"/>
 
                                     <!-- Opening Balance -->
                                     <DataGridTextColumn Header="Opening (₹)"
