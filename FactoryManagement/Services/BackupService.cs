@@ -20,6 +20,9 @@ namespace FactoryManagement.Services
         public List<Transaction> Transactions { get; set; } = new();
         public List<FinancialTransaction> FinancialTransactions { get; set; } = new();
         public List<WageTransaction> WageTransactions { get; set; } = new();
+        public List<ExpenseCategory> ExpenseCategories { get; set; } = new();
+        public List<OperationalExpense> OperationalExpenses { get; set; } = new();
+        public List<CashBalance> CashBalances { get; set; } = new();
         public DateTime BackupDate { get; set; }
         public string Version { get; set; } = "1.0";
     }
@@ -58,6 +61,9 @@ namespace FactoryManagement.Services
                     Transactions = await _context.Transactions.AsNoTracking().ToListAsync(),
                     FinancialTransactions = await _context.FinancialTransactions.AsNoTracking().ToListAsync(),
                     WageTransactions = await _context.WageTransactions.AsNoTracking().ToListAsync(),
+                    ExpenseCategories = await _context.ExpenseCategories.AsNoTracking().ToListAsync(),
+                    OperationalExpenses = await _context.OperationalExpenses.AsNoTracking().ToListAsync(),
+                    CashBalances = await _context.CashBalances.AsNoTracking().ToListAsync(),
                     BackupDate = DateTime.Now
                 };
 
@@ -111,6 +117,9 @@ namespace FactoryManagement.Services
                 try
                 {
                     // Clear existing data
+                    _context.CashBalances.RemoveRange(_context.CashBalances);
+                    _context.OperationalExpenses.RemoveRange(_context.OperationalExpenses);
+                    _context.ExpenseCategories.RemoveRange(_context.ExpenseCategories);
                     _context.WageTransactions.RemoveRange(_context.WageTransactions);
                     _context.FinancialTransactions.RemoveRange(_context.FinancialTransactions);
                     _context.Transactions.RemoveRange(_context.Transactions);
@@ -212,6 +221,45 @@ namespace FactoryManagement.Services
                         foreach (var wt in backupData.WageTransactions)
                         {
                             _context.WageTransactions.Add(wt);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore expense categories
+                    if (backupData.ExpenseCategories != null && backupData.ExpenseCategories.Any())
+                    {
+                        foreach (var ec in backupData.ExpenseCategories)
+                        {
+                            _context.ExpenseCategories.Add(ec);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore operational expenses
+                    if (backupData.OperationalExpenses != null && backupData.OperationalExpenses.Any())
+                    {
+                        foreach (var oe in backupData.OperationalExpenses)
+                        {
+                            _context.OperationalExpenses.Add(oe);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Clear the change tracker again
+                    _context.ChangeTracker.Clear();
+
+                    // Restore cash balances
+                    if (backupData.CashBalances != null && backupData.CashBalances.Any())
+                    {
+                        foreach (var cb in backupData.CashBalances)
+                        {
+                            _context.CashBalances.Add(cb);
                         }
                         await _context.SaveChangesAsync();
                     }

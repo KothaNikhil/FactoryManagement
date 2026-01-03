@@ -340,12 +340,12 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
-                            <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
-                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}" Width="140"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}" Width="120"/>
-                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="90"/>
-                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
+                            <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
+                            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
+                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
+                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}"/>
                             <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>

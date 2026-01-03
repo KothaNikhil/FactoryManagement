@@ -134,7 +134,7 @@
             <!-- Main Cash Book Grid (shown when initialized) -->
             <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -267,7 +267,7 @@
 
                             <!-- Transactions DataGrid -->
                             <DataGrid Grid.Row="1"
-                                      Style="{StaticResource Section.DataGrid}"
+                                      Style="{StaticResource DataGrid.Standard}"
                                       ItemsSource="{Binding TodayCashTransactions}"
                                       AutoGenerateColumns="False"
                                       IsReadOnly="True"
@@ -300,14 +300,11 @@
                                 </DataGrid.ColumnHeaderStyle>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Type"
-                                                        Binding="{Binding Type}"
-                                                        Width="70"/>
+                                                        Binding="{Binding Type}"/>
                                     <DataGridTextColumn Header="Description"
-                                                        Binding="{Binding Description}"
-                                                        Width="*"/>
+                                                        Binding="{Binding Description}"/>
                                     <DataGridTextColumn Header="Cash In"
-                                                        Binding="{Binding CashIn, StringFormat='₹{0:N2}'}"
-                                                        Width="80">
+                                                        Binding="{Binding CashIn, StringFormat='₹{0:N2}'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -318,8 +315,7 @@
                                         </DataGridTextColumn.ElementStyle>
                                     </DataGridTextColumn>
                                     <DataGridTextColumn Header="Cash Out"
-                                                        Binding="{Binding CashOut, StringFormat='₹{0:N2}'}"
-                                                        Width="80">
+                                                        Binding="{Binding CashOut, StringFormat='₹{0:N2}'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -436,13 +432,11 @@
                                 <DataGrid.Columns>
                                     <!-- Date -->
                                     <DataGridTextColumn Header="Date"
-                                                        Binding="{Binding Date, StringFormat='dd MMM yyyy'}"
-                                                        Width="110"/>
+                                                        Binding="{Binding Date, StringFormat='dd MMM yyyy'}"/>
 
                                     <!-- Opening Balance -->
                                     <DataGridTextColumn Header="Opening (₹)"
-                                                        Binding="{Binding OpeningBalance, StringFormat='N2'}"
-                                                        Width="100">
+                                                        Binding="{Binding OpeningBalance, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -455,8 +449,7 @@
 
                                     <!-- Cash In -->
                                     <DataGridTextColumn Header="Cash In (₹)"
-                                                        Binding="{Binding TotalCashIn, StringFormat='N2'}"
-                                                        Width="100">
+                                                        Binding="{Binding TotalCashIn, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -469,8 +462,7 @@
 
                                     <!-- Cash Out -->
                                     <DataGridTextColumn Header="Cash Out (₹)"
-                                                        Binding="{Binding TotalCashOut, StringFormat='N2'}"
-                                                        Width="100">
+                                                        Binding="{Binding TotalCashOut, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -483,8 +475,7 @@
 
                                     <!-- Expected Closing -->
                                     <DataGridTextColumn Header="Expected (₹)"
-                                                        Binding="{Binding ExpectedClosingBalance, StringFormat='N2'}"
-                                                        Width="110">
+                                                        Binding="{Binding ExpectedClosingBalance, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -499,8 +490,7 @@
 
                                     <!-- Actual Cash -->
                                     <DataGridTextColumn Header="Actual (₹)"
-                                                        Binding="{Binding ActualCashCounted, StringFormat='N2'}"
-                                                        Width="100">
+                                                        Binding="{Binding ActualCashCounted, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -513,8 +503,7 @@
 
                                     <!-- Discrepancy -->
                                     <DataGridTextColumn Header="Diff (₹)"
-                                                        Binding="{Binding Discrepancy, StringFormat='N2'}"
-                                                        Width="90">
+                                                        Binding="{Binding Discrepancy, StringFormat='N2'}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"
@@ -537,8 +526,7 @@
 
                                     <!-- Status -->
                                     <DataGridTextColumn Header="Status"
-                                                        Binding="{Binding Status}"
-                                                        Width="90">
+                                                        Binding="{Binding Status}">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="TextAlignment"

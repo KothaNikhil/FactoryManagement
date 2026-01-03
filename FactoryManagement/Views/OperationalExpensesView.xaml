@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d"
              d:DesignHeight="800"
-        d:DesignWidth="1200">
+             d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,7 +16,7 @@
 
         <!-- Summary Cards -->
         <Grid Grid.Row="0"
-                Margin="0,0,0,20">
+              Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -86,7 +86,7 @@
                                         Value="{StaticResource Card.Success}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEditMode}"
-                                            Value="True">
+                                                 Value="True">
                                         <Setter Property="Title"
                                                 Value="Edit Expense"/>
                                         <Setter Property="Subtitle"
@@ -103,9 +103,9 @@
 
                     <!-- Category -->
                     <TextBlock Text="Category *"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -125,35 +125,39 @@
                                 Height="40"
                                 MinWidth="90">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,4,0"/>
-                                <TextBlock Text="New" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Plus"
+                                        Width="16"
+                                        Height="16"
+                                        Margin="0,0,4,0"/>
+                                <TextBlock Text="New"
+                                        VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Grid>
 
                     <!-- Amount -->
                     <TextBlock Text="Amount *"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
                              Margin="0,0,0,15"/>
 
                     <!-- Expense Date -->
                     <TextBlock Text="Expense Date *"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <DatePicker SelectedDate="{Binding ExpenseDate}"
                                 Style="{StaticResource DatePicker.Standard}"
                                 Margin="0,0,0,15"/>
 
                     <!-- Spent By -->
                     <TextBlock Text="Spent By"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding AllUsers}"
                               SelectedItem="{Binding SelectedSpentByUser}"
                               DisplayMemberPath="Username"
@@ -163,9 +167,9 @@
 
                     <!-- Payment Mode -->
                     <TextBlock Text="Payment Mode *"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding PaymentModes}"
                               SelectedItem="{Binding SelectedPaymentMode}"
                               Style="{StaticResource ComboBox.Standard}"
@@ -173,9 +177,9 @@
 
                     <!-- Notes -->
                     <TextBlock Text="Notes"
-                            Foreground="{StaticResource Text.Secondary}"
-                            FontSize="11"
-                            Margin="0,0,0,5"/>
+                               Foreground="{StaticResource Text.Secondary}"
+                               FontSize="11"
+                               Margin="0,0,0,5"/>
                     <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource TextBox.Standard}"
                              TextWrapping="Wrap"
@@ -185,18 +189,18 @@
 
                     <!-- Buttons -->
                     <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right">
+                                HorizontalAlignment="Right">
                         <Button Command="{Binding SaveExpenseCommand}"
                                 Width="120"
                                 Margin="0,0,10,0">
                             <Button.Style>
                                 <Style TargetType="Button"
-                                        BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                       BasedOn="{StaticResource MaterialDesignRaisedButton}">
                                     <Setter Property="Content"
                                             Value="Add Expense"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsEditMode}"
-                                                Value="True">
+                                                     Value="True">
                                             <Setter Property="Content"
                                                     Value="Update"/>
                                         </DataTrigger>
@@ -230,7 +234,12 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header with Filters -->
-                    <Border Grid.Row="0" Background="{StaticResource SecondaryBackground}" Padding="15" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="0,0,0,1" Margin="-24,-24,-24,0">
+                    <Border Grid.Row="0"
+                            Background="{StaticResource SecondaryBackground}"
+                            Padding="15"
+                            BorderBrush="{StaticResource BorderPrimary}"
+                            BorderThickness="0,0,0,1"
+                            Margin="-24,-24,-24,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -246,28 +255,38 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Margin="0,0,12,0">
-                                    <TextBlock Text="📋" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Margin="0"
+                                    VerticalAlignment="Center">
+                                <Border Background="{StaticResource Card.Info}"
+                                        Style="{StaticResource IconBadge}"
+                                        Margin="0,0,12,0">
+                                    <TextBlock Text="📋"
+                                            FontSize="20"
+                                            Foreground="White"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="Expense Records" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Expense Records"
+                                            Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <DatePicker Grid.Column="4" 
+                            <DatePicker Grid.Column="4"
                                         SelectedDate="{Binding FilterStartDate}"
                                         Style="{StaticResource DatePicker.Standard}"
                                         materialDesign:HintAssist.Hint="From Date"
                                         VerticalAlignment="Center"/>
 
-                            <DatePicker Grid.Column="6" 
+                            <DatePicker Grid.Column="6"
                                         SelectedDate="{Binding FilterEndDate}"
                                         Style="{StaticResource DatePicker.Standard}"
                                         materialDesign:HintAssist.Hint="To Date"
                                         VerticalAlignment="Center"/>
 
-                            <ComboBox Grid.Column="8" 
+                            <ComboBox Grid.Column="8"
                                       ItemsSource="{Binding ActiveCategories}"
                                       SelectedItem="{Binding FilterCategory}"
                                       DisplayMemberPath="CategoryName"
@@ -275,7 +294,7 @@
                                       materialDesign:HintAssist.Hint="Category"
                                       VerticalAlignment="Center"/>
 
-                            <Button Grid.Column="10" 
+                            <Button Grid.Column="10"
                                     Content="Clear"
                                     Command="{Binding ClearFiltersCommand}"
                                     Style="{StaticResource Button.Secondary}"
@@ -293,18 +312,18 @@
                               Margin="0,10,0,10">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Date"
-                                    Binding="{Binding ExpenseDate, StringFormat='dd-MMM-yyyy'}"
-                                    Width="100"/>
+                                                Binding="{Binding ExpenseDate, StringFormat='dd-MMM-yyyy'}"
+                                                Width="100"/>
                             <DataGridTextColumn Header="Category"
-                                    Binding="{Binding CategoryDisplay}"
-                                    Width="*"
-                                    MinWidth="120"/>
+                                                Binding="{Binding CategoryDisplay}"
+                                                Width="*"
+                                                MinWidth="120"/>
                             <DataGridTextColumn Header="Spent By"
-                                    Binding="{Binding SpentByDisplay}"
-                                    Width="100"/>
+                                                Binding="{Binding SpentByDisplay}"
+                                                Width="100"/>
                             <DataGridTextColumn Header="Amount"
-                                    Binding="{Binding Amount, StringFormat='₹{0:N2}'}"
-                                    Width="100">
+                                                Binding="{Binding Amount, StringFormat='₹{0:N2}'}"
+                                                Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="TextAlignment"
@@ -315,10 +334,10 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Mode"
-                                    Binding="{Binding PaymentMode}"
-                                    Width="80"/>
+                                                Binding="{Binding PaymentMode}"
+                                                Width="80"/>
                             <DataGridTemplateColumn Header="Actions"
-                                    Width="120">
+                                                    Width="120">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -327,8 +346,8 @@
                                                     CommandParameter="{Binding}"
                                                     ToolTip="Edit">
                                                 <materialDesign:PackIcon Kind="Pencil"
-                                                        Width="16"
-                                                        Height="16"/>
+                                                                         Width="16"
+                                                                         Height="16"/>
                                             </Button>
                                             <Button Style="{StaticResource DataGrid.EditButton}"
                                                     Command="{Binding DataContext.DeleteExpenseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
@@ -337,8 +356,8 @@
                                                     Margin="4,0,0,0"
                                                     Foreground="{StaticResource ErrorColor}">
                                                 <materialDesign:PackIcon Kind="Delete"
-                                                        Width="16"
-                                                        Height="16"/>
+                                                                         Width="16"
+                                                                         Height="16"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -348,9 +367,10 @@
                     </DataGrid>
 
                     <!-- Date Navigation Control -->
-                    <Border Grid.Row="2" Margin="0,16,0,0"
-                            Background="{DynamicResource Card.Primary}" 
-                            CornerRadius="8" 
+                    <Border Grid.Row="2"
+                            Margin="0,16,0,0"
+                            Background="{DynamicResource Card.Primary}"
+                            CornerRadius="8"
                             Padding="16,12">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -360,47 +380,55 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Previous Day Button -->
-                            <Button Grid.Column="0" 
+                            <Button Grid.Column="0"
                                     Command="{Binding GoToPreviousExpenseDayCommand}"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     ToolTip="Previous Day"
                                     Margin="0,0,8,0">
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="24" Height="24"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft"
+                                        Width="24"
+                                        Height="24"/>
                             </Button>
 
                             <!-- Current Date Display -->
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Calendar" 
-                                                       Width="20" Height="20" 
-                                                       Foreground="{DynamicResource Text.Secondary}"
-                                                       VerticalAlignment="Center"
-                                                       Margin="0,0,8,0"/>
+                            <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Calendar"
+                                                         Width="20"
+                                        Height="20"
+                                                         Foreground="{DynamicResource Text.Secondary}"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding CurrentExpenseDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                         FontSize="14"
-                                         FontWeight="Medium"
-                                         Foreground="{DynamicResource Text.Primary}"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,16,0"/>
-                                <Button Content="Today" 
+                                           FontSize="14"
+                                           FontWeight="Medium"
+                                           Foreground="{DynamicResource Text.Primary}"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,16,0"/>
+                                <Button Content="Today"
                                         Command="{Binding GoToTodayExpenseCommand}"
                                         Style="{StaticResource Button.Secondary}"
                                         Padding="12,4"
                                         Height="28"
                                         FontSize="12"/>
                                 <TextBlock Text="{Binding TotalRecords, StringFormat='({0} expenses)'}"
-                                         FontSize="12"
-                                         Foreground="{DynamicResource Text.Secondary}"
-                                         VerticalAlignment="Center"
-                                         Margin="12,0,0,0"/>
+                                           FontSize="12"
+                                           Foreground="{DynamicResource Text.Secondary}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"/>
                             </StackPanel>
 
                             <!-- Next Day Button -->
-                            <Button Grid.Column="2" 
+                            <Button Grid.Column="2"
                                     Command="{Binding GoToNextExpenseDayCommand}"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     ToolTip="Next Day"
                                     Margin="8,0,0,0">
-                                <materialDesign:PackIcon Kind="ChevronRight" Width="24" Height="24"/>
+                                <materialDesign:PackIcon Kind="ChevronRight"
+                                        Width="24"
+                                        Height="24"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -413,7 +441,7 @@
                 Background="#80000000"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                        HorizontalAlignment="Center">
                 <ProgressBar IsIndeterminate="True"
                              Width="100"
                              Height="100"

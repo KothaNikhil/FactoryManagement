@@ -9,7 +9,7 @@
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d"
              d:DesignHeight="900"
-        d:DesignWidth="1000">
+             d:DesignWidth="1000">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,7 +18,7 @@
 
         <!-- Summary Cards Row -->
         <Grid Grid.Row="0"
-                Margin="0,0,0,20">
+              Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -65,15 +65,15 @@
         <!-- Main Content Grid -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Transaction Form -->
             <materialDesign:Card Grid.Column="0"
-                    Padding="24"
-                    Margin="0,0,16,0"
-                    Style="{StaticResource Card.Glass}">
+                                 Padding="24"
+                                 Margin="0,0,16,0"
+                                 Style="{StaticResource Card.Glass}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -87,15 +87,15 @@
                             Margin="-24,-24,-24,16"
                             CornerRadius="12,12,0,0">
                         <StackPanel Style="{StaticResource SectionHeader}"
-                                Margin="0">
+                                    Margin="0">
                             <Border Background="{StaticResource SuccessGradient}"
                                     Style="{StaticResource IconBadge}">
                                 <materialDesign:PackIcon Kind="CartPlus"
-                                        Width="20"
-                                        Height="20"
+                                                         Width="20"
+                                                         Height="20"
                                                          Foreground="White"
                                                          VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center"/>
                             </Border>
                             <StackPanel Style="{StaticResource SectionHeader.Content}">
                                 <TextBlock Text="{Binding FormTitle}"
@@ -106,8 +106,8 @@
 
                     <!-- Content Grid (scrolls within section) -->
                     <ScrollViewer Grid.Row="1"
-                            VerticalScrollBarVisibility="Auto"
-                            HorizontalScrollBarVisibility="Disabled">
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
                         <Grid Margin="0,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -128,8 +128,8 @@
                             <!-- Row 1: Transaction Type, Item, Party, Quantity (4 columns) -->
                             <!-- Transaction Type -->
                             <StackPanel Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="0,0,0,16">
+                                        Grid.Column="0"
+                                        Margin="0,0,0,16">
                                 <TextBlock Text="Transaction Type *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
                                            Margin="0,0,0,8"/>
@@ -145,8 +145,8 @@
 
                             <!-- Processing Input Item (visible only for Processing type) -->
                             <StackPanel Grid.Row="0"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Input Material *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -159,7 +159,7 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ItemName}"
-                                                    FontWeight="Bold"/>
+                                                       FontWeight="Bold"/>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                     <i:Interaction.Behaviors>
@@ -170,8 +170,8 @@
 
                             <!-- Item Selection (label changes for Processing) -->
                             <StackPanel Grid.Row="0"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <TextBlock Text="Item *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -184,7 +184,7 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ItemName}"
-                                                    FontWeight="Bold"/>
+                                                       FontWeight="Bold"/>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                     <i:Interaction.Behaviors>
@@ -195,9 +195,9 @@
 
                             <!-- Party Selection with Add Button -->
                             <StackPanel Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    Margin="0,0,0,16">
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,0,16">
                                 <TextBlock Text="Party"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
                                            Margin="0,0,0,8"/>
@@ -216,7 +216,7 @@
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Name}"
-                                                        ToolTip="{Binding Place}"/>
+                                                           ToolTip="{Binding Place}"/>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                         <i:Interaction.Behaviors>
@@ -233,11 +233,11 @@
                                             TabIndex="4">
                                         <StackPanel Orientation="Horizontal">
                                             <materialDesign:PackIcon Kind="Plus"
-                                                    Width="16"
-                                                    Height="16"
-                                                    Margin="0,0,4,0"/>
+                                                                     Width="16"
+                                                                     Height="16"
+                                                                     Margin="0,0,4,0"/>
                                             <TextBlock Text="New"
-                                                    VerticalAlignment="Center"/>
+                                                       VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>
@@ -246,9 +246,9 @@
 
                             <!-- Transaction Date & Time -->
                             <StackPanel Grid.Row="2"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    Margin="0,0,0,16">
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,0,16">
                                 <TextBlock Text="Transaction Date &amp; Time *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
                                            Margin="0,0,0,8"/>
@@ -259,7 +259,7 @@
                                         <ColumnDefinition Width="110"/>
                                     </Grid.ColumnDefinitions>
                                     <DatePicker Grid.Column="0"
-                                            SelectedDate="{Binding TransactionDate}"
+                                                SelectedDate="{Binding TransactionDate}"
                                                 Style="{StaticResource DatePicker.Dark}"
                                                 TabIndex="5"/>
                                     <materialDesign:TimePicker Grid.Column="2"
@@ -275,8 +275,8 @@
                             <!-- Row 2: Price Per Unit, Total Amount, Quantity, Entered By (4 columns) -->
                             <!-- Input Quantity (visible only for Processing) -->
                             <StackPanel Grid.Row="3"
-                                    Grid.Column="0"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="0"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Input Quantity *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -308,7 +308,7 @@
                                                                  VerticalAlignment="Center"
                                                                  Margin="0,0,6,0"/>
                                         <StackPanel Grid.Column="1"
-                                                Orientation="Horizontal">
+                                                    Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
                                                        FontSize="11"
                                                        Foreground="{StaticResource Text.Secondary}"
@@ -331,8 +331,8 @@
 
                             <!-- Output Item (visible only for Processing) -->
                             <StackPanel Grid.Row="3"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Output Item *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -345,7 +345,7 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ItemName}"
-                                                    FontWeight="Bold"/>
+                                                       FontWeight="Bold"/>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                     <i:Interaction.Behaviors>
@@ -356,8 +356,8 @@
 
                             <!-- Quantity (visible for non-Processing) -->
                             <StackPanel Grid.Row="3"
-                                    Grid.Column="0"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="0"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <TextBlock Text="Quantity *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -388,7 +388,7 @@
                                                                  VerticalAlignment="Center"
                                                                  Margin="0,0,6,0"/>
                                         <StackPanel Grid.Column="1"
-                                                Orientation="Horizontal">
+                                                    Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
                                                        FontSize="11"
                                                        Foreground="{StaticResource Text.Secondary}"
@@ -405,8 +405,8 @@
 
                             <!-- Output Quantity (visible only for Processing) -->
                             <StackPanel Grid.Row="4"
-                                    Grid.Column="0"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="0"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Output Quantity *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -446,7 +446,7 @@
                                                                  VerticalAlignment="Center"
                                                                  Margin="0,0,6,0"/>
                                         <StackPanel Grid.Column="1"
-                                                Orientation="Horizontal">
+                                                    Orientation="Horizontal">
                                             <TextBlock Text="Stock: "
                                                        FontSize="11"
                                                        Foreground="{StaticResource Text.Secondary}"
@@ -463,8 +463,8 @@
 
                             <!-- Price Per Unit (label changes for Processing) -->
                             <StackPanel Grid.Row="3"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <TextBlock Text="Price Per Unit *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -477,8 +477,8 @@
 
                             <!-- Processing Fee (visible only for Processing) -->
                             <StackPanel Grid.Row="4"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Processing Fee (per unit) *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -491,8 +491,8 @@
 
                             <!-- Total Amount (Read-only) -->
                             <StackPanel Grid.Row="4"
-                                    Grid.Column="0"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="0"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <TextBlock Text="Total Amount"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -505,9 +505,9 @@
                                         Height="40">
                                     <Border.Effect>
                                         <DropShadowEffect Color="#00f2fe"
-                                                Opacity="0.15"
-                                                ShadowDepth="0"
-                                                BlurRadius="8"/>
+                                                          Opacity="0.15"
+                                                          ShadowDepth="0"
+                                                          BlurRadius="8"/>
                                     </Border.Effect>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -515,9 +515,9 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <materialDesign:PackIcon Grid.Column="0"
-                                                Kind="CurrencyInr"
+                                                                 Kind="CurrencyInr"
                                                                  Width="18"
-                                                Height="18"
+                                                                 Height="18"
                                                                  Foreground="{StaticResource AccentCyan}"
                                                                  VerticalAlignment="Center"
                                                                  Margin="0,0,6,0"/>
@@ -533,8 +533,8 @@
 
                             <!-- Payment Mode (same row as Total Amount) -->
                             <StackPanel Grid.Row="4"
-                                    Grid.Column="2"
-                                    Margin="0,0,0,16"
+                                        Grid.Column="2"
+                                        Margin="0,0,0,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <TextBlock Text="Payment Mode *"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -547,9 +547,9 @@
 
                             <!-- Total Processing Fee (Read-only, visible only for Processing) -->
                             <StackPanel Grid.Row="5"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,0,12,16"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,0,12,16"
                                         Visibility="{Binding IsProcessingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="Total Processing Fee"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
@@ -562,9 +562,9 @@
                                         Height="40">
                                     <Border.Effect>
                                         <DropShadowEffect Color="#00f2fe"
-                                                Opacity="0.15"
-                                                ShadowDepth="0"
-                                                BlurRadius="8"/>
+                                                          Opacity="0.15"
+                                                          ShadowDepth="0"
+                                                          BlurRadius="8"/>
                                     </Border.Effect>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -572,9 +572,9 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <materialDesign:PackIcon Grid.Column="0"
-                                                Kind="CurrencyInr"
+                                                                 Kind="CurrencyInr"
                                                                  Width="18"
-                                                Height="18"
+                                                                 Height="18"
                                                                  Foreground="{StaticResource AccentCyan}"
                                                                  VerticalAlignment="Center"
                                                                  Margin="0,0,6,0"/>
@@ -590,9 +590,9 @@
 
                             <!-- Notes -->
                             <StackPanel Grid.Row="6"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    Margin="0,0,0,16">
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,0,0,16">
                                 <TextBlock Text="Notes"
                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
                                            Margin="0,0,0,8"/>
@@ -614,11 +614,11 @@
 
                             <!-- Action Buttons -->
                             <StackPanel Grid.Row="8"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                                    Margin="0,8,0,0">
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,8,0,0">
                                 <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Right">
+                                            HorizontalAlignment="Right">
                                     <Button Content="CLEAR"
                                             Command="{Binding ClearFormCommand}"
                                             Style="{StaticResource Button.Secondary}"
@@ -641,22 +641,22 @@
 
                     <!-- Loading Overlay -->
                     <Grid Background="{StaticResource ShadowColor}"
-                            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            ZIndex="999">
+                          Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          ZIndex="999">
                         <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                                      Value="0"
                                      IsIndeterminate="True"
                                      Width="50"
-                                Height="50"/>
+                                     Height="50"/>
                     </Grid>
                 </Grid>
             </materialDesign:Card>
 
             <!-- Recent Transactions -->
             <materialDesign:Card Grid.Column="1"
-                    Padding="24"
-                    Style="{StaticResource Card.Glass}"
-                    VerticalAlignment="Stretch">
+                                 Padding="24"
+                                 Style="{StaticResource Card.Glass}"
+                                 VerticalAlignment="Stretch">
                 <DockPanel>
                     <!-- Header -->
                     <Border DockPanel.Dock="Top"
@@ -667,13 +667,13 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0"
-                                    Style="{StaticResource SectionHeader}"
-                                    Margin="0">
+                                        Style="{StaticResource SectionHeader}"
+                                        Margin="0">
                                 <Border Style="{StaticResource IconBadge}"
                                         Background="{StaticResource Card.Info}">
                                     <materialDesign:PackIcon Kind="History"
-                                            Width="20"
-                                            Height="20"
+                                                             Width="20"
+                                                             Height="20"
                                                              Foreground="White"
                                                              VerticalAlignment="Center"
                                                              HorizontalAlignment="Center"/>
@@ -713,18 +713,18 @@
                                     ToolTip="Previous Day"
                                     Margin="0,0,8,0">
                                 <materialDesign:PackIcon Kind="ChevronLeft"
-                                        Width="24"
-                                        Height="24"/>
+                                                         Width="24"
+                                                         Height="24"/>
                             </Button>
 
                             <!-- Current Date Display -->
                             <StackPanel Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Calendar"
                                                          Width="20"
-                                        Height="20"
+                                                         Height="20"
                                                          Foreground="{DynamicResource Text.Secondary}"
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,8,0"/>
@@ -754,8 +754,8 @@
                                     ToolTip="Next Day"
                                     Margin="8,0,0,0">
                                 <materialDesign:PackIcon Kind="ChevronRight"
-                                        Width="24"
-                                        Height="24"/>
+                                                         Width="24"
+                                                         Height="24"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -767,11 +767,11 @@
                               KeyboardNavigation.TabNavigation="Once">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader"
-                                    BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                                   BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Delete"
-                                    Width="70">
+                                                    Width="70">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
@@ -779,16 +779,16 @@
                                                 Command="{Binding DataContext.DeleteTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}">
                                             <materialDesign:PackIcon Kind="DeleteForever"
-                                                    Width="16"
-                                                    Height="16"
-                                                    VerticalAlignment="Center"
-                                                    HorizontalAlignment="Center"/>
+                                                                     Width="16"
+                                                                     Height="16"
+                                                                     VerticalAlignment="Center"
+                                                                     HorizontalAlignment="Center"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Edit"
-                                    Width="70">
+                                                    Width="70">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
@@ -796,38 +796,31 @@
                                                 Command="{Binding DataContext.EditTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}">
                                             <materialDesign:PackIcon Kind="Pencil"
-                                                    Width="16"
-                                                    Height="16"
-                                                    VerticalAlignment="Center"
-                                                    HorizontalAlignment="Center"/>
+                                                                     Width="16"
+                                                                     Height="16"
+                                                                     VerticalAlignment="Center"
+                                                                     HorizontalAlignment="Center"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Date"
-                                    Binding="{Binding TransactionDate, StringFormat='dd/MM/yyyy HH:mm'}"
-                                    Width="130"/>
+                                                Binding="{Binding TransactionDate, StringFormat='dd/MM/yyyy HH:mm'}"/>
                             <DataGridTextColumn Header="Type"
-                                    Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}"
-                                    Width="100"/>
+                                                Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
                             <DataGridTextColumn Header="Item"
-                                    Binding="{Binding ItemName}"
-                                    Width="*"/>
+                                                Binding="{Binding ItemName}"/>
                             <DataGridTextColumn Header="Party"
-                                    Binding="{Binding PartyName}"
-                                    Width="*"/>
+                                                Binding="{Binding PartyName}"/>
                             <DataGridTextColumn Header="Quantity"
-                                    Binding="{Binding Quantity, StringFormat=N2}"
-                                    Width="100"/>
+                                                Binding="{Binding Quantity, StringFormat=N2}"/>
                             <DataGridTextColumn Header="Amount"
-                                    Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}"
-                                    Width="130"/>
+                                                Binding="{Binding TotalAmount, StringFormat='₹ {0:N2}'}"/>
                             <DataGridTextColumn Header="Mode"
-                                    Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"
-                                    Width="90"/>
+                                                Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
                             <DataGridTextColumn Header="Entered By"
-                                    Binding="{Binding User.Username}"
-                                    Width="100"/>
+                                                Binding="{Binding User.Username}"
+                                                Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -839,6 +832,8 @@
                                      Margin="0,0,16,16"
                                      Grid.Column="0"
                                      Grid.ColumnSpan="2"/>
-        </Grid> <!-- Close Grid Grid.Row="1" (main content grid) -->
-    </Grid> <!-- Close Grid Margin="20" (outer grid) -->
+        </Grid>
+        <!-- Close Grid Grid.Row="1" (main content grid) -->
+    </Grid>
+    <!-- Close Grid Margin="20" (outer grid) -->
 </UserControl>
