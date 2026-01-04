@@ -90,12 +90,22 @@ namespace FactoryManagement.Services
                 // Use the Transaction model's DebitCredit property which handles Loan transactions
                 var debitCredit = t.DebitCredit;
 
+                // Convert TransactionType to user-friendly string
+                var transactionTypeDisplay = t.TransactionType switch
+                {
+                    TransactionType.Buy => "Purchase",
+                    TransactionType.Sell => "Sales",
+                    TransactionType.Wastage => "Wastage",
+                    TransactionType.Processing => "Processing",
+                    _ => t.TransactionType.ToString()
+                };
+
                 unifiedTransactions.Add(new UnifiedTransactionViewModel
                 {
                     Category = "Inventory",
                     TransactionId = t.TransactionId.ToString(),
                     TransactionDate = t.TransactionDate,
-                    TransactionType = t.TransactionType.ToString(),
+                    TransactionType = transactionTypeDisplay,
                     DebitCredit = debitCredit,
                     Description = description,
                     Item = t.ItemName,

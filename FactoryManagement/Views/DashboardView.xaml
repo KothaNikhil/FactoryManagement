@@ -83,14 +83,15 @@
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
-                                <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
-                                <DataGridTextColumn Header="Item" Binding="{Binding Item}" Width="*"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
+                                <DataGridTextColumn Header="Item" Binding="{Binding Item}"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Details" Binding="{Binding AdditionalInfo}" Width="*"/>
-                                <DataGridTextColumn Header="Entered By" Binding="{Binding EnteredBy}" Width="100"/>
-                                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="130">
+                                <DataGridTextColumn Header="Payment Mode" Binding="{Binding PaymentMode}"/>
+                                <DataGridTextColumn Header="Entered By" Binding="{Binding EnteredBy}"/>
+                                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='₹{0:N2}'}" Width="180">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Bold"/>

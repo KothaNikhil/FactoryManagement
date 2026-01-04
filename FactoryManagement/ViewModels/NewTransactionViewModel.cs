@@ -136,6 +136,12 @@ namespace FactoryManagement.ViewModels
         [ObservableProperty]
         private bool _isProcessingMode;
 
+        [ObservableProperty]
+        private ObservableCollection<ProcessingOutputItemViewModel> _processingOutputItems = new();
+
+        [ObservableProperty]
+        private decimal _totalOutputQuantity;
+
         public ObservableCollection<string> TransactionTypes { get; } = new()
         {
             "Purchase", "Sales", "Wastage", "Processing"
@@ -300,7 +306,54 @@ namespace FactoryManagement.ViewModels
 
         private void CalculateTotal()
         {
-            TotalAmount = Quantity * PricePerUnit;
+            if (IsProcessingMode)
+            {
+                // For processing: Total = sum of all output quantities * price per unit
+                TotalOutputQuantity = ProcessingOutputItems.Sum(o => o.Quantity);
+                TotalAmount = TotalOutputQuantity * PricePerUnit;
+            }
+            else
+            {
+                TotalAmount = Quantity * PricePerUnit;
+            }
+        }
+
+        [RelayCommand]
+        private void AddOutputItem()
+        {
+            var newOutput = new ProcessingOutputItemViewModel();
+            newOutput.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ProcessingOutputItemViewModel.Quantity))
+                {
+                    CalculateTotal();
+                }
+            };
+            ProcessingOutputItems.Add(newOutput);
+        }
+
+        [RelayCommand]
+        private void RemoveOutputItem(ProcessingOutputItemViewModel item)
+        {
+            ProcessingOutputItems.Remove(item);
+            CalculateTotal();
+        }
+
+        partial void OnIsProcessingModeChanged(bool value)
+        {
+            if (value)
+            {
+                // Add first output item when switching to processing mode
+                if (ProcessingOutputItems.Count == 0)
+                {
+                    AddOutputItem();
+                }
+            }
+            else
+            {
+                // Clear output items when switching away from processing mode
+                ProcessingOutputItems.Clear();
+            }
         }
 
         [RelayCommand]
@@ -376,18 +429,42 @@ namespace FactoryManagement.ViewModels
                     }
 
                     // Update transaction properties
-                    transaction.ItemId = SelectedItem!.ItemId;
-                    transaction.ItemName = SelectedItem!.ItemName;
+                    transaction.ItemId = SelectedTransactionType == TransactionType.Processing ? null : SelectedItem?.ItemId;
+                    transaction.ItemName = SelectedTransactionType == TransactionType.Processing ? string.Empty : SelectedItem?.ItemName ?? string.Empty;
                     transaction.PartyId = SelectedParty?.PartyId;
                     transaction.PartyName = SelectedParty?.Name ?? string.Empty;
                     transaction.TransactionType = SelectedTransactionType;
-                    transaction.Quantity = Quantity;
+                    transaction.Quantity = SelectedTransactionType == TransactionType.Processing ? TotalOutputQuantity : Quantity;
                     transaction.PricePerUnit = PricePerUnit;
                     transaction.TotalAmount = TotalAmount;
                     transaction.PaymentMode = SelectedPaymentMode;
                     transaction.TransactionDate = CombineDateAndTime(TransactionDate, TransactionTime);
                     transaction.EnteredBy = MainWindowViewModel.Instance?.CurrentUser?.UserId ?? 1;
                     transaction.Notes = Notes;
+
+                    // Update processing-specific data
+                    if (SelectedTransactionType == TransactionType.Processing)
+                    {
+                        transaction.InputItemId = InputItem?.ItemId;
+                        transaction.InputQuantity = InputQuantity;
+                        transaction.ConversionRate = null;
+                        
+                        // Update output items
+                        transaction.ProcessingOutputItems.Clear();
+                        foreach (var outputItem in ProcessingOutputItems)
+                        {
+                            if (outputItem.SelectedItem != null && outputItem.Quantity > 0)
+                            {
+                                transaction.ProcessingOutputItems.Add(new ProcessingOutputItem
+                                {
+                                    ItemId = outputItem.SelectedItem.ItemId,
+                                    ItemName = outputItem.SelectedItem.ItemName,
+                                    Quantity = outputItem.Quantity,
+                                    Unit = outputItem.Unit
+                                });
+                            }
+                        }
+                    }
 
                     // Delegate stock reversal/apply to service for consistency
                     await _transactionService.UpdateTransactionWithStockAsync(transaction);
@@ -421,12 +498,12 @@ namespace FactoryManagement.ViewModels
                     // Add new transaction
                     var transaction = new Transaction
                     {
-                        ItemId = SelectedItem!.ItemId,
-                        ItemName = SelectedItem!.ItemName,
+                        ItemId = SelectedTransactionType == TransactionType.Processing ? null : SelectedItem?.ItemId,
+                        ItemName = SelectedTransactionType == TransactionType.Processing ? string.Empty : SelectedItem?.ItemName ?? string.Empty,
                         PartyId = SelectedParty?.PartyId,
                         PartyName = SelectedParty?.Name ?? string.Empty,
                         TransactionType = SelectedTransactionType,
-                        Quantity = Quantity,
+                        Quantity = SelectedTransactionType == TransactionType.Processing ? TotalOutputQuantity : Quantity,
                         PricePerUnit = PricePerUnit,
                         TotalAmount = TotalAmount,
                         PaymentMode = SelectedPaymentMode,
@@ -441,6 +518,21 @@ namespace FactoryManagement.ViewModels
                         transaction.InputItemId = InputItem?.ItemId;
                         transaction.InputQuantity = InputQuantity;
                         transaction.ConversionRate = null;
+                        
+                        // Add output items
+                        foreach (var outputItem in ProcessingOutputItems)
+                        {
+                            if (outputItem.SelectedItem != null && outputItem.Quantity > 0)
+                            {
+                                transaction.ProcessingOutputItems.Add(new ProcessingOutputItem
+                                {
+                                    ItemId = outputItem.SelectedItem.ItemId,
+                                    ItemName = outputItem.SelectedItem.ItemName,
+                                    Quantity = outputItem.Quantity,
+                                    Unit = outputItem.Unit
+                                });
+                            }
+                        }
                     }
 
                     await _transactionService.AddTransactionAsync(transaction);
@@ -510,6 +602,8 @@ namespace FactoryManagement.ViewModels
             InputItem = null;
             InputQuantity = 0;
             ConversionRate = 0;
+            ProcessingOutputItems.Clear();
+            TotalOutputQuantity = 0;
             SelectedPaymentModeString = "Cash";
             
             OnPropertyChanged(nameof(SaveButtonText));
@@ -557,6 +651,34 @@ namespace FactoryManagement.ViewModels
                         ? Items.FirstOrDefault(i => i.ItemId == transaction.InputItemId.Value) 
                         : null;
                     InputQuantity = transaction.InputQuantity ?? 0;
+
+                    // Load output items
+                    ProcessingOutputItems.Clear();
+                    if (transaction.ProcessingOutputItems != null && transaction.ProcessingOutputItems.Count > 0)
+                    {
+                        foreach (var outputItem in transaction.ProcessingOutputItems)
+                        {
+                            var outputItemVM = new ProcessingOutputItemViewModel
+                            {
+                                SelectedItem = Items.FirstOrDefault(i => i.ItemId == outputItem.ItemId),
+                                Quantity = outputItem.Quantity,
+                                Unit = outputItem.Unit
+                            };
+                            outputItemVM.PropertyChanged += (s, e) =>
+                            {
+                                if (e.PropertyName == nameof(ProcessingOutputItemViewModel.Quantity))
+                                {
+                                    CalculateTotal();
+                                }
+                            };
+                            ProcessingOutputItems.Add(outputItemVM);
+                        }
+                    }
+                    else
+                    {
+                        // If no output items exist, add one empty row
+                        AddOutputItem();
+                    }
                 }
 
                 OnPropertyChanged(nameof(SaveButtonText));
@@ -675,14 +797,49 @@ namespace FactoryManagement.ViewModels
                     return false;
                 }
 
-                if (SelectedItem != null && InputItem != null && InputItem.ItemId == SelectedItem.ItemId)
+                // Validate output items
+                if (ProcessingOutputItems.Count == 0)
                 {
-                    ErrorMessage = "Input and output items must be different";
+                    ErrorMessage = "Please add at least one output item";
+                    return false;
+                }
+
+                foreach (var outputItem in ProcessingOutputItems)
+                {
+                    if (outputItem.SelectedItem == null)
+                    {
+                        ErrorMessage = "Please select an item for all output rows";
+                        return false;
+                    }
+
+                    if (outputItem.Quantity <= 0)
+                    {
+                        ErrorMessage = "Output quantity must be greater than zero for all items";
+                        return false;
+                    }
+
+                    if (InputItem != null && outputItem.SelectedItem.ItemId == InputItem.ItemId)
+                    {
+                        ErrorMessage = "Input and output items must be different";
+                        return false;
+                    }
+                }
+
+                // Check for duplicate output items
+                var duplicateItems = ProcessingOutputItems
+                    .GroupBy(o => o.SelectedItem?.ItemId)
+                    .Where(g => g.Count() > 1)
+                    .Select(g => g.Key)
+                    .ToList();
+
+                if (duplicateItems.Any())
+                {
+                    ErrorMessage = "Cannot have duplicate output items. Please combine quantities for the same item.";
                     return false;
                 }
             }
 
-            if (SelectedItem == null)
+            if (!IsProcessingMode && SelectedItem == null)
             {
                 ErrorMessage = "Please select an item";
                 return false;
@@ -700,7 +857,7 @@ namespace FactoryManagement.ViewModels
                 return false;
             }
 
-            if (Quantity <= 0)
+            if (!IsProcessingMode && Quantity <= 0)
             {
                 ErrorMessage = "Quantity must be greater than 0";
                 return false;
@@ -712,7 +869,7 @@ namespace FactoryManagement.ViewModels
                 return false;
             }
 
-            // Check stock for sell/wastage (not for processing output)
+            // Check stock for sales/wastage (not for processing output)
             if (SelectedTransactionType == TransactionType.Sell || SelectedTransactionType == TransactionType.Wastage)
             {
                 decimal requiredStock;
@@ -730,7 +887,7 @@ namespace FactoryManagement.ViewModels
                     requiredStock = Quantity;
                 }
 
-                if (requiredStock > 0 && SelectedItem.CurrentStock < requiredStock)
+                if (requiredStock > 0 && SelectedItem != null && SelectedItem.CurrentStock < requiredStock)
                 {
                     ErrorMessage = "Insufficient stock available";
                     return false;

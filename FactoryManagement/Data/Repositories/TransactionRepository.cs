@@ -22,6 +22,16 @@ namespace FactoryManagement.Data.Repositories
         {
         }
 
+        public override async Task<Transaction?> GetByIdAsync(int id)
+        {
+            return await _dbSet
+                .Include(t => t.Item)
+                .Include(t => t.Party)
+                .Include(t => t.User)
+                .Include(t => t.ProcessingOutputItems)
+                .FirstOrDefaultAsync(t => t.TransactionId == id);
+        }
+
         public async Task<IEnumerable<Transaction>> GetTransactionsByItemIdAsync(int itemId)
         {
             return await _dbSet
@@ -72,6 +82,7 @@ namespace FactoryManagement.Data.Repositories
                 .Include(t => t.Item)
                 .Include(t => t.Party)
                 .Include(t => t.User)
+                .Include(t => t.ProcessingOutputItems)
                 .OrderByDescending(t => t.TransactionDate)
                 .ToListAsync();
         }

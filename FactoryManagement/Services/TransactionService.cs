@@ -50,9 +50,10 @@ namespace FactoryManagement.Services
             
             var result = await _transactionRepository.AddAsync(transaction);
 
-            // Stock updates: processing is service-only, no inventory changes; also skip if ItemId is null
+            // Stock updates: skip for processing (it's just a conversion, not inventory change)
             if (transaction.TransactionType != TransactionType.Processing && transaction.ItemId.HasValue)
             {
+                // Regular transaction stock update
                 await _itemService.UpdateStockAsync(transaction.ItemId.Value, transaction.Quantity, transaction.TransactionType);
             }
             

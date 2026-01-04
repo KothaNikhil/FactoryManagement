@@ -2,12 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:FactoryManagement.Converters"
         Title="Quick Add Party" 
         SizeToContent="Height" Width="520"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{StaticResource DialogBackground}"
         FontFamily="{materialDesign:MaterialDesignFont}">
+    
+    <Window.Resources>
+        <converters:PartyTypeConverter x:Key="PartyTypeConverter"/>
+    </Window.Resources>
     
     <Border BorderBrush="#444" BorderThickness="1" Padding="30">
         <Grid>
@@ -72,8 +77,8 @@
                             Foreground="White"
                             Margin="0,0,0,18"
                             SelectedIndex="0">
-                        <ComboBoxItem Content="Buyer"/>
-                        <ComboBoxItem Content="Seller"/>
+                        <ComboBoxItem Content="Customer"/>
+                        <ComboBoxItem Content="Supplier"/>
                         <ComboBoxItem Content="Both"/>
                     </ComboBox>
 

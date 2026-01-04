@@ -335,7 +335,7 @@ namespace FactoryManagement.Services
 
             var summary = new CashFlowSummary();
 
-            // 1. Inventory Transactions (Buy/Sell/Wastage) - Only Cash/Bank mode
+            // 1. Inventory Transactions (Purchase/Sales/Wastage) - Only Cash/Bank mode
             var inventoryTransactions = await _transactionRepository.GetTransactionsByDateRangeAsync(dateOnly, nextDay.AddSeconds(-1));
             foreach (var trans in inventoryTransactions.Where(t => t.PaymentMode != PaymentMode.Loan))
             {
@@ -345,7 +345,7 @@ namespace FactoryManagement.Services
                     {
                         summary.TotalCashIn += trans.TotalAmount; // Credit
                     }
-                    else // Buy or Wastage
+                    else // Purchase or Wastage
                     {
                         summary.TotalCashOut += trans.TotalAmount; // Debit
                     }

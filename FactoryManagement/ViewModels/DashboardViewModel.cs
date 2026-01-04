@@ -265,7 +265,8 @@ namespace FactoryManagement.ViewModels
                         Type = t.TransactionType.ToString(),
                         Description = t.ItemName ?? "Unknown Item",
                         Party = t.PartyName,
-                        Amount = t.TotalAmount
+                        Amount = t.TotalAmount,
+                        PaymentMode = t.PaymentMode.ToString()
                     });
                 }
 
@@ -282,7 +283,8 @@ namespace FactoryManagement.ViewModels
                             Type = ft.TransactionType.ToString(),
                             Description = ft.TransactionType.ToString(),
                             Party = ft.Party?.Name,
-                            Amount = ft.Amount
+                            Amount = ft.Amount,
+                            PaymentMode = ft.PaymentMode.ToString()
                         });
                     }
                 }
@@ -300,7 +302,8 @@ namespace FactoryManagement.ViewModels
                             Type = wt.TransactionType.ToString(),
                             Description = wt.TransactionType.ToString(),
                             Party = wt.Worker?.Name,
-                            Amount = wt.Amount
+                            Amount = wt.Amount,
+                            PaymentMode = wt.PaymentMode.ToString()
                         });
                     }
                 }
@@ -318,7 +321,8 @@ namespace FactoryManagement.ViewModels
                             Type = oe.CategoryDisplay,
                             Description = oe.CategoryDisplay,
                             Party = oe.SpentByDisplay,
-                            Amount = oe.Amount
+                            Amount = oe.Amount,
+                            PaymentMode = oe.PaymentMode.ToString()
                         });
                     }
                 }

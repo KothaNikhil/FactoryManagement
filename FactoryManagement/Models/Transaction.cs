@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -73,6 +74,21 @@ namespace FactoryManagement.Models
         public decimal? InputQuantity { get; set; }
 
         public decimal? ConversionRate { get; set; }
+
+        // Collection of output items for processing transactions
+        public virtual ICollection<ProcessingOutputItem> ProcessingOutputItems { get; set; } = new List<ProcessingOutputItem>();
+
+        // Computed property for display item name (shows input item for processing)
+        [NotMapped]
+        public string DisplayItemName
+        {
+            get
+            {
+                return TransactionType == TransactionType.Processing
+                    ? (InputItem?.ItemName ?? string.Empty)
+                    : ItemName;
+            }
+        }
 
         // Computed property for Debit/Credit indicator
         [NotMapped]

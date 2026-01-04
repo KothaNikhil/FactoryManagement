@@ -7,8 +7,12 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:FactoryManagement.Behaviors"
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
+             xmlns:converters="clr-namespace:FactoryManagement.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <converters:PartyTypeConverter x:Key="PartyTypeConverter"/>
+    </UserControl.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -122,7 +126,7 @@
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Mobile" Binding="{Binding MobileNumber}" Width="140"></DataGridTextColumn>
                             <DataGridTextColumn Header="Place" Binding="{Binding Place}" Width="150"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Type" Binding="{Binding PartyType}" Width="90"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Type" Binding="{Binding PartyType, Converter={StaticResource PartyTypeConverter}}" Width="90"></DataGridTextColumn>
                             <DataGridTemplateColumn Header="Actions" Width="120">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -232,8 +236,8 @@
                                     materialDesign:HintAssist.Hint="Select party type"
                                     Style="{StaticResource ComboBox.Standard}"
                                     Margin="0,0,0,20">
-                                <ComboBoxItem Content="Buyer"/>
-                                <ComboBoxItem Content="Seller"/>
+                                <ComboBoxItem Content="Customer"/>
+                                <ComboBoxItem Content="Supplier"/>
                                 <ComboBoxItem Content="Both"/>
                             </ComboBox>
 

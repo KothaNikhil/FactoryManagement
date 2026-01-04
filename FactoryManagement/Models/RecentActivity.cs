@@ -10,5 +10,6 @@ namespace FactoryManagement.Models
         public string Description { get; set; } = string.Empty;
         public string? Party { get; set; }
         public decimal Amount { get; set; }
+        public string? PaymentMode { get; set; }
     }
 }

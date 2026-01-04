@@ -11,6 +11,7 @@ namespace FactoryManagement.Data
         public DbSet<Party> Parties { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<ProcessingOutputItem> ProcessingOutputItems { get; set; }
         public DbSet<AppSettings> AppSettings { get; set; }
         public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
         public DbSet<LoanAccount> LoanAccounts { get; set; }
@@ -78,6 +79,17 @@ namespace FactoryManagement.Data
 
             modelBuilder.Entity<Transaction>()
                 .HasIndex(t => t.InputItemId);
+
+            // Configure ProcessingOutputItem
+            modelBuilder.Entity<ProcessingOutputItem>()
+                .HasIndex(po => po.TransactionId);
+
+            modelBuilder.Entity<ProcessingOutputItem>()
+                .HasIndex(po => po.ItemId);
+
+            modelBuilder.Entity<ProcessingOutputItem>()
+                .Property(po => po.Quantity)
+                .HasPrecision(18, 2);
 
             // Configure Financial Transaction indexes
             modelBuilder.Entity<FinancialTransaction>()

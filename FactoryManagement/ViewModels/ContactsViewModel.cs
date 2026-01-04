@@ -52,7 +52,7 @@ namespace FactoryManagement.ViewModels
 
         public ObservableCollection<string> PartyTypes { get; } = new()
         {
-            "Buyer", "Seller", "Both"
+            "Customer", "Supplier", "Both"
         };
 
         public ContactsViewModel(IPartyService partyService)

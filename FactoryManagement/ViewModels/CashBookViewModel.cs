@@ -256,7 +256,7 @@ namespace FactoryManagement.ViewModels
                 {
                     detail.CashIn = trans.TotalAmount;
                 }
-                else // Buy, Wastage
+                else // Purchase, Wastage
                 {
                     detail.CashOut = trans.TotalAmount;
                 }

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
+using FactoryManagement.Models;
 
 namespace FactoryManagement.Converters
 {
@@ -99,12 +100,53 @@ namespace FactoryManagement.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value?.ToString() ?? "Buy";
+            return value?.ToString() ?? "Purchase";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class PartyTypeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is PartyType partyType)
+            {
+                return partyType switch
+                {
+                    PartyType.Buyer => "Customer",
+                    PartyType.Seller => "Supplier",
+                    PartyType.Both => "Both",
+                    PartyType.Lender => "Lender",
+                    PartyType.Borrower => "Borrower",
+                    PartyType.Financial => "Financial",
+                    PartyType.Processor => "Processor",
+                    _ => value.ToString() ?? ""
+                };
+            }
+            return value?.ToString() ?? "";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string str)
+            {
+                return str switch
+                {
+                    "Customer" => PartyType.Buyer,
+                    "Supplier" => PartyType.Seller,
+                    "Both" => PartyType.Both,
+                    "Lender" => PartyType.Lender,
+                    "Borrower" => PartyType.Borrower,
+                    "Financial" => PartyType.Financial,
+                    "Processor" => PartyType.Processor,
+                    _ => PartyType.Both
+                };
+            }
+            return PartyType.Both;
         }
     }
 
@@ -156,6 +198,19 @@ namespace FactoryManagement.Converters
         {
             if (value == null)
                 return string.Empty;
+
+            // Handle TransactionType enum specifically
+            if (value is TransactionType transactionType)
+            {
+                return transactionType switch
+                {
+                    TransactionType.Buy => "Purchase",
+                    TransactionType.Sell => "Sales",
+                    TransactionType.Wastage => "Wastage",
+                    TransactionType.Processing => "Processing",
+                    _ => value.ToString() ?? string.Empty
+                };
+            }
 
             var enumString = value.ToString();
             if (string.IsNullOrEmpty(enumString))
