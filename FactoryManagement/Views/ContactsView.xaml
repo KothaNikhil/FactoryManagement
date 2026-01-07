@@ -194,52 +194,92 @@
                                   ToolTip="Clear the form to add a new party"/>
                         </Grid>
                     </Border>
-                    
-                <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
-                    <StackPanel>
+
+                    <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
+                        <StackPanel Grid.IsSharedSizeScope="True">
                             <!-- Party Name -->
-                            <TextBlock Text="Party Name *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter party name"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"/>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="Party Name *" 
+                                           Foreground="{StaticResource Text.Label}"
+                                           FontSize="{StaticResource FontSize.Small}"
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                         materialDesign:HintAssist.Hint="Enter party name"
+                                         Style="{StaticResource TextBox.Standard}"
+                                         Margin="0"/>
+                            </Grid>
 
                             <!-- Mobile Number -->
-                            <TextBlock Text="Mobile Number" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter mobile number"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"/>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="Mobile Number" 
+                                           Foreground="{StaticResource Text.Label}"
+                                           FontSize="{StaticResource FontSize.Small}"
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
+                                         materialDesign:HintAssist.Hint="Enter mobile number"
+                                         Style="{StaticResource TextBox.Standard}"
+                                         Margin="0"/>
+                            </Grid>
 
                             <!-- Place -->
-                            <TextBlock Text="Place" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding Place, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter place/location"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"/>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="Place" 
+                                           Foreground="{StaticResource Text.Label}"
+                                           FontSize="{StaticResource FontSize.Small}"
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Place, UpdateSourceTrigger=PropertyChanged}"
+                                         materialDesign:HintAssist.Hint="Enter place/location"
+                                         Style="{StaticResource TextBox.Standard}"
+                                         Margin="0"/>
+                            </Grid>
 
                             <!-- Party Type -->
-                            <TextBlock Text="Party Type *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <ComboBox SelectedIndex="{Binding PartyType}"
-                                    materialDesign:HintAssist.Hint="Select party type"
-                                    Style="{StaticResource ComboBox.Standard}"
-                                    Margin="0,0,0,20">
-                                <ComboBoxItem Content="Customer"/>
-                                <ComboBoxItem Content="Supplier"/>
-                                <ComboBoxItem Content="Both"/>
-                            </ComboBox>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="Party Type *" 
+                                           Foreground="{StaticResource Text.Label}"
+                                           FontSize="{StaticResource FontSize.Small}"
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+                                <ComboBox Grid.Column="2"
+                                          SelectedIndex="{Binding PartyType}"
+                                          materialDesign:HintAssist.Hint="Select party type"
+                                          Style="{StaticResource ComboBox.Standard}"
+                                          Margin="0">
+                                    <ComboBoxItem Content="Customer"/>
+                                    <ComboBoxItem Content="Supplier"/>
+                                    <ComboBoxItem Content="Both"/>
+                                </ComboBox>
+                            </Grid>
 
                             <!-- Error Message -->
                             <Border Style="{StaticResource InfoBox}" 
@@ -248,21 +288,21 @@
                                     Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
                                     Margin="0,0,0,16">
                                 <TextBlock Text="{Binding ErrorMessage}"
-                                         Foreground="{StaticResource ErrorColor}"
-                                         TextWrapping="Wrap"/>
+                                           Foreground="{StaticResource ErrorColor}"
+                                           TextWrapping="Wrap"/>
                             </Border>
 
                             <!-- Action Buttons -->
                             <Button Content="SAVE PARTY"
-                                  Command="{Binding SavePartyCommand}"
-                                  Style="{StaticResource Button.Success}"
-                                  HorizontalAlignment="Stretch"
-                                  Height="44"
-                                  FontSize="{StaticResource FontSize.Regular}"
-                                  FontWeight="SemiBold"
-                                  ToolTip="Save this party to the database. Name and Party Type are required fields"/>
-                    </StackPanel>
-                </ScrollViewer>
+                                    Command="{Binding SavePartyCommand}"
+                                    Style="{StaticResource Button.Success}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="44"
+                                    FontSize="{StaticResource FontSize.Regular}"
+                                    FontWeight="SemiBold"
+                                    ToolTip="Save this party to the database. Name and Party Type are required fields"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </Border>
 
