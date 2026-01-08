@@ -32,62 +32,97 @@
             </StackPanel>
 
             <!-- Form -->
-            <StackPanel Grid.Row="1">
-                    <!-- Party Name -->
-                    <TextBlock Text="Party Name *" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <TextBox x:Name="PartyNameTextBox"
-                           materialDesign:HintAssist.Hint="Enter party name"
-                           Style="{StaticResource TextBox.Standard}"
-                           Foreground="White"
-                           Margin="0,0,0,18"/>
+            <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                <!-- Party Name -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Party Name *" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="PartyNameTextBox"
+                             materialDesign:HintAssist.Hint="Enter party name"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
-                    <!-- Mobile Number -->
-                    <TextBlock Text="Mobile Number" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <TextBox x:Name="MobileNumberTextBox"
-                           materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                           Style="{StaticResource TextBox.Standard}"
-                           Foreground="White"
-                           Margin="0,0,0,18"/>
+                <!-- Mobile Number -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Mobile Number" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="MobileNumberTextBox"
+                             materialDesign:HintAssist.Hint="Enter mobile number (optional)"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
-                    <!-- Place -->
-                    <TextBlock Text="Place" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <TextBox x:Name="PlaceTextBox"
-                           materialDesign:HintAssist.Hint="Enter place/location (optional)"
-                           Style="{StaticResource TextBox.Standard}"
-                           Foreground="White"
-                           Margin="0,0,0,18"/>
+                <!-- Place -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Place" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="PlaceTextBox"
+                             materialDesign:HintAssist.Hint="Enter place/location (optional)"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
-                    <!-- Party Type -->
-                    <TextBlock Text="Party Type *" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <ComboBox x:Name="PartyTypeComboBox"
-                            materialDesign:HintAssist.Hint="Select party type"
-                            Style="{StaticResource ComboBox.Standard}"
-                            Foreground="White"
-                            Margin="0,0,0,18"
-                            SelectedIndex="0">
+                <!-- Party Type -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Party Type *" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <ComboBox Grid.Column="2"
+                              x:Name="PartyTypeComboBox"
+                              Style="{StaticResource ComboBox.Standard}"
+                              Foreground="White"
+                              SelectedIndex="0">
                         <ComboBoxItem Content="Customer"/>
                         <ComboBoxItem Content="Supplier"/>
                         <ComboBoxItem Content="Both"/>
                     </ComboBox>
+                </Grid>
 
-                    <!-- Error Message -->
-                    <TextBlock x:Name="ErrorTextBlock"
-                             Foreground="#ff6b6b"
-                             TextWrapping="Wrap"
-                             Margin="0,0,0,10"
-                             Visibility="Collapsed"/>
+                <!-- Error Message -->
+                <TextBlock x:Name="ErrorTextBlock"
+                           Foreground="#ff6b6b"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,10"
+                           Visibility="Collapsed"/>
             </StackPanel>
 
             <!-- Action Buttons -->
@@ -107,7 +142,7 @@
                         Height="44"
                         FontSize="{StaticResource FontSize.Medium}"
                         FontWeight="SemiBold"/>
-                
+
                 <Button Grid.Column="2"
                         Content="ADD PARTY"
                         Click="AddPartyButton_Click"

@@ -318,7 +318,7 @@
     <SolidColorBrush x:Key="AccentGlowOrange" Color="#E89B47"/>
     
     <!-- Dialog and modal backgrounds -->
-    <SolidColorBrush x:Key="DialogBackground" Color="#1e1e1e"/>
+    <SolidColorBrush x:Key="DialogBackground" Color="#1A1D29"/>
     <SolidColorBrush x:Key="DialogBorder" Color="#3a3a3a"/>
     
     <!-- Highlight/Badge backgrounds -->

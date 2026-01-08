@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         Background="{StaticResource DialogBackground}"
         FontFamily="{materialDesign:MaterialDesignFont}">
-    
+
     <Border BorderBrush="#444" BorderThickness="1" Padding="30">
         <Grid>
             <Grid.RowDefinitions>
@@ -27,63 +27,79 @@
             </StackPanel>
 
             <!-- Form -->
-            <StackPanel Grid.Row="1">
-                    <!-- Category Name -->
-                    <TextBlock Text="Category Name *" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <TextBox x:Name="CategoryNameTextBox"
-                           materialDesign:HintAssist.Hint="Enter category name"
-                           Style="{StaticResource TextBox.Standard}"
-                           Foreground="White"
-                           Margin="0,0,0,18"/>
+            <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                <!-- Category Name -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Category Name *" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="CategoryNameTextBox"
+                             materialDesign:HintAssist.Hint="Enter category name"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
-                    <!-- Description -->
-                    <TextBlock Text="Description" 
-                             Foreground="#AAA" 
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,8"/>
-                    <TextBox x:Name="DescriptionTextBox"
-                           materialDesign:HintAssist.Hint="Enter description (optional)"
-                           Style="{StaticResource TextBox.Standard}"
-                           Foreground="White"
-                           TextWrapping="Wrap"
-                           AcceptsReturn="True"
-                           MinHeight="60"
-                           VerticalScrollBarVisibility="Auto"
-                           Margin="0,0,0,18"/>
+                <!-- Description -->
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Description" 
+                               Foreground="#AAA" 
+                               FontSize="{StaticResource FontSize.Regular}"
+                               VerticalAlignment="Center"
+                               Margin="0,4,0,0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="DescriptionTextBox"
+                             materialDesign:HintAssist.Hint="Enter description (optional)"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             MinHeight="60"
+                             VerticalScrollBarVisibility="Auto"/>
+                </Grid>
 
-                    <!-- Error Message -->
-                    <TextBlock x:Name="ErrorTextBlock"
-                             Foreground="#FF6B6B"
-                             FontSize="{StaticResource FontSize.Regular}"
-                             Margin="0,0,0,10"
-                             Visibility="Collapsed"
-                             TextWrapping="Wrap"/>
+                <!-- Error Message -->
+                <TextBlock x:Name="ErrorTextBlock"
+                           Foreground="#FF6B6B"
+                           FontSize="{StaticResource FontSize.Regular}"
+                           Margin="0,0,0,10"
+                           Visibility="Collapsed"
+                           TextWrapping="Wrap"/>
             </StackPanel>
 
             <!-- Buttons -->
             <Grid Grid.Row="2" Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1"
+                <Button Grid.Column="0"
                         Content="Cancel"
                         Style="{StaticResource Button.Secondary}"
                         Click="CancelButton_Click"
                         Margin="0,0,10,0"
-                        MinWidth="100"
                         Height="40"/>
-                
+
                 <Button Grid.Column="2"
                         Content="Add Category"
-                        Style="{StaticResource Button.Primary}"
+                        Style="{StaticResource Button.Success}"
                         Click="AddCategoryButton_Click"
-                        MinWidth="140"
                         Height="40"/>
             </Grid>
         </Grid>

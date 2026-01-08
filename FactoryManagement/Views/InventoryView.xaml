@@ -162,7 +162,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <!-- Header -->
                     <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
                         <Grid>
@@ -170,7 +170,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
                                 <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
                                     <materialDesign:PackIcon Kind="Package" Width="20" Height="20" 
@@ -182,7 +182,7 @@
                                              Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
-                            
+
                             <Button Grid.Column="1"
                                   Content="+ New"
                                   Command="{Binding NewItemCommand}"
@@ -195,39 +195,61 @@
                                   ToolTip="Clear the form to add a new item"/>
                         </Grid>
                     </Border>
-                    
-                <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
-                    <StackPanel>
-                            <!-- Item Name -->
-                            <TextBlock Text="Item Name *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}"
-                                   materialDesign:HintAssist.Hint="Enter item name"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"/>
 
-                            <!-- Current Stock -->
-                            <TextBlock Text="Current Stock *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <TextBox Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   Margin="0,0,0,20"
-                                   GotFocus="NumericTextBox_GotFocus"/>
+                    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                        <!-- Item Name -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Item Name *" 
+                                       Foreground="{StaticResource Text.Label}"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding ItemName, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter item name"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                        </Grid>
 
-                            <!-- Unit -->
-                            <TextBlock Text="Unit *" 
-                                     Foreground="{StaticResource Text.Label}"
-                                     FontSize="{StaticResource FontSize.Small}"
-                                     Margin="0,0,0,8"/>
-                            <ComboBox Text="{Binding Unit}"
-                                    IsEditable="True"
-                                    materialDesign:HintAssist.Hint="Select or enter unit"
-                                    Style="{StaticResource ComboBox.Standard}"
-                                    Margin="0,0,0,20">
+                        <!-- Current Stock -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Current Stock *" 
+                                       Foreground="{StaticResource Text.Label}"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding CurrentStock, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource TextBox.Standard}"
+                                     GotFocus="NumericTextBox_GotFocus"/>
+                        </Grid>
+
+                        <!-- Unit -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Unit *" 
+                                       Foreground="{StaticResource Text.Label}"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="2"
+                                      Text="{Binding Unit}"
+                                      IsEditable="True"
+                                      materialDesign:HintAssist.Hint="Select or enter unit"
+                                      Style="{StaticResource ComboBox.Standard}">
                                 <ComboBoxItem Content="Kg"/>
                                 <ComboBoxItem Content="Quintal"/>
                                 <ComboBoxItem Content="Ton"/>
@@ -235,29 +257,29 @@
                                 <ComboBoxItem Content="Piece"/>
                                 <ComboBoxItem Content="Liter"/>
                             </ComboBox>
+                        </Grid>
 
-                            <!-- Error Message -->
-                            <Border Style="{StaticResource InfoBox}" 
-                                    Background="{StaticResource DeleteButtonBackground}"
-                                    BorderBrush="{StaticResource Card.Danger}"
-                                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
-                                    Margin="0,0,0,16">
-                                <TextBlock Text="{Binding ErrorMessage}"
-                                         Foreground="#EF5350"
-                                         TextWrapping="Wrap"/>
-                            </Border>
+                        <!-- Error Message -->
+                        <Border Style="{StaticResource InfoBox}" 
+                                Background="{StaticResource DeleteButtonBackground}"
+                                BorderBrush="{StaticResource Card.Danger}"
+                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="{Binding ErrorMessage}"
+                                       Foreground="#EF5350"
+                                       TextWrapping="Wrap"/>
+                        </Border>
 
-                            <!-- Action Buttons -->
-                            <Button Content="SAVE ITEM"
-                                  Command="{Binding SaveItemCommand}"
-                                  Style="{StaticResource Button.Success}"
-                                  HorizontalAlignment="Stretch"
-                                  Height="44"
-                                  FontSize="{StaticResource FontSize.Regular}"
-                                  FontWeight="SemiBold"
-                                  ToolTip="Save this item to the inventory database. All fields marked with * are required"/>
+                        <!-- Action Buttons -->
+                        <Button Content="SAVE ITEM"
+                                Command="{Binding SaveItemCommand}"
+                                Style="{StaticResource Button.Success}"
+                                HorizontalAlignment="Stretch"
+                                Height="44"
+                                FontSize="{StaticResource FontSize.Regular}"
+                                FontWeight="SemiBold"
+                                ToolTip="Save this item to the inventory database. All fields marked with * are required"/>
                     </StackPanel>
-                </ScrollViewer>
                 </Grid>
             </Border>
 

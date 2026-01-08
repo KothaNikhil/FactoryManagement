@@ -177,72 +177,86 @@
                               ToolTip="Clear the form to add a new user"/>
                     </Grid>
                 </Border>
-                
-                <ScrollViewer Grid.Row="1" Style="{StaticResource Section.ScrollViewer}">
-                    <StackPanel>
-                        <!-- Username -->
-                        <TextBlock Text="Username *" 
-                                 Foreground="{StaticResource Text.Label}"
-                                 FontSize="{StaticResource FontSize.Small}"
-                                 Margin="0,0,0,8"/>
-                        <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
-                               materialDesign:HintAssist.Hint="Enter username"
-                               Style="{StaticResource TextBox.Standard}"
-                               Margin="0,0,0,20"/>
 
-                        <!-- Role -->
-                        <TextBlock Text="Role *" 
-                                 Foreground="{StaticResource Text.Label}"
-                                 FontSize="{StaticResource FontSize.Small}"
-                                 Margin="0,0,0,8"/>
-                        <TextBox Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}"
-                               materialDesign:HintAssist.Hint="Enter user role"
-                               Style="{StaticResource TextBox.Standard}"
-                               Margin="0,0,0,20"/>
+                <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                    <!-- Username -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                       Text="Username *" 
+                                       Foreground="{StaticResource Text.Label}"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="2"
+                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter username"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                    </Grid>
 
-                        <!-- Is Active -->
-                        <CheckBox Content="Active User" 
+                    <!-- Role -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                       Text="Role *" 
+                                       Foreground="{StaticResource Text.Label}"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="2"
+                                     Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter user role"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                    </Grid>
+
+                    <!-- Is Active -->
+                    <CheckBox Content="Active User" 
                                   IsChecked="{Binding IsActive}"
                                   Style="{StaticResource MaterialDesignCheckBox}"
                                   Foreground="{StaticResource Text.Primary}"
                                   Margin="0,0,0,30"
                                   FontSize="{StaticResource FontSize.Medium}"/>
 
-                        <!-- Error Message -->
-                        <Border Style="{StaticResource InfoBox}" 
+                    <!-- Error Message -->
+                    <Border Style="{StaticResource InfoBox}" 
                                 Background="{StaticResource ErrorMessageBackground}"
                                 BorderBrush="{StaticResource Card.Danger}"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
                                 Margin="0,0,0,16">
-                            <TextBlock Text="{Binding ErrorMessage}"
-                                     Foreground="{StaticResource ErrorColor}"
-                                     TextWrapping="Wrap"/>
-                        </Border>
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                       Foreground="{StaticResource ErrorColor}"
+                                       TextWrapping="Wrap"/>
+                    </Border>
 
-                        <!-- Action Buttons -->
-                        <Button Command="{Binding SaveUserCommand}"
-                              Style="{StaticResource Button.Success}"
-                              HorizontalAlignment="Stretch"
-                              Height="44"
-                              FontSize="{StaticResource FontSize.Regular}"
-                              FontWeight="SemiBold"
-                              IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                              ToolTip="Save this user to the database">
-                            <TextBlock>
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="SAVE USER"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                <Setter Property="Text" Value="UPDATE USER"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Button>
-                    </StackPanel>
-                </ScrollViewer>
+                    <!-- Action Buttons -->
+                    <Button Command="{Binding SaveUserCommand}"
+                                Style="{StaticResource Button.Success}"
+                                HorizontalAlignment="Stretch"
+                                Height="44"
+                                FontSize="{StaticResource FontSize.Regular}"
+                                FontWeight="SemiBold"
+                                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                                ToolTip="Save this user to the database">
+                        <TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="SAVE USER"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                            <Setter Property="Text" Value="UPDATE USER"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
             </Grid>
         </Border>
 

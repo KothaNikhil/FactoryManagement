@@ -47,119 +47,175 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Form Fields -->
-                    <StackPanel Grid.Row="0">
-                        <!-- Section Header -->
-                        <Border Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
-                                    <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                        <TextBlock FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="✏️"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditMode}" Value="False">
-                                                            <Setter Property="Text" Value="➕"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Border>
-                                    <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                        <TextBlock>
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SectionHeader.Title}">
-                                                    <Setter Property="Text" Value="Add New Worker"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditMode}" Value="True">
-                                                            <Setter Property="Text" Value="Update Worker"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </StackPanel>
-                                
-                                <Button Grid.Column="1" Content="✕ Cancel" 
-                                        Command="{Binding CancelEditCommand}"
-                                        Style="{StaticResource Button.Secondary}"
-                                        Padding="12,4"
-                                        Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            </Grid>
-                        </Border>
+                    <!-- Section Header -->
+                    <Border Grid.Row="0" Style="{StaticResource SectionHeader.Prominent}" Margin="-15,-15,-15,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
+                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
+                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
+                                    <TextBlock FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="✏️"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEditMode}" Value="False">
+                                                        <Setter Property="Text" Value="➕"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                                <StackPanel Style="{StaticResource SectionHeader.Content}">
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource SectionHeader.Title}">
+                                                <Setter Property="Text" Value="Add New Worker"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                                                        <Setter Property="Text" Value="Update Worker"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Button Grid.Column="1" Content="✕ Cancel" 
+                                    Command="{Binding CancelEditCommand}"
+                                    Style="{StaticResource Button.Secondary}"
+                                    Padding="12,4"
+                                    Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Form Fields -->
+                    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
                         <!-- Worker Name -->
-                        <TextBlock Text="Worker Name *" Style="{StaticResource FormLabel}"/>
-                        <TextBox Text="{Binding WorkerName, UpdateSourceTrigger=PropertyChanged}"
-                                 materialDesign:HintAssist.Hint="Enter worker name"
-                                 Style="{StaticResource TextBox.Standard}"
-                                 Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Worker Name *"
+                                       Style="{StaticResource FormLabel}"
+                                       VerticalAlignment="Center"
+                                       Margin="0"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding WorkerName, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter worker name"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                        </Grid>
 
                         <!-- Mobile Number -->
-                        <TextBlock Text="Mobile Number" Style="{StaticResource FormLabel}"/>
-                        <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
-                                 materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                                 Style="{StaticResource TextBox.Standard}"
-                                 Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Mobile Number"
+                                       Style="{StaticResource FormLabel}"
+                                       VerticalAlignment="Center"
+                                       Margin="0"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter mobile number (optional)"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                        </Grid>
 
                         <!-- Address -->
-                        <TextBlock Text="Address" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
-                        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
-                                 materialDesign:HintAssist.Hint="Enter address (optional)"
-                                 Style="{StaticResource TextBox.Standard}"
-                                 Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Address"
+                                       Foreground="#AAA"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"
+                                       Margin="0"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Enter address (optional)"
+                                     Style="{StaticResource TextBox.Standard}"/>
+                        </Grid>
 
                         <!-- Status -->
-                        <TextBlock Text="Status" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
-                        <ComboBox ItemsSource="{Binding WorkerStatuses}"
-                                  SelectedItem="{Binding WorkerStatusString, Mode=TwoWay}"
-                                  Style="{StaticResource ComboBox.Standard}"
-                                  Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Status"
+                                       Foreground="#AAA"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"
+                                       Margin="0"/>
+                            <ComboBox Grid.Column="2"
+                                      ItemsSource="{Binding WorkerStatuses}"
+                                      SelectedItem="{Binding WorkerStatusString, Mode=TwoWay}"
+                                      Style="{StaticResource ComboBox.Standard}"/>
+                        </Grid>
 
                         <!-- Notes -->
-                        <TextBlock Text="Notes" Foreground="#AAA" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,5"/>
-                        <TextBox Text="{Binding WorkerNotes, UpdateSourceTrigger=PropertyChanged}"
-                                 materialDesign:HintAssist.Hint="Optional notes"
-                                 Style="{StaticResource TextBox.Standard}"
-                                 TextWrapping="Wrap"
-                                 MinLines="2"
-                                 MaxLines="3"
-                                 Margin="0,0,0,10"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="Notes"
+                                       Foreground="#AAA"
+                                       FontSize="{StaticResource FontSize.Small}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,4,0,0"/>
+                            <TextBox Grid.Column="2"
+                                     Text="{Binding WorkerNotes, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Optional notes"
+                                     Style="{StaticResource TextBox.Standard}"
+                                     TextWrapping="Wrap"
+                                     MinLines="2"
+                                     MaxLines="3"/>
+                        </Grid>
 
                         <!-- Error Message -->
-                        <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,0"
+                        <Border Background="#4d1f1f" BorderBrush="#ff6b6b" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,0,0,15"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                             <TextBlock Text="{Binding ErrorMessage}" 
                                        Foreground="#ff6b6b" 
                                        FontSize="{StaticResource FontSize.ExtraSmall}"
                                        TextWrapping="Wrap"/>
                         </Border>
-                    </StackPanel>
 
-                    <!-- Save Button -->
-                    <Button Grid.Row="1"
-                            Command="{Binding SaveWorkerCommand}"
-                            Height="44"
-                            Margin="0,15,0,0">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource Button.Success}">
-                                <Setter Property="Content" Value="💾 ADD WORKER"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsEditMode}" Value="True">
-                                        <Setter Property="Content" Value="💾 SAVE CHANGES"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                        <!-- Save Button -->
+                        <Button Command="{Binding SaveWorkerCommand}"
+                                Height="44">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource Button.Success}">
+                                    <Setter Property="Content" Value="💾 ADD WORKER"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditMode}" Value="True">
+                                            <Setter Property="Content" Value="💾 SAVE CHANGES"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Border>
 

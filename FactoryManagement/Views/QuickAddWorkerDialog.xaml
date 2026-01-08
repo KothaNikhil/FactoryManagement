@@ -11,7 +11,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}">
     
     <Border BorderBrush="#444" BorderThickness="1" Padding="30">
-        <Grid>
+                <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -29,31 +29,51 @@
             </StackPanel>
 
             <!-- Form -->
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
                 <!-- Worker Name -->
-                <TextBlock Text="Worker Name *" 
-                         Style="{StaticResource FormLabel}"/>
-                <TextBox x:Name="WorkerNameTextBox"
-                       materialDesign:HintAssist.Hint="Enter worker name"
-                       Style="{StaticResource TextBox.Standard}"
-                       Foreground="White"
-                       Margin="0,0,0,18"/>
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Worker Name *" 
+                               Style="{StaticResource FormLabel}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="WorkerNameTextBox"
+                             materialDesign:HintAssist.Hint="Enter worker name"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
                 <!-- Mobile Number -->
-                <TextBlock Text="Mobile Number" 
-                         Style="{StaticResource FormLabel}"/>
-                <TextBox x:Name="MobileNumberTextBox"
-                       materialDesign:HintAssist.Hint="Enter mobile number (optional)"
-                       Style="{StaticResource TextBox.Standard}"
-                       Foreground="White"
-                       Margin="0,0,0,18"/>
+                <Grid Margin="0,0,0,18">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="Mobile Number" 
+                               Style="{StaticResource FormLabel}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                    <TextBox Grid.Column="2"
+                             x:Name="MobileNumberTextBox"
+                             materialDesign:HintAssist.Hint="Enter mobile number (optional)"
+                             Style="{StaticResource TextBox.Standard}"
+                             Foreground="White"/>
+                </Grid>
 
                 <!-- Error Message -->
                 <TextBlock x:Name="ErrorTextBlock"
-                         Foreground="{StaticResource ErrorColor}"
-                         TextWrapping="Wrap"
-                         Margin="0,0,0,10"
-                         Visibility="Collapsed"/>
+                           Foreground="{StaticResource ErrorColor}"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,10"
+                           Visibility="Collapsed"/>
             </StackPanel>
 
             <!-- Action Buttons -->

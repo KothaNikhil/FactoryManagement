@@ -71,7 +71,7 @@
             <!-- Form Section -->
             <Border Grid.Column="0"
                     Style="{StaticResource FormCard}">
-                <StackPanel>
+                <StackPanel Grid.IsSharedSizeScope="True">
                     <!-- Form Title -->
                     <controls:SectionHeader Margin="0,0,0,20">
                         <controls:SectionHeader.Style>
@@ -102,94 +102,144 @@
                     </controls:SectionHeader>
 
                     <!-- Category -->
-                    <TextBlock Text="Category *"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0"
-                                  ItemsSource="{Binding ActiveCategories}"
-                                  SelectedItem="{Binding SelectedCategory}"
-                                  DisplayMemberPath="CategoryName"
-                                  Style="{StaticResource ComboBox.Standard}"
-                                  Margin="0,0,8,0"/>
-                        <Button Grid.Column="1"
-                                Style="{StaticResource Button.Secondary}"
-                                ToolTip="Quickly add a new category"
-                                Click="QuickAddCategoryButton_Click"
-                                Padding="12,0"
-                                Height="40"
-                                MinWidth="90">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Plus"
-                                                         Width="16"
-                                                         Height="16"
-                                                         Margin="0,0,4,0"/>
-                                <TextBlock Text="New"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
+                        <TextBlock Grid.Column="0"
+                                   Text="Category *"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Center"/>
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0"
+                                      ItemsSource="{Binding ActiveCategories}"
+                                      SelectedItem="{Binding SelectedCategory}"
+                                      DisplayMemberPath="CategoryName"
+                                      Style="{StaticResource ComboBox.Standard}"/>
+                            <Button Grid.Column="2"
+                                    Style="{StaticResource Button.Secondary}"
+                                    ToolTip="Quickly add a new category"
+                                    Click="QuickAddCategoryButton_Click"
+                                    Padding="12,0"
+                                    Height="40"
+                                    MinWidth="90">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus"
+                                                             Width="16"
+                                                             Height="16"
+                                                             Margin="0,0,4,0"/>
+                                    <TextBlock Text="New"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
                     </Grid>
 
                     <!-- Amount -->
-                    <TextBlock Text="Amount *"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource TextBox.Standard}"
-                             Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Amount *"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="2"
+                                 Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource TextBox.Standard}"/>
+                    </Grid>
 
                     <!-- Expense Date -->
-                    <TextBlock Text="Expense Date *"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
-                    <DatePicker SelectedDate="{Binding ExpenseDate}"
-                                Style="{StaticResource DatePicker.Standard}"
-                                Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Expense Date *"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Center"/>
+                        <DatePicker Grid.Column="2"
+                                    SelectedDate="{Binding ExpenseDate}"
+                                    Style="{StaticResource DatePicker.Standard}"/>
+                    </Grid>
 
                     <!-- Spent By -->
-                    <TextBlock Text="Spent By"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
-                    <ComboBox ItemsSource="{Binding AllUsers}"
-                              SelectedItem="{Binding SelectedSpentByUser}"
-                              DisplayMemberPath="Username"
-                              Style="{StaticResource ComboBox.Standard}"
-                              materialDesign:HintAssist.Hint="Who spent this money?"
-                              Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Spent By"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding AllUsers}"
+                                  SelectedItem="{Binding SelectedSpentByUser}"
+                                  DisplayMemberPath="Username"
+                                  Style="{StaticResource ComboBox.Standard}"
+                                  materialDesign:HintAssist.Hint="Who spent this money?"/>
+                    </Grid>
 
                     <!-- Payment Mode -->
-                    <TextBlock Text="Payment Mode *"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
-                    <ComboBox ItemsSource="{Binding PaymentModes}"
-                              SelectedItem="{Binding SelectedPaymentMode}"
-                              Style="{StaticResource ComboBox.Standard}"
-                              Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Payment Mode *"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding PaymentModes}"
+                                  SelectedItem="{Binding SelectedPaymentMode}"
+                                  Style="{StaticResource ComboBox.Standard}"/>
+                    </Grid>
 
                     <!-- Notes -->
-                    <TextBlock Text="Notes"
-                               Foreground="{StaticResource Text.Secondary}"
-                               FontSize="{StaticResource FontSize.Small}"
-                               Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource TextBox.Standard}"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             Height="60"
-                             Margin="0,0,0,15"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Notes"
+                                   Foreground="{StaticResource Text.Secondary}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   VerticalAlignment="Top"
+                                   Margin="0,4,0,0"/>
+                        <TextBox Grid.Column="2"
+                                 Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource TextBox.Standard}"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 Height="60"/>
+                    </Grid>
 
                     <!-- Buttons -->
                     <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right">
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,10">
                         <Button Command="{Binding SaveExpenseCommand}"
                                 Width="120"
                                 Margin="0,0,10,0">
@@ -218,9 +268,9 @@
                     <TextBlock Text="{Binding ErrorMessage}"
                                Foreground="{StaticResource ErrorColor}"
                                TextWrapping="Wrap"
-                               Margin="0,10,0,0"
+                               Margin="0,0,0,0"
                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
-                </StackPanel>
+                    </StackPanel>
             </Border>
 
             <!-- Expenses List Section -->
