@@ -253,7 +253,7 @@
                                        Text="Notes"
                                        Foreground="{StaticResource Text.Secondary}"
                                        FontSize="{StaticResource FontSize.Small}"
-                                       VerticalAlignment="Top"
+                                       VerticalAlignment="Center"
                                        Margin="0,4,0,0"/>
                             <TextBox Grid.Column="2"
                                      Text="{Binding ReconciliationNotes, UpdateSourceTrigger=PropertyChanged}"

@@ -106,6 +106,7 @@
 
                     <!-- Content Grid (scrolls within section) -->
                     <ScrollViewer Grid.Row="1"
+                                  Style="{StaticResource ModernScrollViewer}"
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled">
                         <Grid Margin="0,0,0,0">
@@ -136,6 +137,7 @@
                                 <ComboBox ItemsSource="{Binding TransactionTypes}"
                                           SelectedItem="{Binding SelectedTransactionTypeString, Mode=TwoWay}"
                                           Style="{StaticResource ComboBox.Dark}"
+                                          materialDesign:HintAssist.Hint="Select transaction type"
                                           TabIndex="0">
                                     <i:Interaction.Behaviors>
                                         <local:SearchableComboBoxBehavior/>
@@ -198,21 +200,24 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="3"
                                         Margin="0,0,0,16">
-                                <TextBlock Text="Party"
-                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                           Margin="0,0,0,8"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" MinWidth="41"/>
+                                        <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <ComboBox Grid.Column="0"
+                                    <TextBlock Grid.Column="0"
+                   Text="Party *"
+                   Foreground="{StaticResource Text.Secondary}"
+                   FontSize="{StaticResource FontSize.Small}"
+                   VerticalAlignment="Center" Height="14"/>
+                                    <ComboBox Grid.Column="1"
                                               ItemsSource="{Binding Parties}"
                                               SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                               Style="{StaticResource ComboBox.Dark}"
                                               Margin="0,0,8,0"
                                               TabIndex="3"
-                                              materialDesign:HintAssist.Hint="Select Party">
+                                              materialDesign:HintAssist.Hint="Select Party" Height="40">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Name}"
@@ -223,12 +228,12 @@
                                             <local:SearchableComboBoxBehavior DisplayMemberPath="Name"/>
                                         </i:Interaction.Behaviors>
                                     </ComboBox>
-                                    <Button Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Style="{StaticResource Button.Secondary}"
                                             ToolTip="Quickly add a new party"
                                             Click="QuickAddPartyButton_Click"
                                             Padding="12,0"
-                                            Height="40"
+                                            Height="NaN"
                                             MinWidth="90"
                                             TabIndex="4">
                                         <StackPanel Orientation="Horizontal">
@@ -248,21 +253,24 @@
                             <StackPanel Grid.Row="2"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="3"
-                                        Margin="0,0,0,16">
-                                <TextBlock Text="Transaction Date &amp; Time *"
-                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                           Margin="0,0,0,8"/>
+                                        Margin="0,0,0,16" Grid.IsSharedSizeScope="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label" MinWidth="81"/>
+                                        <ColumnDefinition/>
                                         <ColumnDefinition Width="8"/>
                                         <ColumnDefinition Width="110"/>
                                     </Grid.ColumnDefinitions>
-                                    <DatePicker Grid.Column="0"
+                                    <TextBlock Grid.Column="0"
+                                               Text="Date &amp; Time *"
+                                               Foreground="{StaticResource Text.Secondary}"
+                                               FontSize="{StaticResource FontSize.Small}"
+                                               VerticalAlignment="Center" Height="14"/>
+                                    <DatePicker Grid.Column="1"
                                                 SelectedDate="{Binding TransactionDate}"
                                                 Style="{StaticResource DatePicker.Dark}"
                                                 TabIndex="5"/>
-                                    <materialDesign:TimePicker Grid.Column="2"
+                                    <materialDesign:TimePicker Grid.Column="3"
                                                                SelectedTime="{Binding TransactionTime}"
                                                                Is24Hours="True"
                                                                WithSeconds="False"
@@ -625,16 +633,24 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="3"
                                         Margin="0,0,0,16">
-                                <TextBlock Text="Notes"
-                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                           Margin="0,0,0,8"/>
-                                <TextBox Text="{Binding Notes}"
-                                         Style="{StaticResource TextBox.Dark}"
-                                         AcceptsReturn="True"
-                                         TextWrapping="Wrap"
-                                         MinLines="1"
-                                         MaxLines="2"
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Notes"
+                                           Foreground="{StaticResource Text.Secondary}"
+FontSize="{StaticResource FontSize.Small}"
+VerticalAlignment="Center"
+Margin="0,4,0,0"/>
+                                    <TextBox Grid.Column="2"  Text="{Binding Notes}"
+                                         Style="{StaticResource TextBox.Standard}"
+TextWrapping="Wrap"
+AcceptsReturn="True"
+Height="60"
                                          TabIndex="11"/>
+                                </Grid>
                                 <!-- Error/Success Message -->
                                 <TextBlock Text="{Binding ErrorMessage}"
                                            Foreground="{StaticResource DeleteButtonForeground}"
@@ -648,7 +664,7 @@
                             <StackPanel Grid.Row="8"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="3"
-                                        Margin="0,8,0,0">
+                                        Margin="0,0,0,0">
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right">
                                     <Button Content="CLEAR"
