@@ -1,12 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FactoryManagement.Models;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using UnifiedTransactionViewModel = FactoryManagement.Core.Services.UnifiedTransactionViewModel;
 
 namespace FactoryManagement.ViewModels
 {
@@ -71,10 +72,10 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<Transaction> _recentTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<Services.UnifiedTransactionViewModel> _allTransactions = new();
+        private ObservableCollection<UnifiedTransactionViewModel> _allTransactions = new();
 
         [ObservableProperty]
-        private ObservableCollection<Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
+        private ObservableCollection<UnifiedTransactionViewModel> _paginatedAllTransactions = new();
 
         [ObservableProperty]
         private ObservableCollection<RecentActivity> _recentActivities = new();
@@ -199,7 +200,7 @@ namespace FactoryManagement.ViewModels
                     advancesGivenTask = _wageService.GetTotalAdvancesGivenAsync();
                 }
 
-                Task<System.Collections.Generic.List<Services.UnifiedTransactionViewModel>>? unifiedTask = null;
+                Task<System.Collections.Generic.List<UnifiedTransactionViewModel>>? unifiedTask = null;
                 if (_unifiedTransactionService != null)
                 {
                     unifiedTask = _unifiedTransactionService.GetAllUnifiedTransactionsAsync(limit: 20);
@@ -403,7 +404,7 @@ namespace FactoryManagement.ViewModels
                 // Load recent 15 unified transactions if service is available
                 if (_unifiedTransactionService != null)
                 {
-                    var recentUnified = unifiedTask != null ? await unifiedTask : new System.Collections.Generic.List<Services.UnifiedTransactionViewModel>();
+                    var recentUnified = unifiedTask != null ? await unifiedTask : new System.Collections.Generic.List<UnifiedTransactionViewModel>();
                     SetCollection(AllTransactions, recentUnified);
                     UpdatePaginatedData();
                 }

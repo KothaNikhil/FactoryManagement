@@ -7,7 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FactoryManagement.Models;
+using FactoryManagement.Core.Models;
 
 namespace FactoryManagement.Services
 {

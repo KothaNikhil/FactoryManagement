@@ -1,14 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
-using FactoryManagement.Data;
-using FactoryManagement.Models;
-using FactoryManagement.Helpers;
+using FactoryManagement.Core.Data;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Helpers;
 using FactoryManagement.Views;
 using System;
 using System.Linq;
 using System.Collections.ObjectModel;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Services;
 using System.Threading.Tasks;
 
 

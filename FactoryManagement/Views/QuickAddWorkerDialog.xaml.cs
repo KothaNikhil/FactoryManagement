@@ -1,4 +1,4 @@
-using FactoryManagement.Models;
+using FactoryManagement.Core.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;

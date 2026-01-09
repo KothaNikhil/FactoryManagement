@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FactoryManagement.Core\FactoryManagement.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\factory-icon.ico" />
   </ItemGroup>
 

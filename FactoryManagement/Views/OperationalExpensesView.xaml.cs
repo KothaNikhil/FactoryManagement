@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 using FactoryManagement.ViewModels;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using FactoryManagement.Data;
-using FactoryManagement.Models;
+using FactoryManagement.Core.Data;
+using FactoryManagement.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FactoryManagement.Services

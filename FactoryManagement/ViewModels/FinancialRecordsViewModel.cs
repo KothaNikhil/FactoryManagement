@@ -1,5 +1,5 @@
-using FactoryManagement.Models;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

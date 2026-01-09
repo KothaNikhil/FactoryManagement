@@ -1,0 +1,33 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FactoryManagement.Core.Models
+{
+    public class User
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Username { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(100)]
+        public string Role { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; } = true;
+
+        /// <summary>
+        /// SHA256 hash of the password. Only required for Admin users.
+        /// </summary>
+        [MaxLength(256)]
+        public string? PasswordHash { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        
+        public DateTime? ModifiedDate { get; set; }
+    }
+}

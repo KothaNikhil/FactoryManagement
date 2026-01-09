@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using FactoryManagement.Models;
+using FactoryManagement.Core.Models;
 
 namespace FactoryManagement.ViewModels
 {

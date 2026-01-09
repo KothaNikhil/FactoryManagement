@@ -6,13 +6,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using FactoryManagement.Data;
-using FactoryManagement.Data.Repositories;
-using FactoryManagement.Models;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Data;
+using FactoryManagement.Core.Data.Repositories;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Services;
+using FactoryManagement.Core.Helpers;
 using FactoryManagement.ViewModels;
 using FactoryManagement.Views;
-using FactoryManagement.Helpers;
 using Serilog;
 
 namespace FactoryManagement
@@ -110,7 +110,7 @@ namespace FactoryManagement
             services.AddDbContext<FactoryDbContext>(options =>
                 options.UseSqlite($"Data Source={dbPath}"));
 
-            // Repositories
+            // Repositories (from Core)
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
@@ -122,20 +122,22 @@ namespace FactoryManagement
             services.AddScoped<IOperationalExpenseRepository, OperationalExpenseRepository>();
             services.AddScoped<ICashBalanceRepository, CashBalanceRepository>();
 
-            // Services
+            // Services from Core
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IPartyService, PartyService>();
             services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<IExportService, ExportService>();
-            services.AddScoped<BackupService>();
             services.AddScoped<IFinancialTransactionService, FinancialTransactionService>();
             services.AddScoped<IWageService, WageService>();
             services.AddScoped<IUnifiedTransactionService, UnifiedTransactionService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IReportExportBuilder, ReportExportBuilder>();
             services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             services.AddScoped<IOperationalExpenseService, OperationalExpenseService>();
             services.AddScoped<ICashBookService, CashBookService>();
+            
+            // Services from WPF (UI-specific) - use fully qualified names
+            services.AddScoped<FactoryManagement.Services.IExportService, FactoryManagement.Services.ExportService>();
+            services.AddScoped<FactoryManagement.Services.BackupService>();
+            services.AddScoped<FactoryManagement.Services.IReportExportBuilder, FactoryManagement.Services.ReportExportBuilder>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();

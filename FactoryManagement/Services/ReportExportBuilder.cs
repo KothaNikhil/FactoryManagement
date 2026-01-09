@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FactoryManagement.Models;
+using FactoryManagement.Core.Models;
 
 namespace FactoryManagement.Services
 {
@@ -13,7 +13,7 @@ namespace FactoryManagement.Services
             IEnumerable<Transaction> inventory,
             IEnumerable<FinancialTransaction> financial,
             IEnumerable<WageTransaction> wages,
-            IEnumerable<UnifiedTransactionViewModel> unified);
+            IEnumerable<FactoryManagement.Core.Services.UnifiedTransactionViewModel> unified);
     }
 
     public class ReportExportBuilder : IReportExportBuilder
@@ -23,7 +23,7 @@ namespace FactoryManagement.Services
             IEnumerable<Transaction> inventory,
             IEnumerable<FinancialTransaction> financial,
             IEnumerable<WageTransaction> wages,
-            IEnumerable<UnifiedTransactionViewModel> unified)
+            IEnumerable<FactoryManagement.Core.Services.UnifiedTransactionViewModel> unified)
         {
             List<ReportExportRow> rows;
 

@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FactoryManagement.Models;
-using FactoryManagement.Services;
-using FactoryManagement.Helpers;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Services;
+using FactoryManagement.Core.Helpers;
 using FactoryManagement.Views;
 using System;
 using System.Collections.ObjectModel;

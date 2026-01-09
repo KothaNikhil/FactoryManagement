@@ -1,13 +1,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FactoryManagement.Models;
-using FactoryManagement.Services;
+using FactoryManagement.Core.Models;
+using FactoryManagement.Core.Services;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using UnifiedTransactionViewModel = FactoryManagement.Core.Services.UnifiedTransactionViewModel;
+using IExportService = FactoryManagement.Services.IExportService;
+using IReportExportBuilder = FactoryManagement.Services.IReportExportBuilder;
 
 namespace FactoryManagement.ViewModels
 {
@@ -54,7 +57,7 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<FinancialTransaction> _allFinancialTransactions = new();
         private ObservableCollection<WageTransaction> _allWageTransactions = new();
         private ObservableCollection<OperationalExpense> _allOperationalExpenses = new();
-        private ObservableCollection<Services.UnifiedTransactionViewModel> _allUnifiedTransactions = new();
+        private ObservableCollection<Core.Services.UnifiedTransactionViewModel> _allUnifiedTransactions = new();
 
         // Paginated collections (displayed data)
         [ObservableProperty]
@@ -70,14 +73,14 @@ namespace FactoryManagement.ViewModels
         private ObservableCollection<OperationalExpense> _paginatedOperationalExpenses = new();
 
         [ObservableProperty]
-        private ObservableCollection<Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
+        private ObservableCollection<Core.Services.UnifiedTransactionViewModel> _paginatedAllTransactions = new();
 
         // Legacy properties for backward compatibility with exports
         public ObservableCollection<Transaction> Transactions => _allInventoryTransactions;
         public ObservableCollection<FinancialTransaction> FinancialTransactions => _allFinancialTransactions;
         public ObservableCollection<WageTransaction> WageTransactions => _allWageTransactions;
         public ObservableCollection<OperationalExpense> OperationalExpenses => _allOperationalExpenses;
-        public ObservableCollection<Services.UnifiedTransactionViewModel> AllTransactions => _allUnifiedTransactions;
+        public ObservableCollection<Core.Services.UnifiedTransactionViewModel> AllTransactions => _allUnifiedTransactions;
 
         // Pagination properties
         private const int PageSize = 13;
