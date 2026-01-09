@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d"
              d:DesignHeight="800"
-        d:DesignWidth="1200">
+             d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -39,7 +39,7 @@
                                         Value="{StaticResource Card.Success}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEditMode}"
-                                            Value="True">
+                                                 Value="True">
                                         <Setter Property="Title"
                                                 Value="Edit Category"/>
                                         <Setter Property="Subtitle"
@@ -57,7 +57,8 @@
                     <!-- Category Name -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -74,7 +75,8 @@
                     <!-- Description -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -142,7 +144,12 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header with Search -->
-                    <Border Grid.Row="0" Background="{StaticResource SecondaryBackground}" Padding="15" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="0,0,0,1" Margin="-24,-24,-24,0">
+                    <Border Grid.Row="0"
+                            Background="{StaticResource SecondaryBackground}"
+                            Padding="15"
+                            BorderBrush="{StaticResource BorderPrimary}"
+                            BorderThickness="0,0,0,1"
+                            Margin="-24,-24,-24,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -150,41 +157,51 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}" Margin="0,0,12,0">
-                                    <TextBlock Text="📋" FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Margin="0"
+                                    VerticalAlignment="Center">
+                                <Border Background="{StaticResource Card.Info}"
+                                        Style="{StaticResource IconBadge}"
+                                        Margin="0,0,12,0">
+                                    <TextBlock Text="📋"
+                                            FontSize="{StaticResource FontSize.Amount}"
+                                            Foreground="White"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="Expense Categories" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Expense Categories"
+                                            Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <controls:SearchBox Grid.Column="2" 
-                                              PlaceholderText="Search categories..." 
-                                              Width="300"
-                                              Margin="0"
-                                              VerticalAlignment="Center"/>
+                            <controls:SearchBox Grid.Column="2"
+                                                PlaceholderText="Search categories..."
+                                                Width="300"
+                                                Margin="0"
+                                                VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
 
                     <!-- Categories List -->
                     <DataGrid Grid.Row="1"
-                            ItemsSource="{Binding PaginatedCategories}"
+                              ItemsSource="{Binding PaginatedCategories}"
                               SelectedItem="{Binding SelectedCategory}"
                               Style="{StaticResource DataGrid.Standard}"
                               ColumnHeaderStyle="{StaticResource DataGrid.Header.Standard}"
                               Margin="0,10,0,10">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Category"
-                                    Binding="{Binding CategoryName}"
-                                    Width="*"
-                                    MinWidth="150"/>
+                                                Binding="{Binding CategoryName}"
+                                                Width="*"
+                                                MinWidth="150"/>
                             <DataGridTextColumn Header="Description"
-                                    Binding="{Binding Description}"
-                                    Width="2*"
-                                    MinWidth="200"/>
+                                                Binding="{Binding Description}"
+                                                Width="2*"
+                                                MinWidth="200"/>
                             <DataGridTemplateColumn Header="Actions"
-                                    Width="150">
+                                                    Width="150">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -193,8 +210,8 @@
                                                     CommandParameter="{Binding}"
                                                     ToolTip="Edit">
                                                 <materialDesign:PackIcon Kind="Pencil"
-                                                        Width="16"
-                                                        Height="16"/>
+                                                                         Width="16"
+                                                                         Height="16"/>
                                             </Button>
                                             <Button Style="{StaticResource DataGrid.EditButton}"
                                                     Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
@@ -203,8 +220,8 @@
                                                     Margin="4,0,0,0"
                                                     Foreground="{StaticResource ErrorColor}">
                                                 <materialDesign:PackIcon Kind="Delete"
-                                                        Width="16"
-                                                        Height="16"/>
+                                                                         Width="16"
+                                                                         Height="16"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -215,8 +232,8 @@
 
                     <!-- Pagination -->
                     <controls:PaginationControl Grid.Row="2"
-                            DataContext="{Binding}"
-                            Margin="0,15,0,0"/>
+                                                DataContext="{Binding}"
+                                                Margin="0,15,0,0"/>
                 </Grid>
             </Border>
         </Grid>
@@ -226,16 +243,16 @@
                 Background="#80000000"
                 Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                        HorizontalAlignment="Center">
                 <ProgressBar IsIndeterminate="True"
-                        Width="100"
-                        Height="100"
-                        Style="{StaticResource MaterialDesignCircularProgressBar}"/>
+                             Width="100"
+                             Height="100"
+                             Style="{StaticResource MaterialDesignCircularProgressBar}"/>
                 <TextBlock Text="Loading..."
-                        Foreground="White"
-                        FontSize="{StaticResource FontSize.Large}"
-                        Margin="0,20,0,0"
-                        HorizontalAlignment="Center"/>
+                           Foreground="White"
+                           FontSize="{StaticResource FontSize.Large}"
+                           Margin="0,20,0,0"
+                           HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
     </Grid>

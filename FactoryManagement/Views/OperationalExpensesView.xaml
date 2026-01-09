@@ -104,7 +104,8 @@
                     <!-- Category -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -146,7 +147,8 @@
                     <!-- Amount -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -163,7 +165,8 @@
                     <!-- Expense Date -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -180,7 +183,8 @@
                     <!-- Spent By -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -200,7 +204,8 @@
                     <!-- Payment Mode -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -218,7 +223,8 @@
                     <!-- Notes -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                            <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Label"/>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -270,7 +276,7 @@
                                TextWrapping="Wrap"
                                Margin="0,0,0,0"
                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
-                    </StackPanel>
+                </StackPanel>
             </Border>
 
             <!-- Expenses List Section -->

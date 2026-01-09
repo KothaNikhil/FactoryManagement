@@ -3,18 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:FactoryManagement.Converters"
-        Title="Quick Add Party" 
-        SizeToContent="Height" Width="520"
+        Title="Quick Add Party"
+        SizeToContent="Height"
+        Width="520"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{StaticResource DialogBackground}"
         FontFamily="{materialDesign:MaterialDesignFont}">
-    
+
     <Window.Resources>
         <converters:PartyTypeConverter x:Key="PartyTypeConverter"/>
     </Window.Resources>
-    
-    <Border BorderBrush="#444" BorderThickness="1" Padding="30">
+
+    <Border BorderBrush="#444"
+            BorderThickness="1"
+            Padding="30">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -23,26 +26,34 @@
             </Grid.RowDefinitions>
 
             <!-- Title -->
-            <StackPanel Grid.Row="0" Margin="0,0,0,25">
-                <TextBlock Text="🤝 Add New Party" 
-                           FontSize="{StaticResource FontSize.Heading1}" 
-                           FontWeight="Bold" 
+            <StackPanel Grid.Row="0"
+                    Margin="0,0,0,25">
+                <TextBlock Text="🤝 Add New Party"
+                           FontSize="{StaticResource FontSize.Heading1}"
+                           FontWeight="Bold"
                            Foreground="White"/>
-                <Border Height="3" Background="#4a90c8" CornerRadius="2" Margin="0,10,0,0" HorizontalAlignment="Left" Width="100"/>
+                <Border Height="3"
+                        Background="#4a90c8"
+                        CornerRadius="2"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Left"
+                        Width="100"/>
             </StackPanel>
 
             <!-- Form -->
-            <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+            <StackPanel Grid.Row="1"
+                    Grid.IsSharedSizeScope="True">
                 <!-- Party Name -->
                 <Grid Margin="0,0,0,18">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="Auto"
+                                SharedSizeGroup="Label"/>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
-                               Text="Party Name *" 
-                               Foreground="#AAA" 
+                               Text="Party Name *"
+                               Foreground="#AAA"
                                FontSize="{StaticResource FontSize.Regular}"
                                VerticalAlignment="Center"
                                Margin="0"/>
@@ -56,13 +67,14 @@
                 <!-- Mobile Number -->
                 <Grid Margin="0,0,0,18">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="Auto"
+                                SharedSizeGroup="Label"/>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
-                               Text="Mobile Number" 
-                               Foreground="#AAA" 
+                               Text="Mobile Number"
+                               Foreground="#AAA"
                                FontSize="{StaticResource FontSize.Regular}"
                                VerticalAlignment="Center"
                                Margin="0"/>
@@ -76,13 +88,14 @@
                 <!-- Place -->
                 <Grid Margin="0,0,0,18">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="Auto"
+                                SharedSizeGroup="Label"/>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
-                               Text="Place" 
-                               Foreground="#AAA" 
+                               Text="Place"
+                               Foreground="#AAA"
                                FontSize="{StaticResource FontSize.Regular}"
                                VerticalAlignment="Center"
                                Margin="0"/>
@@ -96,13 +109,14 @@
                 <!-- Party Type -->
                 <Grid Margin="0,0,0,18">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                        <ColumnDefinition Width="Auto"
+                                SharedSizeGroup="Label"/>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
-                               Text="Party Type *" 
-                               Foreground="#AAA" 
+                               Text="Party Type *"
+                               Foreground="#AAA"
                                FontSize="{StaticResource FontSize.Regular}"
                                VerticalAlignment="Center"
                                Margin="0"/>
@@ -126,7 +140,8 @@
             </StackPanel>
 
             <!-- Action Buttons -->
-            <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid Grid.Row="2"
+                    Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="10"/>

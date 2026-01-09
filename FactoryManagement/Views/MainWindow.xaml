@@ -85,15 +85,15 @@
             <DockPanel>
                 <!-- Window control buttons (far right) -->
                 <StackPanel DockPanel.Dock="Right"
-                        Orientation="Horizontal">
+                            Orientation="Horizontal">
                     <Button Width="50"
                             Height="50"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="MinimizeButton_Click"
                             Foreground="White">
                         <materialDesign:PackIcon Kind="WindowMinimize"
-                                Width="18"
-                                Height="18"/>
+                                                 Width="18"
+                                                 Height="18"/>
                     </Button>
                     <Button x:Name="MaximizeButton"
                             Width="50"
@@ -102,9 +102,9 @@
                             Click="MaximizeButton_Click"
                             Foreground="White">
                         <materialDesign:PackIcon x:Name="MaximizeIcon"
-                                Kind="WindowMaximize"
-                                Width="18"
-                                Height="18"/>
+                                                 Kind="WindowMaximize"
+                                                 Width="18"
+                                                 Height="18"/>
                     </Button>
                     <Button Width="50"
                             Height="50"
@@ -112,10 +112,10 @@
                             Foreground="White">
                         <Button.Style>
                             <Style TargetType="Button"
-                                    BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                   BasedOn="{StaticResource MaterialDesignFlatButton}">
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver"
-                                            Value="True">
+                                             Value="True">
                                         <Setter Property="Background"
                                                 Value="{StaticResource CloseButtonHover}"/>
                                     </Trigger>
@@ -123,16 +123,16 @@
                             </Style>
                         </Button.Style>
                         <materialDesign:PackIcon Kind="Close"
-                                Width="18"
-                                Height="18"/>
+                                                 Width="18"
+                                                 Height="18"/>
                     </Button>
                 </StackPanel>
 
                 <!-- User dropdown (to the left of window controls) -->
                 <StackPanel DockPanel.Dock="Right"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        Margin="0,0,8,0">
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="0,0,8,0">
                     <Border Background="{StaticResource Card.Header}"
                             CornerRadius="8"
                             Padding="12,8">
@@ -168,8 +168,8 @@
 
                     <!-- App identity -->
                     <StackPanel Grid.Column="0"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
                         <Border Background="Transparent"
                                 Width="36"
                                 Height="36"
@@ -178,9 +178,9 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
                             <Image Width="30"
-                                    Height="30"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
+                                   Height="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
                                    Source="pack://application:,,,/Images/factory-icon.ico"/>
                         </Border>
                         <TextBlock Text="Factory Management System"
@@ -192,7 +192,7 @@
 
                     <!-- Page title + subtitle -->
                     <StackPanel Grid.Column="2"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="{Binding CurrentViewTitle}"
                                    FontSize="{StaticResource FontSize.ExtraLarge}"
                                    FontWeight="SemiBold"
@@ -227,9 +227,9 @@
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding IsMenuPinned}"
-                                            Value="False"/>
+                                               Value="False"/>
                                     <Condition Binding="{Binding IsMenuExpanded}"
-                                            Value="False"/>
+                                               Value="False"/>
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="Width"
                                         Value="60"/>
@@ -266,7 +266,7 @@
                                     Click="PinButton_Click">
                                 <Button.Style>
                                     <Style TargetType="Button"
-                                            BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                           BasedOn="{StaticResource MaterialDesignFlatButton}">
                                         <Setter Property="Visibility"
                                                 Value="Visible"/>
                                     </Style>
@@ -280,7 +280,7 @@
                                                             Value="Unpin menu"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsMenuPinned}"
-                                                                Value="False">
+                                                                     Value="False">
                                                             <Setter Property="Text"
                                                                     Value="Pin menu"/>
                                                         </DataTrigger>
@@ -291,15 +291,15 @@
                                     </ToolTip>
                                 </Button.ToolTip>
                                 <materialDesign:PackIcon Width="24"
-                                        Height="24"
-                                        Foreground="White">
+                                                         Height="24"
+                                                         Foreground="White">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
                                             <Setter Property="Kind"
                                                     Value="Pin"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMenuPinned}"
-                                                        Value="False">
+                                                             Value="False">
                                                     <Setter Property="Kind"
                                                             Value="PinOff"/>
                                                 </DataTrigger>
@@ -321,7 +321,7 @@
                              SelectedIndex="0">
                         <ListBox.Resources>
                             <Style TargetType="ListBoxItem"
-                                    BasedOn="{StaticResource MaterialDesignNavigationListBoxItem}">
+                                   BasedOn="{StaticResource MaterialDesignNavigationListBoxItem}">
                                 <Setter Property="Padding"
                                         Value="16,14,16,14"/>
                                 <Setter Property="Margin"
@@ -345,11 +345,11 @@
                                                     <Style TargetType="Border">
                                                         <Style.Triggers>
                                                             <Trigger Property="IsMouseOver"
-                                                                    Value="True">
+                                                                     Value="True">
                                                                 <Setter Property="Background">
                                                                     <Setter.Value>
                                                                         <SolidColorBrush Color="White"
-                                                                                Opacity="0.1"/>
+                                                                                         Opacity="0.1"/>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Trigger>
@@ -359,7 +359,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected"
-                                                        Value="True">
+                                                         Value="True">
                                                     <Setter TargetName="Border"
                                                             Property="Background"
                                                             Value="{StaticResource PrimaryGradient}"/>
@@ -379,19 +379,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="ViewDashboard"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="ViewDashboard"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Dashboard"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Dashboard"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -400,7 +400,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -409,19 +409,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+D"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+D"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -440,19 +440,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="CartPlus"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="CartPlus"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="New Transaction"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="New Transaction"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -461,7 +461,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -470,19 +470,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+T"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+T"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -501,19 +501,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="AccountCash"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="AccountCash"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Payroll Management"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Payroll Management"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -522,7 +522,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -531,19 +531,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+P"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+P"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -562,19 +562,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="CashMultiple"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="CashMultiple"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Financial Records"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Financial Records"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -583,7 +583,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -592,19 +592,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+F"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+F"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -623,19 +623,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="Receipt"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="Receipt"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Operational Expenses"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Operational Expenses"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -644,7 +644,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -653,19 +653,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+O"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+O"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -684,19 +684,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="Book"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="Book"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Cash Book"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Cash Book"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -705,7 +705,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -714,19 +714,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+B"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+B"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -745,19 +745,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="ChartBar"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="ChartBar"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Reports"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Reports"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -766,7 +766,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -775,19 +775,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+R"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+R"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -799,7 +799,7 @@
                         </ListBoxItem>
 
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"
-                                Margin="12,8"/>
+                                   Margin="12,8"/>
 
                         <ListBoxItem Tag="Items">
                             <Grid>
@@ -809,19 +809,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="Package"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="Package"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Inventory"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Inventory"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -830,7 +830,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -839,19 +839,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+I"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+I"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -870,19 +870,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="TagMultiple"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="TagMultiple"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Expense Categories"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Expense Categories"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -891,7 +891,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -900,19 +900,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+E"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+E"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="60">
+                                                             Value="60">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -931,19 +931,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="AccountGroup"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="AccountGroup"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Contacts"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Contacts"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -952,7 +952,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -961,19 +961,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+C"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+C"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -992,19 +992,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="HardHat"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="HardHat"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Workers Management"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Workers Management"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -1013,7 +1013,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1022,19 +1022,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+W"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+W"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1046,7 +1046,7 @@
                         </ListBoxItem>
 
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"
-                                Margin="12,8"/>
+                                   Margin="12,8"/>
 
                         <ListBoxItem Tag="Users">
                             <Grid>
@@ -1056,19 +1056,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="AccountMultiple"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="AccountMultiple"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="User Management"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="User Management"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -1077,7 +1077,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1086,19 +1086,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+U"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+U"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1110,7 +1110,7 @@
                         </ListBoxItem>
 
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"
-                                Margin="12,8"/>
+                                   Margin="12,8"/>
 
                         <ListBoxItem Tag="Backup">
                             <Grid>
@@ -1120,19 +1120,19 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0"
-                                        Kind="BackupRestore"
-                                        Width="28"
-                                        Height="28"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Foreground="White"/>
+                                                         Kind="BackupRestore"
+                                                         Width="28"
+                                                         Height="28"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Left"
+                                                         Foreground="White"/>
                                 <TextBlock Grid.Column="1"
-                                        Text="Data Backup"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontWeight="Medium"
-                                        FontSize="{StaticResource FontSize.Large}">
+                                           Text="Data Backup"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontWeight="Medium"
+                                           FontSize="{StaticResource FontSize.Large}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Foreground"
@@ -1141,7 +1141,7 @@
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1150,19 +1150,19 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2"
-                                        Text="Ctrl+B"
-                                        VerticalAlignment="Center"
-                                        Margin="12,0,0,0"
-                                        Foreground="White"
-                                        FontSize="{StaticResource FontSize.SmallMedium}"
-                                        Opacity="0.7">
+                                           Text="Ctrl+B"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"
+                                           Foreground="White"
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Opacity="0.7">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility"
                                                     Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ElementName=NavigationBorder, Path=Width}"
-                                                        Value="52">
+                                                             Value="52">
                                                     <Setter Property="Visibility"
                                                             Value="Collapsed"/>
                                                 </DataTrigger>
@@ -1174,7 +1174,7 @@
                         </ListBoxItem>
 
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"
-                                Margin="12,8"/>
+                                   Margin="12,8"/>
 
                         <!-- <ListBoxItem Tag="Exit">
                         <Grid>
@@ -1220,10 +1220,10 @@
                 <!-- Content Area with Unified Background -->
                 <Grid Background="#1E1E1E">
                     <ContentControl Content="{Binding CurrentView}"
-                            Margin="20">
+                                    Margin="20">
                         <ContentControl.CacheMode>
                             <BitmapCache RenderAtScale="1"
-                                    SnapsToDevicePixels="True"/>
+                                         SnapsToDevicePixels="True"/>
                         </ContentControl.CacheMode>
                     </ContentControl>
                 </Grid>

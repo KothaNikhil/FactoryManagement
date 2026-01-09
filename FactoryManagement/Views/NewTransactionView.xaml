@@ -202,22 +202,25 @@
                                         Margin="0,0,0,16">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" MinWidth="41"/>
+                                        <ColumnDefinition Width="Auto"
+                                                MinWidth="41"/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                   Text="Party *"
-                   Foreground="{StaticResource Text.Secondary}"
-                   FontSize="{StaticResource FontSize.Small}"
-                   VerticalAlignment="Center" Height="14"/>
+                                               Text="Party *"
+                                               Foreground="{StaticResource Text.Secondary}"
+                                               FontSize="{StaticResource FontSize.Small}"
+                                               VerticalAlignment="Center"
+                                            Height="14"/>
                                     <ComboBox Grid.Column="1"
                                               ItemsSource="{Binding Parties}"
                                               SelectedItem="{Binding SelectedParty, Mode=TwoWay}"
                                               Style="{StaticResource ComboBox.Dark}"
                                               Margin="0,0,8,0"
                                               TabIndex="3"
-                                              materialDesign:HintAssist.Hint="Select Party" Height="40">
+                                              materialDesign:HintAssist.Hint="Select Party"
+                                            Height="40">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Name}"
@@ -253,10 +256,13 @@
                             <StackPanel Grid.Row="2"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="3"
-                                        Margin="0,0,0,16" Grid.IsSharedSizeScope="True">
+                                        Margin="0,0,0,16"
+                                    Grid.IsSharedSizeScope="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label" MinWidth="81"/>
+                                        <ColumnDefinition Width="Auto"
+                                                SharedSizeGroup="Label"
+                                                MinWidth="81"/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="8"/>
                                         <ColumnDefinition Width="110"/>
@@ -265,7 +271,8 @@
                                                Text="Date &amp; Time *"
                                                Foreground="{StaticResource Text.Secondary}"
                                                FontSize="{StaticResource FontSize.Small}"
-                                               VerticalAlignment="Center" Height="14"/>
+                                               VerticalAlignment="Center"
+                                            Height="14"/>
                                     <DatePicker Grid.Column="1"
                                                 SelectedDate="{Binding TransactionDate}"
                                                 Style="{StaticResource DatePicker.Dark}"
@@ -635,21 +642,24 @@
                                         Margin="0,0,0,16">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                        <ColumnDefinition Width="Auto"
+                                                SharedSizeGroup="Label"/>
                                         <ColumnDefinition Width="12"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Notes"
-                                           Foreground="{StaticResource Text.Secondary}"
-FontSize="{StaticResource FontSize.Small}"
-VerticalAlignment="Center"
-Margin="0,4,0,0"/>
-                                    <TextBox Grid.Column="2"  Text="{Binding Notes}"
-                                         Style="{StaticResource TextBox.Standard}"
-TextWrapping="Wrap"
-AcceptsReturn="True"
-Height="60"
-                                         TabIndex="11"/>
+                                    <TextBlock Grid.Column="0"
+                                            Text="Notes"
+                                               Foreground="{StaticResource Text.Secondary}"
+                                               FontSize="{StaticResource FontSize.Small}"
+                                               VerticalAlignment="Center"
+                                               Margin="0,4,0,0"/>
+                                    <TextBox Grid.Column="2"
+                                            Text="{Binding Notes}"
+                                             Style="{StaticResource TextBox.Standard}"
+                                             TextWrapping="Wrap"
+                                             AcceptsReturn="True"
+                                             Height="60"
+                                             TabIndex="11"/>
                                 </Grid>
                                 <!-- Error/Success Message -->
                                 <TextBlock Text="{Binding ErrorMessage}"

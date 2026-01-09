@@ -1,14 +1,15 @@
 <UserControl x:Class="FactoryManagement.Views.PayrollManagementView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:FactoryManagement.Behaviors"
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             mc:Ignorable="d"
+             d:DesignHeight="800"
+        d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,7 +17,8 @@
         </Grid.RowDefinitions>
 
         <!-- Summary Cards -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0"
+                Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -28,85 +30,149 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Wages Paid Card -->
-            <Border Grid.Column="0" Background="{StaticResource SummaryCardSuccess}" CornerRadius="8" Padding="16">
+            <Border Grid.Column="0"
+                    Background="{StaticResource SummaryCardSuccess}"
+                    CornerRadius="8"
+                    Padding="16">
                 <Border.Effect>
-                    <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    <DropShadowEffect Color="Black"
+                            Opacity="0.3"
+                            ShadowDepth="2"
+                            BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="💵" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Wages Paid" Foreground="{StaticResource LabelSuccess}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding TotalWagesPaid, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
+
+                    <TextBlock Grid.Column="0"
+                            Text="💵"
+                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                            VerticalAlignment="Center"
+                            Margin="0,0,12,0"/>
+
+                    <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Total Wages Paid"
+                                Foreground="{StaticResource LabelSuccess}"
+                                FontSize="{StaticResource FontSize.Small}"
+                                Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding TotalWagesPaid, StringFormat='₹{0:N2}'}"
+                                   Foreground="White"
+                                FontSize="{StaticResource FontSize.Amount}"
+                                FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Total Advances Card -->
-            <Border Grid.Column="2" Background="{StaticResource SummaryCardWarning}" CornerRadius="8" Padding="16">
+            <Border Grid.Column="2"
+                    Background="{StaticResource SummaryCardWarning}"
+                    CornerRadius="8"
+                    Padding="16">
                 <Border.Effect>
-                    <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    <DropShadowEffect Color="Black"
+                            Opacity="0.3"
+                            ShadowDepth="2"
+                            BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="💰" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Total Advances Given" Foreground="{StaticResource LabelWarning}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding TotalAdvancesGiven, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
+
+                    <TextBlock Grid.Column="0"
+                            Text="💰"
+                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                            VerticalAlignment="Center"
+                            Margin="0,0,12,0"/>
+
+                    <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Total Advances Given"
+                                Foreground="{StaticResource LabelWarning}"
+                                FontSize="{StaticResource FontSize.Small}"
+                                Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding TotalAdvancesGiven, StringFormat='₹{0:N2}'}"
+                                   Foreground="White"
+                                FontSize="{StaticResource FontSize.Amount}"
+                                FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Selected Worker Wages Card -->
-            <Border Grid.Column="4" Background="{StaticResource SummaryCardInfo}" CornerRadius="8" Padding="16">
+            <Border Grid.Column="4"
+                    Background="{StaticResource SummaryCardInfo}"
+                    CornerRadius="8"
+                    Padding="16">
                 <Border.Effect>
-                    <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    <DropShadowEffect Color="Black"
+                            Opacity="0.3"
+                            ShadowDepth="2"
+                            BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="👤" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Worker Total Wages" Foreground="{StaticResource LabelInfo}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding SelectedWorkerTotalWages, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
+
+                    <TextBlock Grid.Column="0"
+                            Text="👤"
+                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                            VerticalAlignment="Center"
+                            Margin="0,0,12,0"/>
+
+                    <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Worker Total Wages"
+                                Foreground="{StaticResource LabelInfo}"
+                                FontSize="{StaticResource FontSize.Small}"
+                                Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding SelectedWorkerTotalWages, StringFormat='₹{0:N2}'}"
+                                   Foreground="White"
+                                FontSize="{StaticResource FontSize.Amount}"
+                                FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Outstanding Advance Card -->
-            <Border Grid.Column="6" Background="{StaticResource SummaryCardDanger}" CornerRadius="8" Padding="16">
+            <Border Grid.Column="6"
+                    Background="{StaticResource SummaryCardDanger}"
+                    CornerRadius="8"
+                    Padding="16">
                 <Border.Effect>
-                    <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="8"/>
+                    <DropShadowEffect Color="Black"
+                            Opacity="0.3"
+                            ShadowDepth="2"
+                            BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0" Text="⚠️" FontSize="{StaticResource FontSize.Icon.ExtraLarge}" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                    
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Outstanding Advance" Foreground="{StaticResource LabelDanger}" FontSize="{StaticResource FontSize.Small}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat='₹{0:N2}'}" 
-                                   Foreground="White" FontSize="{StaticResource FontSize.Amount}" FontWeight="Bold"/>
+
+                    <TextBlock Grid.Column="0"
+                            Text="⚠️"
+                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                            VerticalAlignment="Center"
+                            Margin="0,0,12,0"/>
+
+                    <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Outstanding Advance"
+                                Foreground="{StaticResource LabelDanger}"
+                                FontSize="{StaticResource FontSize.Small}"
+                                Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat='₹{0:N2}'}"
+                                   Foreground="White"
+                                FontSize="{StaticResource FontSize.Amount}"
+                                FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -121,8 +187,13 @@
             </Grid.ColumnDefinitions>
 
             <!-- LEFT COLUMN: Record Payment -->
-            <Border Grid.Column="0" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="1" CornerRadius="8" Background="{StaticResource CardBackground}" Padding="24,24,24,15"
-                ToolTip="Select worker and enter payment">
+            <Border Grid.Column="0"
+                    BorderBrush="{StaticResource BorderPrimary}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Background="{StaticResource CardBackground}"
+                    Padding="24,24,24,15"
+                    ToolTip="Select worker and enter payment">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -131,16 +202,18 @@
 
                     <!-- Section Header -->
                     <controls:SectionHeader Grid.Row="0"
-                                          Title="Record Payment" 
-                                          Icon="💸" 
-                                          IconBackground="{StaticResource Card.Success}" />
+                                            Title="Record Payment"
+                                            Icon="💸"
+                                            IconBackground="{StaticResource Card.Success}"/>
 
                     <!-- Form Content -->
-                    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                    <StackPanel Grid.Row="1"
+                            Grid.IsSharedSizeScope="True">
                         <!-- Worker Selection -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -197,7 +270,8 @@
                         <!-- Payment Type -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -216,7 +290,8 @@
                         <!-- Payment Mode -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -234,7 +309,8 @@
                         <!-- Amount -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -253,7 +329,8 @@
                         <!-- Notes -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -279,8 +356,8 @@
                                 Padding="6"
                                 Margin="0,0,0,15"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="{Binding ErrorMessage}" 
-                                       Foreground="{StaticResource ErrorColor}" 
+                            <TextBlock Text="{Binding ErrorMessage}"
+                                       Foreground="{StaticResource ErrorColor}"
                                        FontSize="{StaticResource FontSize.ExtraSmall}"
                                        TextWrapping="Wrap"/>
                         </Border>
@@ -298,11 +375,15 @@
                                     Command="{Binding SaveWagePaymentCommand}"
                                     Height="44">
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource Button.Success}">
-                                        <Setter Property="Content" Value="💾 RECORD PAYMENT"/>
+                                    <Style TargetType="Button"
+                                            BasedOn="{StaticResource Button.Success}">
+                                        <Setter Property="Content"
+                                                Value="💾 RECORD PAYMENT"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditMode}" Value="True">
-                                                <Setter Property="Content" Value="💾 UPDATE PAYMENT"/>
+                                            <DataTrigger Binding="{Binding IsEditMode}"
+                                                    Value="True">
+                                                <Setter Property="Content"
+                                                        Value="💾 UPDATE PAYMENT"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -331,7 +412,12 @@
             </Border>
 
             <!-- RIGHT COLUMN: Payment History (Wide) -->
-            <Border Grid.Column="2" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="1" CornerRadius="8" Background="{StaticResource CardBackground}" Padding="20">
+            <Border Grid.Column="2"
+                    BorderBrush="{StaticResource BorderPrimary}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Background="{StaticResource CardBackground}"
+                    Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -339,28 +425,42 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-20,-20,-20,15" CornerRadius="8,8,0,0">
+                    <Border Grid.Row="0"
+                            Background="{StaticResource Card.Header}"
+                            Padding="15"
+                            Margin="-20,-20,-20,15"
+                            CornerRadius="8,8,0,0">
                         <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Info}" Style="{StaticResource IconBadge}">
-                                    <TextBlock Text="📊" FontSize="{StaticResource FontSize.Amount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="0"
+                                    Style="{StaticResource SectionHeader}"
+                                    Margin="0">
+                                <Border Background="{StaticResource Card.Info}"
+                                        Style="{StaticResource IconBadge}">
+                                    <TextBlock Text="📊"
+                                            FontSize="{StaticResource FontSize.Amount}"
+                                            Foreground="White"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="Recent Payment History" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="Recent Payment History"
+                                            Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
-                            <Button Grid.Column="1" Content="↩ Undo Delete" 
+                            <Button Grid.Column="1"
+                                    Content="↩ Undo Delete"
                                     Command="{Binding UndoDeleteWageTransactionCommand}"
                                     Style="{StaticResource Button.Secondary}"
                                     Padding="12,4"/>
                         </Grid>
                     </Border>
 
-                    <DataGrid Grid.Row="1" Style="{StaticResource Section.DataGrid}"
+                    <DataGrid Grid.Row="1"
+                            Style="{StaticResource Section.DataGrid}"
                               ItemsSource="{Binding PaginatedTransactions}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
@@ -374,53 +474,75 @@
                               HeadersVisibility="Column">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="Background" Value="{StaticResource SecondaryBackground}"/>
-                                <Setter Property="Foreground" Value="#BBB"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="BorderThickness" Value="0,0,1,1"/>
-                                <Setter Property="BorderBrush" Value="#444"/>
+                                <Setter Property="Background"
+                                        Value="{StaticResource SecondaryBackground}"/>
+                                <Setter Property="Foreground"
+                                        Value="#BBB"/>
+                                <Setter Property="FontWeight"
+                                        Value="Bold"/>
+                                <Setter Property="Padding"
+                                        Value="10"/>
+                                <Setter Property="BorderThickness"
+                                        Value="0,0,1,1"/>
+                                <Setter Property="BorderBrush"
+                                        Value="#444"/>
                             </Style>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Edit" Width="60">
+                            <DataGridTemplateColumn Header="Edit"
+                                    Width="60">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
                                                 Command="{Binding DataContext.EditWageTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
                                                 ToolTip="Edit">
-                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                            <materialDesign:PackIcon Kind="Pencil"
+                                                    Width="16"
+                                                    Height="16"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Delete" Width="70">
+                            <DataGridTemplateColumn Header="Delete"
+                                    Width="70">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
                                                 Command="{Binding DataContext.DeleteWageTransactionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
                                                 ToolTip="Delete">
-                                            <materialDesign:PackIcon Kind="DeleteForever" Width="16" Height="16"/>
+                                            <materialDesign:PackIcon Kind="DeleteForever"
+                                                    Width="16"
+                                                    Height="16"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
-                            <DataGridTextColumn Header="Worker" Binding="{Binding Worker.Name}" Width="*"/>
-                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
-                            <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
-                            <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
-                            <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}"/>
-                            <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
+                            <DataGridTextColumn Header="Date"
+                                    Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
+                            <DataGridTextColumn Header="Worker"
+                                    Binding="{Binding Worker.Name}"
+                                    Width="*"/>
+                            <DataGridTextColumn Header="Type"
+                                    Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
+                            <DataGridTextColumn Header="Amount"
+                                    Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
+                            <DataGridTextColumn Header="Mode"
+                                    Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
+                            <DataGridTextColumn Header="Entered By"
+                                    Binding="{Binding User.Username}"/>
+                            <DataGridTextColumn Header="Notes"
+                                    Binding="{Binding Notes}"
+                                    Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                     <!-- Date Navigation Control -->
-                    <Border Grid.Row="2" Margin="0,16,0,0"
-                            Background="{DynamicResource Card.Primary}" 
-                            CornerRadius="8" 
+                    <Border Grid.Row="2"
+                            Margin="0,16,0,0"
+                            Background="{DynamicResource Card.Primary}"
+                            CornerRadius="8"
                             Padding="16,12">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -430,47 +552,55 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Previous Day Button -->
-                            <Button Grid.Column="0" 
+                            <Button Grid.Column="0"
                                     Command="{Binding GoToPreviousTransactionDayCommand}"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     ToolTip="Previous Day"
                                     Margin="0,0,8,0">
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="24" Height="24"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft"
+                                        Width="24"
+                                        Height="24"/>
                             </Button>
 
                             <!-- Current Date Display -->
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Calendar" 
-                                                       Width="20" Height="20" 
-                                                       Foreground="{DynamicResource Text.Secondary}"
-                                                       VerticalAlignment="Center"
-                                                       Margin="0,0,8,0"/>
+                            <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Calendar"
+                                                         Width="20"
+                                        Height="20"
+                                                         Foreground="{DynamicResource Text.Secondary}"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding CurrentTransactionDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                         FontSize="{StaticResource FontSize.Medium}"
-                                         FontWeight="Medium"
-                                         Foreground="{DynamicResource Text.Primary}"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,16,0"/>
-                                <Button Content="Today" 
+                                           FontSize="{StaticResource FontSize.Medium}"
+                                           FontWeight="Medium"
+                                           Foreground="{DynamicResource Text.Primary}"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,16,0"/>
+                                <Button Content="Today"
                                         Command="{Binding GoToTodayTransactionCommand}"
                                         Style="{StaticResource Button.Secondary}"
                                         Padding="12,4"
                                         Height="28"
                                         FontSize="{StaticResource FontSize.SmallMedium}"/>
                                 <TextBlock Text="{Binding TotalRecords, StringFormat='({0} transactions)'}"
-                                         FontSize="{StaticResource FontSize.SmallMedium}"
-                                         Foreground="{DynamicResource Text.Secondary}"
-                                         VerticalAlignment="Center"
-                                         Margin="12,0,0,0"/>
+                                           FontSize="{StaticResource FontSize.SmallMedium}"
+                                           Foreground="{DynamicResource Text.Secondary}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"/>
                             </StackPanel>
 
                             <!-- Next Day Button -->
-                            <Button Grid.Column="2" 
+                            <Button Grid.Column="2"
                                     Command="{Binding GoToNextTransactionDayCommand}"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     ToolTip="Next Day"
                                     Margin="8,0,0,0">
-                                <materialDesign:PackIcon Kind="ChevronRight" Width="24" Height="24"/>
+                                <materialDesign:PackIcon Kind="ChevronRight"
+                                        Width="24"
+                                        Height="24"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -478,7 +608,10 @@
             </Border>
         </Grid>
 
-        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,16"/>
+        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,16,16"/>
     </Grid>
 </UserControl>
 

@@ -1,12 +1,13 @@
 <UserControl x:Class="FactoryManagement.Views.InventoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1200">
+             mc:Ignorable="d"
+             d:DesignHeight="700"
+        d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,7 +16,8 @@
         </Grid.RowDefinitions>
 
         <!-- Summary Cards -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0"
+                Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -27,36 +29,36 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Items Card -->
-            <controls:SummaryCard Grid.Column="0" 
-                                Label="Total Items" 
-                                Value="{Binding TotalItems}" 
-                                Icon="📦" 
-                                CardBackground="{StaticResource Card.Success}" 
-                                LabelForeground="{StaticResource Card.Success.Label}" />
+            <controls:SummaryCard Grid.Column="0"
+                                  Label="Total Items"
+                                  Value="{Binding TotalItems}"
+                                  Icon="📦"
+                                  CardBackground="{StaticResource Card.Success}"
+                                  LabelForeground="{StaticResource Card.Success.Label}"/>
 
             <!-- Total Stock Value Card -->
-            <controls:SummaryCard Grid.Column="2" 
-                                Label="Total Stock" 
-                                Value="{Binding TotalStockValue}" 
-                                Icon="📊" 
-                                CardBackground="{StaticResource Card.Info}" 
-                                LabelForeground="{StaticResource Card.Info.Label}" />
+            <controls:SummaryCard Grid.Column="2"
+                                  Label="Total Stock"
+                                  Value="{Binding TotalStockValue}"
+                                  Icon="📊"
+                                  CardBackground="{StaticResource Card.Info}"
+                                  LabelForeground="{StaticResource Card.Info.Label}"/>
 
             <!-- Low Stock Items Card -->
-            <controls:SummaryCard Grid.Column="4" 
-                                Label="Low Stock" 
-                                Value="{Binding LowStockCount}" 
-                                Icon="⚠️" 
-                                CardBackground="{StaticResource Card.Warning}" 
-                                LabelForeground="{StaticResource Card.Warning.Label}" />
+            <controls:SummaryCard Grid.Column="4"
+                                  Label="Low Stock"
+                                  Value="{Binding LowStockCount}"
+                                  Icon="⚠️"
+                                  CardBackground="{StaticResource Card.Warning}"
+                                  LabelForeground="{StaticResource Card.Warning.Label}"/>
 
             <!-- Categories Card -->
-            <controls:SummaryCard Grid.Column="6" 
-                                Label="Categories" 
-                                Value="{Binding CategoryCount}" 
-                                Icon="📂" 
-                                CardBackground="{StaticResource Card.Danger}" 
-                                LabelForeground="{StaticResource Card.Danger.Label}" />
+            <controls:SummaryCard Grid.Column="6"
+                                  Label="Categories"
+                                  Value="{Binding CategoryCount}"
+                                  Icon="📂"
+                                  CardBackground="{StaticResource Card.Danger}"
+                                  LabelForeground="{StaticResource Card.Danger.Label}"/>
         </Grid>
 
         <!-- Main Content - Items and Form (2 columns) -->
@@ -67,7 +69,9 @@
             </Grid.ColumnDefinitions>
 
             <!-- Items List -->
-            <Border Grid.Column="0" Margin="0,0,12,0" Style="{StaticResource FormCard}">
+            <Border Grid.Column="0"
+                    Margin="0,0,12,0"
+                    Style="{StaticResource FormCard}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -76,7 +80,12 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header with Search -->
-                    <Border Grid.Row="0" Background="{StaticResource SecondaryBackground}" Padding="15" BorderBrush="{StaticResource BorderPrimary}" BorderThickness="0,0,0,1" Margin="-24,-24,-24,0">
+                    <Border Grid.Row="0"
+                            Background="{StaticResource SecondaryBackground}"
+                            Padding="15"
+                            BorderBrush="{StaticResource BorderPrimary}"
+                            BorderThickness="0,0,0,1"
+                            Margin="-24,-24,-24,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -86,52 +95,79 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Header -->
-                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Background="{StaticResource Card.Success}" Style="{StaticResource IconBadge}">
-                                    <materialDesign:PackIcon Kind="PackageVariant" Width="20" Height="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="0"
+                                    Style="{StaticResource SectionHeader}"
+                                    Margin="0">
+                                <Border Background="{StaticResource Card.Success}"
+                                        Style="{StaticResource IconBadge}">
+                                    <materialDesign:PackIcon Kind="PackageVariant"
+                                            Width="20"
+                                            Height="20"
+                                            Foreground="White"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="All Items" Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="All Items"
+                                            Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
 
                             <!-- Search Box -->
-                            <TextBox Grid.Column="2" 
-                                   materialDesign:HintAssist.Hint="Search items..." 
-                                   Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                   Style="{StaticResource TextBox.Standard}"
-                                   VerticalAlignment="Center"
-                                   Padding="10,5"
-                                   Height="35"/>
+                            <TextBox Grid.Column="2"
+                                     materialDesign:HintAssist.Hint="Search items..."
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource TextBox.Standard}"
+                                     VerticalAlignment="Center"
+                                     Padding="10,5"
+                                     Height="35"/>
                         </Grid>
                     </Border>
 
                     <!-- DataGrid -->
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedItems}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once" Margin="0,16,0,0">
+                    <DataGrid Grid.Row="1"
+                            ItemsSource="{Binding PaginatedItems}"
+                            SelectedItem="{Binding SelectedItem}"
+                            Style="{StaticResource Section.DataGrid}"
+                            KeyboardNavigation.TabNavigation="Once"
+                            Margin="0,16,0,0">
                         <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                            <Style TargetType="DataGridColumnHeader"
+                                    BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="130"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90"></DataGridTextColumn>
-                            <DataGridTemplateColumn Header="Actions" Width="120">
+                            <DataGridTextColumn Header="Item Name"
+                                    Binding="{Binding ItemName}"
+                                    Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Current Stock"
+                                    Binding="{Binding CurrentStock, StringFormat=N2}"
+                                    Width="130"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Unit"
+                                    Binding="{Binding Unit}"
+                                    Width="90"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Actions"
+                                    Width="120">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
                                             <Button Style="{StaticResource DataGrid.EditButton}"
-                                                  Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                  CommandParameter="{Binding}"
-                                                  ToolTip="Edit">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                    Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip="Edit">
+                                                <materialDesign:PackIcon Kind="Pencil"
+                                                        Width="16"
+                                                        Height="16"/>
                                             </Button>
                                             <Button Style="{StaticResource DataGrid.EditButton}"
-                                                  Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                  CommandParameter="{Binding}"
-                                                  ToolTip="Delete"
-                                                  Margin="4,0,0,0"
-                                                  Foreground="{StaticResource DeleteButtonForeground}">
-                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                    Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip="Delete"
+                                                    Margin="4,0,0,0"
+                                                    Foreground="{StaticResource DeleteButtonForeground}">
+                                                <materialDesign:PackIcon Kind="Delete"
+                                                        Width="16"
+                                                        Height="16"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -142,21 +178,22 @@
 
                     <!-- Pagination Control -->
                     <controls:PaginationControl Grid.Row="2"
-                        CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
-                        TotalPages="{Binding TotalPages}"
-                        TotalRecords="{Binding TotalRecords}"
-                        CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
-                        CanGoToNextPage="{Binding CanGoToNextPage}"
-                        FirstPageCommand="{Binding GoToFirstPageCommand}"
-                        PreviousPageCommand="{Binding GoToPreviousPageCommand}"
-                        NextPageCommand="{Binding GoToNextPageCommand}"
-                        LastPageCommand="{Binding GoToLastPageCommand}"
-                        Margin="0,16,0,0"/>
+                                                CurrentPage="{Binding CurrentPage, Mode=TwoWay}"
+                                                TotalPages="{Binding TotalPages}"
+                                                TotalRecords="{Binding TotalRecords}"
+                                                CanGoToPreviousPage="{Binding CanGoToPreviousPage}"
+                                                CanGoToNextPage="{Binding CanGoToNextPage}"
+                                                FirstPageCommand="{Binding GoToFirstPageCommand}"
+                                                PreviousPageCommand="{Binding GoToPreviousPageCommand}"
+                                                NextPageCommand="{Binding GoToNextPageCommand}"
+                                                LastPageCommand="{Binding GoToLastPageCommand}"
+                                                Margin="0,16,0,0"/>
                 </Grid>
             </Border>
 
             <!-- Item Form -->
-            <Border Grid.Column="1" Style="{StaticResource FormCard}">
+            <Border Grid.Column="1"
+                    Style="{StaticResource FormCard}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -164,48 +201,60 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0" Background="{StaticResource Card.Header}" Padding="15" Margin="-24,-24,-24,20" CornerRadius="8,8,0,0">
+                    <Border Grid.Row="0"
+                            Background="{StaticResource Card.Header}"
+                            Padding="15"
+                            Margin="-24,-24,-24,20"
+                            CornerRadius="8,8,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Style="{StaticResource SectionHeader}" Margin="0">
-                                <Border Style="{StaticResource IconBadge}" Background="{StaticResource Card.Success}">
-                                    <materialDesign:PackIcon Kind="Package" Width="20" Height="20" 
-                                                           Foreground="White" 
-                                                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Grid.Column="0"
+                                    Style="{StaticResource SectionHeader}"
+                                    Margin="0">
+                                <Border Style="{StaticResource IconBadge}"
+                                        Background="{StaticResource Card.Success}">
+                                    <materialDesign:PackIcon Kind="Package"
+                                            Width="20"
+                                            Height="20"
+                                                             Foreground="White"
+                                                             VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
-                                    <TextBlock Text="{Binding IsEditMode, Converter={StaticResource EditModeToTextConverter}}" 
-                                             Style="{StaticResource SectionHeader.Title}"/>
+                                    <TextBlock Text="{Binding IsEditMode, Converter={StaticResource EditModeToTextConverter}}"
+                                               Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
 
                             <Button Grid.Column="1"
-                                  Content="+ New"
-                                  Command="{Binding NewItemCommand}"
-                                  Style="{StaticResource MaterialDesignFlatButton}"
-                                  Foreground="{StaticResource AccentCyan}"
-                                  Height="28"
-                                  Padding="12,0"
-                                  FontSize="{StaticResource FontSize.SmallMedium}"
-                                  FontWeight="SemiBold"
-                                  ToolTip="Clear the form to add a new item"/>
+                                    Content="+ New"
+                                    Command="{Binding NewItemCommand}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Foreground="{StaticResource AccentCyan}"
+                                    Height="28"
+                                    Padding="12,0"
+                                    FontSize="{StaticResource FontSize.SmallMedium}"
+                                    FontWeight="SemiBold"
+                                    ToolTip="Clear the form to add a new item"/>
                         </Grid>
                     </Border>
 
-                    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+                    <StackPanel Grid.Row="1"
+                            Grid.IsSharedSizeScope="True">
                         <!-- Item Name -->
                         <Grid Margin="0,0,0,20">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
-                                       Text="Item Name *" 
+                                       Text="Item Name *"
                                        Foreground="{StaticResource Text.Label}"
                                        FontSize="{StaticResource FontSize.Small}"
                                        VerticalAlignment="Center"/>
@@ -218,12 +267,13 @@
                         <!-- Current Stock -->
                         <Grid Margin="0,0,0,20">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
-                                       Text="Current Stock *" 
+                                       Text="Current Stock *"
                                        Foreground="{StaticResource Text.Label}"
                                        FontSize="{StaticResource FontSize.Small}"
                                        VerticalAlignment="Center"/>
@@ -236,12 +286,13 @@
                         <!-- Unit -->
                         <Grid Margin="0,0,0,20">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
-                                       Text="Unit *" 
+                                       Text="Unit *"
                                        Foreground="{StaticResource Text.Label}"
                                        FontSize="{StaticResource FontSize.Small}"
                                        VerticalAlignment="Center"/>
@@ -260,7 +311,7 @@
                         </Grid>
 
                         <!-- Error Message -->
-                        <Border Style="{StaticResource InfoBox}" 
+                        <Border Style="{StaticResource InfoBox}"
                                 Background="{StaticResource DeleteButtonBackground}"
                                 BorderBrush="{StaticResource Card.Danger}"
                                 Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
@@ -284,16 +335,22 @@
             </Border>
 
             <!-- Loading Overlay -->
-            <Grid Grid.ColumnSpan="2" Background="{StaticResource ShadowColor}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Grid.ColumnSpan="2"
+                    Background="{StaticResource ShadowColor}"
+                    Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                           Value="0"
-                           IsIndeterminate="True"
-                           Width="50" Height="50"/>
+                             Value="0"
+                             IsIndeterminate="True"
+                             Width="50"
+                        Height="50"/>
             </Grid>
         </Grid>
 
         <!-- Transactions Grid Section (Full Width) -->
-        <Border Grid.Row="2" Style="{StaticResource FormCard}" Margin="0,20,0,0" Visibility="{Binding SelectedItem, Converter={StaticResource NotNullToVisibilityConverter}}">
+        <Border Grid.Row="2"
+                Style="{StaticResource FormCard}"
+                Margin="0,20,0,0"
+                Visibility="{Binding SelectedItem, Converter={StaticResource NotNullToVisibilityConverter}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -302,50 +359,80 @@
                 </Grid.RowDefinitions>
 
                 <!-- Header -->
-                <controls:SectionHeader Grid.Row="0" 
-                                      Title="Item Transactions" 
-                                      IconKind="SwapHorizontal" 
-                                      IconBackground="{StaticResource Card.Info}" />
+                <controls:SectionHeader Grid.Row="0"
+                                        Title="Item Transactions"
+                                        IconKind="SwapHorizontal"
+                                        IconBackground="{StaticResource Card.Info}"/>
 
                 <!-- Transactions DataGrid -->
-                <DataGrid Grid.Row="1" ItemsSource="{Binding PaginatedItemTransactions}" Style="{StaticResource Section.DataGrid}" KeyboardNavigation.TabNavigation="Once">
+                <DataGrid Grid.Row="1"
+                        ItemsSource="{Binding PaginatedItemTransactions}"
+                        Style="{StaticResource Section.DataGrid}"
+                        KeyboardNavigation.TabNavigation="Once">
                     <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+                        <Style TargetType="DataGridColumnHeader"
+                                BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}" Width="140"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="120"/>
-                        <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="150"/>
-                        <DataGridTextColumn Header="Party" Binding="{Binding PartyName}" Width="*"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="100"/>
-                        <DataGridTextColumn Header="Price/Unit" Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}" Width="110"/>
-                        <DataGridTextColumn Header="Mode" Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}" Width="80"/>
-                        <DataGridTextColumn Header="Entered By" Binding="{Binding User.Username}" Width="100"/>
-                        <DataGridTextColumn Header="Debit (₹)" Width="130">
+                        <DataGridTextColumn Header="Date"
+                                Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"
+                                Width="140"/>
+                        <DataGridTextColumn Header="Type"
+                                Binding="{Binding TransactionType, Converter={StaticResource EnumToFriendlyStringConverter}}"
+                                Width="120"/>
+                        <DataGridTextColumn Header="Item"
+                                Binding="{Binding ItemName}"
+                                Width="150"/>
+                        <DataGridTextColumn Header="Party"
+                                Binding="{Binding PartyName}"
+                                Width="*"/>
+                        <DataGridTextColumn Header="Quantity"
+                                Binding="{Binding Quantity, StringFormat=N2}"
+                                Width="100"/>
+                        <DataGridTextColumn Header="Price/Unit"
+                                Binding="{Binding PricePerUnit, StringFormat='₹{0:N2}'}"
+                                Width="110"/>
+                        <DataGridTextColumn Header="Mode"
+                                Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"
+                                Width="80"/>
+                        <DataGridTextColumn Header="Entered By"
+                                Binding="{Binding User.Username}"
+                                Width="100"/>
+                        <DataGridTextColumn Header="Debit (₹)"
+                                Width="130">
                             <DataGridTextColumn.Binding>
-                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Debit" StringFormat="₹{0:N2}">
+                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}"
+                                        ConverterParameter="Debit"
+                                        StringFormat="₹{0:N2}">
                                     <Binding Path="TotalAmount"/>
                                     <Binding Path="DebitCredit"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Foreground" Value="#D32F2F"/>
+                                    <Setter Property="FontWeight"
+                                            Value="Bold"/>
+                                    <Setter Property="Foreground"
+                                            Value="#D32F2F"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Credit (₹)" Width="130">
+                        <DataGridTextColumn Header="Credit (₹)"
+                                Width="130">
                             <DataGridTextColumn.Binding>
-                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}" ConverterParameter="Credit" StringFormat="₹{0:N2}">
+                                <MultiBinding Converter="{StaticResource DebitCreditAmountConverter}"
+                                        ConverterParameter="Credit"
+                                        StringFormat="₹{0:N2}">
                                     <Binding Path="TotalAmount"/>
                                     <Binding Path="DebitCredit"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Foreground" Value="#388E3C"/>
+                                    <Setter Property="FontWeight"
+                                            Value="Bold"/>
+                                    <Setter Property="Foreground"
+                                            Value="#388E3C"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
@@ -353,9 +440,10 @@
                 </DataGrid>
 
                 <!-- Date Navigation Control -->
-                <Border Grid.Row="2" Margin="0,16,0,0"
-                        Background="{DynamicResource Card.Primary}" 
-                        CornerRadius="8" 
+                <Border Grid.Row="2"
+                        Margin="0,16,0,0"
+                        Background="{DynamicResource Card.Primary}"
+                        CornerRadius="8"
                         Padding="16,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -365,47 +453,55 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Previous Day Button -->
-                        <Button Grid.Column="0" 
+                        <Button Grid.Column="0"
                                 Command="{Binding GoToPreviousItemTransactionDayCommand}"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 ToolTip="Previous Day"
                                 Margin="0,0,8,0">
-                            <materialDesign:PackIcon Kind="ChevronLeft" Width="24" Height="24"/>
+                            <materialDesign:PackIcon Kind="ChevronLeft"
+                                    Width="24"
+                                    Height="24"/>
                         </Button>
 
                         <!-- Current Date Display -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="Calendar" 
-                                                   Width="20" Height="20" 
-                                                   Foreground="{DynamicResource Text.Secondary}"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,0,8,0"/>
+                        <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Calendar"
+                                                     Width="20"
+                                    Height="20"
+                                                     Foreground="{DynamicResource Text.Secondary}"
+                                                     VerticalAlignment="Center"
+                                                     Margin="0,0,8,0"/>
                             <TextBlock Text="{Binding CurrentItemTransactionDate, StringFormat='MMM dd, yyyy (ddd)'}"
-                                     FontSize="{StaticResource FontSize.Medium}"
-                                     FontWeight="Medium"
-                                     Foreground="{DynamicResource Text.Primary}"
-                                     VerticalAlignment="Center"
-                                     Margin="0,0,16,0"/>
-                            <Button Content="Today" 
+                                       FontSize="{StaticResource FontSize.Medium}"
+                                       FontWeight="Medium"
+                                       Foreground="{DynamicResource Text.Primary}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,16,0"/>
+                            <Button Content="Today"
                                     Command="{Binding GoToTodayItemTransactionCommand}"
                                     Style="{StaticResource Button.Secondary}"
                                     Padding="12,4"
                                     Height="28"
                                     FontSize="{StaticResource FontSize.SmallMedium}"/>
                             <TextBlock Text="{Binding TransactionTotalRecords, StringFormat='({0} transactions)'}"
-                                     FontSize="{StaticResource FontSize.SmallMedium}"
-                                     Foreground="{DynamicResource Text.Secondary}"
-                                     VerticalAlignment="Center"
-                                     Margin="12,0,0,0"/>
+                                       FontSize="{StaticResource FontSize.SmallMedium}"
+                                       Foreground="{DynamicResource Text.Secondary}"
+                                       VerticalAlignment="Center"
+                                       Margin="12,0,0,0"/>
                         </StackPanel>
 
                         <!-- Next Day Button -->
-                        <Button Grid.Column="2" 
+                        <Button Grid.Column="2"
                                 Command="{Binding GoToNextItemTransactionDayCommand}"
                                 Style="{StaticResource MaterialDesignIconButton}"
                                 ToolTip="Next Day"
                                 Margin="8,0,0,0">
-                            <materialDesign:PackIcon Kind="ChevronRight" Width="24" Height="24"/>
+                            <materialDesign:PackIcon Kind="ChevronRight"
+                                    Width="24"
+                                    Height="24"/>
                         </Button>
                     </Grid>
                 </Border>
