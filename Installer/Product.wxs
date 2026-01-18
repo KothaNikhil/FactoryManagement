@@ -81,6 +81,9 @@
         <!-- Main application assembly required by apphost exe -->
         <File Source="$(var.PublishDir)FactoryManagement.dll" />
 
+        <!-- Core library assembly -->
+        <File Source="$(var.PublishDir)FactoryManagement.Core.dll" />
+
         <!-- Application configuration files -->
         <File Source="$(var.PublishDir)FactoryManagement.deps.json" />
         <File Source="$(var.PublishDir)FactoryManagement.runtimeconfig.json" />
