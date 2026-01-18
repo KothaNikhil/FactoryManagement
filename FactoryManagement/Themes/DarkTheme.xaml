@@ -2,1140 +2,1147 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-  <!-- EXTRACTED FROM FINANCIAL TRANSACTIONS & WAGES MANAGEMENT SCREENS -->
+    <!-- EXTRACTED FROM FINANCIAL TRANSACTIONS & WAGES MANAGEMENT SCREENS -->
 
-  <!-- Summary Card Colors (Top Row Cards) - Using darker tinted backgrounds like FinancialRecords -->
-  <SolidColorBrush x:Key="Card.Success"
-      Color="{Binding Source={StaticResource SummaryCardSuccess}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Danger"
-      Color="{Binding Source={StaticResource SummaryCardDanger}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Info"
-      Color="{Binding Source={StaticResource SummaryCardInfo}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Warning"
-      Color="{Binding Source={StaticResource SummaryCardWarning}, Path=Color}"/>
+    <!-- Summary Card Colors (Top Row Cards) - Using darker tinted backgrounds like FinancialRecords -->
+    <SolidColorBrush x:Key="Card.Success"
+                     Color="{Binding Source={StaticResource SummaryCardSuccess}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Danger"
+                     Color="{Binding Source={StaticResource SummaryCardDanger}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Info"
+                     Color="{Binding Source={StaticResource SummaryCardInfo}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Warning"
+                     Color="{Binding Source={StaticResource SummaryCardWarning}, Path=Color}"/>
 
-  <!-- Card Label Colors (lighter tints for summary card labels) - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Card.Success.Label"
-      Color="{Binding Source={StaticResource LabelSuccess}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Danger.Label"
-      Color="{Binding Source={StaticResource LabelDanger}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Info.Label"
-      Color="{Binding Source={StaticResource LabelInfo}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Warning.Label"
-      Color="{Binding Source={StaticResource LabelWarning}, Path=Color}"/>
+    <!-- Card Label Colors (lighter tints for summary card labels) - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Card.Success.Label"
+                     Color="{Binding Source={StaticResource LabelSuccess}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Danger.Label"
+                     Color="{Binding Source={StaticResource LabelDanger}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Info.Label"
+                     Color="{Binding Source={StaticResource LabelInfo}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Warning.Label"
+                     Color="{Binding Source={StaticResource LabelWarning}, Path=Color}"/>
 
-  <!-- Main Card/Panel Backgrounds - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Card.Background"
-      Color="{Binding Source={StaticResource CardBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Header"
-      Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Card.Border"
-      Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Bg.Card"
-      Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Border.Default"
-      Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+    <!-- Main Card/Panel Backgrounds - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Card.Background"
+                     Color="{Binding Source={StaticResource CardBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Header"
+                     Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Card.Border"
+                     Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Bg.Card"
+                     Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Border.Default"
+                     Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
 
-  <!-- DataGrid Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Grid.Row.Default"
-      Color="{Binding Source={StaticResource PrimaryBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Grid.Row.Alternate"
-      Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Grid.Header"
-      Color="{Binding Source={StaticResource ElevatedBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Grid.HeaderText"
-      Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Grid.Border"
-      Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+    <!-- DataGrid Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Grid.Row.Default"
+                     Color="{Binding Source={StaticResource PrimaryBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Grid.Row.Alternate"
+                     Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Grid.Header"
+                     Color="{Binding Source={StaticResource ElevatedBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Grid.HeaderText"
+                     Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Grid.Border"
+                     Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
 
-  <!-- Text Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Text.Primary"
-      Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Text.Secondary"
-      Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Text.Label"
-      Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Text.Amount.Positive"
-      Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
-  <SolidColorBrush x:Key="Text.Amount.Negative"
-      Color="{Binding Source={StaticResource ErrorColor}, Path=Color}"/>
+    <!-- Text Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Text.Primary"
+                     Color="{Binding Source={StaticResource TextPrimary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Text.Secondary"
+                     Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Text.Label"
+                     Color="{Binding Source={StaticResource TextSecondary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Text.Amount.Positive"
+                     Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
+    <SolidColorBrush x:Key="Text.Amount.Negative"
+                     Color="{Binding Source={StaticResource ErrorColor}, Path=Color}"/>
 
-  <!-- Selection Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Selection.Background"
-      Color="{Binding Source={StaticResource SelectionBackground}, Path=Color}"/>
-  <SolidColorBrush x:Key="Selection.Foreground"
-      Color="{Binding Source={StaticResource SelectionForeground}, Path=Color}"/>
+    <!-- Selection Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Selection.Background"
+                     Color="{Binding Source={StaticResource SelectionBackground}, Path=Color}"/>
+    <SolidColorBrush x:Key="Selection.Foreground"
+                     Color="{Binding Source={StaticResource SelectionForeground}, Path=Color}"/>
 
-  <!-- Accent Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Accent.Primary"
-      Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
+    <!-- Accent Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Accent.Primary"
+                     Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
 
-  <!-- Button Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Button.Create"
-      Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
-  <SolidColorBrush x:Key="Button.Create.Hover"
-      Color="{Binding Source={StaticResource InfoSoft}, Path=Color}"/>
-  <SolidColorBrush x:Key="Button.Save"
-      Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
-  <SolidColorBrush x:Key="Button.Save.Hover"
-      Color="{Binding Source={StaticResource SuccessSoft}, Path=Color}"/>
-  <SolidColorBrush x:Key="Button.Info"
-      Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
-  <SolidColorBrush x:Key="Button.Warning"
-      Color="{Binding Source={StaticResource WarningColor}, Path=Color}"/>
+    <!-- Button Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Button.Create"
+                     Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
+    <SolidColorBrush x:Key="Button.Create.Hover"
+                     Color="{Binding Source={StaticResource InfoSoft}, Path=Color}"/>
+    <SolidColorBrush x:Key="Button.Save"
+                     Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
+    <SolidColorBrush x:Key="Button.Save.Hover"
+                     Color="{Binding Source={StaticResource SuccessSoft}, Path=Color}"/>
+    <SolidColorBrush x:Key="Button.Info"
+                     Color="{Binding Source={StaticResource InfoColor}, Path=Color}"/>
+    <SolidColorBrush x:Key="Button.Warning"
+                     Color="{Binding Source={StaticResource WarningColor}, Path=Color}"/>
 
-  <!-- Input/Form Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Input.Background"
-      Color="Transparent"/>
-  <SolidColorBrush x:Key="Input.Border"
-      Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
-  <SolidColorBrush x:Key="Input.InfoBox"
-      Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
+    <!-- Input/Form Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Input.Background"
+                     Color="Transparent"/>
+    <SolidColorBrush x:Key="Input.Border"
+                     Color="{Binding Source={StaticResource BorderPrimary}, Path=Color}"/>
+    <SolidColorBrush x:Key="Input.InfoBox"
+                     Color="{Binding Source={StaticResource SecondaryBackground}, Path=Color}"/>
 
-  <!-- Icon Colors - Aliasing to new theme colors -->
-  <SolidColorBrush x:Key="Icon.Primary"
-      Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
-  <SolidColorBrush x:Key="Icon.Success"
-      Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
+    <!-- Icon Colors - Aliasing to new theme colors -->
+    <SolidColorBrush x:Key="Icon.Primary"
+                     Color="{Binding Source={StaticResource PrimaryAccent}, Path=Color}"/>
+    <SolidColorBrush x:Key="Icon.Success"
+                     Color="{Binding Source={StaticResource SuccessColor}, Path=Color}"/>
 
-  <!-- SUMMARY CARD STYLE (Top Row Cards) -->
-  <Style x:Key="SummaryCard"
-      TargetType="Border">
-    <Setter Property="CornerRadius"
-        Value="8"/>
-    <Setter Property="Padding"
-        Value="16"/>
-    <Setter Property="Effect">
-      <Setter.Value>
-        <DropShadowEffect Color="Black"
-            Opacity="0.3"
-            ShadowDepth="2"
-            BlurRadius="8"/>
-      </Setter.Value>
-    </Setter>
-  </Style>
-
-  <!-- FORM CARD STYLE (Create/Record Forms) - Using new theme -->
-  <Style x:Key="FormCard"
-      TargetType="Border">
-    <Setter Property="BorderBrush"
-        Value="{StaticResource BorderPrimary}"/>
-    <Setter Property="BorderThickness"
-        Value="1"/>
-    <Setter Property="CornerRadius"
-        Value="8"/>
-    <Setter Property="Background"
-        Value="{StaticResource CardBackground}"/>
-    <Setter Property="Padding"
-        Value="24"/>
-  </Style>
-
-  <!-- CARD.GLASS STYLE (MaterialDesign Card with glass effect) - Using new theme -->
-  <Style x:Key="Card.Glass"
-      TargetType="materialDesign:Card"
-      BasedOn="{StaticResource {x:Type materialDesign:Card}}">
-    <Setter Property="UniformCornerRadius"
-        Value="12"/>
-    <Setter Property="materialDesign:ElevationAssist.Elevation"
-        Value="Dp4"/>
-    <Setter Property="Background"
-        Value="{StaticResource CardBackground}"/>
-  </Style>
-
-  <!-- SECTION HEADER STYLES -->
-  <!-- Full section header with icon and text (horizontal layout) -->
-  <Style x:Key="SectionHeader"
-      TargetType="StackPanel">
-    <Setter Property="Orientation"
-        Value="Horizontal"/>
-    <Setter Property="Margin"
-        Value="0,0,0,20"/>
-  </Style>
-
-  <!-- Section header border wrapper -->
-  <Style x:Key="SectionHeader.Border"
-      TargetType="Border">
-    <Setter Property="Margin"
-        Value="0,0,0,20"/>
-  </Style>
-
-  <!-- ENHANCED SECTION HEADER WITH BACKGROUND -->
-  <!-- Use this for prominent section headers with colored background -->
-  <Style x:Key="SectionHeader.Prominent"
-      TargetType="Border">
-    <Setter Property="Background"
-        Value="{StaticResource Card.Header}"/>
-    <Setter Property="Padding"
-        Value="15"/>
-    <Setter Property="CornerRadius"
-        Value="8,8,0,0"/>
-    <Setter Property="Margin"
-        Value="-24,-24,-24,20"/>
-  </Style>
-
-  <!-- SECTION HEADER CONTENT (Title + Subtitle) -->
-  <Style x:Key="SectionHeader.Content"
-      TargetType="StackPanel">
-    <Setter Property="VerticalAlignment"
-        Value="Center"/>
-  </Style>
-
-  <!-- SECTION HEADER TITLE -->
-  <Style x:Key="SectionHeader.Title"
-      TargetType="TextBlock">
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.ExtraLarge}"/>
-    <Setter Property="FontWeight"
-        Value="Bold"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-  </Style>
-
-  <!-- SECTION HEADER SUBTITLE -->
-  <Style x:Key="SectionHeader.Subtitle"
-      TargetType="TextBlock">
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.Small}"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Secondary}"/>
-    <Setter Property="Margin"
-        Value="0,2,0,0"/>
-  </Style>
-
-  <!-- ICON BADGE STYLE (Colored circle with icon) -->
-  <Style x:Key="IconBadge"
-      TargetType="Border">
-    <Setter Property="Width"
-        Value="36"/>
-    <Setter Property="Height"
-        Value="36"/>
-    <Setter Property="CornerRadius"
-        Value="8"/>
-    <Setter Property="Margin"
-        Value="0,0,12,0"/>
-    <Setter Property="VerticalAlignment"
-        Value="Center"/>
-  </Style>
-
-  <!-- SECTION CONTENT CONTAINER -->
-  <!-- Use this as the main container for section content below headers -->
-  <Style x:Key="SectionContent"
-      TargetType="Border">
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="Padding"
-        Value="0"/>
-  </Style>
-
-  <!-- BUTTONS -->
-  <Style x:Key="Button.Primary"
-      TargetType="Button">
-    <Setter Property="Background"
-        Value="{StaticResource Button.Create}"/>
-    <Setter Property="Foreground"
-        Value="White"/>
-    <Setter Property="Height"
-        Value="38"/>
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.Regular}"/>
-    <Setter Property="FontWeight"
-        Value="SemiBold"/>
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="Padding"
-        Value="16,0"/>
-    <Setter Property="Cursor"
-        Value="Hand"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <Border Background="{TemplateBinding Background}"
-                  CornerRadius="6"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
-        <Setter Property="Background"
-            Value="{StaticResource Button.Create.Hover}"/>
-      </Trigger>
-      <Trigger Property="IsFocused"
-          Value="True">
-        <Setter Property="BorderThickness"
-            Value="2"/>
-        <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-
-  <Style x:Key="Button.Success"
-      TargetType="Button">
-    <Setter Property="Background"
-        Value="{StaticResource Button.Save}"/>
-    <Setter Property="Foreground"
-        Value="White"/>
-    <Setter Property="Height"
-        Value="38"/>
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.Regular}"/>
-    <Setter Property="FontWeight"
-        Value="SemiBold"/>
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="Padding"
-        Value="16,0"/>
-    <Setter Property="Cursor"
-        Value="Hand"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <Border Background="{TemplateBinding Background}"
-                  CornerRadius="6"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
-        <Setter Property="Background"
-            Value="{StaticResource Button.Save.Hover}"/>
-      </Trigger>
-      <Trigger Property="IsFocused"
-          Value="True">
-        <Setter Property="BorderThickness"
-            Value="2"/>
-        <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-
-  <Style x:Key="Button.Secondary"
-      TargetType="Button"
-      BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Secondary}"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource Card.Border}"/>
-    <Setter Property="Height"
-        Value="38"/>
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.Regular}"/>
-    <Setter Property="FontWeight"
-        Value="SemiBold"/>
-    <Style.Triggers>
-      <Trigger Property="IsFocused"
-          Value="True">
-        <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
-        <Setter Property="BorderThickness"
-            Value="2"/>
-        <Setter Property="Foreground"
-            Value="{StaticResource BorderFocus}"/>
-      </Trigger>
-      <Trigger Property="IsMouseOver"
-          Value="True">
-        <Setter Property="BorderBrush"
-            Value="{StaticResource Card.Border}"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-
-  <Style x:Key="Button.Danger"
-      TargetType="Button">
-    <Setter Property="Background"
-        Value="{StaticResource Card.Danger}"/>
-    <Setter Property="Foreground"
-        Value="White"/>
-    <Setter Property="Height"
-        Value="38"/>
-    <Setter Property="FontSize"
-        Value="{StaticResource FontSize.Regular}"/>
-    <Setter Property="FontWeight"
-        Value="SemiBold"/>
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="Padding"
-        Value="16,0"/>
-    <Setter Property="Cursor"
-        Value="Hand"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <Border Background="{TemplateBinding Background}"
-                  CornerRadius="6"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
-        <Setter Property="Background"
-            Value="#9a3a37"/>
-      </Trigger>
-      <Trigger Property="IsFocused"
-          Value="True">
-        <Setter Property="BorderThickness"
-            Value="2"/>
-        <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-
-  <!-- COMBOBOX STYLES -->
-  <!-- Standard ComboBox style for consistent appearance across all screens -->
-  <Style x:Key="ComboBox.Standard"
-      TargetType="ComboBox"
-      BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource Card.Border}"/>
-    <Setter Property="FontSize"
-        Value="14"/>
-    <Setter Property="Padding"
-        Value="12,8"/>
-    <Setter Property="MinHeight"
-        Value="40"/>
-  </Style>
-
-  <!-- Alias for backward compatibility -->
-  <Style x:Key="ComboBox.Dark"
-      TargetType="ComboBox"
-      BasedOn="{StaticResource ComboBox.Standard}"/>
-
-  <!-- TEXTBOX STYLES -->
-  <!-- Standard TextBox style for consistent appearance across all screens -->
-  <Style x:Key="TextBox.Standard"
-      TargetType="TextBox"
-      BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource Card.Border}"/>
-    <Setter Property="FontSize"
-        Value="14"/>
-    <Setter Property="Padding"
-        Value="12,8"/>
-    <Setter Property="MinHeight"
-        Value="40"/>
-  </Style>
-
-  <!-- Alias for backward compatibility -->
-  <Style x:Key="TextBox.Dark"
-      TargetType="TextBox"
-      BasedOn="{StaticResource TextBox.Standard}"/>
-
-  <!-- DATEPICKER STYLES -->
-  <!-- Standard DatePicker style for consistent appearance across all screens -->
-  <Style x:Key="DatePicker.Standard"
-      TargetType="DatePicker"
-      BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource Card.Border}"/>
-    <Setter Property="FontSize"
-        Value="14"/>
-    <Setter Property="Padding"
-        Value="12,8"/>
-    <Setter Property="MinHeight"
-        Value="40"/>
-  </Style>
-
-  <!-- Alias for backward compatibility -->
-  <Style x:Key="DatePicker.Dark"
-      TargetType="DatePicker"
-      BasedOn="{StaticResource DatePicker.Standard}"/>
-
-  <!-- DATAGRID STYLES -->
-  <Style x:Key="DataGrid.Standard"
-      TargetType="DataGrid">
-    <Setter Property="AutoGenerateColumns"
-        Value="False"/>
-    <Setter Property="IsReadOnly"
-        Value="True"/>
-    <Setter Property="SelectionMode"
-        Value="Single"/>
-    <Setter Property="CanUserAddRows"
-        Value="False"/>
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="RowBackground"
-        Value="{StaticResource Grid.Row.Default}"/>
-    <Setter Property="AlternatingRowBackground"
-        Value="{StaticResource Grid.Row.Alternate}"/>
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="GridLinesVisibility"
-        Value="None"/>
-    <Setter Property="HeadersVisibility"
-        Value="Column"/>
-    <Setter Property="FontSize"
-        Value="13"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Setter Property="ColumnWidth"
-        Value="Auto"/>
-    <!-- <Setter Property="MaxColumnWidth" Value="200"/> -->
-    <Setter Property="CellStyle">
-      <Setter.Value>
-        <Style TargetType="DataGridCell">
-          <Setter Property="Foreground"
-              Value="{StaticResource Text.Primary}"/>
-          <Setter Property="BorderThickness"
-              Value="0"/>
-          <Setter Property="Padding"
-              Value="8,6"/>
-          <Setter Property="Template">
+    <!-- SUMMARY CARD STYLE (Top Row Cards) -->
+    <Style x:Key="SummaryCard"
+           TargetType="Border">
+        <Setter Property="CornerRadius"
+                Value="8"/>
+        <Setter Property="Padding"
+                Value="16"/>
+        <Setter Property="Effect">
             <Setter.Value>
-              <ControlTemplate TargetType="DataGridCell">
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Padding="{TemplateBinding Padding}">
-                  <ContentPresenter VerticalAlignment="Center"/>
-                </Border>
-              </ControlTemplate>
+                <DropShadowEffect Color="Black"
+                                  Opacity="0.3"
+                                  ShadowDepth="2"
+                                  BlurRadius="8"/>
             </Setter.Value>
-          </Setter>
-          <Style.Triggers>
-            <Trigger Property="IsSelected"
-                Value="True">
-              <Setter Property="Background"
-                  Value="Transparent"/>
-              <Setter Property="Foreground"
-                  Value="{StaticResource Selection.Foreground}"/>
-            </Trigger>
-          </Style.Triggers>
-        </Style>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="RowStyle">
-      <Setter.Value>
-        <Style TargetType="DataGridRow">
-          <Setter Property="Foreground"
-              Value="{StaticResource Text.Primary}"/>
-          <Setter Property="Background"
-              Value="Transparent"/>
-          <Style.Triggers>
+        </Setter>
+    </Style>
+
+    <!-- FORM CARD STYLE (Create/Record Forms) - Using new theme -->
+    <Style x:Key="FormCard"
+           TargetType="Border">
+        <Setter Property="BorderBrush"
+                Value="{StaticResource BorderPrimary}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+        <Setter Property="CornerRadius"
+                Value="8"/>
+        <Setter Property="Background"
+                Value="{StaticResource CardBackground}"/>
+        <Setter Property="Padding"
+                Value="24"/>
+    </Style>
+
+    <!-- CARD.GLASS STYLE (MaterialDesign Card with glass effect) - Using new theme -->
+    <Style x:Key="Card.Glass"
+           TargetType="materialDesign:Card"
+           BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+        <Setter Property="UniformCornerRadius"
+                Value="12"/>
+        <Setter Property="materialDesign:ElevationAssist.Elevation"
+                Value="Dp4"/>
+        <Setter Property="Background"
+                Value="{StaticResource CardBackground}"/>
+    </Style>
+
+    <!-- SECTION HEADER STYLES -->
+    <!-- Full section header with icon and text (horizontal layout) -->
+    <Style x:Key="SectionHeader"
+           TargetType="StackPanel">
+        <Setter Property="Orientation"
+                Value="Horizontal"/>
+        <Setter Property="Margin"
+                Value="0,0,0,20"/>
+    </Style>
+
+    <!-- Section header border wrapper -->
+    <Style x:Key="SectionHeader.Border"
+           TargetType="Border">
+        <Setter Property="Margin"
+                Value="0,0,0,20"/>
+    </Style>
+
+    <!-- ENHANCED SECTION HEADER WITH BACKGROUND -->
+    <!-- Use this for prominent section headers with colored background -->
+    <Style x:Key="SectionHeader.Prominent"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="{StaticResource Transparent}"/>
+        <Setter Property="Padding"
+                Value="15"/>
+        <Setter Property="CornerRadius"
+                Value="8,8,0,0"/>
+        <Setter Property="Margin"
+                Value="-24,-24,-24,20"/>
+        <Setter Property="BorderBrush"
+                Value="#4A4E69"/>
+        <Setter Property="BorderThickness"
+                Value="0,0,0,1"/>
+    </Style>
+
+    <!-- SECTION HEADER CONTENT (Title + Subtitle) -->
+    <Style x:Key="SectionHeader.Content"
+           TargetType="StackPanel">
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+    </Style>
+
+    <!-- SECTION HEADER TITLE -->
+    <Style x:Key="SectionHeader.Title"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.ExtraLarge}"/>
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+    </Style>
+
+    <!-- SECTION HEADER SUBTITLE -->
+    <Style x:Key="SectionHeader.Subtitle"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Secondary}"/>
+        <Setter Property="Margin"
+                Value="0,2,0,0"/>
+    </Style>
+
+    <!-- ICON BADGE STYLE (Colored circle with icon) -->
+    <Style x:Key="IconBadge"
+           TargetType="Border">
+        <Setter Property="Width"
+                Value="36"/>
+        <Setter Property="Height"
+                Value="36"/>
+        <Setter Property="CornerRadius"
+                Value="8"/>
+        <Setter Property="Margin"
+                Value="0,0,12,0"/>
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+    </Style>
+
+    <!-- SECTION CONTENT CONTAINER -->
+    <!-- Use this as the main container for section content below headers -->
+    <Style x:Key="SectionContent"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Padding"
+                Value="0"/>
+    </Style>
+
+    <!-- BUTTONS -->
+    <Style x:Key="Button.Primary"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="{StaticResource Button.Create}"/>
+        <Setter Property="Foreground"
+                Value="White"/>
+        <Setter Property="Height"
+                Value="38"/>
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.Regular}"/>
+        <Setter Property="FontWeight"
+                Value="SemiBold"/>
+        <Setter Property="BorderThickness"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="16,0"/>
+        <Setter Property="Cursor"
+                Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
             <Trigger Property="IsMouseOver"
-                Value="True">
-              <Setter Property="Background"
-                  Value="#30FFFFFF"/>
+                     Value="True">
+                <Setter Property="Background"
+                        Value="{StaticResource Button.Create.Hover}"/>
+            </Trigger>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderThickness"
+                        Value="2"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Button.Success"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="{StaticResource Button.Save}"/>
+        <Setter Property="Foreground"
+                Value="White"/>
+        <Setter Property="Height"
+                Value="38"/>
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.Regular}"/>
+        <Setter Property="FontWeight"
+                Value="SemiBold"/>
+        <Setter Property="BorderThickness"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="16,0"/>
+        <Setter Property="Cursor"
+                Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="{StaticResource Button.Save.Hover}"/>
+            </Trigger>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderThickness"
+                        Value="2"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Button.Secondary"
+           TargetType="Button"
+           BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Secondary}"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource Card.Border}"/>
+        <Setter Property="Height"
+                Value="38"/>
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.Regular}"/>
+        <Setter Property="FontWeight"
+                Value="SemiBold"/>
+        <Style.Triggers>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+                <Setter Property="BorderThickness"
+                        Value="2"/>
+                <Setter Property="Foreground"
+                        Value="{StaticResource BorderFocus}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource Card.Border}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Button.Danger"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="{StaticResource Card.Danger}"/>
+        <Setter Property="Foreground"
+                Value="White"/>
+        <Setter Property="Height"
+                Value="38"/>
+        <Setter Property="FontSize"
+                Value="{StaticResource FontSize.Regular}"/>
+        <Setter Property="FontWeight"
+                Value="SemiBold"/>
+        <Setter Property="BorderThickness"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="16,0"/>
+        <Setter Property="Cursor"
+                Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#9a3a37"/>
+            </Trigger>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderThickness"
+                        Value="2"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- COMBOBOX STYLES -->
+    <!-- Standard ComboBox style for consistent appearance across all screens -->
+    <Style x:Key="ComboBox.Standard"
+           TargetType="ComboBox"
+           BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource Card.Border}"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="12,8"/>
+        <Setter Property="MinHeight"
+                Value="40"/>
+    </Style>
+
+    <!-- Alias for backward compatibility -->
+    <Style x:Key="ComboBox.Dark"
+           TargetType="ComboBox"
+           BasedOn="{StaticResource ComboBox.Standard}"/>
+
+    <!-- TEXTBOX STYLES -->
+    <!-- Standard TextBox style for consistent appearance across all screens -->
+    <Style x:Key="TextBox.Standard"
+           TargetType="TextBox"
+           BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource Card.Border}"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="12,8"/>
+        <Setter Property="MinHeight"
+                Value="40"/>
+    </Style>
+
+    <!-- Alias for backward compatibility -->
+    <Style x:Key="TextBox.Dark"
+           TargetType="TextBox"
+           BasedOn="{StaticResource TextBox.Standard}"/>
+
+    <!-- DATEPICKER STYLES -->
+    <!-- Standard DatePicker style for consistent appearance across all screens -->
+    <Style x:Key="DatePicker.Standard"
+           TargetType="DatePicker"
+           BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource Card.Border}"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="12,8"/>
+        <Setter Property="MinHeight"
+                Value="40"/>
+    </Style>
+
+    <!-- Alias for backward compatibility -->
+    <Style x:Key="DatePicker.Dark"
+           TargetType="DatePicker"
+           BasedOn="{StaticResource DatePicker.Standard}"/>
+
+    <!-- DATAGRID STYLES -->
+    <Style x:Key="DataGrid.Standard"
+           TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns"
+                Value="False"/>
+        <Setter Property="IsReadOnly"
+                Value="True"/>
+        <Setter Property="SelectionMode"
+                Value="Single"/>
+        <Setter Property="CanUserAddRows"
+                Value="False"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="RowBackground"
+                Value="{StaticResource Grid.Row.Default}"/>
+        <Setter Property="AlternatingRowBackground"
+                Value="{StaticResource Grid.Row.Alternate}"/>
+        <Setter Property="BorderThickness"
+                Value="0"/>
+        <Setter Property="GridLinesVisibility"
+                Value="None"/>
+        <Setter Property="HeadersVisibility"
+                Value="Column"/>
+        <Setter Property="FontSize"
+                Value="13"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+        <Setter Property="ColumnWidth"
+                Value="Auto"/>
+        <!-- <Setter Property="MaxColumnWidth" Value="200"/> -->
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Foreground"
+                            Value="{StaticResource Text.Primary}"/>
+                    <Setter Property="BorderThickness"
+                            Value="0"/>
+                    <Setter Property="Padding"
+                            Value="8,6"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="Transparent"/>
+                            <Setter Property="Foreground"
+                                    Value="{StaticResource Selection.Foreground}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Foreground"
+                            Value="{StaticResource Text.Primary}"/>
+                    <Setter Property="Background"
+                            Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="#30FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="{StaticResource Selection.Background}"/>
+                            <Setter Property="Foreground"
+                                    Value="{StaticResource Selection.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected"
+                                           Value="True"/>
+                                <Condition Property="IsMouseOver"
+                                           Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background"
+                                    Value="#5aa5d8"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DataGrid.Dark"
+           TargetType="DataGrid"
+           BasedOn="{StaticResource DataGrid.Standard}"/>
+
+    <Style x:Key="DataGrid.Header.Standard"
+           TargetType="DataGridColumnHeader">
+        <Setter Property="Background"
+                Value="{StaticResource Transparent}"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource TextPrimary}"/>
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+        <Setter Property="FontSize"
+                Value="13"/>
+        <Setter Property="Padding"
+                Value="10"/>
+        <Setter Property="BorderThickness"
+                Value="0,0,0,1"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource BorderPrimary}"/>
+    </Style>
+
+    <Style x:Key="DataGrid.Dark.Header"
+           TargetType="DataGridColumnHeader"
+           BasedOn="{StaticResource DataGrid.Header.Standard}"/>
+
+    <Style x:Key="DataGrid.Dark.Row"
+           TargetType="DataGridRow">
+        <Setter Property="Background"
+                Value="{StaticResource Grid.Row.Default}"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Primary}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#30FFFFFF"/>
             </Trigger>
             <Trigger Property="IsSelected"
-                Value="True">
-              <Setter Property="Background"
-                  Value="{StaticResource Selection.Background}"/>
-              <Setter Property="Foreground"
-                  Value="{StaticResource Selection.Foreground}"/>
+                     Value="True">
+                <Setter Property="Background"
+                        Value="{StaticResource Selection.Background}"/>
+                <Setter Property="Foreground"
+                        Value="{StaticResource Selection.Foreground}"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+                <Setter Property="BorderThickness"
+                        Value="2"/>
             </Trigger>
             <MultiTrigger>
-              <MultiTrigger.Conditions>
-                <Condition Property="IsSelected"
-                    Value="True"/>
-                <Condition Property="IsMouseOver"
-                    Value="True"/>
-              </MultiTrigger.Conditions>
-              <Setter Property="Background"
-                  Value="#5aa5d8"/>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected"
+                               Value="True"/>
+                    <Condition Property="IsMouseOver"
+                               Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background"
+                        Value="#5aa5d8"/>
             </MultiTrigger>
-          </Style.Triggers>
-        </Style>
-      </Setter.Value>
-    </Setter>
-  </Style>
-
-  <Style x:Key="DataGrid.Dark"
-      TargetType="DataGrid"
-      BasedOn="{StaticResource DataGrid.Standard}"/>
-
-  <Style x:Key="DataGrid.Header.Standard"
-      TargetType="DataGridColumnHeader">
-    <Setter Property="Background"
-        Value="{StaticResource SecondaryBackground}"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource TextPrimary}"/>
-    <Setter Property="FontWeight"
-        Value="Bold"/>
-    <Setter Property="FontSize"
-        Value="13"/>
-    <Setter Property="Padding"
-        Value="10"/>
-    <Setter Property="BorderThickness"
-        Value="0,0,1,1"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource BorderPrimary}"/>
-  </Style>
-
-  <Style x:Key="DataGrid.Dark.Header"
-      TargetType="DataGridColumnHeader"
-      BasedOn="{StaticResource DataGrid.Header.Standard}"/>
-
-  <Style x:Key="DataGrid.Dark.Row"
-      TargetType="DataGridRow">
-    <Setter Property="Background"
-        Value="{StaticResource Grid.Row.Default}"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
-        <Setter Property="Background"
-            Value="#30FFFFFF"/>
-      </Trigger>
-      <Trigger Property="IsSelected"
-          Value="True">
-        <Setter Property="Background"
-            Value="{StaticResource Selection.Background}"/>
-        <Setter Property="Foreground"
-            Value="{StaticResource Selection.Foreground}"/>
-        <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DataGrid.Dark.Cell"
+           TargetType="DataGridCell">
         <Setter Property="BorderThickness"
-            Value="2"/>
-      </Trigger>
-      <MultiTrigger>
-        <MultiTrigger.Conditions>
-          <Condition Property="IsSelected"
-              Value="True"/>
-          <Condition Property="IsMouseOver"
-              Value="True"/>
-        </MultiTrigger.Conditions>
-        <Setter Property="Background"
-            Value="#5aa5d8"/>
-      </MultiTrigger>
-    </Style.Triggers>
-  </Style>
-  <Style x:Key="DataGrid.Dark.Cell"
-      TargetType="DataGridCell">
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Primary}"/>
-    <Setter Property="Padding"
-        Value="8,6"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="DataGridCell">
-          <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsSelected"
-          Value="True">
-        <Setter Property="Background"
-            Value="Transparent"/>
+                Value="0"/>
         <Setter Property="Foreground"
-            Value="{StaticResource Selection.Foreground}"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-
-  <!-- SECTION-LEVEL SCROLL STYLES -->
-  <!-- Use this ScrollViewer style inside sections to enable internal scrolling only -->
-  <Style x:Key="Section.ScrollViewer"
-      TargetType="ScrollViewer">
-    <Setter Property="VerticalScrollBarVisibility"
-        Value="Auto"/>
-    <Setter Property="HorizontalScrollBarVisibility"
-        Value="Disabled"/>
-    <Setter Property="CanContentScroll"
-        Value="True"/>
-    <Setter Property="PanningMode"
-        Value="VerticalOnly"/>
-  </Style>
-
-  <!-- Use this DataGrid style for lists inside sections; enables internal scroll + virtualization -->
-  <Style x:Key="Section.DataGrid"
-      TargetType="DataGrid"
-      BasedOn="{StaticResource DataGrid.Dark}">
-    <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
-        Value="Auto"/>
-    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
-        Value="Disabled"/>
-    <Setter Property="ScrollViewer.CanContentScroll"
-        Value="True"/>
-    <Setter Property="EnableRowVirtualization"
-        Value="True"/>
-    <Setter Property="VirtualizingPanel.IsVirtualizing"
-        Value="True"/>
-    <Setter Property="VirtualizingPanel.VirtualizationMode"
-        Value="Recycling"/>
-  </Style>
-
-  <!-- Use this ItemsControl style with VirtualizingStackPanel to keep sections scrollable and fast -->
-  <Style x:Key="Section.ItemsControl"
-      TargetType="ItemsControl">
-    <Setter Property="ItemsPanel">
-      <Setter.Value>
-        <ItemsPanelTemplate>
-          <VirtualizingStackPanel/>
-        </ItemsPanelTemplate>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="ScrollViewer.CanContentScroll"
-        Value="True"/>
-    <Setter Property="VirtualizingPanel.IsVirtualizing"
-        Value="True"/>
-    <Setter Property="VirtualizingPanel.VirtualizationMode"
-        Value="Recycling"/>
-  </Style>
-
-  <!-- ============================================ -->
-  <!-- MODERN SCROLLBAR STYLES                      -->
-  <!-- ============================================ -->
-
-  <!-- Scrollbar thumb (the draggable part) -->
-  <Style x:Key="ModernScrollBarThumb"
-      TargetType="Thumb">
-    <Setter Property="SnapsToDevicePixels"
-        Value="True"/>
-    <Setter Property="OverridesDefaultStyle"
-        Value="True"/>
-    <Setter Property="IsTabStop"
-        Value="False"/>
-    <Setter Property="Focusable"
-        Value="False"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Thumb">
-          <Border Background="{DynamicResource ScrollBarThumb}"
-                  CornerRadius="4"
-                  Margin="2"/>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
+                Value="{StaticResource Text.Primary}"/>
+        <Setter Property="Padding"
+                Value="8,6"/>
         <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="Thumb">
-              <Border Background="{DynamicResource ScrollBarThumbHover}"
-                      CornerRadius="4"
-                      Margin="2"/>
-            </ControlTemplate>
-          </Setter.Value>
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
         </Setter>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
+        <Style.Triggers>
+            <Trigger Property="IsSelected"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="Transparent"/>
+                <Setter Property="Foreground"
+                        Value="{StaticResource Selection.Foreground}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
-  <!-- Scrollbar repeat button (arrow buttons - hidden in modern style) -->
-  <Style x:Key="ModernScrollBarPageButton"
-      TargetType="RepeatButton">
-    <Setter Property="SnapsToDevicePixels"
-        Value="True"/>
-    <Setter Property="OverridesDefaultStyle"
-        Value="True"/>
-    <Setter Property="IsTabStop"
-        Value="False"/>
-    <Setter Property="Focusable"
-        Value="False"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="RepeatButton">
-          <Border Background="Transparent"/>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <!-- SECTION-LEVEL SCROLL STYLES -->
+    <!-- Use this ScrollViewer style inside sections to enable internal scrolling only -->
+    <Style x:Key="Section.ScrollViewer"
+           TargetType="ScrollViewer">
+        <Setter Property="VerticalScrollBarVisibility"
+                Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility"
+                Value="Disabled"/>
+        <Setter Property="CanContentScroll"
+                Value="True"/>
+        <Setter Property="PanningMode"
+                Value="VerticalOnly"/>
+    </Style>
 
-  <!-- Vertical ScrollBar -->
-  <Style x:Key="ModernVerticalScrollBar"
-      TargetType="ScrollBar">
-    <Setter Property="SnapsToDevicePixels"
-        Value="True"/>
-    <Setter Property="OverridesDefaultStyle"
-        Value="True"/>
-    <Setter Property="Width"
-        Value="8"/>
-    <Setter Property="Margin"
-        Value="0,0,0,0"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="ScrollBar">
-          <Grid>
-            <Border Background="Transparent"
-                    CornerRadius="4"/>
-            <Track x:Name="PART_Track"
-                   IsDirectionReversed="True">
-              <Track.DecreaseRepeatButton>
-                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                              Command="ScrollBar.PageUpCommand"/>
-              </Track.DecreaseRepeatButton>
-              <Track.Thumb>
-                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-              </Track.Thumb>
-              <Track.IncreaseRepeatButton>
-                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                              Command="ScrollBar.PageDownCommand"/>
-              </Track.IncreaseRepeatButton>
-            </Track>
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <!-- Use this DataGrid style for lists inside sections; enables internal scroll + virtualization -->
+    <Style x:Key="Section.DataGrid"
+           TargetType="DataGrid"
+           BasedOn="{StaticResource DataGrid.Dark}">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="Auto"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Disabled"/>
+        <Setter Property="ScrollViewer.CanContentScroll"
+                Value="True"/>
+        <Setter Property="EnableRowVirtualization"
+                Value="True"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing"
+                Value="True"/>
+        <Setter Property="VirtualizingPanel.VirtualizationMode"
+                Value="Recycling"/>
+    </Style>
 
-  <!-- Horizontal ScrollBar -->
-  <Style x:Key="ModernHorizontalScrollBar"
-      TargetType="ScrollBar">
-    <Setter Property="SnapsToDevicePixels"
-        Value="True"/>
-    <Setter Property="OverridesDefaultStyle"
-        Value="True"/>
-    <Setter Property="Height"
-        Value="8"/>
-    <Setter Property="Margin"
-        Value="0,0,0,0"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="ScrollBar">
-          <Grid>
-            <Border Background="Transparent"
-                    CornerRadius="4"/>
-            <Track x:Name="PART_Track"
-                   IsDirectionReversed="False">
-              <Track.DecreaseRepeatButton>
-                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                              Command="ScrollBar.PageLeftCommand"/>
-              </Track.DecreaseRepeatButton>
-              <Track.Thumb>
-                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-              </Track.Thumb>
-              <Track.IncreaseRepeatButton>
-                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                              Command="ScrollBar.PageRightCommand"/>
-              </Track.IncreaseRepeatButton>
-            </Track>
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <!-- Use this ItemsControl style with VirtualizingStackPanel to keep sections scrollable and fast -->
+    <Style x:Key="Section.ItemsControl"
+           TargetType="ItemsControl">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.CanContentScroll"
+                Value="True"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing"
+                Value="True"/>
+        <Setter Property="VirtualizingPanel.VirtualizationMode"
+                Value="Recycling"/>
+    </Style>
 
-  <!-- Default ScrollBar style that applies automatically -->
-  <Style TargetType="ScrollBar">
-    <Setter Property="SnapsToDevicePixels"
-        Value="True"/>
-    <Setter Property="OverridesDefaultStyle"
-        Value="True"/>
-    <Style.Triggers>
-      <Trigger Property="Orientation"
-          Value="Vertical">
+    <!-- ============================================ -->
+    <!-- MODERN SCROLLBAR STYLES                      -->
+    <!-- ============================================ -->
+
+    <!-- Scrollbar thumb (the draggable part) -->
+    <Style x:Key="ModernScrollBarThumb"
+           TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+        <Setter Property="OverridesDefaultStyle"
+                Value="True"/>
+        <Setter Property="IsTabStop"
+                Value="False"/>
+        <Setter Property="Focusable"
+                Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{DynamicResource ScrollBarThumb}"
+                            CornerRadius="4"
+                            Margin="2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Border Background="{DynamicResource ScrollBarThumbHover}"
+                                    CornerRadius="4"
+                                    Margin="2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Scrollbar repeat button (arrow buttons - hidden in modern style) -->
+    <Style x:Key="ModernScrollBarPageButton"
+           TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+        <Setter Property="OverridesDefaultStyle"
+                Value="True"/>
+        <Setter Property="IsTabStop"
+                Value="False"/>
+        <Setter Property="Focusable"
+                Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="Transparent"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Vertical ScrollBar -->
+    <Style x:Key="ModernVerticalScrollBar"
+           TargetType="ScrollBar">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+        <Setter Property="OverridesDefaultStyle"
+                Value="True"/>
         <Setter Property="Width"
-            Value="8"/>
+                Value="8"/>
+        <Setter Property="Margin"
+                Value="0,0,0,0"/>
         <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="ScrollBar">
-              <Grid>
-                <Border Background="Transparent"
-                        CornerRadius="4"/>
-                <Track x:Name="PART_Track"
-                       IsDirectionReversed="True">
-                  <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                                  Command="ScrollBar.PageUpCommand"/>
-                  </Track.DecreaseRepeatButton>
-                  <Track.Thumb>
-                    <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-                  </Track.Thumb>
-                  <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                                  Command="ScrollBar.PageDownCommand"/>
-                  </Track.IncreaseRepeatButton>
-                </Track>
-              </Grid>
-            </ControlTemplate>
-          </Setter.Value>
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid>
+                        <Border Background="Transparent"
+                                CornerRadius="4"/>
+                        <Track x:Name="PART_Track"
+                               IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                              Command="ScrollBar.PageUpCommand"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                              Command="ScrollBar.PageDownCommand"/>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
         </Setter>
-      </Trigger>
-      <Trigger Property="Orientation"
-          Value="Horizontal">
+    </Style>
+
+    <!-- Horizontal ScrollBar -->
+    <Style x:Key="ModernHorizontalScrollBar"
+           TargetType="ScrollBar">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+        <Setter Property="OverridesDefaultStyle"
+                Value="True"/>
         <Setter Property="Height"
-            Value="8"/>
+                Value="8"/>
+        <Setter Property="Margin"
+                Value="0,0,0,0"/>
         <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="ScrollBar">
-              <Grid>
-                <Border Background="Transparent"
-                        CornerRadius="4"/>
-                <Track x:Name="PART_Track"
-                       IsDirectionReversed="False">
-                  <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                                  Command="ScrollBar.PageLeftCommand"/>
-                  </Track.DecreaseRepeatButton>
-                  <Track.Thumb>
-                    <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
-                  </Track.Thumb>
-                  <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
-                                  Command="ScrollBar.PageRightCommand"/>
-                  </Track.IncreaseRepeatButton>
-                </Track>
-              </Grid>
-            </ControlTemplate>
-          </Setter.Value>
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid>
+                        <Border Background="Transparent"
+                                CornerRadius="4"/>
+                        <Track x:Name="PART_Track"
+                               IsDirectionReversed="False">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                              Command="ScrollBar.PageLeftCommand"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                              Command="ScrollBar.PageRightCommand"/>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
         </Setter>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
+    </Style>
 
-  <!-- Modern ScrollViewer style -->
-  <Style x:Key="ModernScrollViewer"
-      TargetType="ScrollViewer">
-    <Setter Property="VerticalScrollBarVisibility"
-        Value="Auto"/>
-    <Setter Property="HorizontalScrollBarVisibility"
-        Value="Disabled"/>
-    <Setter Property="CanContentScroll"
-        Value="True"/>
-    <Setter Property="PanningMode"
-        Value="VerticalOnly"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="ScrollViewer">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*"/>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+    <!-- Default ScrollBar style that applies automatically -->
+    <Style TargetType="ScrollBar">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True"/>
+        <Setter Property="OverridesDefaultStyle"
+                Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation"
+                     Value="Vertical">
+                <Setter Property="Width"
+                        Value="8"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ScrollBar">
+                            <Grid>
+                                <Border Background="Transparent"
+                                        CornerRadius="4"/>
+                                <Track x:Name="PART_Track"
+                                       IsDirectionReversed="True">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                                      Command="ScrollBar.PageUpCommand"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                                      Command="ScrollBar.PageDownCommand"/>
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Orientation"
+                     Value="Horizontal">
+                <Setter Property="Height"
+                        Value="8"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ScrollBar">
+                            <Grid>
+                                <Border Background="Transparent"
+                                        CornerRadius="4"/>
+                                <Track x:Name="PART_Track"
+                                       IsDirectionReversed="False">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                                      Command="ScrollBar.PageLeftCommand"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ModernScrollBarThumb}"/>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ModernScrollBarPageButton}"
+                                                      Command="ScrollBar.PageRightCommand"/>
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
-            <ScrollContentPresenter Grid.Column="0"
-                                    Grid.Row="0"
-                                    CanContentScroll="{TemplateBinding CanContentScroll}"/>
+    <!-- Modern ScrollViewer style -->
+    <Style x:Key="ModernScrollViewer"
+           TargetType="ScrollViewer">
+        <Setter Property="VerticalScrollBarVisibility"
+                Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility"
+                Value="Disabled"/>
+        <Setter Property="CanContentScroll"
+                Value="True"/>
+        <Setter Property="PanningMode"
+                Value="VerticalOnly"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-            <ScrollBar Grid.Column="1"
-                       Grid.Row="0"
-                       x:Name="PART_VerticalScrollBar"
-                       Value="{TemplateBinding VerticalOffset}"
-                       Maximum="{TemplateBinding ScrollableHeight}"
-                       ViewportSize="{TemplateBinding ViewportHeight}"
-                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                       Margin="4,0,0,0"/>
+                        <ScrollContentPresenter Grid.Column="0"
+                                                Grid.Row="0"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"/>
 
-            <ScrollBar Grid.Column="0"
-                       Grid.Row="1"
-                       x:Name="PART_HorizontalScrollBar"
-                       Orientation="Horizontal"
-                       Value="{TemplateBinding HorizontalOffset}"
-                       Maximum="{TemplateBinding ScrollableWidth}"
-                       ViewportSize="{TemplateBinding ViewportWidth}"
-                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                       Margin="0,4,0,0"/>
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+                        <ScrollBar Grid.Column="1"
+                                   Grid.Row="0"
+                                   x:Name="PART_VerticalScrollBar"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                   Margin="4,0,0,0"/>
 
-  <!-- Section ScrollViewer - Enhanced for section usage -->
-  <Style x:Key="Section.ScrollViewer.Modern"
-      TargetType="ScrollViewer"
-      BasedOn="{StaticResource ModernScrollViewer}">
-    <Setter Property="Padding"
-        Value="0,0,4,0"/>
-  </Style>
-  <!-- BUTTON ICON STYLE -->
-  <Style x:Key="Button.Icon"
-      TargetType="Button">
-    <Setter Property="Background"
-        Value="Transparent"/>
-    <Setter Property="BorderThickness"
-        Value="0"/>
-    <Setter Property="Cursor"
-        Value="Hand"/>
-    <Setter Property="Padding"
-        Value="4"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <Border Background="{TemplateBinding Background}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  CornerRadius="4"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver"
-          Value="True">
+                        <ScrollBar Grid.Column="0"
+                                   Grid.Row="1"
+                                   x:Name="PART_HorizontalScrollBar"
+                                   Orientation="Horizontal"
+                                   Value="{TemplateBinding HorizontalOffset}"
+                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                   Margin="0,4,0,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Section ScrollViewer - Enhanced for section usage -->
+    <Style x:Key="Section.ScrollViewer.Modern"
+           TargetType="ScrollViewer"
+           BasedOn="{StaticResource ModernScrollViewer}">
+        <Setter Property="Padding"
+                Value="0,0,4,0"/>
+    </Style>
+    <!-- BUTTON ICON STYLE -->
+    <Style x:Key="Button.Icon"
+           TargetType="Button">
         <Setter Property="Background"
-            Value="#20FFFFFF"/>
-      </Trigger>
-      <Trigger Property="IsPressed"
-          Value="True">
-        <Setter Property="Background"
-            Value="#30FFFFFF"/>
-      </Trigger>
-      <Trigger Property="IsFocused"
-          Value="True">
+                Value="Transparent"/>
         <Setter Property="BorderThickness"
-            Value="2"/>
+                Value="0"/>
+        <Setter Property="Cursor"
+                Value="Hand"/>
+        <Setter Property="Padding"
+                Value="4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#20FFFFFF"/>
+            </Trigger>
+            <Trigger Property="IsPressed"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#30FFFFFF"/>
+            </Trigger>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderThickness"
+                        Value="2"/>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource BorderFocus}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Opacity"
+                        Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- GLOBAL DATAGRID EDIT BUTTON STYLE -->
+    <Style x:Key="DataGrid.EditButton"
+           TargetType="Button"
+           BasedOn="{StaticResource Button.Icon}">
+        <Setter Property="Width"
+                Value="24"/>
+        <Setter Property="Height"
+                Value="24"/>
+        <Setter Property="Padding"
+                Value="0"/>
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+        <Setter Property="HorizontalAlignment"
+                Value="Center"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource Accent.Primary}"/>
+    </Style>
+
+    <!-- INFO BOX STYLE (Inside forms) -->
+    <Style x:Key="InfoBox"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="{StaticResource Input.InfoBox}"/>
+        <Setter Property="CornerRadius"
+                Value="6"/>
+        <Setter Property="Padding"
+                Value="14"/>
+    </Style>
+
+    <!-- ============================================ -->
+    <!-- FORM & INPUT ENHANCEMENTS                    -->
+    <!-- ============================================ -->
+
+    <!-- FORM LABEL STYLE -->
+    <!-- Use for all form field labels instead of inline styling -->
+    <Style x:Key="FormLabel"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="{StaticResource Text.Label}"/>
+        <Setter Property="FontSize"
+                Value="11"/>
+        <Setter Property="FontWeight"
+                Value="Medium"/>
+        <Setter Property="Margin"
+                Value="0,0,0,8"/>
+    </Style>
+
+    <!-- ERROR MESSAGE BOX STYLE -->
+    <!-- Use for validation errors and error messages in forms -->
+    <Style x:Key="ErrorMessageBox"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="{StaticResource ErrorMessageBackground}"/>
         <Setter Property="BorderBrush"
-            Value="{StaticResource BorderFocus}"/>
-      </Trigger>
-      <Trigger Property="IsEnabled"
-          Value="False">
-        <Setter Property="Opacity"
-            Value="0.5"/>
-      </Trigger>
-    </Style.Triggers>
-  </Style>
+                Value="{StaticResource ErrorColor}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+        <Setter Property="CornerRadius"
+                Value="6"/>
+        <Setter Property="Padding"
+                Value="12"/>
+        <Setter Property="Margin"
+                Value="0,16,0,0"/>
+    </Style>
 
-  <!-- GLOBAL DATAGRID EDIT BUTTON STYLE -->
-  <Style x:Key="DataGrid.EditButton"
-      TargetType="Button"
-      BasedOn="{StaticResource Button.Icon}">
-    <Setter Property="Width"
-        Value="24"/>
-    <Setter Property="Height"
-        Value="24"/>
-    <Setter Property="Padding"
-        Value="0"/>
-    <Setter Property="VerticalAlignment"
-        Value="Center"/>
-    <Setter Property="HorizontalAlignment"
-        Value="Center"/>
-    <Setter Property="Foreground"
-        Value="{StaticResource Accent.Primary}"/>
-  </Style>
+    <!-- ERROR MESSAGE TEXT STYLE -->
+    <!-- Use for error message text inside ErrorMessageBox -->
+    <Style x:Key="ErrorMessageText"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="{StaticResource ErrorColor}"/>
+        <Setter Property="TextWrapping"
+                Value="Wrap"/>
+        <Setter Property="LineHeight"
+                Value="16"/>
+    </Style>
 
-  <!-- INFO BOX STYLE (Inside forms) -->
-  <Style x:Key="InfoBox"
-      TargetType="Border">
-    <Setter Property="Background"
-        Value="{StaticResource Input.InfoBox}"/>
-    <Setter Property="CornerRadius"
-        Value="6"/>
-    <Setter Property="Padding"
-        Value="14"/>
-  </Style>
+    <!-- LOADING OVERLAY STYLE -->
+    <!-- Use in views with async operations (like "IsBusy" visibility binding) -->
+    <Style x:Key="LoadingOverlay"
+           TargetType="Grid">
+        <Setter Property="Background"
+                Value="{StaticResource LoadingOverlayColor}"/>
+    </Style>
 
-  <!-- ============================================ -->
-  <!-- FORM & INPUT ENHANCEMENTS                    -->
-  <!-- ============================================ -->
+    <!-- DIALOG HEADER STYLE -->
+    <!-- Use for dialog/modal headers -->
+    <Style x:Key="DialogHeader"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="{StaticResource Card.Header}"/>
+        <Setter Property="Padding"
+                Value="24,20"/>
+        <Setter Property="BorderThickness"
+                Value="0,0,0,1"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource BorderPrimary}"/>
+    </Style>
 
-  <!-- FORM LABEL STYLE -->
-  <!-- Use for all form field labels instead of inline styling -->
-  <Style x:Key="FormLabel"
-      TargetType="TextBlock">
-    <Setter Property="Foreground"
-        Value="{StaticResource Text.Label}"/>
-    <Setter Property="FontSize"
-        Value="11"/>
-    <Setter Property="FontWeight"
-        Value="Medium"/>
-    <Setter Property="Margin"
-        Value="0,0,0,8"/>
-  </Style>
+    <!-- DIALOG ACTION BUTTONS -->
+    <!-- Use for buttons in dialog footers -->
+    <Style x:Key="DialogActionButton"
+           TargetType="Button"
+           BasedOn="{StaticResource Button.Primary}">
+        <Setter Property="MinWidth"
+                Value="100"/>
+        <Setter Property="Margin"
+                Value="8,0"/>
+    </Style>
 
-  <!-- ERROR MESSAGE BOX STYLE -->
-  <!-- Use for validation errors and error messages in forms -->
-  <Style x:Key="ErrorMessageBox"
-      TargetType="Border">
-    <Setter Property="Background"
-        Value="{StaticResource ErrorMessageBackground}"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource ErrorColor}"/>
-    <Setter Property="BorderThickness"
-        Value="1"/>
-    <Setter Property="CornerRadius"
-        Value="6"/>
-    <Setter Property="Padding"
-        Value="12"/>
-    <Setter Property="Margin"
-        Value="0,16,0,0"/>
-  </Style>
-
-  <!-- ERROR MESSAGE TEXT STYLE -->
-  <!-- Use for error message text inside ErrorMessageBox -->
-  <Style x:Key="ErrorMessageText"
-      TargetType="TextBlock">
-    <Setter Property="Foreground"
-        Value="{StaticResource ErrorColor}"/>
-    <Setter Property="TextWrapping"
-        Value="Wrap"/>
-    <Setter Property="LineHeight"
-        Value="16"/>
-  </Style>
-
-  <!-- LOADING OVERLAY STYLE -->
-  <!-- Use in views with async operations (like "IsBusy" visibility binding) -->
-  <Style x:Key="LoadingOverlay"
-      TargetType="Grid">
-    <Setter Property="Background"
-        Value="{StaticResource LoadingOverlayColor}"/>
-  </Style>
-
-  <!-- DIALOG HEADER STYLE -->
-  <!-- Use for dialog/modal headers -->
-  <Style x:Key="DialogHeader"
-      TargetType="Border">
-    <Setter Property="Background"
-        Value="{StaticResource Card.Header}"/>
-    <Setter Property="Padding"
-        Value="24,20"/>
-    <Setter Property="BorderThickness"
-        Value="0,0,0,1"/>
-    <Setter Property="BorderBrush"
-        Value="{StaticResource BorderPrimary}"/>
-  </Style>
-
-  <!-- DIALOG ACTION BUTTONS -->
-  <!-- Use for buttons in dialog footers -->
-  <Style x:Key="DialogActionButton"
-      TargetType="Button"
-      BasedOn="{StaticResource Button.Primary}">
-    <Setter Property="MinWidth"
-        Value="100"/>
-    <Setter Property="Margin"
-        Value="8,0"/>
-  </Style>
+    <SolidColorBrush x:Key="User.DropDown"
+                     Color="{Binding Source={StaticResource UserDropDownBackGround}, Path=Color}"/>
 
 </ResourceDictionary>

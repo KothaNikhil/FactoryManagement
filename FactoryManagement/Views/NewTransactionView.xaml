@@ -82,10 +82,7 @@
 
                     <!-- Header -->
                     <Border Grid.Row="0"
-                            Background="{StaticResource Card.Header}"
-                            Padding="12"
-                            Margin="-24,-24,-24,16"
-                            CornerRadius="12,12,0,0">
+                            Style="{StaticResource SectionHeader.Prominent}">
                         <StackPanel Style="{StaticResource SectionHeader}"
                                     Margin="0">
                             <Border Background="{StaticResource SuccessGradient}"
@@ -137,7 +134,6 @@
                                 <ComboBox ItemsSource="{Binding TransactionTypes}"
                                           SelectedItem="{Binding SelectedTransactionTypeString, Mode=TwoWay}"
                                           Style="{StaticResource ComboBox.Dark}"
-                                          materialDesign:HintAssist.Hint="Select transaction type"
                                           TabIndex="0">
                                     <i:Interaction.Behaviors>
                                         <local:SearchableComboBoxBehavior/>
@@ -739,8 +735,6 @@
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="Recent Transactions"
                                                Style="{StaticResource SectionHeader.Title}"/>
-                                    <TextBlock Text="Latest activity in your factory - Click to edit"
-                                               Style="{StaticResource SectionHeader.Subtitle}"/>
                                 </StackPanel>
                             </StackPanel>
                             <Button Grid.Column="1"

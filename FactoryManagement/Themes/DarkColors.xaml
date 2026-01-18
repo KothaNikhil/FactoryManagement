@@ -21,6 +21,9 @@
     <SolidColorBrush x:Key="ElevatedBackground"
             Color="#363B4E"/>
 
+    <SolidColorBrush x:Key="UserDropDownBackGround"
+        Color="#2c313c"/>
+
     <!-- ============================================ -->
     <!-- ACCENT PALETTE                               -->
     <!-- ============================================ -->
@@ -502,7 +505,7 @@
     <LinearGradientBrush x:Key="TitleBarGradient"
             StartPoint="0,0"
             EndPoint="1,0">
-        <GradientStop Color="#1A1D29"
+        <GradientStop Color="#363B4E"
                 Offset="0"/>
         <GradientStop Color="#252837"
                 Offset="1"/>
@@ -512,7 +515,7 @@
     <LinearGradientBrush x:Key="NavPanelGradient"
             StartPoint="0,0"
             EndPoint="0,1">
-        <GradientStop Color="#252837"
+        <GradientStop Color="#363B4E"
                 Offset="0"/>
         <GradientStop Color="#1A1D29"
                 Offset="1"/>

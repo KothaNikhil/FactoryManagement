@@ -327,36 +327,11 @@
 
                             <!-- Transactions DataGrid -->
                             <DataGrid Grid.Row="1"
-                                      Style="{StaticResource DataGrid.Standard}"
-                                      ItemsSource="{Binding TodayCashTransactions}"
-                                      AutoGenerateColumns="False"
-                                      IsReadOnly="True"
-                                      SelectionMode="Single"
-                                      CanUserAddRows="False"
-                                      Background="Transparent"
-                                      RowBackground="{StaticResource CardBackground}"
-                                      AlternatingRowBackground="{StaticResource SecondaryBackground}"
-                                      BorderThickness="0"
-                                      GridLinesVisibility="None"
-                                      HeadersVisibility="Column"
-                                      FontSize="{StaticResource FontSize.Regular}">
+                                      Style="{StaticResource DataGrid.Dark}"
+                                      ItemsSource="{Binding TodayCashTransactions}">
                                 <DataGrid.ColumnHeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader">
-                                        <Setter Property="Background"
-                                                Value="{StaticResource SecondaryBackground}"/>
-                                        <Setter Property="Foreground"
-                                                Value="{StaticResource TextPrimary}"/>
-                                        <Setter Property="FontWeight"
-                                                Value="Bold"/>
-                                        <Setter Property="FontSize"
-                                                Value="13"/>
-                                        <Setter Property="Padding"
-                                                Value="10"/>
-                                        <Setter Property="BorderThickness"
-                                                Value="0,0,1,1"/>
-                                        <Setter Property="BorderBrush"
-                                                Value="{StaticResource BorderPrimary}"/>
-                                    </Style>
+                                    <Style TargetType="DataGridColumnHeader"
+           BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                                 </DataGrid.ColumnHeaderStyle>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Type"
@@ -406,11 +381,7 @@
 
                             <!-- Header with Filters -->
                             <Border Grid.Row="0"
-                                    Background="{StaticResource SecondaryBackground}"
-                                    Padding="15"
-                                    BorderBrush="{StaticResource BorderPrimary}"
-                                    BorderThickness="0,0,0,1"
-                                    Margin="-24,-24,-24,10">
+                                    Style="{StaticResource SectionHeader.Prominent}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -425,17 +396,15 @@
                                                 Style="{StaticResource IconBadge}"
                                                 Margin="0,0,12,0">
                                             <TextBlock Text="📖"
-                                                       FontSize="{StaticResource FontSize.ExtraLarge}"/>
+                                                       FontSize="{StaticResource FontSize.ExtraLarge}"
+                                                       HorizontalAlignment="Center"
+                                                       Padding="3"/>
                                         </Border>
-                                        <StackPanel>
-                                            <TextBlock Text="Cash Book Records"
-                                                       FontSize="{StaticResource FontSize.Large}"
-                                                       FontWeight="Bold"
-                                                       Foreground="{StaticResource Text.Primary}"/>
-                                            <TextBlock Text="Daily cash balance tracking"
-                                                       FontSize="{StaticResource FontSize.Small}"
-                                                       Foreground="{StaticResource Text.Secondary}"/>
-                                        </StackPanel>
+                                        <TextBlock Text="Cash Book Records"
+                                                    FontSize="{StaticResource FontSize.Large}"
+                                                    FontWeight="Bold"
+                                                    Foreground="{StaticResource Text.Primary}"
+                                                    VerticalAlignment="Center"/>
                                     </StackPanel>
 
                                     <!-- Filter Controls -->
@@ -460,37 +429,12 @@
                                 </Grid>
                             </Border>
                             <DataGrid Grid.Row="1"
-                                      Style="{StaticResource Section.DataGrid}"
+                                      Style="{StaticResource DataGrid.Dark}"
                                       ItemsSource="{Binding PaginatedCashRecords}"
-                                      SelectedItem="{Binding SelectedRecord}"
-                                      AutoGenerateColumns="False"
-                                      IsReadOnly="True"
-                                      SelectionMode="Single"
-                                      CanUserAddRows="False"
-                                      Background="Transparent"
-                                      RowBackground="{StaticResource CardBackground}"
-                                      AlternatingRowBackground="{StaticResource SecondaryBackground}"
-                                      BorderThickness="0"
-                                      GridLinesVisibility="None"
-                                      HeadersVisibility="Column"
-                                      FontSize="{StaticResource FontSize.Regular}">
+                                      SelectedItem="{Binding SelectedRecord}">
                                 <DataGrid.ColumnHeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader">
-                                        <Setter Property="Background"
-                                                Value="{StaticResource SecondaryBackground}"/>
-                                        <Setter Property="Foreground"
-                                                Value="{StaticResource TextPrimary}"/>
-                                        <Setter Property="FontWeight"
-                                                Value="Bold"/>
-                                        <Setter Property="FontSize"
-                                                Value="13"/>
-                                        <Setter Property="Padding"
-                                                Value="10"/>
-                                        <Setter Property="BorderThickness"
-                                                Value="0,0,1,1"/>
-                                        <Setter Property="BorderBrush"
-                                                Value="{StaticResource BorderPrimary}"/>
-                                    </Style>
+                                    <Style TargetType="DataGridColumnHeader"
+           BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                                 </DataGrid.ColumnHeaderStyle>
                                 <DataGrid.Columns>
                                     <!-- Date -->

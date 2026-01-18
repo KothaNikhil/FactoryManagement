@@ -36,9 +36,6 @@
             <StackPanel Style="{StaticResource SectionHeader.Content}">
                 <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                          Style="{StaticResource SectionHeader.Title}"/>
-                <TextBlock Text="{Binding Subtitle, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                         Style="{StaticResource SectionHeader.Subtitle}"
-                         Visibility="{Binding Subtitle, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
             </StackPanel>
         </StackPanel>
     </Border>

@@ -266,9 +266,28 @@ namespace FactoryManagement.Core.Services
             // Calculate on the fly
             var flow = await CalculateCashFlowForDateAsync(dateOnly);
             
-            // Get opening balance
+            // Get opening balance (from previous day's closing or zero)
+            decimal openingBalance = 0;
             var previousDay = await _cashBalanceRepository.GetByDateAsync(dateOnly.AddDays(-1));
-            flow.OpeningBalance = previousDay?.ExpectedClosingBalance ?? 0;
+            if (previousDay != null)
+            {
+                openingBalance = previousDay.IsReconciled && previousDay.ActualCashCounted.HasValue
+                    ? previousDay.ActualCashCounted.Value
+                    : previousDay.ExpectedClosingBalance;
+            }
+            else
+            {
+                // No previous day record - check for latest record before this date
+                var latest = await _cashBalanceRepository.GetLatestAsync();
+                if (latest != null && latest.Date < dateOnly)
+                {
+                    openingBalance = latest.IsReconciled && latest.ActualCashCounted.HasValue
+                        ? latest.ActualCashCounted.Value
+                        : latest.ExpectedClosingBalance;
+                }
+            }
+            
+            flow.OpeningBalance = openingBalance;
             flow.ExpectedClosingBalance = flow.OpeningBalance + flow.TotalCashIn - flow.TotalCashOut;
 
             return flow;

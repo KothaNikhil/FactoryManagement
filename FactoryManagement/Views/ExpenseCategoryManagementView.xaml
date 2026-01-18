@@ -145,11 +145,7 @@
 
                     <!-- Header with Search -->
                     <Border Grid.Row="0"
-                            Background="{StaticResource SecondaryBackground}"
-                            Padding="15"
-                            BorderBrush="{StaticResource BorderPrimary}"
-                            BorderThickness="0,0,0,1"
-                            Margin="-24,-24,-24,0">
+                            Style="{StaticResource SectionHeader.Prominent}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>

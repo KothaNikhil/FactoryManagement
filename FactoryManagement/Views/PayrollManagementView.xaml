@@ -9,7 +9,7 @@
              xmlns:controls="clr-namespace:FactoryManagement.Controls"
              mc:Ignorable="d"
              d:DesignHeight="800"
-        d:DesignWidth="1200">
+             d:DesignWidth="1200">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,7 +18,7 @@
 
         <!-- Summary Cards -->
         <Grid Grid.Row="0"
-                Margin="0,0,0,20">
+              Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -36,9 +36,9 @@
                     Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black"
-                            Opacity="0.3"
-                            ShadowDepth="2"
-                            BlurRadius="8"/>
+                                      Opacity="0.3"
+                                      ShadowDepth="2"
+                                      BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -47,21 +47,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                            Text="💵"
-                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
-                            VerticalAlignment="Center"
-                            Margin="0,0,12,0"/>
+                               Text="💵"
+                               FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"/>
 
                     <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="Total Wages Paid"
-                                Foreground="{StaticResource LabelSuccess}"
-                                FontSize="{StaticResource FontSize.Small}"
-                                Margin="0,0,0,4"/>
+                                   Foreground="{StaticResource LabelSuccess}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalWagesPaid, StringFormat='₹{0:N2}'}"
                                    Foreground="White"
-                                FontSize="{StaticResource FontSize.Amount}"
-                                FontWeight="Bold"/>
+                                   FontSize="{StaticResource FontSize.Amount}"
+                                   FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -73,9 +73,9 @@
                     Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black"
-                            Opacity="0.3"
-                            ShadowDepth="2"
-                            BlurRadius="8"/>
+                                      Opacity="0.3"
+                                      ShadowDepth="2"
+                                      BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -84,21 +84,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                            Text="💰"
-                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
-                            VerticalAlignment="Center"
-                            Margin="0,0,12,0"/>
+                               Text="💰"
+                               FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"/>
 
                     <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="Total Advances Given"
-                                Foreground="{StaticResource LabelWarning}"
-                                FontSize="{StaticResource FontSize.Small}"
-                                Margin="0,0,0,4"/>
+                                   Foreground="{StaticResource LabelWarning}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalAdvancesGiven, StringFormat='₹{0:N2}'}"
                                    Foreground="White"
-                                FontSize="{StaticResource FontSize.Amount}"
-                                FontWeight="Bold"/>
+                                   FontSize="{StaticResource FontSize.Amount}"
+                                   FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -110,9 +110,9 @@
                     Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black"
-                            Opacity="0.3"
-                            ShadowDepth="2"
-                            BlurRadius="8"/>
+                                      Opacity="0.3"
+                                      ShadowDepth="2"
+                                      BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -121,21 +121,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                            Text="👤"
-                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
-                            VerticalAlignment="Center"
-                            Margin="0,0,12,0"/>
+                               Text="👤"
+                               FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"/>
 
                     <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="Worker Total Wages"
-                                Foreground="{StaticResource LabelInfo}"
-                                FontSize="{StaticResource FontSize.Small}"
-                                Margin="0,0,0,4"/>
+                                   Foreground="{StaticResource LabelInfo}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerTotalWages, StringFormat='₹{0:N2}'}"
                                    Foreground="White"
-                                FontSize="{StaticResource FontSize.Amount}"
-                                FontWeight="Bold"/>
+                                   FontSize="{StaticResource FontSize.Amount}"
+                                   FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -147,9 +147,9 @@
                     Padding="16">
                 <Border.Effect>
                     <DropShadowEffect Color="Black"
-                            Opacity="0.3"
-                            ShadowDepth="2"
-                            BlurRadius="8"/>
+                                      Opacity="0.3"
+                                      ShadowDepth="2"
+                                      BlurRadius="8"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -158,21 +158,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                            Text="⚠️"
-                            FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
-                            VerticalAlignment="Center"
-                            Margin="0,0,12,0"/>
+                               Text="⚠️"
+                               FontSize="{StaticResource FontSize.Icon.ExtraLarge}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"/>
 
                     <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center">
+                                VerticalAlignment="Center">
                         <TextBlock Text="Outstanding Advance"
-                                Foreground="{StaticResource LabelDanger}"
-                                FontSize="{StaticResource FontSize.Small}"
-                                Margin="0,0,0,4"/>
+                                   Foreground="{StaticResource LabelDanger}"
+                                   FontSize="{StaticResource FontSize.Small}"
+                                   Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedWorkerOutstandingAdvance, StringFormat='₹{0:N2}'}"
                                    Foreground="White"
-                                FontSize="{StaticResource FontSize.Amount}"
-                                FontWeight="Bold"/>
+                                   FontSize="{StaticResource FontSize.Amount}"
+                                   FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -208,12 +208,12 @@
 
                     <!-- Form Content -->
                     <StackPanel Grid.Row="1"
-                            Grid.IsSharedSizeScope="True">
+                                Grid.IsSharedSizeScope="True">
                         <!-- Worker Selection -->
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="Label"/>
+                                                  SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -271,7 +271,7 @@
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="Label"/>
+                                                  SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -291,7 +291,7 @@
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="Label"/>
+                                                  SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -310,7 +310,7 @@
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="Label"/>
+                                                  SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -330,7 +330,7 @@
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="Label"/>
+                                                  SharedSizeGroup="Label"/>
                                 <ColumnDefinition Width="12"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -376,12 +376,12 @@
                                     Height="44">
                                 <Button.Style>
                                     <Style TargetType="Button"
-                                            BasedOn="{StaticResource Button.Success}">
+                                           BasedOn="{StaticResource Button.Success}">
                                         <Setter Property="Content"
                                                 Value="💾 RECORD PAYMENT"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsEditMode}"
-                                                    Value="True">
+                                                         Value="True">
                                                 <Setter Property="Content"
                                                         Value="💾 UPDATE PAYMENT"/>
                                             </DataTrigger>
@@ -426,29 +426,28 @@
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0"
-                            Background="{StaticResource Card.Header}"
+                            Style="{StaticResource SectionHeader.Prominent}"
                             Padding="15"
-                            Margin="-20,-20,-20,15"
-                            CornerRadius="8,8,0,0">
+                            Margin="-20,-20,-20,15">
                         <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0"
-                                    Style="{StaticResource SectionHeader}"
-                                    Margin="0">
+                                        Style="{StaticResource SectionHeader}"
+                                        Margin="0">
                                 <Border Background="{StaticResource Card.Info}"
                                         Style="{StaticResource IconBadge}">
                                     <TextBlock Text="📊"
-                                            FontSize="{StaticResource FontSize.Amount}"
-                                            Foreground="White"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"/>
+                                               FontSize="{StaticResource FontSize.Amount}"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel Style="{StaticResource SectionHeader.Content}">
                                     <TextBlock Text="Recent Payment History"
-                                            Style="{StaticResource SectionHeader.Title}"/>
+                                               Style="{StaticResource SectionHeader.Title}"/>
                                 </StackPanel>
                             </StackPanel>
                             <Button Grid.Column="1"
@@ -460,37 +459,15 @@
                     </Border>
 
                     <DataGrid Grid.Row="1"
-                            Style="{StaticResource Section.DataGrid}"
-                              ItemsSource="{Binding PaginatedTransactions}"
-                              AutoGenerateColumns="False"
-                              IsReadOnly="True"
-                              CanUserAddRows="False"
-                              Background="Transparent"
-                              RowBackground="{StaticResource SecondaryBackground}"
-                              AlternatingRowBackground="#333"
-                              BorderThickness="0"
-                              KeyboardNavigation.TabNavigation="Once"
-                              GridLinesVisibility="None"
-                              HeadersVisibility="Column">
+                              Style="{StaticResource DataGrid.Dark}"
+                              ItemsSource="{Binding PaginatedTransactions}">
                         <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="Background"
-                                        Value="{StaticResource SecondaryBackground}"/>
-                                <Setter Property="Foreground"
-                                        Value="#BBB"/>
-                                <Setter Property="FontWeight"
-                                        Value="Bold"/>
-                                <Setter Property="Padding"
-                                        Value="10"/>
-                                <Setter Property="BorderThickness"
-                                        Value="0,0,1,1"/>
-                                <Setter Property="BorderBrush"
-                                        Value="#444"/>
-                            </Style>
+                            <Style TargetType="DataGridColumnHeader"
+                                   BasedOn="{StaticResource DataGrid.Header.Standard}"/>
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Edit"
-                                    Width="60">
+                                                    Width="60">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
@@ -498,14 +475,14 @@
                                                 CommandParameter="{Binding}"
                                                 ToolTip="Edit">
                                             <materialDesign:PackIcon Kind="Pencil"
-                                                    Width="16"
-                                                    Height="16"/>
+                                                                     Width="16"
+                                                                     Height="16"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Delete"
-                                    Width="70">
+                                                    Width="70">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{StaticResource DataGrid.EditButton}"
@@ -513,28 +490,28 @@
                                                 CommandParameter="{Binding}"
                                                 ToolTip="Delete">
                                             <materialDesign:PackIcon Kind="DeleteForever"
-                                                    Width="16"
-                                                    Height="16"/>
+                                                                     Width="16"
+                                                                     Height="16"/>
                                         </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Date"
-                                    Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
+                                                Binding="{Binding TransactionDate, StringFormat='dd-MMM-yyyy HH:mm'}"/>
                             <DataGridTextColumn Header="Worker"
-                                    Binding="{Binding Worker.Name}"
-                                    Width="*"/>
+                                                Binding="{Binding Worker.Name}"
+                                                Width="*"/>
                             <DataGridTextColumn Header="Type"
-                                    Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
+                                                Binding="{Binding TransactionType, Converter={StaticResource WageTransactionTypeConverter}}"/>
                             <DataGridTextColumn Header="Amount"
-                                    Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
+                                                Binding="{Binding Amount, StringFormat=₹{0:N2}}"/>
                             <DataGridTextColumn Header="Mode"
-                                    Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
+                                                Binding="{Binding PaymentMode, Converter={StaticResource EnumToFriendlyStringConverter}}"/>
                             <DataGridTextColumn Header="Entered By"
-                                    Binding="{Binding User.Username}"/>
+                                                Binding="{Binding User.Username}"/>
                             <DataGridTextColumn Header="Notes"
-                                    Binding="{Binding Notes}"
-                                    Width="*"/>
+                                                Binding="{Binding Notes}"
+                                                Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -558,18 +535,18 @@
                                     ToolTip="Previous Day"
                                     Margin="0,0,8,0">
                                 <materialDesign:PackIcon Kind="ChevronLeft"
-                                        Width="24"
-                                        Height="24"/>
+                                                         Width="24"
+                                                         Height="24"/>
                             </Button>
 
                             <!-- Current Date Display -->
                             <StackPanel Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Calendar"
                                                          Width="20"
-                                        Height="20"
+                                                         Height="20"
                                                          Foreground="{DynamicResource Text.Secondary}"
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,8,0"/>
@@ -599,8 +576,8 @@
                                     ToolTip="Next Day"
                                     Margin="8,0,0,0">
                                 <materialDesign:PackIcon Kind="ChevronRight"
-                                        Width="24"
-                                        Height="24"/>
+                                                         Width="24"
+                                                         Height="24"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -609,9 +586,9 @@
         </Grid>
 
         <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,16,16"/>
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Margin="0,0,16,16"/>
     </Grid>
 </UserControl>
 

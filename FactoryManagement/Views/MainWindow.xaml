@@ -77,39 +77,39 @@
 
         <!-- Custom Title Bar with Gradient and Page Context -->
         <Border Grid.Row="0"
-                Height="72"
-                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                Height="60"
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                BorderBrush="DimGray"
+                BorderThickness="0,0,0,1">
             <Border.Background>
                 <StaticResource ResourceKey="TitleBarGradient"/>
             </Border.Background>
             <DockPanel>
                 <!-- Window control buttons (far right) -->
                 <StackPanel DockPanel.Dock="Right"
-                            Orientation="Horizontal">
-                    <Button Width="50"
-                            Height="50"
-                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Orientation="Horizontal"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
                             Click="MinimizeButton_Click"
-                            Foreground="White">
+                            Foreground="White"
+                            Height="Auto">
                         <materialDesign:PackIcon Kind="WindowMinimize"
                                                  Width="18"
                                                  Height="18"/>
                     </Button>
                     <Button x:Name="MaximizeButton"
-                            Width="50"
-                            Height="50"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="MaximizeButton_Click"
-                            Foreground="White">
+                            Foreground="White"
+                            Height="Auto">
                         <materialDesign:PackIcon x:Name="MaximizeIcon"
                                                  Kind="WindowMaximize"
                                                  Width="18"
                                                  Height="18"/>
                     </Button>
-                    <Button Width="50"
-                            Height="50"
-                            Click="CloseButton_Click"
-                            Foreground="White">
+                    <Button Click="CloseButton_Click"
+                            Foreground="White"
+                            Height="Auto">
                         <Button.Style>
                             <Style TargetType="Button"
                                    BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -133,9 +133,13 @@
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
                             Margin="0,0,8,0">
-                    <Border Background="{StaticResource Card.Header}"
-                            CornerRadius="8"
-                            Padding="12,8">
+                    <Border Background="{StaticResource User.DropDown}"
+                            BorderBrush="#4B5563"
+                            BorderThickness="0.3"
+                            CornerRadius="20"
+                            Padding="12,8"
+                            Height="36"
+                            Width="177">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="AccountCircle"
                                                      Width="20"
@@ -151,15 +155,24 @@
                             <ComboBox ItemsSource="{Binding ActiveUsers}"
                                       SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                       DisplayMemberPath="Username"
-                                      Width="160"
+                                      Width="88"
                                       VerticalAlignment="Center"
-                                      Style="{StaticResource ComboBox.Standard}"/>
+                                      BorderThickness="0"
+                                      Background="Transparent"
+                                      Foreground="White">
+                                <ComboBox.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BorderThickness"
+                                                Value="0"/>
+                                    </Style>
+                                </ComboBox.Resources>
+                            </ComboBox>
                         </StackPanel>
                     </Border>
                 </StackPanel>
 
                 <!-- Fill area: App identity (left) + Page context (center/left) -->
-                <Grid Margin="16,6,12,6">
+                <Grid Margin="9,6,12,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="20"/>
@@ -177,17 +190,21 @@
                                 Margin="0,0,12,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
-                            <Image Width="30"
-                                   Height="30"
+                            <Image Width="36"
+                                   Height="36"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"
                                    Source="pack://application:,,,/Images/factory-icon.ico"/>
                         </Border>
-                        <TextBlock Text="Factory Management System"
-                                   VerticalAlignment="Center"
-                                   FontSize="{StaticResource FontSize.Large}"
-                                   FontWeight="SemiBold"
-                                   Foreground="White"/>
+                        <Border BorderBrush="DimGray"
+                                BorderThickness="0,0,1,0"
+                                Padding="0,0,010,0">
+                            <TextBlock Text="Factory Management System"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSize.Large}"
+                                       FontWeight="SemiBold"
+                                       Foreground="#3aafa9"/>
+                        </Border>
                     </StackPanel>
 
                     <!-- Page title + subtitle -->
@@ -215,7 +232,9 @@
             <Border x:Name="NavigationBorder"
                     Grid.Column="0"
                     MouseEnter="NavigationBorder_MouseEnter"
-                    MouseLeave="NavigationBorder_MouseLeave">
+                    MouseLeave="NavigationBorder_MouseLeave"
+                    BorderBrush="DimGray"
+                    BorderThickness="0,0,1,0">
                 <Border.Background>
                     <StaticResource ResourceKey="NavPanelGradient"/>
                 </Border.Background>
